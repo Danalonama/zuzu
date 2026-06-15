@@ -439,7 +439,7 @@ render();
 /* ---- Tweaks panel (vanilla, host-protocol aware) ---- */
 (function(){
   const KEY="zuzu_blit_tweaks";
-  const DEF={dir:"gallery",accent:"flame",cards:"invert",motion:"subtle"};
+  const DEF={dir:"gallery",accent:"flame",cards:"minimal",motion:"subtle"};
   let tw=Object.assign({},DEF);
   try{tw=Object.assign(tw,JSON.parse(localStorage.getItem(KEY)||"{}"));}catch(e){}
   function apply(){
