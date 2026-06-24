@@ -1,3 +1,65 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zuzu · קוד השרת להעתקה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eef4f7;--ink:#0a0a0a;--muted:#6f7a80;--hair:#d9e2e7;--accent:#ff3a00;--card:#fff}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Heebo","Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:34px 22px 80px}
+  .kick{font-size:.7rem;letter-spacing:.18em;text-transform:lowercase;color:var(--accent);font-weight:700}
+  h1{font-size:clamp(1.7rem,5vw,2.6rem);font-weight:900;letter-spacing:-.03em;line-height:1;margin:.2em 0 .3em}
+  .lead{color:var(--muted);max-width:62ch;margin:0 0 18px}
+  .steps{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px;padding:0;list-style:none;counter-reset:s}
+  .steps li{background:var(--card);border:1px solid var(--hair);border-radius:99px;padding:7px 14px 7px 12px;font-size:.84rem;font-weight:600;display:flex;align-items:center;gap:8px}
+  .steps li::before{counter-increment:s;content:counter(s);background:var(--ink);color:#fff;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:.72rem;font-weight:800;flex:none}
+  .barbtn{position:sticky;top:0;z-index:5;background:linear-gradient(var(--bg) 70%,transparent);padding:12px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .copy{background:var(--accent);color:#fff;border:none;font-family:inherit;font-weight:800;font-size:1rem;padding:14px 26px;border-radius:12px;cursor:pointer;transition:.15s;box-shadow:0 4px 0 #c92e00}
+  .copy:hover{transform:translateY(-1px);box-shadow:0 5px 0 #c92e00}
+  .copy:active{transform:translateY(3px);box-shadow:0 1px 0 #c92e00}
+  .copy.done{background:#1c9c5a;box-shadow:0 4px 0 #157544}
+  .hint{font-size:.84rem;color:var(--muted)}
+  .codewrap{position:relative;margin-top:6px}
+  textarea{width:100%;height:46vh;min-height:300px;background:#0a0a0a;color:#e8e8e8;border:1px solid var(--ink);border-radius:14px;
+    padding:16px 18px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.55;direction:ltr;text-align:left;resize:vertical;white-space:pre;overflow:auto}
+  .note{background:#fff5f2;border-inline-start:3px solid var(--accent);border-radius:0 10px 10px 0;padding:12px 15px;margin:16px 0 0;font-size:.9rem}
+  .note b{font-weight:800}
+  .path{background:#f4f8fa;border:1px solid var(--hair);border-radius:8px;padding:2px 8px;font-size:.86em;font-weight:700;direction:ltr;display:inline-block;unicode-bidi:embed}
+  a{color:var(--accent);font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kick">zuzu · שלב 2</div>
+  <h1>קוד השרת — להעתקה</h1>
+  <p class="lead">זה הקוד שיושב בין הטופס לגיליון שלך (וגם מפעיל את סריקת הצילומים). פשוט להעתיק את כולו ולהדביק ב-Apps Script.</p>
+
+  <ol class="steps">
+    <li>בגיליון: <b>Extensions ▸ Apps Script</b></li>
+    <li>מוחקים הכל ב-<span class="path">Code.gs</span></li>
+    <li>כאן: <b>העתקת הקוד</b></li>
+    <li>מדביקים (⌘/Ctrl+V) ושומרים 💾</li>
+  </ol>
+
+  <div class="barbtn">
+    <button class="copy" id="copyBtn">📋 העתקת הקוד</button>
+    <span class="hint" id="hint">לוחצים, ואז מדביקים ישר בעורך של Apps Script.</span>
+  </div>
+
+  <div class="codewrap">
+    <textarea id="code" readonly spellcheck="false"></textarea>
+  </div>
+
+  <div class="note">
+    <b>טיפ:</b> אחרי שתדביקי ותשמרי — חוזרים ל<a href="setup-guide.html">מדריך</a> ולשלב 3 (מפתח ה-AI) ושלב 4 (פרסום). וברגע שיש לך כתובת Web App — שלחי לי אותה ואחבר לאתר.
+  </div>
+</div>
+
+<!-- raw code lives here so nothing needs escaping -->
+<script type="text/plain" id="rawcode">
 /**
  * Zuzu — events backend (Google Apps Script)
  * ------------------------------------------------------------
@@ -135,3 +197,21 @@ function _json(obj) {
 }
 function _d(v) { return (v instanceof Date) ? Utilities.formatDate(v, Session.getScriptTimeZone(), 'yyyy-MM-dd') : String(v || ''); }
 function _t(v) { return (v instanceof Date) ? Utilities.formatDate(v, Session.getScriptTimeZone(), 'HH:mm') : String(v || ''); }
+
+</script>
+
+<script>
+  const raw=document.getElementById("rawcode").textContent.replace(/^\n/,"");
+  const ta=document.getElementById("code");
+  ta.value=raw;
+  const btn=document.getElementById("copyBtn"), hint=document.getElementById("hint");
+  btn.onclick=async()=>{
+    try{await navigator.clipboard.writeText(ta.value);}
+    catch(e){ta.focus();ta.select();document.execCommand("copy");}
+    btn.classList.add("done");btn.textContent="✓ הקוד הועתק!";
+    hint.textContent="עכשיו עוברים ל-Apps Script ומדביקים (⌘/Ctrl+V).";
+    setTimeout(()=>{btn.classList.remove("done");btn.textContent="📋 העתקת הקוד";},2600);
+  };
+</script>
+</body>
+</html>

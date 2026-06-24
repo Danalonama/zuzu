@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zuzu · מדריך חיבור</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#eef4f7;--ink:#0a0a0a;--muted:#6f7a80;--hair:#d9e2e7;--accent:#ff3a00;--card:#fff}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Heebo","Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:40px 22px 90px}
+  header.hd{margin-bottom:14px}
+  .kick{font-size:.7rem;letter-spacing:.18em;text-transform:lowercase;color:var(--accent);font-weight:700}
+  h1{font-size:clamp(2rem,6vw,3.2rem);font-weight:900;letter-spacing:-.03em;line-height:.95;margin:.2em 0 .15em}
+  .lead{color:var(--muted);font-size:1.05rem;max-width:60ch}
+  .prog{position:sticky;top:0;background:var(--bg);padding:14px 0 12px;z-index:5;border-bottom:1px solid var(--hair);margin-bottom:8px}
+  .bar{height:8px;background:var(--hair);border-radius:99px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+  .ptext{font-size:.8rem;color:var(--muted);margin-top:7px;font-weight:600}
+  .step{background:var(--card);border:1px solid var(--hair);border-radius:16px;padding:20px 20px 18px;margin:16px 0;
+        box-shadow:0 1px 0 rgba(10,10,10,.02);transition:border-color .2s,opacity .2s}
+  .step.done{border-color:var(--accent)}
+  .step.done .sh h2{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--hair)}
+  .sh{display:flex;align-items:flex-start;gap:13px;cursor:pointer;user-select:none}
+  .chk{flex:none;width:30px;height:30px;border:2px solid var(--ink);border-radius:9px;display:grid;place-items:center;
+       font-size:1rem;transition:.18s;margin-top:2px;background:var(--card)}
+  .step.done .chk{background:var(--accent);border-color:var(--accent);color:#fff}
+  .chk::after{content:"";opacity:0}
+  .step.done .chk::after{content:"✓";opacity:1}
+  .sh .n{flex:none;font-weight:900;font-size:.78rem;color:var(--accent);letter-spacing:.1em;margin-top:6px}
+  .sh h2{margin:0;font-size:1.18rem;font-weight:800;letter-spacing:-.01em}
+  .sh .sub{font-size:.85rem;color:var(--muted);font-weight:500;margin-top:2px}
+  .body{padding:4px 0 2px 43px}
+  ol,ul{margin:10px 0;padding-inline-start:20px}
+  li{margin:7px 0}
+  .body p{margin:9px 0}
+  code,.kbd{background:#0a0a0a;color:#fff;padding:2px 8px;border-radius:6px;font-size:.84em;font-family:ui-monospace,Menlo,Consolas,monospace;direction:ltr;display:inline-block;unicode-bidi:embed}
+  .pill{display:inline-block;background:var(--accent);color:#fff;font-size:.74rem;font-weight:700;border-radius:99px;padding:2px 11px;margin-inline-start:4px}
+  .path{background:#f4f8fa;border:1px solid var(--hair);border-radius:8px;padding:3px 9px;font-size:.86em;font-weight:600;direction:ltr;display:inline-block;unicode-bidi:embed}
+  .note{background:#f4f8fa;border-inline-start:3px solid var(--accent);border-radius:0 10px 10px 0;padding:12px 15px;margin:13px 0;font-size:.9rem}
+  .note b{font-weight:800}
+  .warn{background:#fff5f2;border-inline-start-color:var(--accent)}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+  .kv{background:#f4f8fa;border:1px solid var(--hair);border-radius:9px;padding:9px 12px}
+  .kv .k{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .kv .v{font-weight:700;direction:ltr;unicode-bidi:embed}
+  a{color:var(--accent);font-weight:700}
+  .done-banner{background:var(--ink);color:#fff;border-radius:16px;padding:26px;text-align:center;margin-top:26px;display:none}
+  .done-banner.show{display:block;animation:pop .4s cubic-bezier(.16,1,.3,1)}
+  @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
+  .done-banner h3{margin:0 0 6px;font-size:1.5rem;font-weight:900}
+  .done-banner p{margin:0;color:rgba(255,255,255,.7)}
+  .reset{display:block;margin:22px auto 0;background:none;border:none;color:var(--muted);font-family:inherit;font-size:.8rem;cursor:pointer;text-decoration:underline}
+  .foot{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hd">
+    <div class="kick">zuzu · הגדרה</div>
+    <h1>לחבר את הטופס למערכת אמיתית</h1>
+    <p class="lead">בסוף התהליך: אנשים יוכלו להוסיף אירועים (וגם לגרור צילום מסך מוואטסאפ), ההגשות יגיעו לגיליון שלך, ואת מאשרת בלחיצה אחת. הכל חינמי, בלי שרת. ⏱️ ~10 דקות.</p>
+  </header>
+
+  <div class="prog">
+    <div class="bar"><i id="barFill"></i></div>
+    <div class="ptext" id="barText">0 מתוך 6 הושלמו</div>
+  </div>
+
+  <!-- 1 -->
+  <div class="step" data-step>
+    <div class="sh"><div class="chk"></div><span class="n">01</span><div><h2>יוצרים גיליון Google חדש</h2><div class="sub">פה יישבו כל האירועים שמוגשים</div></div></div>
+    <div class="body">
+      <ol>
+        <li>נכנסים ל-<a href="https://sheets.new" target="_blank">sheets.new</a> (עם חשבון Google שיהיה הבעלים).</li>
+        <li>נותנים שם לקובץ, למשל <b>Zuzu events</b>.</li>
+        <li>למטה־שמאל, לוחצים דאבל-קליק על שם הלשונית ומשנים ל-<span class="path">events</span> (אנגלית, אותיות קטנות).</li>
+        <li>בשורה הראשונה (שורה 1) מדביקים את הכותרות הבאות, כל אחת בתא נפרד מ-A עד L:
+          <p><span class="path">timestamp · approved · date · time · title · host · category · venue · city · region · url · price</span></p>
+        </li>
+        <li>מסמנים את <b>עמודה B</b> (approved) → תפריט <b>Insert ▸ Checkbox</b>. עכשיו לכל אירוע חדש יהיה תיבת סימון שאת מסמנת כדי לפרסם.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="step" data-step>
+    <div class="sh"><div class="chk"></div><span class="n">02</span><div><h2>מדביקים את קוד השרת</h2><div class="sub">הקובץ zuzu-events.gs מתיקיית backend</div></div></div>
+    <div class="body">
+      <ol>
+        <li>באותו גיליון: תפריט <b>Extensions ▸ Apps Script</b>. נפתח עורך קוד בלשונית חדשה.</li>
+        <li>מוחקים את כל מה שכתוב ב-<span class="path">Code.gs</span>.</li>
+        <li>פותחים את הקובץ <span class="path">backend/zuzu-events.gs</span> (מהפרויקט), מעתיקים את <b>כל</b> התוכן, ומדביקים בעורך.</li>
+        <li>לוחצים על אייקון <b>השמירה</b> 💾.</li>
+      </ol>
+      <div class="note">אם אין לך את הקובץ פתוח — תגידי לי ואני אציג לך אותו כאן להעתקה.</div>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="step" data-step>
+    <div class="sh"><div class="chk"></div><span class="n">03</span><div><h2>מוסיפים את מפתח ה-AI <span class="pill">לסריקת צילומים</span></h2><div class="sub">רק זה מפעיל את "גררו צילום מסך"</div></div></div>
+    <div class="body">
+      <ol>
+        <li>משיגים מפתח ב-<a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → <b>Settings ▸ API Keys ▸ Create Key</b> → מעתיקים (מתחיל ב-<span class="path">sk-ant-</span>).</li>
+        <li>בעורך Apps Script: <b>Project Settings</b> (גלגל שיניים ⚙ בצד) → גוללים ל-<b>Script Properties</b> → <b>Add script property</b>:</li>
+      </ol>
+      <div class="cols">
+        <div class="kv"><div class="k">Property</div><div class="v">ANTHROPIC_API_KEY</div></div>
+        <div class="kv"><div class="k">Value</div><div class="v">sk-ant-…</div></div>
+      </div>
+      <p>לוחצים <b>Save script properties</b>.</p>
+      <div class="note warn"><b>חשוב:</b> המפתח נשמר רק כאן, בצד השרת שלך — הוא <b>לא</b> נחשף באתר ולא לאף גולש. אל תשלחי אותו לאף אחד (גם לא אליי).</div>
+      <div class="note">רוצה לחסוך? אפשר לדלג על השלב הזה — הכל יעבוד חוץ מסריקת הצילומים (אפשר תמיד למלא ידנית). להוזלה: בקוד אפשר להחליף <span class="path">sonnet</span> ב-<span class="path">haiku</span>.</div>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="step" data-step>
+    <div class="sh"><div class="chk"></div><span class="n">04</span><div><h2>מפרסמים כ-Web App</h2><div class="sub">הופך את הקוד לכתובת אינטרנט</div></div></div>
+    <div class="body">
+      <ol>
+        <li>למעלה-ימין: <b>Deploy ▸ New deployment</b>.</li>
+        <li>ליד "Select type" לוחצים על גלגל השיניים ⚙ → בוחרים <b>Web app</b>.</li>
+        <li>ממלאים:
+          <div class="cols" style="margin-top:8px">
+            <div class="kv"><div class="k">Execute as</div><div class="v">Me</div></div>
+            <div class="kv"><div class="k">Who has access</div><div class="v">Anyone</div></div>
+          </div>
+        </li>
+        <li>לוחצים <b>Deploy</b> ומאשרים את בקשת ההרשאות (זה הקוד שלך — בטוח).</li>
+        <li>מעתיקים את ה-<b>Web app URL</b> שמופיע — נראה כמו <span class="path">https://script.google.com/macros/s/AKfy…/exec</span></li>
+      </ol>
+      <div class="note">שמרי את הכתובת הזו — נצטרך אותה בשלב הבא.</div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="step" data-step>
+    <div class="sh"><div class="chk"></div><span class="n">05</span><div><h2>מחברים את הכתובת לאתר</h2><div class="sub">שורה אחת ב-index.html</div></div></div>
+    <div class="body">
+      <p>הכי קל: <b>שלחי לי את הכתובת בצ׳אט ואני אחבר תוך שנייה.</b> או לבד:</p>
+      <ol>
+        <li>פותחים את <span class="path">index.html</span>.</li>
+        <li>מחפשים (Ctrl/⌘+F) את השורה: <span class="path">const ZUZU_API = "";</span></li>
+        <li>מדביקים את הכתובת בין הגרשיים:
+          <p><span class="path">const ZUZU_API = "https://script.google.com/macros/s/AKfy…/exec";</span></p>
+        </li>
+        <li>שומרים ומעלים מחדש את האתר.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="step" data-step>
+    <div class="sh"><div class="chk"></div><span class="n">06</span><div><h2>בודקים שהכל עובד</h2><div class="sub">הגשה ניסיונית → אישור</div></div></div>
+    <div class="body">
+      <ol>
+        <li>באתר לוחצים <b>"הוסיפו אירוע"</b>, גוררים צילום מסך של אירוע מוואטסאפ ולוחצים <b>"נתחו אירועים"</b> (או ממלאים ידנית) ושולחים.</li>
+        <li>נכנסים לגיליון — אמורה להופיע <b>שורה חדשה</b> עם תיבת approved <b>לא</b> מסומנת.</li>
+        <li>מסמנים ✓ את <b>approved</b>.</li>
+        <li>מרעננים את האתר — האירוע מופיע בלוח. 🎉</li>
+      </ol>
+      <div class="note"><b>זה נשאר ככה תמיד:</b> כל הגשה נכנסת לגיליון לא-מאושרת → את מסמנת ✓ → היא עולה לאתר. להסרה: מבטלים את הסימון או מוחקים את השורה.</div>
+    </div>
+  </div>
+
+  <div class="done-banner" id="doneBanner">
+    <h3>הכל מחובר! 🎉</h3>
+    <p>הטופס, הסריקה, והאישור פעילים. שלחי לי את כתובת ה-Web App אם עוד לא חיברנו אותה לאתר.</p>
+  </div>
+
+  <button class="reset" id="resetBtn">אפס את הסימונים</button>
+  <div class="foot">נתקעת באיזשהו שלב? כתבי לי באיזה מספר — ואלווה אותך משם.</div>
+</div>
+
+<script>
+  const KEY="zuzu_setup_progress";
+  const steps=[...document.querySelectorAll("[data-step]")];
+  let done={};
+  try{done=JSON.parse(localStorage.getItem(KEY)||"{}");}catch(e){}
+  function paint(){
+    let c=0;
+    steps.forEach((s,i)=>{
+      const on=!!done[i];
+      s.classList.toggle("done",on);
+      if(on)c++;
+    });
+    const pct=Math.round(c/steps.length*100);
+    document.getElementById("barFill").style.width=pct+"%";
+    document.getElementById("barText").textContent=`${c} מתוך ${steps.length} הושלמו`;
+    document.getElementById("doneBanner").classList.toggle("show",c===steps.length);
+  }
+  steps.forEach((s,i)=>{
+    s.querySelector(".sh").addEventListener("click",()=>{
+      done[i]=!done[i];
+      localStorage.setItem(KEY,JSON.stringify(done));
+      paint();
+    });
+  });
+  document.getElementById("resetBtn").onclick=()=>{done={};localStorage.setItem(KEY,"{}");paint();};
+  paint();
+</script>
+</body>
+</html>
