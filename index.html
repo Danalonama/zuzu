@@ -4,7 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Zuzu — איפה רוקדים היום?</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23ff3a00'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" href="favicon-180.png">
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -146,14 +148,23 @@
       cursor:pointer;font-size:1.2rem;line-height:1;color:var(--muted);padding:6px;display:none}
   .searchClear.show{display:block}
   .searchClear:hover{color:var(--accent)}
-  @media(max-width:560px){.searchWrap{max-width:none}}
-  .viewToggle{display:flex;height:44px;box-sizing:border-box;border:1.5px solid var(--ink);border-radius:11px;overflow:hidden;background:var(--bg)}
+  @media(max-width:560px){
+    .searchWrap{max-width:none}
+    .wrap{padding:0 16px}
+    .barRow{gap:8px}
+    .filterBtn{padding:0 13px;gap:7px}
+    .filterBtn span:not(.fbCount){font-size:.9rem}
+    .vt{padding:0 12px}
+    #searchInput{padding:0 36px 0 14px;font-size:16px}
+    .searchWrap svg{inset-inline-start:12px}
+  }
+  .viewToggle{display:flex;flex:none;height:44px;box-sizing:border-box;border:1.5px solid var(--ink);border-radius:11px;overflow:hidden;background:var(--bg)}
   .vt{appearance:none;border:none;background:transparent;padding:0 14px;cursor:pointer;color:var(--ink);
       display:grid;place-items:center;transition:.15s;border-inline-start:1.5px solid var(--ink)}
   .vt:first-child{border-inline-start:none}
   .vt svg{display:block;width:19px;height:19px}
   .vt.on{background:var(--ink);color:var(--bg)}
-  .filterBtn{appearance:none;display:inline-flex;align-items:center;gap:9px;height:44px;box-sizing:border-box;background:var(--bg);
+  .filterBtn{appearance:none;display:inline-flex;flex:none;align-items:center;gap:9px;height:44px;box-sizing:border-box;background:var(--bg);
       border:1.5px solid var(--ink);border-radius:11px;padding:0 17px;cursor:pointer;font-family:inherit;
       font-size:.95rem;font-weight:700;color:var(--ink);transition:.15s;letter-spacing:-.01em}
   .filterBtn:hover{background:var(--ink);color:var(--bg)}
@@ -264,9 +275,16 @@
   body[data-cards="minimal"] .card:hover .more{color:var(--accent)}
   body[data-cards="minimal"] .card:hover .more .ar{transform:translateX(-5px)}
   @media(max-width:680px){
-    .card{flex-wrap:wrap;gap:8px 18px;padding:14px 16px}
+    .card{flex-wrap:wrap;gap:8px 18px;padding:16px 16px}
     .card .t{width:auto}
+    .card .t .tt{font-size:1.7rem}
+    .card .t .td{font-size:.85rem}
     .card .main{flex:1 1 60%}
+    .card .ti{font-size:1.12rem}
+    .card .host{font-size:.9rem}
+    .card .labels{font-size:.82rem}
+    .card .meta{font-size:.85rem;white-space:normal}
+    .card .more{font-size:.92rem}
     .card .info{flex-direction:column;gap:5px}
     .card .end{flex:1 1 100%;justify-content:flex-start;
                border-top:1px solid var(--hair);padding-top:10px;margin-top:2px}
@@ -906,11 +924,17 @@ render();
   window.addEventListener("mouseup",()=>drag=false);
 })();
 </script>
-<!-- Vercel Web Analytics -->
-<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
-<script defer src="/_vercel/insights/script.js"></script>
-<!-- Vercel Speed Insights -->
-<script>window.si=window.si||function(){(window.siq=window.siq||[]).push(arguments);};</script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
+<!-- Vercel Web Analytics + Speed Insights (load only on the live site) -->
+<script>
+(function(){
+  var h=location.hostname;
+  if(h==="localhost"||h==="127.0.0.1"||!/(zuzu\.today|vercel\.app)$/.test(h)) return;
+  window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};
+  window.si=window.si||function(){(window.siq=window.siq||[]).push(arguments);};
+  function add(src){var s=document.createElement("script");s.defer=true;s.src=src;document.head.appendChild(s);}
+  add("/_vercel/insights/script.js");
+  add("/_vercel/speed-insights/script.js");
+})();
+</script>
 </body>
 </html>

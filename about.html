@@ -4,7 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>zuzu — עליי ותודות</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23ff3a00'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" href="favicon-180.png">
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -176,11 +178,17 @@
   <span class="fmark">zuzu © 2026 · תנועה</span>
   <a class="home" href="index.html">← חזרה ללוח</a>
 </div></footer>
-<!-- Vercel Web Analytics -->
-<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
-<script defer src="/_vercel/insights/script.js"></script>
-<!-- Vercel Speed Insights -->
-<script>window.si=window.si||function(){(window.siq=window.siq||[]).push(arguments);};</script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
+<!-- Vercel Web Analytics + Speed Insights (load only on the live site) -->
+<script>
+(function(){
+  var h=location.hostname;
+  if(h==="localhost"||h==="127.0.0.1"||!/(zuzu\.today|vercel\.app)$/.test(h)) return;
+  window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};
+  window.si=window.si||function(){(window.siq=window.siq||[]).push(arguments);};
+  function add(src){var s=document.createElement("script");s.defer=true;s.src=src;document.head.appendChild(s);}
+  add("/_vercel/insights/script.js");
+  add("/_vercel/speed-insights/script.js");
+})();
+</script>
 </body>
 </html>
