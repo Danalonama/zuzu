@@ -51,7 +51,7 @@
               box-shadow:10px 10px 0 var(--ink);padding:26px 26px 30px;position:relative}
   .modal-card h2{margin:0 0 4px;font-size:1.5rem;font-weight:900;letter-spacing:-.03em}
   .modal-card .sub{color:var(--muted);font-size:.85rem;margin:0 0 20px}
-  .modal-x{position:absolute;inset-inline-start:18px;top:14px;border:none;background:none;font-size:1.6rem;
+  .modal-x{position:absolute;left:18px;right:auto;top:14px;border:none;background:none;font-size:1.6rem;
            cursor:pointer;line-height:1;color:var(--ink)}
   #addForm{display:flex;flex-direction:column;gap:14px}
   .scanBox{margin-bottom:18px}
@@ -84,6 +84,23 @@
         background:transparent;border:none;border-bottom:1.5px solid var(--ink);padding:7px 2px;border-radius:0}
   #addForm input:focus,#addForm select:focus{outline:none;border-color:var(--accent)}
   .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  #dateRows{display:flex;flex-direction:column;gap:10px}
+  .dateRow{position:relative;align-items:end}
+  .dateRow .delDate{position:absolute;inset-inline-start:-2px;top:-2px;border:none;background:none;
+        color:var(--muted);font-size:1rem;line-height:1;cursor:pointer;padding:2px}
+  .dateRow .delDate:hover{color:var(--accent)}
+  .addDateBtn{align-self:flex-start;background:none;border:none;color:var(--accent);font-family:inherit;
+        font-weight:700;font-size:.82rem;cursor:pointer;padding:2px 0;margin-top:-4px}
+  .addDateBtn:hover{text-decoration:underline}
+  .taginput{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-bottom:1.5px solid var(--ink);padding:5px 2px}
+  .taginput:focus-within{border-color:var(--accent)}
+  .taginput input{border:none!important;flex:1;min-width:90px;padding:2px 0!important}
+  .taginput input:focus{outline:none}
+  .tagchip{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:var(--bg);
+        font-size:.82rem;font-weight:600;border-radius:999px;padding:3px 6px 3px 11px}
+  .tagchip button{background:none;border:none;color:var(--bg);opacity:.7;font-size:.95rem;line-height:1;
+        cursor:pointer;padding:0}
+  .tagchip button:hover{opacity:1}
   .fsubmit{margin-top:8px;background:var(--ink);color:var(--bg);border:none;padding:13px;font-family:inherit;
            font-weight:800;font-size:.95rem;cursor:pointer;letter-spacing:.02em;transition:background .15s}
   .fsubmit:hover{background:var(--accent)}
@@ -477,41 +494,27 @@
     <button class="modal-x" data-close>×</button>
     <h2>הוסיפו אירוע</h2>
     <p class="sub">האירוע יישלח לאישור לפני שיופיע בלוח.</p>
-    <div id="scanBox" class="scanBox">
-      <div class="scanDrop" id="scanDrop">
-        <input type="file" id="scanFile" accept="image/*" hidden>
-        <div class="scanHint" id="scanHint">גררו לכאן צילום מסך מוואטסאפ · הדביקו (⌘/Ctrl+V) · או <button type="button" id="scanPick">בחרו קובץ</button></div>
-        <div class="scanPrev" id="scanPrev" hidden>
-          <img id="scanImg" alt="">
-          <div class="scanActs">
-            <button type="button" class="sbtn" id="scanGo">נתחו אירועים</button>
-            <button type="button" class="sbtn ghost" id="scanClear">הסרה</button>
-          </div>
-        </div>
-        <div class="scanStatus" id="scanStatus" hidden></div>
-      </div>
-      <div class="scanResults" id="scanResults"></div>
-      <div class="scanOr">— או מלאו ידנית —</div>
-    </div>
     <form id="addForm">
       <label>שם האירוע<input name="title" required maxlength="120"></label>
-      <div class="frow">
-        <label>תאריך<input type="date" name="date" required></label>
-        <label>שעה<input type="time" name="time" required></label>
+      <div id="dateRows">
+        <div class="frow dateRow">
+          <label>תאריך<input type="date" name="date" required></label>
+          <label>שעה<input type="time" name="time" required></label>
+        </div>
       </div>
+      <button type="button" id="addDate" class="addDateBtn">+ הוסיפו תאריך נוסף</button>
+      <label>סוג תנועה (אפשר כמה)<div class="taginput" id="catTags"><input type="text" id="catInput" list="catOpts" placeholder="הקלידו והוסיפו…" autocomplete="off"></div></label>
       <div class="frow">
-        <label>סוג תנועה<input name="category" list="catOpts" required placeholder="קונטקט / אקסטטיק / גאגא…"></label>
+        <label>עיר / יישוב<input name="city" list="cityOpts" required placeholder="התחילו להקליד…" autocomplete="off"></label>
         <label>סוג אירוע<select name="format" id="fmtSel"></select></label>
       </div>
-      <div class="frow">
-        <label>אזור<select name="region" id="regSel"></select></label>
-        <label>עיר<input name="city" placeholder="עיר"></label>
-      </div>
       <datalist id="catOpts"></datalist>
-      <label>מקום<input name="venue" required placeholder="שם הסטודיו / המרחב"></label>
-      <label>מנחה (לא חובה)<input name="host" placeholder="שם המנחה/ה"></label>
+      <datalist id="cityOpts"></datalist>
+      <div class="frow">
+        <label>מקום<input name="venue" required placeholder="שם הסטודיו / המרחב"></label>
+        <label>מנחה (לא חובה)<input name="host" placeholder="שם המנחה/ה"></label>
+      </div>
       <label>קישור להרשמה<input name="url" type="url" placeholder="https://"></label>
-      <label>מחיר (לא חובה)<input name="price" placeholder="₪ / חינם"></label>
       <button type="submit" class="fsubmit">שליחה לאישור</button>
     </form>
     <div id="addOk" class="fok" hidden>
@@ -657,12 +660,32 @@ function gcalUrl(ev){
   return "https://calendar.google.com/calendar/render?"+p.toString();
 }
 let calMenuEl=null;
+// ---- lightweight analytics (Vercel Web Analytics custom events) ----
+function track(name,data){
+  try{
+    var clean={};
+    if(data) for(var k in data){ var v=data[k]; if(v!=null && v!=="") clean[k]=String(v).slice(0,60); }
+    if(window.va) window.va("event",{name:name,data:clean});
+  }catch(_){}
+}
 document.addEventListener("click",ev=>{
   const b=ev.target.closest(".calbtn"); if(!b) return;
   ev.preventDefault(); ev.stopPropagation();
   const d=b.dataset, dec=s=>s?decodeURIComponent(s):"";
   const data={date:d.d,time:d.tm,format:dec(d.fmt),title:dec(d.ti),loc:dec(d.loc),url:dec(d.url),host:dec(d.host)};
+  track("add_to_calendar",{title:data.title,format:data.format});
   window.open(gcalUrl(data),"_blank","noopener");
+});
+// track clicks on event cards (which listing → registration link)
+document.addEventListener("click",ev=>{
+  const card=ev.target.closest("a.card"); if(!card) return;
+  if(ev.target.closest(".calbtn")) return;
+  const ti=card.querySelector(".ti"), labels=card.querySelector(".labels span"), meta=card.querySelector(".meta");
+  track("event_click",{
+    title: ti?ti.textContent:"",
+    discipline: labels?labels.textContent:"",
+    venue: meta?meta.textContent:""
+  });
 });
 
 function dedupeEvents(){
@@ -783,6 +806,10 @@ function renderSheet(){
     const ax=p.dataset.axis, v=p.dataset.v;
     if(ax==="when"){ state.when=v; }
     else { const set=state[ax]; set.has(v)?set.delete(v):set.add(v); }
+    // track which filters people use (only when turning a filter ON)
+    if(ax==="cats" && state.cats.has(v)) track("filter_movement",{value:v});
+    else if(ax==="fmts" && state.fmts.has(v)) track("filter_format",{value:v});
+    else if(ax==="regs" && state.regs.has(v)) track("filter_region",{value:v});
     renderSheet(); renderChips(); updateFbCount(); render();
   });
 }
@@ -859,9 +886,31 @@ render();
   const g=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}};
   const s=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
   const cats=[...new Set(EVENTS.flatMap(e=>[e.discipline||e.category,...(e.tags||[])]))].sort();
-  const regs=[...new Set(EVENTS.map(e=>e.region))];
+  // city → region: seeded from existing events, plus common Israeli towns
+  const CITY_REGION={
+    // תל אביב
+    "תל אביב":"תל אביב","תל אביב-יפו":"תל אביב","יפו":"תל אביב","רמת גן":"תל אביב","גבעתיים":"תל אביב","בת ים":"תל אביב","חולון":"תל אביב","בני ברק":"תל אביב",
+    // שרון
+    "הרצליה":"שרון","רעננה":"שרון","כפר סבא":"שרון","הוד השרון":"שרון","רמת השרון":"שרון","נתניה":"שרון","אבן יהודה":"שרון","אודים":"שרון","עדנים":"שרון","מושב חרות":"שרון","השרון":"שרון","צור יגאל":"שרון","כפר יונה":"שרון","תל מונד":"שרון","קדימה":"שרון","צורן":"שרון","קלנסווה":"שרון",
+    // מרכז
+    "רחובות":"מרכז","ראשון לציון":"מרכז","נס ציונה":"מרכז","רמלה":"מרכז","לוד":"מרכז","פתח תקווה":"מרכז","ראש העין":"מרכז","יבנה":"מרכז","גדרה":"מרכז","גן יבנה":"מרכז","באר יעקב":"מרכז","יהוד":"מרכז","אור יהודה":"מרכז","אריאל":"מרכז","טל שחר":"מרכז","רעות":"מרכז","מכבים":"מרכז","שוהם":"מרכז",
+    // ירושלים
+    "ירושלים":"ירושלים","מבשרת ציון":"ירושלים","בית שמש":"ירושלים","מעלה אדומים":"ירושלים","נטף":"ירושלים","מודיעין":"ירושלים","עין כרם":"ירושלים","אבן ספיר":"ירושלים",
+    // דרום
+    "באר שבע":"דרום","אשדוד":"דרום","אשקלון":"דרום","מצפה רמון":"דרום","ערד":"דרום","דימונה":"דרום","אילת":"דרום","שדרות":"דרום","נתיבות":"דרום","אופקים":"דרום","מיתר":"דרום","להבים":"דרום","עומר":"דרום","קריית גת":"דרום","קרית גת":"דרום",
+    // צפון
+    "חיפה":"צפון","כרמיאל":"צפון","נהריה":"צפון","עכו":"צפון","צפת":"צפון","טבריה":"צפון","קריית שמונה":"צפון","עפולה":"צפון","נצרת":"צפון","מגדל העמק":"צפון","יקנעם":"צפון","כפר בלום":"צפון","עמק יזרעאל":"צפון","גניגר":"צפון","בית לחם הגלילית":"צפון","רמת ישי":"צפון","כפר ורדים":"צפון","מעלות":"צפון","שלומי":"צפון","ראש פינה":"צפון","בית שאן":"צפון","קריית ביאליק":"צפון","קריית מוצקין":"צפון","קריית ים":"צפון","קריית אתא":"צפון","קריות":"צפון","מגידו":"צפון",
+    // פרדס חנה והסביבה
+    "פרדס חנה":"פרדס חנה והסביבה","פרדס חנה-כרכור":"פרדס חנה והסביבה","כרכור":"פרדס חנה והסביבה","עין שמר":"פרדס חנה והסביבה","חדרה":"פרדס חנה והסביבה","זכרון יעקב":"פרדס חנה והסביבה","בנימינה":"פרדס חנה והסביבה","גבעת עדה":"פרדס חנה והסביבה","קיסריה":"פרדס חנה והסביבה","אור עקיבא":"פרדס חנה והסביבה","מעגן מיכאל":"פרדס חנה והסביבה",
+    // אונליין
+    "אונליין":"אונליין","זום":"אונליין","אונליין / זום":"אונליין"
+  };
+  // merge any cities already present in the data
+  EVENTS.forEach(e=>{ if(e.city && e.region && !CITY_REGION[e.city.trim()]) CITY_REGION[e.city.trim()]=e.region; });
+  window.CITY_REGION=CITY_REGION;
+  const cityList=[...new Set(Object.keys(CITY_REGION))].sort((a,b)=>a.localeCompare(b,"he"));
   document.getElementById("catOpts").innerHTML=cats.map(c=>`<option value="${c}"></option>`).join("");
-  document.getElementById("regSel").innerHTML=regs.map(r=>`<option>${r}</option>`).join("");
+  const cityOpts=document.getElementById("cityOpts"); if(cityOpts) cityOpts.innerHTML=cityList.map(c=>`<option value="${c}"></option>`).join("");
   const FORMATS=["שיעור","ג'אם","סדנה","קורס","ריטריט","מסיבת ריקוד","הופעה/מופע"];
   const fmtSel=document.getElementById("fmtSel"); if(fmtSel) fmtSel.innerHTML=FORMATS.map(x=>`<option>${x}</option>`).join("");
   // pull approved events from the live backend (if configured) and merge
@@ -872,7 +921,47 @@ render();
   }
   const addM=document.getElementById("addModal"), admM=document.getElementById("adminModal");
   const form=document.getElementById("addForm"), ok=document.getElementById("addOk");
-  function openAdd(){form.hidden=false;ok.hidden=true;form.reset();resetScan();addM.hidden=false;}
+  // ----- multiple dates -----
+  const dateRows=document.getElementById("dateRows");
+  function addDateRow(){
+    const r=document.createElement("div"); r.className="frow dateRow";
+    r.innerHTML='<label>תאריך נוסף<input type="date" name="date"></label>'+
+                '<label>שעה<input type="time" name="time"></label>'+
+                '<button type="button" class="delDate" aria-label="הסרת תאריך">×</button>';
+    r.querySelector(".delDate").onclick=()=>r.remove();
+    dateRows.appendChild(r);
+    r.querySelector('input[type="date"]').focus();
+  }
+  function resetDateRows(){ dateRows.querySelectorAll(".dateRow:not(:first-child)").forEach(r=>r.remove()); }
+  const addDateBtn=document.getElementById("addDate"); if(addDateBtn) addDateBtn.onclick=addDateRow;
+  // ----- multiple movement-type tags -----
+  const catBox=document.getElementById("catTags"), catInput=document.getElementById("catInput");
+  let catTags=[];
+  function renderCatTags(){
+    catBox.querySelectorAll(".tagchip").forEach(c=>c.remove());
+    catTags.forEach((t,i)=>{
+      const c=document.createElement("span"); c.className="tagchip";
+      c.innerHTML=esc(t)+'<button type="button" aria-label="הסרה">×</button>';
+      c.querySelector("button").onclick=()=>{catTags.splice(i,1);renderCatTags();};
+      catBox.insertBefore(c,catInput);
+    });
+    catInput.required=catTags.length===0;
+  }
+  function addCatTag(v){
+    v=(v||"").trim().replace(/,+$/,"").trim();
+    if(v && !catTags.includes(v)) catTags.push(v);
+    catInput.value=""; renderCatTags();
+  }
+  if(catInput){
+    catInput.addEventListener("keydown",e=>{
+      if(e.key==="Enter"||e.key===","){ e.preventDefault(); addCatTag(catInput.value); }
+      else if(e.key==="Backspace" && !catInput.value && catTags.length){ catTags.pop(); renderCatTags(); }
+    });
+    catInput.addEventListener("change",()=>{ if(catInput.value) addCatTag(catInput.value); }); // datalist pick
+    catInput.addEventListener("blur",()=>{ if(catInput.value) addCatTag(catInput.value); });
+  }
+  function resetCatTags(){ catTags=[]; if(catInput) catInput.value=""; renderCatTags(); }
+  function openAdd(){form.hidden=false;ok.hidden=true;form.reset();resetDateRows();resetCatTags();resetScan();addM.hidden=false;}
   function closeAll(){addM.hidden=true;admM.hidden=true;}
   document.querySelector(".tcontact").onclick=openAdd;
   document.querySelectorAll("[data-close]").forEach(b=>b.onclick=closeAll);
@@ -929,27 +1018,42 @@ render();
   form.onsubmit=async e=>{
     e.preventDefault();
     const f=new FormData(form);
-    const ev={date:f.get("date"),time:f.get("time"),title:(f.get("title")||"").trim(),
-      category:(f.get("category")||"").trim(),discipline:(f.get("category")||"").trim(),
+    // movement-type tags — require at least one
+    if(catInput && catInput.value) addCatTag(catInput.value);
+    if(!catTags.length){ if(catInput){catInput.required=true; catInput.reportValidity&&catInput.reportValidity();} return; }
+    // collect every date+time row (first is the primary date)
+    const dAll=f.getAll("date"), tAll=f.getAll("time");
+    const pairs=dAll.map((d,i)=>({date:(d||"").trim(),time:(tAll[i]||"").trim()})).filter(p=>p.date);
+    const city=(f.get("city")||"").trim();
+    // derive region from the city/town (exact, then fuzzy contains-match)
+    const cm=window.CITY_REGION||{};
+    let region=cm[city];
+    if(!region && city){
+      const hit=Object.keys(cm).find(k=>city.includes(k)||k.includes(city));
+      if(hit) region=cm[hit];
+    }
+    const ev={date:pairs[0]?pairs[0].date:"",time:pairs[0]?pairs[0].time:"",title:(f.get("title")||"").trim(),
+      category:catTags[0],discipline:catTags[0],
       format:f.get("format")||"שיעור",venue:(f.get("venue")||"").trim(),
-      city:(f.get("city")||"").trim()||null,region:f.get("region"),
-      url:(f.get("url")||"").trim()||"#",price:(f.get("price")||"").trim()||null,
+      city:city||null,region:region||"(לא זוהה — לפי עיר)",
+      url:(f.get("url")||"").trim()||"#",price:null,
       image:null,recurring:false,_at:Date.now()};
+    if(catTags.length>1) ev.tags=catTags.slice(1);
+    if(pairs.length>1) ev.dates=pairs;
     const _h=(f.get("host")||"").trim(); if(_h) ev.host=_h;
 
     // readable summary used for both email channels
-    const when=(ev.date||"")+(ev.time?" · "+ev.time:"");
+    const when=pairs.map(p=>p.date+(p.time?" · "+p.time:"")).join("  |  ");
     const rows=[
       ["שם האירוע", ev.title],
-      ["תאריך ושעה", when],
+      [pairs.length>1?"תאריכים":"תאריך ושעה", when],
       ["מנחה / מורה", _h],
-      ["סוג תנועה", ev.category],
+      ["סוג תנועה", catTags.join(", ")],
       ["סוג אירוע", ev.format],
       ["מקום", ev.venue],
       ["עיר", ev.city||""],
-      ["אזור", ev.region],
-      ["קישור להרשמה", ev.url==="#"?"":ev.url],
-      ["מחיר", ev.price||""]
+      ["אזור (אוטומטי)", ev.region],
+      ["קישור להרשמה", ev.url==="#"?"":ev.url]
     ];
     const subject="אירוע חדש ל-zuzu: "+(ev.title||"");
 
@@ -995,6 +1099,13 @@ render();
     if(!ZUZU_FORMSPREE && !ZUZU_FORM_KEY && !ZUZU_EMAIL && !ZUZU_API){ const p=g(PEND);p.push(ev);s(PEND,p);badge(); }
 
     if(submitBtn){submitBtn.disabled=false;submitBtn.textContent="שליחה לאישור";}
+    // track what people submit (which movement tags, format, region, # of dates)
+    track("submit_event",{
+      movements: catTags.join(", "),
+      format: ev.format,
+      region: ev.region,
+      dates: pairs.length
+    });
     form.hidden=true;ok.hidden=false;
   };
   const badgeEl=document.getElementById("pendBadge");
@@ -1108,10 +1219,23 @@ render();
 (function(){
   var KEY="zuzu_pwa_dismissed";
   var standalone=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;
-  if(standalone) return;                 // already installed
+  if(standalone){
+    // already installed → hide the install pill AND the top-bar "install" link
+    var ti=document.querySelector(".tinstall"); if(ti) ti.style.display="none";
+    return;
+  }
   if(localStorage.getItem(KEY)) return;  // user dismissed before
 
   var ua=navigator.userAgent;
+  // Only suggest installing on actual phones — not desktop/laptop.
+  var isPhone=/iphone|ipod/i.test(ua) || (/android/i.test(ua) && /mobile/i.test(ua)) ||
+              (matchMedia("(pointer:coarse)").matches && matchMedia("(max-width:560px)").matches);
+  if(!isPhone){
+    // desktop/laptop → no install suggestion at all (pill + top-bar link)
+    var tid=document.querySelector(".tinstall"); if(tid) tid.style.display="none";
+    return;
+  }
+
   var isiOS=/iphone|ipad|ipod/i.test(ua)&&!window.MSStream;
   var isSafari=isiOS&&/safari/i.test(ua)&&!/crios|fxios/i.test(ua);
   var deferred=null, el=null;
