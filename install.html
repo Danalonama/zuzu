@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zuzu — להוסיף למסך הבית</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" href="favicon-180.png">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EEF4F7; --ink:#0a0a0a; --muted:#8a8a8a; --hair:#dbe4e8;
+    --accent:#ff3a00; --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Heebo","Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink);
+       -webkit-font-smoothing:antialiased;line-height:1.5}
+  a{color:inherit}
+  .wrap{max-width:880px;margin:0 auto;padding:0 22px}
+
+  /* top bar — mirrors index/about */
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 0 0;font-size:.8rem}
+  .topbar a{text-decoration:none}
+  .topbar .tmark{font-weight:800;letter-spacing:-.01em}
+  .topbar .back{display:inline-flex;align-items:center;gap:9px;font-weight:600;cursor:pointer}
+  .topbar .back::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
+
+  /* hero */
+  .head{position:relative;padding:50px 0 12px;display:flex;align-items:center;gap:30px;flex-wrap:wrap}
+  .heroIll{width:clamp(320px,46vw,520px);height:auto;flex:none;order:2}
+  .htext{min-width:240px;flex:1;order:1}
+  .kick{font-size:.7rem;letter-spacing:.2em;text-transform:lowercase;color:var(--accent);font-weight:700;margin-bottom:14px}
+  h1{margin:0;font-size:clamp(2.1rem,6vw,3.4rem);font-weight:900;letter-spacing:-.04em;line-height:.98}
+  h1 .o{color:var(--accent)}
+  .lead{font-size:clamp(1.02rem,2.2vw,1.18rem);color:#42484b;max-width:46ch;margin:18px 0 0;text-wrap:pretty}
+
+  /* platform toggle */
+  .seg{display:inline-flex;gap:0;margin:34px 0 0;border:1.5px solid var(--ink);border-radius:999px;overflow:hidden}
+  .seg button{font:inherit;font-weight:700;font-size:.92rem;padding:9px 22px;background:none;border:none;cursor:pointer;color:var(--ink);transition:.15s}
+  .seg button.on{background:var(--ink);color:#fff}
+
+  /* steps */
+  .panel{margin:26px 0 0}
+  .panel[hidden]{display:none}
+  .panelHint{font-size:.92rem;color:var(--muted);margin:0 0 20px}
+  ol.steps{list-style:none;counter-reset:s;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+  ol.steps li{counter-increment:s;background:var(--card);border:1px solid var(--hair);border-radius:16px;
+        padding:18px;padding-inline-start:64px;position:relative;font-size:1.04rem;line-height:1.5}
+  ol.steps li::before{content:counter(s);position:absolute;inset-inline-start:18px;top:16px;
+        width:32px;height:32px;border-radius:50%;background:var(--ink);color:#fff;
+        display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem}
+  ol.steps li b{font-weight:800}
+  .ic{display:inline-flex;vertical-align:-5px;width:21px;height:21px;color:var(--accent);margin:0 2px}
+  .ic svg{width:100%;height:100%}
+  .chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--ink);
+        border-radius:8px;padding:2px 9px;font-weight:800;font-size:.92rem;white-space:nowrap}
+
+  .note{margin:26px 0 0;font-size:.96rem;color:#42484b;background:rgba(255,58,0,.07);
+        border-radius:14px;padding:16px 18px;line-height:1.55}
+  .note b{font-weight:800}
+
+  .why{margin:40px 0 0;padding-top:30px;border-top:1.5px solid var(--ink)}
+  .why h2{margin:0 0 12px;font-size:1.35rem;font-weight:900;letter-spacing:-.02em}
+  .why p{margin:0;color:#42484b;max-width:56ch;line-height:1.6}
+
+  footer{border-top:1px solid var(--ink);margin-top:56px}
+  footer .wrap{padding:34px 22px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  footer .fmark{font-size:.7rem;color:var(--muted);letter-spacing:.08em}
+  footer .home{font-size:.8rem;font-weight:700;text-decoration:none}
+  footer .home:hover{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a href="index.html"><span class="tmark" style="font-size:28px">.zuzu<sup style="font-size:.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span></a>
+    <a href="index.html" class="back">חזרה ללוח</a>
+  </div>
+
+  <header class="head">
+    <div class="htext">
+      <div class="kick">להתקנה</div>
+      <h1>שימו את <span class="o">zuzu</span><br>על מסך הבית</h1>
+      <p class="lead">רוצים להוסיף את זוזו לטלפון כמו אפליקציה? פתיחה במסך מלא, בלי לחפש בדפדפן. בלי הורדה מחנות, בלי הרשמה.</p>
+    </div>
+    <img class="heroIll" src="zuzu-phone.svg?v=3" alt="הוספת האייקון של zuzu למסך הטלפון">
+  </header>
+
+  <div class="seg" id="seg">
+    <button data-p="ios" class="on">אייפון</button>
+    <button data-p="android">אנדרואיד</button>
+  </div>
+
+  <!-- iOS -->
+  <section class="panel" id="p-ios">
+    <p class="panelHint">ב‑iPhone צריך לפתוח את zuzu ב‑<b>Safari</b> (לא בכרום).</p>
+    <ol class="steps">
+      <li>פתחו את <b>zuzu.today</b> בדפדפן <b>Safari</b>.</li>
+      <li>הקישו על כפתור <span class="chip">שיתוף
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M8 8l4-4 4 4"/><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg></span></span>
+        שבתחתית המסך (ריבוע עם חץ כלפי מעלה).</li>
+      <li>גללו ובחרו <b>הוספה למסך הבית</b>
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg></span>.</li>
+      <li>הקישו <b>הוספה</b> בפינה — והאייקון של zuzu מופיע על המסך. 🤍</li>
+    </ol>
+  </section>
+
+  <!-- Android -->
+  <section class="panel" id="p-android" hidden>
+    <p class="panelHint">ב‑Android הכי פשוט דרך <b>Chrome</b>.</p>
+    <ol class="steps">
+      <li>פתחו את <b>zuzu.today</b> בדפדפן <b>Chrome</b>.</li>
+      <li>אם קופץ באנר <span class="chip">התקנת האפליקציה</span> — הקישו עליו, וזהו.</li>
+      <li>אחרת: הקישו על <b>תפריט שלוש הנקודות</b>
+        <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></span>
+        מימין למעלה.</li>
+      <li>בחרו <b>הוספה למסך הבית</b> (או "התקנת האפליקציה") ואשרו. 🤍</li>
+    </ol>
+  </section>
+
+  <p class="note" id="installedNote" hidden><b>כל הכבוד —</b> כבר פתחתם את zuzu כאפליקציה. 🎉</p>
+
+  <div class="note">פתחתם והאייקון לא מופיע יפה? ודאו שאתם ב‑<b>Safari</b> (אייפון) או ב‑<b>Chrome</b> (אנדרואיד) — בדפדפנים אחרים האפשרות לפעמים חבויה או חסרה.</div>
+
+  <section class="why">
+    <h2>למה בכלל?</h2>
+    <p>אחרי ההוספה zuzu נפתח כמו אפליקציה רגילה — מהיר, במסך מלא ובלי שורת כתובת. הלוח עדכני תמיד כשיש אינטרנט, והרשימה האחרונה זמינה גם כשאתם אופליין.</p>
+  </section>
+</div>
+
+<footer><div class="wrap">
+  <span class="fmark">zuzu © 2026 · תנועה</span>
+  <a class="home" href="index.html">← חזרה ללוח</a>
+</div></footer>
+
+<script>
+(function(){
+  var ua=navigator.userAgent;
+  var isAndroid=/android/i.test(ua);
+  var standalone=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;
+  function show(p){
+    document.getElementById("p-ios").hidden=(p!=="ios");
+    document.getElementById("p-android").hidden=(p!=="android");
+    document.querySelectorAll("#seg button").forEach(function(b){ b.classList.toggle("on", b.dataset.p===p); });
+  }
+  if(isAndroid) show("android");
+  document.getElementById("seg").addEventListener("click",function(e){
+    var b=e.target.closest("button"); if(b) show(b.dataset.p);
+  });
+  if(standalone) document.getElementById("installedNote").hidden=false;
+})();
+</script>
+<!-- Vercel Web Analytics + Speed Insights (load only on the live site) -->
+<script>
+(function(){
+  var h=location.hostname;
+  if(h==="localhost"||h==="127.0.0.1"||!/(zuzu\.today|vercel\.app)$/.test(h)) return;
+  window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};
+  window.si=window.si||function(){(window.siq=window.siq||[]).push(arguments);};
+  function add(src){var s=document.createElement("script");s.defer=true;s.src=src;document.head.appendChild(s);}
+  add("/_vercel/insights/script.js");
+  add("/_vercel/speed-insights/script.js");
+})();
+</script>
+</body>
+</html>

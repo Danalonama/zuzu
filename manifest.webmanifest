@@ -1,0 +1,19 @@
+{
+  "name": "Zuzu — איפה רוקדים היום?",
+  "short_name": "Zuzu",
+  "description": "לוח אירועי תנועה, ריקוד וג'אמים בישראל — איפה רוקדים היום?",
+  "lang": "he",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#EEF4F7",
+  "theme_color": "#EEF4F7",
+  "categories": ["events", "lifestyle", "health"],
+  "icons": [
+    { "src": "favicon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
