@@ -1,6 +1,6 @@
 /* Zuzu service worker — network-first for the page so updates always show,
    cache-first for static icons/fonts, offline fallback to the cached page. */
-const CACHE = 'zuzu-v1';
+const CACHE = 'zuzu-v2';
 const SHELL = [
   './',
   './index.html',
