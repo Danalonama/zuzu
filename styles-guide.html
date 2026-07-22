@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zuzu — אילו סוגי תנועה יש?</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://zuzu.today/styles-guide.html">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" href="favicon-180.png">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<style>
+  :root{
+    --bg:#EEF4F7; --ink:#0a0a0a; --muted:#8a8a8a; --hair:#dbe4e8;
+    --accent:#ff3a00; --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Heebo","Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink);
+       -webkit-font-smoothing:antialiased;line-height:1.5}
+  a{color:inherit}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 0 0;font-size:.8rem}
+  .topbar a{text-decoration:none}
+  .topbar .tmark{font-weight:800;letter-spacing:-.01em}
+  .topbar .back{display:inline-flex;align-items:center;gap:9px;font-weight:600;cursor:pointer}
+  .topbar .back::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
+
+  .head{position:relative;padding:54px 0 30px;max-width:880px}
+  .kick{font-size:.7rem;letter-spacing:.2em;text-transform:lowercase;color:var(--accent);font-weight:700;margin-bottom:18px}
+  h1{margin:0;font-size:clamp(2.4rem,7.5vw,4.6rem);font-weight:900;letter-spacing:-.04em;line-height:.98;text-wrap:pretty}
+  h1 .o{color:var(--accent)}
+  .story{font-size:clamp(1.1rem,2.2vw,1.35rem);font-weight:400;line-height:1.55;max-width:56ch;margin:20px 0 0;color:#42484b;text-wrap:pretty}
+
+  .rule{border:none;border-top:1.5px solid var(--ink);margin:44px 0 0}
+
+  /* ---- clean, consistent grid ---- */
+  .styles{display:grid;grid-template-columns:1fr;gap:40px;padding:50px 0 20px}
+  .card{position:relative;min-width:0;display:flex;gap:22px;align-items:flex-start}
+
+  .img-wrap{position:relative;flex:0 0 auto}
+  image-slot{width:200px;height:200px;display:block;border-radius:18px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.7,.3,1)}
+  .card:hover image-slot{transform:scale(1.025)}
+
+  .num-badge{display:none}
+
+  .txt{flex:1 1 auto;min-width:0;padding-top:2px}
+  .txt .eng{font-size:.68rem;letter-spacing:.14em;text-transform:lowercase;color:var(--muted);font-weight:700;margin-bottom:6px}
+  .txt h2{margin:0 0 10px;font-size:clamp(1.4rem,2.4vw,1.85rem);font-weight:900;letter-spacing:-.03em}
+  .txt p{margin:0 0 16px;color:#42484b;font-size:.96rem;line-height:1.6;text-wrap:pretty}
+  .txt ul{margin:0 0 16px;padding-inline-start:18px;display:flex;flex-direction:column;gap:8px;list-style:disc}
+  .txt li{font-size:.93rem;line-height:1.55;color:#42484b;text-wrap:pretty}
+  .txt li b{color:var(--ink);font-weight:800}
+  .videolink{display:block;width:fit-content;align-items:center;gap:7px;color:var(--muted);font-weight:700;text-decoration:none;font-size:.83rem;margin:0 0 12px}
+  .videolink:hover{color:var(--ink)}
+  .catlink{display:block;width:fit-content;align-items:center;gap:8px;color:var(--accent);font-weight:800;text-decoration:none;font-size:.9rem}
+  .catlink .ar{display:inline-block;transition:.18s}
+  .catlink:hover .ar{transform:translateX(-4px)}
+
+  @media(max-width:820px){
+    .styles{grid-template-columns:1fr;gap:40px}
+  }
+  @media(max-width:560px){
+    .card{flex-direction:column}
+    image-slot{width:100%;height:220px}
+    .txt{padding-top:24px}
+  }
+
+  .extras{margin:10px 0 30px;padding:26px 28px;background:var(--card);border:1.5px dashed var(--hair);border-radius:16px}
+  .extras .lab{font-size:.66rem;letter-spacing:.16em;text-transform:lowercase;color:var(--muted);font-weight:700;margin-bottom:10px}
+  .extras p{margin:0;font-size:.94rem;line-height:1.7;color:#42484b}
+  .extras a{color:var(--accent);font-weight:800;text-decoration:none}
+  .extras a:hover{text-decoration:underline}
+
+  .quiz{margin:20px 0 0;padding:38px 30px;background:var(--card);border:1.5px solid var(--ink);border-radius:18px;text-align:center}
+  .quiz .kick{margin-bottom:10px}
+  .quiz h3{margin:0 0 10px;font-size:clamp(1.3rem,3vw,1.7rem);font-weight:900;letter-spacing:-.02em}
+  .quiz p{margin:0 auto 20px;max-width:46ch;color:#42484b;font-size:.98rem;line-height:1.6}
+  .quiz .soon{display:inline-flex;align-items:center;gap:8px;padding:12px 26px;border-radius:999px;background:var(--ink);color:#fff;
+              font-weight:800;font-size:.9rem;cursor:default;opacity:.92}
+
+  footer{border-top:1px solid var(--ink);margin-top:58px}
+  footer .wrap{padding:34px 22px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  footer .fmark{font-size:.7rem;color:var(--muted);letter-spacing:.08em}
+  footer .home{font-size:.8rem;font-weight:700;text-decoration:none}
+  footer .home:hover{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a href="index.html"><span class="tmark" style="font-size:28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">.zuzu<sup style="font-size:.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span></a>
+    <a href="index.html" class="back">חזרה ללוח</a>
+  </div>
+
+  <header class="head">
+    <div class="kick">מדריך</div>
+    <h1>אילו סוגי <span class="o">תנועה</span><br>יש בכלל?</h1>
+    <p class="story">קונטקט, ביודנסה, גאגא, מובמנט, אקסטטיק... יש פה המון שמות שנשמעים כמו שפה זרה, וזה יכול להרתיע — במיוחד אם מעולם לא רקדתם, או שעבר הרבה זמן מאז שזזתם בפעם האחרונה. אז ריכזתי כאן את כל הסגנונות שיש בלוח, בקצרה: מה זה, למי זה מתאים, ולמה לצפות. אין כאן "רמה נכונה" להתחיל ממנה — רק תבחרו משהו שנשמע מעניין, ותבואו.</p>
+  </header>
+
+  <section class="styles">
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-ilan-lev" shape="rounded" radius="18" placeholder="תמונה: אילן לב"></image-slot>
+        <span class="num-badge">אילן לב</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Ilan Lev Method</div>
+        <h2>אילן לב</h2>
+        <p>מרחב לחקירה תנועתית שנועד לשפר תפקוד גופני, לשחרר חסימות ולעורר את יכולת הריפוי הטבעית של הגוף — צמח מעולם הטיפול והמחול, בדומה לפלדנקרייז. במקום ללמוד צעדים או כוריאוגרפיה, מובילים אתכם דרך תנועות פשוטות, קצביות וחוזרות (פולסים וגלים העוברים דרך השלד) שמעוררות את מערכת העצבים ומשחררות דפוסי תנועה ישנים. השיעור נע בין רצפה לעמידה, מונחה בעיקר במילים ודימויים, ולרוב מסתיים בתחושת קלילות וחיוניות מחודשת. מתאים מאוד לרקדנים, ספורטאים, מי שמחלים/ה מפציעה, או כל מי שרוצה לשפר יציבה, גמישות וקשר עם הגוף.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=%D7%A9%D7%99%D7%98%D7%AA%20%D7%90%D7%99%D7%9C%D7%9F%20%D7%9C%D7%91%20%D7%AA%D7%A0%D7%95%D7%A2%D7%94%20%D7%93%D7%95%D7%92%D7%9E%D7%94" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=שיטת אילן לב">לאירועים בשיטת אילן לב <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-improv" shape="rounded" radius="18" placeholder="תמונה: אימפרוביזציה" src="assets/improv.png"></image-slot>
+        <span class="num-badge">אימפרוביזציה</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Improvisation</div>
+        <h2>אימפרוביזציה</h2>
+        <p>שיעורים וסדנאות שמלמדים לאלתר בתנועה — להגיב לרגע, לשותף/ה, למוזיקה, בלי תסריט מוכן מראש. חלקם ממוקדים בכלים ספציפיים (משקל, מרחב, מגע), אחרים פתוחים יותר. מתאים גם למתחילים סקרנים, וגם למי שכבר זז/ה קצת ורוצה להעמיק את החופש והביטחון לאלתר.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=dance%20improvisation%20class%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=אימפרוביזציה">לאירועי אימפרוביזציה <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-ecstatic" shape="rounded" radius="18" placeholder="תמונה: אקסטטיק" src="assets/ecstatic.png"></image-slot>
+        <span class="num-badge">אקסטטיק</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Ecstatic Dance</div>
+        <h2>אקסטטיק</h2>
+        <p>רחבת ריקוד חופשי לגמרי — בלי שיחה, בלי אלכוהול, ולרוב בלי נעליים. די ג'יי או מנחה בונים מסע מוזיקלי של כשעתיים, ואתם פשוט זזים איך שבא לכם. אין צעדים נכונים או לא נכונים — זו בדיוק הנקודה. מומלץ במיוחד למי שרוצה לשחרר בלי לחשוב על "איך זה נראה".</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=ecstatic%20dance%20journey%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=אקסטטיק">לאירועי אקסטטיק <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-axis" shape="rounded" radius="18" placeholder="תמונה: אקסיס סילבוס" src="assets/research.png"></image-slot>
+        <span class="num-badge">אקסיס סילבוס</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Axis Syllabus</div>
+        <h2>אקסיס סילבוס</h2>
+        <p>גישה מבוססת ביומכניקה ואנטומיה פונקציונלית — מבינים איך המבנה השלדי והשרירי שלכם באמת עובד, כדי לזוז ביעילות ובלי להיפצע. נפוצה בעולם הקונטקט והאימפרוביזציה, ומתאימה למי שאוהב/ת גם את הצד האנליטי של התנועה.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=Axis%20Syllabus%20movement%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=אקסיס סילבוס">לאירועי אקסיס סילבוס <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-acro" shape="rounded" radius="18" placeholder="תמונה: אקרו"></image-slot>
+        <span class="num-badge">אקרו</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Acro</div>
+        <h2>אקרו</h2>
+        <p>עבודה אקרובטית בזוגות או קבוצות — הרמות, איזונים, בסיס ו"פלייר". דורש אמון בשותף/ה ותקשורת ברורה, אבל לא דורש רקע בהתעמלות — יש שיעורי יסודות שמלמדים הכל מאפס.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=acro%20partner%20acrobatics%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=אקרו">לאירועי אקרו <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-biodanza" shape="rounded" radius="18" placeholder="תמונה: ביודנסה" src="assets/biodanza.png"></image-slot>
+        <span class="num-badge">ביודנסה</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Biodanza</div>
+        <h2>ביודנסה</h2>
+        <p>שיטה שפיתח רולנדו טורו, שמכונה גם "ריקוד החיים" — מפגש קבוצתי במעגל, עם מוזיקה ותרגילי תנועה שמעוררים רגש, חיבור וביטוי עצמי. לא נדרש שום ניסיון קודם, וכל אחד/ת זזים בקצב ובגבולות שלהם. מתאים למי שמחפש/ת מרחב רך לפגוש את עצמו/ה ואחרים דרך תנועה, בלי שיפוטיות.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=Biodanza%20%D7%A8%D7%99%D7%A7%D7%95%D7%93%20%D7%94%D7%97%D7%99%D7%99%D7%9D%20%D7%93%D7%95%D7%92%D7%9E%D7%94" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=ביודנסה">לאירועי ביודנסה <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-ballet" shape="rounded" radius="18" placeholder="תמונה: בלט" src="assets/mahol.png"></image-slot>
+        <span class="num-badge">בלט</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Ballet</div>
+        <h2>בלט</h2>
+        <p>טכניקה קלאסית, יציבה ודיוק — הבסיס להרבה סגנונות ריקוד אחרים. שיעורים בנויים ומובנים, עם תרגילי בר וסולו, ולרוב כוללים גם רמות למתחילים לגמרי.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=ballet%20class%20example%20adults" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=בלט">לאירועי בלט <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-gaga" shape="rounded" radius="18" placeholder="תמונה: גאגא" src="assets/gaga.png"></image-slot>
+        <span class="num-badge">גאגא</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Gaga</div>
+        <h2>גאגא</h2>
+        <p>שפת התנועה שפיתח אוהד נהרין, מבוססת על הקשבה לתחושות בגוף במקום על העתקת צורות. בלוח תמצאו בעיקר שני סוגים:</p>
+        <ul>
+          <li><b>גאגא/אנשים</b> — פתוח לגמרי למתחילים, בלי צורך בניסיון קודם. המורה מדבר, לא מדגים, ואתם ממציאים את התנועה בעצמכם.</li>
+          <li><b>גאגא/רקדנים</b> — מיועד לרקדנים מיומנים, בעצימות ובדרישה גופנית גבוהות יותר.</li>
+        </ul>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=Gaga%20movement%20language%20Ohad%20Naharin%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=גאגא">לאירועי גאגא <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-hiphop" shape="rounded" radius="18" placeholder="תמונה: היפ הופ"></image-slot>
+        <span class="num-badge">היפ הופ</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Hip Hop</div>
+        <h2>היפ הופ</h2>
+        <p>סגנון רחוב קצבי, מבוסס גרוב, איזוליישנס ואנרגיה. שיעורים לרוב כוללים לימוד צירוף קצר וחזרה עליו, ומתאימים למי שאוהב/ת מוזיקה קצבית ותנועה חדה.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=hip%20hop%20dance%20class%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=היפ הופ">לאירועי היפ הופ <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-laban" shape="rounded" radius="18" placeholder="תמונה: לאבאן-ברטנייף"></image-slot>
+        <span class="num-badge">לאבאן-ברטנייף</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Laban / Bartenieff (LBMS)</div>
+        <h2>לאבאן-ברטנייף</h2>
+        <p>שפת ניתוח תנועה שמתארת איך גוף נע במרחב, בזמן ובאיכות. פחות "ריקוד" ויותר כלי הבנה — נפוץ בהוראה, כוריאוגרפיה וריפוי בעיסוק, ומתאים למי שאוהב/ת להבין לעומק את מה שקורה בתנועה.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=Laban%20Bartenieff%20movement%20analysis%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=לאבאן-ברטנייף">לאירועי לאבאן-ברטנייף <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-movement" shape="rounded" radius="18" placeholder="תמונה: מובמנט" src="assets/movement.png"></image-slot>
+        <span class="num-badge">מובמנט</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Movement</div>
+        <h2>מובמנט</h2>
+        <p>תרגול פיזי רב-תחומי (שיטת עידו פורטל, בין היתר) שלא מוגבל לסגנון אחד — משלב מחול, אקרובטיקה רכה, אומנויות לחימה, יוגה וברייקדאנס. המטרה היא לנוע טוב יותר ולפתח מודעות גופנית, קואורדינציה ומפרקים בריאים, לא לבודד שרירים כמו בחדר כושר. שיעור טיפוסי כולל פתיחת מפרקים (מוביליטי), זחילות ועבודת רצפה (למשל זחילת לטאה או קוף), עבודת איזון ידיים, ומשחקי קואורדינציה ותגובה בזוגות. מתאים למי שמשתעמם מתרגילים חוזרים ורוצה אתגר גופני ומנטלי — הרמה מתאימה אישית, אז זה בטוח גם למי שמעולם לא עשה אקרובטיקה או מחול.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=movement%20culture%20Ido%20Portal%20training%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=מובמנט">לאירועי מובמנט <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-modern" shape="rounded" radius="18" placeholder="תמונה: מודרני"></image-slot>
+        <span class="num-badge">מודרני</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Modern / Contemporary</div>
+        <h2>מודרני</h2>
+        <p>שיעורי טכניקה בסגנון מחול מודרני/עכשווי — נולד כדי לשבור את המוסכמות של הבלט הקלאסי, ומתמקד בעבודה טבעית, זורמת ואורגנית עם הגוף. שיעור טיפוסי נפתח בחימום על הרצפה (Floorwork) שמעורר את המפרקים ואת מרכז הגוף, ממשיך בעבודה בעמידה על שיווי משקל, נפילות מבוקרות וקפיצות, ומסתיים בקומבינציה — רצף תנועות ארוך שמחבר הכל למוזיקה ולביטוי אישי. יש כאן טכניקה ללמוד (לא ריקוד חופשי לגמרי), אבל היא הרבה פחות נוקשה מבלט — עובדים עם הכבידה, לא נגדה. מתאים לגמרי גם למי שמעולם לא רקד/ה.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=modern%20dance%20class%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=מודרני">לאירועי מודרני <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-release" shape="rounded" radius="18" placeholder="תמונה: ריליס"></image-slot>
+        <span class="num-badge">ריליס</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Release Technique</div>
+        <h2>ריליס</h2>
+        <p>אחת השיטות המרכזיות במחול העכשווי — כפי ששמה מרמז, המטרה היא לשחרר מתח שרירי מיותר ולנוע מתוך הקשבה לשלד ולמפרקים, במקום להחזיק את הגוף בנוקשות. לומדים "להתמסר" לכבידה, לנצל את התנופה (מומנטום) של נפילה כדי לתרגם אותה לתנועה הבאה, ולעבוד עם ספירלות של עמוד השדרה והאגן למעברים רכים בין רמות גובה. הטכניקה הושפעה מפלדנקרייז, אלכסנדר ויוגה, והנשימה משמשת בה כמנוע פנימי. שיעור טיפוסי נפתח בהקשבה על הרצפה, ממשיך בעבודת רצפה דינמית (החלקה, התגלגלות, קימה רכה) ומסתיים בקומבינציה זורמת שמרגישה כמו "טיסה" במרחב. לא דורש גמישות או כוח קיצוניים — מתאים היטב למבוגרים ולמתחילים.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=release%20technique%20dance%20class%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=ריליס">לאירועי ריליס <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-musical" shape="rounded" radius="18" placeholder="תמונה: מיוזיקל"></image-slot>
+        <span class="num-badge">מיוזיקל</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Musical Theatre</div>
+        <h2>מיוזיקל</h2>
+        <p>משלב ריקוד, משחק ולפעמים גם שירה — סגנון תיאטרלי ומספר סיפור. מתאים למי שאוהב/ת גם לבטא ולא רק לזוז.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=musical%20theatre%20dance%20class%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=מיוזיקל">לאירועי מיוזיקל <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-circle" shape="rounded" radius="18" placeholder="תמונה: מעגל נשים"></image-slot>
+        <span class="num-badge">מעגל נשים</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Women's Circle</div>
+        <h2>מעגל נשים</h2>
+        <p>מפגש קהילתי לנשים בלבד — שילוב של תנועה, שיתוף, ולעיתים גם טקס או מדיטציה. המוקד הוא בחיבור, לא בביצוע — אין כאן "נכון" או "לא נכון".</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=%D7%9E%D7%A2%D7%92%D7%9C%20%D7%A0%D7%A9%D7%99%D7%9D%20%D7%AA%D7%A0%D7%95%D7%A2%D7%94%20%D7%93%D7%95%D7%92%D7%9E%D7%94" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=מעגל נשים">לאירועי מעגל נשים <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-nia" shape="rounded" radius="18" placeholder="תמונה: ניה" src="assets/nia.png"></image-slot>
+        <span class="num-badge">ניה</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Nia</div>
+        <h2>ניה</h2>
+        <p>שיטת פיטנס-ריקוד שמשלבת ריקוד, אומנויות לחימה ותרגול גוף-נפש, עם מוזיקה קצבית וצעדים חוזרים ברמות קושי שונות. מתאים למי שרוצה גם להזיע וגם ליהנות, בלי ללמוד כוריאוגרפיה מסובכת.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=Nia%20technique%20dance%20class%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=ניה">לאירועי ניה <span class="ar">←</span></a>
+      </div>
+    </article>
+
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-feldenkrais" shape="rounded" radius="18" placeholder="תמונה: פלדנקרייז"></image-slot>
+        <span class="num-badge">פלדנקרייז</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Feldenkrais</div>
+        <h2>פלדנקרייז</h2>
+        <p>למידה עדינה דרך תנועה איטית ומודעת, לשיפור הרגלים ותבניות תנועה. עוצמה נמוכה, בלי מאמץ פיזי — מתאים לכל גיל וכל רמת ניידות, כולל מי שמתמודד/ת עם כאב או מגבלה.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=Feldenkrais%20method%20movement%20lesson%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=פלדנקרייז">לאירועי פלדנקרייז <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-kontakt" shape="rounded" radius="18" placeholder="תמונה: קונטקט" src="assets/contact.png"></image-slot>
+        <span class="num-badge">קונטקט</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Contact Improvisation</div>
+        <h2>קונטקט</h2>
+        <p>ריקוד של שניים (או יותר) שנוצר מנקודת מגע אחת — כתף, יד, גב — ומשם זורם בלי כוריאוגרפיה קבועה, רק אלתור מלא מתוך הקשבה לגוף. העיקרון המרכזי הוא "שיתוף משקל" (Weight Sharing): במקום להפעיל כוח, לומדים להעביר את משקל הגוף לשותף/ה או לרצפה, מה שמאפשר הרמות קלות ונפילות מבוקרות בלי מאמץ. מתאים לגמרי גם למי שמעולם לא רקד/ה: אין צעדים ללמוד, רק סקרנות וגוף פנוי. שיעורים בדרך כלל נפתחים בחימום ותרגילי מגע ומשקל בזוגות, וממשיכים ל"ג'אם" — זמן פתוח לרקוד עם כל מי שבחדר.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=Contact%20Improvisation%20dance%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=קונטקט">לאירועי קונטקט <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-release" shape="rounded" radius="18" placeholder="תמונה: ריליס"></image-slot>
+      </div>
+      <div class="txt">
+        <div class="eng">Release Technique</div>
+        <h2>ריליס</h2>
+        <p>אחת השיטות האהובות בעולם המחול העכשווי — במקום להחזיק את הגוף בצורה נוקשה, לומדים "להתמסר" לכבידה ולנוע דרך השלד והמפרקים, לא דרך מאמץ שרירי. שיעור טיפוסי מתחיל בהקשבה על הרצפה (פלדנקרייז ואלכסנדר טכניק השפיעו רבות על השיטה), עובר לעבודת רצפה דינמית (Floorwork) של גלגולים ונפילות מבוקרות, וממשיך לקומבינציה זורמת שמרגישה כמעט כמו טיסה. מתאים מאוד למבוגרים ולמתחילים — לא דורש גמישות קיצונית, ומלמד לעבוד עם הגוף ולא נגדו.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=Release%20Technique%20dance%20class%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=ריליס">לאירועי ריליס <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-african" shape="rounded" radius="18" placeholder="תמונה: ריקוד אפריקאי"></image-slot>
+        <span class="num-badge">ריקוד אפריקאי</span>
+      </div>
+      <div class="txt">
+        <div class="eng">African Dance</div>
+        <h2>ריקוד אפריקאי</h2>
+        <p>תנועה אדמתית וקצבית, לרוב עם תופים וליווי חי. מתאים למי שרוצה תנועה נמרצת, חברותית ומחוברת לקצב — בלי צורך ברקע קודם.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=African%20dance%20class%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=ריקוד אפריקאי">לאירועי ריקוד אפריקאי <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-freedance" shape="rounded" radius="18" placeholder="תמונה: ריקוד חופשי" src="assets/freedance.png"></image-slot>
+        <span class="num-badge">ריקוד חופשי</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Free Dance</div>
+        <h2>ריקוד חופשי</h2>
+        <p>פשוט לרקוד — בלי מסגרת, בלי טכניקה, לפעמים עם מוזיקה חיה ולפעמים עם פלייליסט. לעיתים זה ג'אם קהילתי, לפעמים מסיבה קטנה. אין כאן שום דבר ללמוד מראש, רק לבוא ולזוז.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=free%20dance%20ecstatic%20movement%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=ריקוד חופשי">לאירועי ריקוד חופשי <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-belly" shape="rounded" radius="18" placeholder="תמונה: ריקודי בטן"></image-slot>
+        <span class="num-badge">ריקודי בטן</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Belly Dance</div>
+        <h2>ריקודי בטן</h2>
+        <p>ריקוד מזרחי עם דגש על תנועת אגן, ידיים וגמישות עמוד השדרה. שיעורים בדרך כלל נפתחים בטכניקה בסיסית ומתקדמים לצירופים וכוריאוגרפיה קצרה. מתאים מאוד למתחילות/ים — זה בעיקר עניין של תרגול וחזרה.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=belly%20dance%20class%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=ריקודי בטן">לאירועי ריקודי בטן <span class="ar">←</span></a>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="img-wrap">
+        <image-slot id="style-bmc" shape="rounded" radius="18" placeholder="תמונה: BMC"></image-slot>
+        <span class="num-badge">BMC</span>
+      </div>
+      <div class="txt">
+        <div class="eng">Body-Mind Centering</div>
+        <h2>BMC</h2>
+        <p>התנסות בתנועה דרך מערכות הגוף השונות — עצמות, איברים, נוזלים — כדי להעמיק את ההקשבה הפנימית. גישה עדינה ואנטומית, מתאימה למי שאוהב/ת לחקור את הגוף מבפנים.</p>
+        <a class="videolink" href="https://www.youtube.com/results?search_query=Body-Mind%20Centering%20movement%20example" target="_blank" rel="noopener">🎥 לצפות בדוגמה ביוטיוב</a>
+        <a class="catlink" href="index.html?cat=BMC">לאירועי BMC <span class="ar">←</span></a>
+      </div>
+    </article>
+
+  </section>
+
+  <div class="extras">
+    <div class="lab">ויש גם עוד</div>
+    <p>כמה סגנונות נוספים שמופיעים מדי פעם בלוח, בלי כרטיסייה משלהם כאן: <a href="index.html?cat=דאנסהול">דאנסהול</a>, <a href="index.html?cat=ריקודי רחוב">ריקודי רחוב</a>, <a href="index.html?cat=פורו">פורו (ריקוד זוגות ברזילאי)</a>, <a href="index.html?cat=FlowMotion">FlowMotion</a>, <a href="index.html?cat=כנס המרחב החי">כנס המרחב החי</a> ו<a href="index.html?cat=תפילה בתנועה">תפילה בתנועה</a>. לחצו על כל אחד כדי לראות את האירועים שלו.</p>
+  </div>
+
+  <div class="quiz">
+    <div class="kick">שאלון קצר</div>
+    <h3>לא בטוחים מה הכי מתאים לכם?</h3>
+    <p>כמה שאלות על מה שבא לכם ואיך אתם מרגישים — ובסוף המלצה על כמה סגנונות שכדאי לנסות.</p>
+    <a class="soon" href="quiz.html" style="text-decoration:none">✨ למלא את השאלון</a>
+  </div>
+
+</div>
+
+<footer><div class="wrap">
+  <span class="fmark">zuzu © 2026 · תנועה</span>
+  <a class="home" href="index.html">← חזרה ללוח</a>
+</div></footer>
+<script>
+(function(){
+  var h=location.hostname;
+  if(h==="localhost"||h==="127.0.0.1"||!/(zuzu\.today|vercel\.app)$/.test(h)) return;
+  window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};
+  window.si=window.si||function(){(window.siq=window.siq||[]).push(arguments);};
+  function add(src){var s=document.createElement("script");s.defer=true;s.src=src;document.head.appendChild(s);}
+  add("/_vercel/insights/script.js");
+  add("/_vercel/speed-insights/script.js");
+})();
+</script>
+</body>
+</html>

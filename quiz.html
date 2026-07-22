@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zuzu — איזה סגנון תנועה מתאים לי?</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://zuzu.today/quiz.html">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" href="favicon-180.png">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EEF4F7; --ink:#0a0a0a; --muted:#8a8a8a; --hair:#dbe4e8;
+    --accent:#ff3a00; --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Heebo","Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink);
+       -webkit-font-smoothing:antialiased;line-height:1.5}
+  a{color:inherit}
+  .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 0 0;font-size:.8rem}
+  .topbar a{text-decoration:none}
+  .topbar .tmark{font-weight:800;letter-spacing:-.01em}
+  .topbar .back{display:inline-flex;align-items:center;gap:9px;font-weight:600;cursor:pointer}
+  .topbar .back::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
+
+  .head{padding:46px 0 8px}
+  .kick{font-size:.7rem;letter-spacing:.2em;text-transform:lowercase;color:var(--accent);font-weight:700;margin-bottom:16px}
+  h1{margin:0;font-size:clamp(2rem,6vw,3.2rem);font-weight:900;letter-spacing:-.03em;line-height:1.03;text-wrap:pretty}
+  h1 .o{color:var(--accent)}
+  .story{font-size:1.05rem;font-weight:400;line-height:1.6;max-width:56ch;margin:16px 0 0;color:#42484b;text-wrap:pretty}
+
+  /* progress */
+  .progwrap{margin:34px 0 0;display:flex;align-items:center;gap:12px}
+  .progtrack{flex:1;height:5px;border-radius:99px;background:var(--hair);overflow:hidden}
+  .progbar{height:100%;background:var(--accent);border-radius:99px;transition:width .35s cubic-bezier(.2,.7,.3,1);width:0%}
+  .progtxt{font-size:.72rem;color:var(--muted);font-weight:700;white-space:nowrap}
+
+  /* quiz card */
+  .quizcard{background:var(--card);border-radius:22px;padding:38px 34px;margin:22px 0 60px;
+            box-shadow:0 20px 50px -20px rgba(0,0,0,.12)}
+  .qlabel{font-size:.72rem;letter-spacing:.1em;color:var(--muted);font-weight:700;margin-bottom:10px}
+  .qtext{font-size:clamp(1.25rem,3vw,1.55rem);font-weight:800;letter-spacing:-.01em;margin:0 0 6px;text-wrap:pretty}
+  .qsub{font-size:.88rem;color:var(--muted);margin:0 0 26px}
+
+  .opts{display:flex;flex-direction:column;gap:12px}
+  .opt{position:relative;display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:14px;
+       border:1.5px solid var(--hair);cursor:pointer;transition:.15s;background:#fff}
+  .opt:hover{border-color:#c7d3d8}
+  .opt.sel{border-color:var(--ink);background:#fafcfc}
+  .opt .dot{flex:0 0 auto;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--hair);
+            display:flex;align-items:center;justify-content:center;transition:.15s}
+  .opt.sel .dot{border-color:var(--ink);background:var(--ink)}
+  .opt.sel .dot::after{content:"";width:8px;height:8px;border-radius:50%;background:#fff}
+  .opts.multi .opt .dot{border-radius:6px}
+  .opts.multi .opt.sel .dot{border-radius:6px}
+  .opt .otxt{font-size:.98rem;font-weight:600}
+  .opt .osub{font-size:.82rem;color:var(--muted);font-weight:400;margin-top:2px}
+
+  .navrow{display:flex;justify-content:space-between;align-items:center;margin-top:30px;gap:14px}
+  .btn{border:none;border-radius:999px;padding:13px 28px;font-family:inherit;font-weight:800;font-size:.92rem;cursor:pointer;transition:.15s}
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn-primary:hover{background:var(--accent)}
+  .btn-primary:disabled{background:#d8d8d8;color:#a3a3a3;cursor:not-allowed}
+  .btn-ghost{background:transparent;color:var(--muted);padding:13px 14px}
+  .btn-ghost:hover{color:var(--ink)}
+  .hint{font-size:.78rem;color:var(--muted);margin-top:14px}
+
+  /* results */
+  .results{display:none}
+  .results.show{display:block}
+  .resulthead{text-align:center;padding:10px 0 8px}
+  .resulthead .kick{justify-content:center;display:flex}
+  .resulthead h2{margin:0;font-size:clamp(1.7rem,5vw,2.4rem);font-weight:900;letter-spacing:-.02em}
+  .resulthead p{color:#42484b;font-size:1rem;max-width:50ch;margin:14px auto 0}
+
+  .matches{display:flex;flex-direction:column;gap:18px;margin:34px 0 40px}
+  .match{background:var(--card);border-radius:20px;padding:26px 28px;box-shadow:0 16px 40px -22px rgba(0,0,0,.14);
+         position:relative;display:flex;gap:18px;align-items:flex-start}
+  .match .rank{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:var(--ink);color:#fff;
+               display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem}
+  .match:first-child .rank{background:var(--accent)}
+  .match .mtxt{flex:1;min-width:0}
+  .match .eng{font-size:.66rem;letter-spacing:.12em;text-transform:lowercase;color:var(--muted);font-weight:700;margin-bottom:4px}
+  .match h3{margin:0 0 8px;font-size:1.25rem;font-weight:800;letter-spacing:-.01em}
+  .match p{margin:0 0 14px;font-size:.93rem;color:#42484b;line-height:1.55}
+  .match .why{display:inline-block;font-size:.78rem;color:var(--muted);background:#f2f5f6;border-radius:8px;padding:5px 10px;margin:0 0 14px}
+  .matchlink{display:inline-flex;align-items:center;gap:8px;color:var(--accent);font-weight:800;text-decoration:none;font-size:.9rem}
+  .matchlink .ar{display:inline-block;transition:.18s}
+  .matchlink:hover .ar{transform:translateX(-4px)}
+
+  .restart{text-align:center;margin:8px 0 40px}
+  .restart button{background:transparent;border:1.5px solid var(--hair);border-radius:999px;padding:12px 24px;
+                   font-family:inherit;font-weight:700;font-size:.88rem;cursor:pointer;color:var(--muted)}
+  .restart button:hover{color:var(--ink);border-color:#c7d3d8}
+
+  footer{border-top:1px solid var(--ink);margin-top:20px}
+  footer .wrap{padding:34px 22px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  footer .fmark{font-size:.7rem;color:var(--muted);letter-spacing:.08em}
+  footer .home{font-size:.8rem;font-weight:700;text-decoration:none}
+  footer .home:hover{color:var(--accent)}
+
+  @media(max-width:560px){
+    .quizcard{padding:28px 22px}
+    .match{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a href="index.html"><span class="tmark" style="font-size:28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">.zuzu<sup style="font-size:.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span></a>
+    <a href="index.html" class="back">חזרה ללוח</a>
+  </div>
+
+  <header class="head">
+    <div class="kick">שאלון קצר</div>
+    <h1>איזה סגנון <span class="o">תנועה</span><br>מתאים לי?</h1>
+    <p class="story">כמה שאלות קצרות על מה שבא לכם, ומה מפחיד או מרגש אתכם — ובסוף נמליץ על כמה סגנונות שכדאי לנסות, עם קישור ישיר לאירועים שלהם בלוח. אין תשובות נכונות או לא נכונות.</p>
+  </header>
+
+  <div class="progwrap">
+    <div class="progtrack"><div class="progbar" id="progbar"></div></div>
+    <div class="progtxt" id="progtxt">שאלה 1 מתוך 7</div>
+  </div>
+
+  <div id="quizArea"></div>
+
+  <section class="results" id="results">
+    <div class="resulthead">
+      <div class="kick">ההמלצות שלכם</div>
+      <h2>נראה שאלה יתאימו לכם 💫</h2>
+      <p>בהתאם למה שסיפרתם לנו — אלו הסגנונות שהכי קרובים למה שאתם מחפשים.</p>
+    </div>
+    <div class="matches" id="matches"></div>
+    <div class="restart"><button id="restartBtn">למלא שוב מהתחלה</button></div>
+  </section>
+
+</div>
+
+<footer><div class="wrap">
+  <span class="fmark">zuzu © 2026 · תנועה</span>
+  <a class="home" href="index.html">← חזרה ללוח</a>
+</div></footer>
+
+<script>
+/* ============================================================
+   STYLE DATA — each style scored on a few axes (0..1 unless noted).
+   exp        : how much prior dance/movement background helps (0 none needed .. 1 helps a lot)
+   guided     : 0 fully free/improvised .. 1 structured technique class
+   solo/group/contact : booleans — which social modes the style naturally offers
+   intensity  : 1 (gentle) .. 5 (very physically intense)
+   emotional  : 0 (physical/technical focus) .. 1 (emotional/therapeutic/inner focus)
+   exposure   : 0 (private, eyes-closed, no one watching) .. 1 (mirrors/performance/being watched)
+   flavors    : tags for the "what draws you" question
+============================================================ */
+const STYLES = [
+  { cat:"קונטקט", eng:"Contact Improvisation", blurb:"ריקוד של מגע ושיתוף משקל עם עוד אנשים — בלי צעדים ללמוד, רק הקשבה לגוף.",
+    exp:.15, guided:.35, solo:false, group:true, contact:true, intensity:3, emotional:.55, exposure:.45, flavors:["creative","community"] },
+  { cat:"אימפרוביזציה", eng:"Improvisation", blurb:"ללמוד לאלתר בתנועה — להגיב לרגע, למוזיקה, לשותף/ה, בלי תסריט מוכן.",
+    exp:.2, guided:.35, solo:true, group:true, contact:false, intensity:3, emotional:.55, exposure:.4, flavors:["creative","playful"] },
+  { cat:"אקסטטיק", eng:"Ecstatic Dance", blurb:"רחבת ריקוד חופשי לגמרי, בלי דיבור ובלי צעדים נכונים — רק לזוז איך שבא לכם.",
+    exp:0, guided:.1, solo:true, group:true, contact:false, intensity:3, emotional:.8, exposure:.1, flavors:["healing","spiritual","community"] },
+  { cat:"ריקוד חופשי", eng:"Free Dance", blurb:"פשוט לרקוד, בלי מסגרת ובלי טכניקה — ג'אם קהילתי או מסיבה קטנה.",
+    exp:0, guided:.1, solo:true, group:true, contact:false, intensity:2, emotional:.6, exposure:.2, flavors:["playful","community"] },
+  { cat:"ביודנסה", eng:"Biodanza", blurb:"מפגש קבוצתי במעגל עם מוזיקה ותרגילי תנועה שמעוררים רגש וחיבור, בלי שיפוטיות.",
+    exp:0, guided:.4, solo:false, group:true, contact:false, intensity:2, emotional:.9, exposure:.3, flavors:["healing","spiritual","community"] },
+  { cat:"גאגא", eng:"Gaga", blurb:"שפת תנועה מבוססת הקשבה לתחושות בגוף, לא העתקת צורות — המורה מדבר, לא מדגים.",
+    exp:.1, guided:.55, solo:true, group:true, contact:false, intensity:3, emotional:.5, exposure:.25, flavors:["creative","fitness"] },
+  { cat:"בלט", eng:"Ballet", blurb:"טכניקה קלאסית, יציבה ודיוק — הבסיס להרבה סגנונות ריקוד אחרים.",
+    exp:.5, guided:.9, solo:true, group:true, contact:false, intensity:3, emotional:.1, exposure:.75, flavors:["fitness"] },
+  { cat:"מודרני", eng:"Modern / Contemporary", blurb:"טכניקה, קומבינציות וזרימה — פחות נוקשה מבלט, יותר דגש על משקל ונשימה.",
+    exp:.4, guided:.8, solo:true, group:true, contact:false, intensity:3, emotional:.4, exposure:.6, flavors:["creative","fitness"] },
+  { cat:"ריליס", eng:"Release Technique", blurb:"לומדים לשחרר מתח שרירי ולנוע מתוך כבידה ומומנטום, בלי כוח מיותר.",
+    exp:.3, guided:.7, solo:true, group:true, contact:false, intensity:3, emotional:.4, exposure:.55, flavors:["fitness","creative"] },
+  { cat:"היפ הופ", eng:"Hip Hop", blurb:"סגנון רחוב קצבי, גרוב ואנרגיה — לומדים צירוף קצר וחוזרים עליו.",
+    exp:.3, guided:.8, solo:true, group:true, contact:false, intensity:4, emotional:.2, exposure:.7, flavors:["playful","fitness"] },
+  { cat:"מיוזיקל", eng:"Musical Theatre", blurb:"ריקוד, משחק ולפעמים שירה — סגנון תיאטרלי שמספר סיפור.",
+    exp:.3, guided:.8, solo:false, group:true, contact:false, intensity:3, emotional:.3, exposure:.8, flavors:["playful","creative"] },
+  { cat:"ריקוד אפריקאי", eng:"African Dance", blurb:"תנועה אדמתית וקצבית, לרוב עם תופים וליווי חי — נמרצת וחברותית.",
+    exp:.1, guided:.6, solo:true, group:true, contact:false, intensity:4, emotional:.4, exposure:.5, flavors:["community","fitness"] },
+  { cat:"ריקודי בטן", eng:"Belly Dance", blurb:"ריקוד מזרחי עם דגש על תנועת אגן וגמישות — הרבה תרגול וחזרה.",
+    exp:.1, guided:.7, solo:true, group:true, contact:false, intensity:3, emotional:.3, exposure:.6, flavors:["fitness","creative"] },
+  { cat:"ניה", eng:"Nia", blurb:"פיטנס-ריקוד עם מוזיקה קצבית וצעדים חוזרים ברמות קושי שונות — להזיע וליהנות.",
+    exp:.1, guided:.6, solo:true, group:true, contact:false, intensity:3, emotional:.3, exposure:.4, flavors:["fitness","playful"] },
+  { cat:"מובמנט", eng:"Movement", blurb:"אימון תנועה פונקציונלי — זריזות, כוח, גמישות ומשחק, בהשראת תנועת בעלי חיים.",
+    exp:.3, guided:.7, solo:true, group:true, contact:false, intensity:5, emotional:.15, exposure:.55, flavors:["fitness","playful"] },
+  { cat:"אקרו", eng:"Acro", blurb:"עבודה אקרובטית בזוגות — הרמות ואיזונים, מתוך אמון ותקשורת עם השותף/ה.",
+    exp:.2, guided:.6, solo:false, group:true, contact:true, intensity:4, emotional:.25, exposure:.7, flavors:["playful","community"] },
+  { cat:"פלדנקרייז", eng:"Feldenkrais", blurb:"למידה עדינה ואיטית לשיפור הרגלי תנועה — עוצמה נמוכה, בלי מאמץ פיזי.",
+    exp:0, guided:.65, solo:true, group:true, contact:false, intensity:1, emotional:.4, exposure:.1, flavors:["healing"] },
+  { cat:"שיטת אילן לב", eng:"Ilan Lev Method", blurb:"עבודה סומטית עדינה שמשלבת מגע ותנועה לשחרור מתחים כרוניים בגוף.",
+    exp:0, guided:.5, solo:true, group:true, contact:false, intensity:1, emotional:.6, exposure:.15, flavors:["healing"] },
+  { cat:"BMC", eng:"Body-Mind Centering", blurb:"חקירת תנועה דרך מערכות הגוף השונות, להעמקת ההקשבה הפנימית.",
+    exp:.2, guided:.6, solo:true, group:true, contact:false, intensity:2, emotional:.5, exposure:.2, flavors:["healing","creative"] },
+  { cat:"לאבאן-ברטנייף", eng:"Laban / Bartenieff", blurb:"שפת ניתוח תנועה — איך גוף נע במרחב ובזמן. כלי הבנה, לא רק ריקוד.",
+    exp:.4, guided:.8, solo:true, group:true, contact:false, intensity:2, emotional:.2, exposure:.5, flavors:["creative"] },
+  { cat:"אקסיס סילבוס", eng:"Axis Syllabus", blurb:"ביומכניקה ואנטומיה פונקציונלית — להבין איך הגוף עובד כדי לזוז ביעילות.",
+    exp:.5, guided:.8, solo:true, group:true, contact:true, intensity:3, emotional:.1, exposure:.5, flavors:[] },
+  { cat:"מעגל נשים", eng:"Women's Circle", blurb:"מפגש קהילתי לנשים — תנועה, שיתוף ולעיתים טקס. המוקד בחיבור, לא בביצוע.",
+    exp:0, guided:.3, solo:false, group:true, contact:false, intensity:2, emotional:.9, exposure:.3, flavors:["healing","spiritual","community"] },
+];
+
+/* ============================================================
+   QUESTIONS
+============================================================ */
+const QUESTIONS = [
+  { id:"exp", text:"יש לך ניסיון קודם בריקוד או תנועה?", sub:"אין תשובה נכונה — זה רק עוזר לכוון אתכם למקום הנכון.",
+    options:[
+      {label:"לא ממש, או שעבר הרבה זמן", v:0},
+      {label:"קצת, לפני כמה שנים", v:.4},
+      {label:"כן, אני רוקד/ת או זז/ה באופן קבוע", v:.8},
+    ]},
+  { id:"guided", text:"מה מושך אתכם יותר?", sub:null,
+    options:[
+      {label:"הנחיה ברורה וללמוד טכניקה", sub:"שיעור מובנה, צעדים וסדר", v:1},
+      {label:"לזוז חופשי, בלי מבנה קבוע", sub:"לתת לגוף להוביל", v:0},
+      {label:"קצת משניהם", sub:"תלוי במצב רוח", v:.5},
+    ]},
+  { id:"social", text:"עם מי בא לכם לזוז?", sub:null,
+    options:[
+      {label:"בעיקר לבד, גם אם יש עוד אנשים בחדר", v:"solo"},
+      {label:"בקבוצה, אבל בלי מגע", v:"group"},
+      {label:"מגע, שיתוף ועבודה עם שותף/ה", v:"contact"},
+    ]},
+  { id:"intensity", text:"כמה עצימות פיזית בא לכם?", sub:null,
+    options:[
+      {label:"עדין ורגוע", sub:"תנועה איטית, בלי מאמץ", v:1},
+      {label:"בינוני", sub:"קצת להזיע, לא להתמוטט", v:3},
+      {label:"אינטנסיבי ואנרגטי", sub:"אימון של ממש", v:5},
+    ]},
+  { id:"emotional", text:"מה מניע אתכם לזוז?", sub:null,
+    options:[
+      {label:"רגש, ריפוי וחיבור פנימי", v:.9},
+      {label:"קצת משניהם", v:.5},
+      {label:"הגוף, הכושר והטכניקה", v:.1},
+    ]},
+  { id:"exposure", text:"עד כמה מביך/מלחיץ אתכם להגיע לשיעור תנועה?", sub:"למשל: שיראו אתכם רוקדים, לרקוד לצד אנשים אחרים, או לא לדעת מה לעשות עם הגוף.",
+    options:[
+      {label:"מאוד", sub:"מעדיפ/ה מרחב פרטי, בלי שמישהו רואה אותי ובלי לחשוש שאני 'לא יודע/ת לרקוד'", v:.1},
+      {label:"קצת", sub:"קבוצה תומכת בסדר, אבל לא אוהב/ת להיות במרכז או לא לדעת מה עושים", v:.4},
+      {label:"לא ממש", sub:"בשמחה גם מול מראה ומול קהל, גם אם אני לא בטוח/ה בתנועה", v:.8},
+    ]},
+  { id:"flavors", text:"מה מושך אתכם הכי הרבה? (עד 2)", sub:null, multi:true, max:2,
+    options:[
+      {label:"יצירתיות וביטוי עצמי", v:"creative"},
+      {label:"כיף ומשחקיות", v:"playful"},
+      {label:"ריפוי ועיבוד רגשי", v:"healing"},
+      {label:"כושר גופני", v:"fitness"},
+      {label:"רוחניות וטקס", v:"spiritual"},
+      {label:"קהילה וחיבור לאנשים", v:"community"},
+    ]},
+];
+
+/* ============================================================
+   STATE + RENDER
+============================================================ */
+/* ============================================================
+   ANALYTICS — logs to the same Google Sheet backend the main board uses
+============================================================ */
+const ZUZU_API = "https://script.google.com/macros/s/AKfycbwvg0wayPRD1W6_nV4_R7jfNj7gpho3TBW7mMLPI9AVqlpURYang_DbusX8rVZuVgc3/exec";
+function trackEvent(name, data){
+  try{
+    if(window.va) window.va("event",{name:name,data:data||{}});
+    fetch(ZUZU_API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({action:"track",name:name,data:data||{},page:"quiz.html"})}).catch(()=>{});
+  }catch(_){}
+}
+
+let cur = 0;
+const answers = {};
+
+const quizArea = document.getElementById("quizArea");
+const progbar = document.getElementById("progbar");
+const progtxt = document.getElementById("progtxt");
+const resultsEl = document.getElementById("results");
+const matchesEl = document.getElementById("matches");
+
+function renderQuestion(){
+  const q = QUESTIONS[cur];
+  progbar.style.width = (cur/QUESTIONS.length*100)+"%";
+  progtxt.textContent = "שאלה "+(cur+1)+" מתוך "+QUESTIONS.length;
+
+  const selected = answers[q.id];
+  const isMulti = !!q.multi;
+  const selArr = isMulti ? (selected||[]) : null;
+
+  const optsHtml = q.options.map((o,idx)=>{
+    let isSel;
+    if(isMulti) isSel = selArr && selArr.includes(o.v);
+    else isSel = selected===o.v;
+    return '<div class="opt'+(isSel?' sel':'')+'" data-idx="'+idx+'">'
+      + '<span class="dot"></span>'
+      + '<span class="otxt">'+o.label+(o.sub?'<div class="osub">'+o.sub+'</div>':'')+'</span>'
+      + '</div>';
+  }).join("");
+
+  quizArea.innerHTML =
+    '<div class="quizcard">'
+    + '<div class="qlabel">שאלה '+(cur+1)+'</div>'
+    + '<h2 class="qtext">'+q.text+'</h2>'
+    + (q.sub?'<p class="qsub">'+q.sub+'</p>':'<div style="height:10px"></div>')
+    + '<div class="opts'+(isMulti?' multi':'')+'">'+optsHtml+'</div>'
+    + '<div class="navrow">'
+    +   (cur>0 ? '<button class="btn btn-ghost" id="backBtn">← חזרה</button>' : '<span></span>')
+    +   '<span style="display:flex;gap:10px"><button class="btn btn-ghost" id="skipBtn">דלג</button><button class="btn btn-primary" id="nextBtn" '+(canProceed(q)?'':'disabled')+'>'+(cur===QUESTIONS.length-1?'לראות תוצאות':'הבא')+'</button></span>'
+    + '</div>'
+    + (isMulti?'<div class="hint">אפשר לבחור עד '+q.max+'</div>':'')
+    + '</div>';
+
+  quizArea.querySelectorAll(".opt").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      const idx = +el.dataset.idx;
+      const val = q.options[idx].v;
+      if(isMulti){
+        let arr = answers[q.id] ? answers[q.id].slice() : [];
+        const pos = arr.indexOf(val);
+        if(pos>-1) arr.splice(pos,1);
+        else { if(arr.length>=q.max) arr.shift(); arr.push(val); }
+        answers[q.id] = arr;
+      } else {
+        answers[q.id] = val;
+      }
+      renderQuestion();
+    });
+  });
+
+  const backBtn = document.getElementById("backBtn");
+  if(backBtn) backBtn.addEventListener("click", ()=>{ cur--; renderQuestion(); });
+
+  const skipBtn = document.getElementById("skipBtn");
+  skipBtn.addEventListener("click", ()=>{
+    trackEvent("quiz_skip",{question:q.id});
+    if(cur===QUESTIONS.length-1){ showResults(); }
+    else { cur++; renderQuestion(); }
+  });
+
+  const nextBtn = document.getElementById("nextBtn");
+  nextBtn.addEventListener("click", ()=>{
+    if(!canProceed(q)) return;
+    trackEvent("quiz_answer",{question:q.id,value:JSON.stringify(answers[q.id])});
+    if(cur===QUESTIONS.length-1){ showResults(); }
+    else { cur++; renderQuestion(); }
+  });
+}
+
+function canProceed(q){
+  const v = answers[q.id];
+  if(q.multi) return v && v.length>0;
+  return v!==undefined;
+}
+
+function computeScores(){
+  const a = answers;
+  return STYLES.map(s=>{
+    let score = 0;
+    score -= Math.abs(s.exp - (a.exp!==undefined?a.exp:.3)) * 1.4;
+    score -= Math.abs(s.guided - (a.guided!==undefined?a.guided:.5)) * 1.6;
+    score -= Math.abs(s.intensity - (a.intensity!==undefined?a.intensity:3)) / 4 * 1.2;
+    score -= Math.abs(s.emotional - (a.emotional!==undefined?a.emotional:.5)) * 1.3;
+    score -= Math.abs(s.exposure - (a.exposure!==undefined?a.exposure:.4)) * 1.5;
+
+    const soc = a.social;
+    if(soc==="solo" && !s.solo) score -= 1.2;
+    if(soc==="group" && !s.group) score -= 1.2;
+    if(soc==="contact" && !s.contact) score -= 1.6;
+    if(soc==="contact" && s.contact) score += .5;
+
+    const fl = a.flavors || [];
+    let flavorHits = 0;
+    fl.forEach(f=>{ if(s.flavors.includes(f)) flavorHits++; });
+    score += flavorHits * .9;
+
+    return { style:s, score };
+  }).sort((x,y)=>y.score-x.score);
+}
+
+function whyText(s){
+  const bits = [];
+  if(s.exposure<.3) bits.push("מרחב פרטי ולא חושפני");
+  if(s.emotional>.6) bits.push("מוקד רגשי/פנימי");
+  if(s.contact) bits.push("עבודה עם מגע ושיתוף");
+  if(s.guided>.7) bits.push("טכניקה מובנית");
+  if(s.guided<.2) bits.push("חופש מלא, בלי מבנה");
+  if(s.intensity>=4) bits.push("עצימות גבוהה");
+  if(s.intensity<=1) bits.push("עדין ורגוע");
+  return bits.slice(0,2).join(" · ") || "מתאים למה שסיפרת לנו";
+}
+
+function showResults(){
+  const ranked = computeScores().slice(0,3);
+  trackEvent("quiz_complete",{top1:ranked[0]?ranked[0].style.cat:"",top2:ranked[1]?ranked[1].style.cat:"",top3:ranked[2]?ranked[2].style.cat:""});
+  const shyNote = (answers.exposure!==undefined && answers.exposure<=.2)
+    ? '<p style="margin-top:10px"><b>טיפ נגד מבוכה:</b> לפעמים מה שהכי עוזר זה הנחיה ברורה וממוקדת, לבוא עם חבר/ה — או דווקא ההפך: לבחור מקום שאף אחד בו לא מכיר אתכם. שווה לנסות מה עובד לכם.</p>'
+    : "";
+  document.querySelector(".resulthead p").innerHTML = 'בהתאם למה שסיפרתם לנו — אלו הסגנונות שהכי קרובים למה שאתם מחפשים.' + shyNote;
+  matchesEl.innerHTML = ranked.map((r,i)=>{
+    const s = r.style;
+    return '<div class="match">'
+      + '<div class="rank">'+(i+1)+'</div>'
+      + '<div class="mtxt">'
+      +   '<div class="eng">'+s.eng+'</div>'
+      +   '<h3>'+s.cat+'</h3>'
+      +   '<p>'+s.blurb+'</p>'
+      +   '<div class="why">✓ '+whyText(s)+'</div><br>'
+      +   '<a class="matchlink" href="index.html?cat='+encodeURIComponent(s.cat)+'">לאירועי '+s.cat+' בלוח <span class="ar">←</span></a>'
+      + '</div>'
+      + '</div>';
+  }).join("");
+  quizArea.style.display = "none";
+  document.querySelector(".progwrap").style.display="none";
+  resultsEl.classList.add("show");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+document.getElementById("restartBtn").addEventListener("click", ()=>{
+  Object.keys(answers).forEach(k=>delete answers[k]);
+  cur = 0;
+  resultsEl.classList.remove("show");
+  quizArea.style.display = "";
+  document.querySelector(".progwrap").style.display="";
+  renderQuestion();
+  window.scrollTo({top:0, behavior:"smooth"});
+});
+
+renderQuestion();
+</script>
+</body>
+</html>
