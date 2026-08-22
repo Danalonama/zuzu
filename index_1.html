@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zuzu — איפה רוקדים היום? לוח שיעורי ריקוד, קונטקט, ג'אמים וסדנאות תנועה בישראל</title>
+<meta name="description" content="לוח האירועים של zuzu: שיעורי ריקוד, קונטקט אימפרוביזציה, אקסטטיק דאנס, ג'אמים, סדנאות וריטריטים ברחבי ישראל. לכל גיל ולכל רמה — כולל מי שמעולם לא רקד/ה.">
+<link rel="canonical" href="https://zuzu.today/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="zuzu">
+<meta property="og:title" content="zuzu — איפה רוקדים היום?">
+<meta property="og:description" content="לוח האירועים של zuzu: שיעורי ריקוד, קונטקט אימפרוביזציה, אקסטטיק דאנס, ג'אמים, סדנאות וריטריטים ברחבי ישראל.">
+<meta property="og:url" content="https://zuzu.today/">
+<meta property="og:image" content="https://zuzu.today/icon-512.png">
+<meta property="og:locale" content="he_IL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zuzu — איפה רוקדים היום?">
+<meta name="twitter:description" content="לוח האירועים של zuzu: שיעורי ריקוד, קונטקט, אקסטטיק, ג'אמים וסדנאות תנועה בישראל.">
+<meta name="twitter:image" content="https://zuzu.today/icon-512.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" href="favicon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#EEF4F7">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Zuzu">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "zuzu",
+  "alternateName": "זוזו",
+  "url": "https://zuzu.today/",
+  "description": "לוח האירועים לתנועה וריקוד בישראל — שיעורי ריקוד, קונטקט אימפרוביזציה, אקסטטיק דאנס, ג'אמים, סדנאות ורטריטים.",
+  "inLanguage": "he",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://zuzu.today/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<style>
+  :root{
+    --bg:#ECF2F5; --ink:#0a0a0a; --muted:#8a8a8a; --line:#0a0a0a; --hair:#e7e7e7;
+    --accent:#E73804; --card:#ffffff;
+  }
+  body[data-accent="ember"]{--accent:#ff5c1a}
+  body[data-accent="ink"]{--accent:#0a0a0a}
+  body[data-accent="blue"]{--accent:#1f3cff}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Heebo","Noto Sans Hebrew","Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink);
+       -webkit-font-smoothing:antialiased;line-height:1.35}
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+
+  /* top bar */
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;
+          padding:22px 0 0;font-size:.8rem}
+  .topbar a{text-decoration:none}
+  .topbar .tcenter{display:flex;gap:16px;align-items:center}
+  .topbar .tcenter span{opacity:.4}
+  .topbar .tmark{font-weight:800;letter-spacing:-.01em;font-size:.95rem;cursor:pointer}
+  .topbar .tcontact{display:inline-flex;align-items:center;gap:9px;font-weight:600;cursor:pointer}
+  .topbar .tcontact::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
+  .topbar .tright{display:flex;align-items:center;gap:20px}
+  .topbar .tinstall{display:inline-flex;align-items:center;gap:7px;font-weight:600;text-decoration:none;color:var(--ink);transition:color .15s}
+  .topbar .tinstall:hover{color:var(--accent)}
+  .topbar .tinstall svg{width:15px;height:15px;flex:none}
+  @media(max-width:560px){.topbar .tinstall span{display:none}}
+
+  /* add-event + admin modals */
+  .modal{position:fixed;inset:0;z-index:8000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,10,10,.45)}
+  .modal[hidden]{display:none}
+  .modal-card{background:var(--bg);width:min(520px,100%);max-height:90vh;overflow:auto;border:1px solid var(--ink);
+              box-shadow:10px 10px 0 var(--ink);padding:26px 26px 30px;position:relative}
+  .modal-card h2{margin:0 0 4px;font-size:1.5rem;font-weight:900;letter-spacing:-.03em}
+  .modal-card .sub{color:var(--muted);font-size:.85rem;margin:0 0 20px}
+  .modal-x{position:absolute;left:18px;right:auto;top:14px;border:none;background:none;font-size:1.6rem;
+           cursor:pointer;line-height:1;color:var(--ink)}
+  #addForm{display:flex;flex-direction:column;gap:14px}
+  .scanBox{margin-bottom:18px}
+  .scanDrop{border:1.5px dashed var(--ink);padding:16px;text-align:center;transition:border-color .15s,background .15s}
+  .scanDrop.drag{border-color:var(--accent);background:rgba(255,58,0,.05)}
+  .scanHint{font-size:.82rem;color:var(--muted);line-height:1.6}
+  .scanHint button{background:none;border:none;color:var(--accent);font-family:inherit;font-weight:700;
+        font-size:.82rem;cursor:pointer;text-decoration:underline;padding:0}
+  .scanPrev img{max-width:100%;max-height:200px;display:block;margin:0 auto 12px;border:1px solid var(--hair)}
+  .scanActs{display:flex;gap:8px;justify-content:center}
+  .sbtn{font-family:inherit;font-size:.82rem;font-weight:700;padding:9px 16px;border:1px solid var(--ink);
+        background:var(--ink);color:var(--bg);cursor:pointer}
+  .sbtn:hover{background:var(--accent);border-color:var(--accent)}
+  .sbtn.ghost{background:var(--bg);color:var(--ink)}
+  .sbtn.ghost:hover{background:var(--bg);border-color:var(--accent);color:var(--accent)}
+  .sbtn[disabled]{opacity:.5;cursor:default}
+  .scanStatus{font-size:.82rem;color:var(--muted);margin-top:10px;line-height:1.5}
+  .scanStatus.err{color:var(--accent);font-weight:600}
+  .scanResults{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+  .scanRes{border:1px solid var(--ink);padding:10px 12px;display:flex;align-items:center;gap:10px;justify-content:space-between}
+  .scanRes .rt{font-size:.82rem;font-weight:600;min-width:0}
+  .scanRes .rt small{display:block;color:var(--muted);font-weight:400}
+  .scanRes button{flex:none;font-family:inherit;font-size:.74rem;font-weight:700;padding:6px 12px;
+        border:1px solid var(--ink);background:var(--bg);cursor:pointer;color:var(--ink)}
+  .scanRes button:hover{background:var(--ink);color:var(--bg)}
+  .scanOr{text-align:center;font-size:.66rem;letter-spacing:.16em;color:var(--muted);text-transform:lowercase;margin:18px 0 4px}
+  #addForm label,#contactForm label{display:flex;flex-direction:column;gap:5px;font-size:.62rem;letter-spacing:.16em;
+                 text-transform:lowercase;color:var(--muted);font-weight:700}
+  #addForm input,#addForm select,#contactForm input,#contactForm select,#contactForm textarea{font-family:inherit;font-size:.95rem;font-weight:500;color:var(--ink);
+        background:transparent;border:none;border-bottom:1.5px solid var(--ink);padding:7px 2px;border-radius:0}
+  #addForm input:focus,#addForm select:focus,#contactForm input:focus,#contactForm select:focus,#contactForm textarea:focus{outline:none;border-color:var(--accent)}
+  #contactForm{display:flex;flex-direction:column;gap:14px}
+  #contactForm textarea{resize:vertical}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  #dateRows{display:flex;flex-direction:column;gap:10px}
+  .dateRow{position:relative;align-items:end}
+  .dateRow .delDate{position:absolute;inset-inline-start:-2px;top:-2px;border:none;background:none;
+        color:var(--muted);font-size:1rem;line-height:1;cursor:pointer;padding:2px}
+  .dateRow .delDate:hover{color:var(--accent)}
+  .addDateBtn{align-self:flex-start;background:none;border:none;color:var(--accent);font-family:inherit;
+        font-weight:700;font-size:.82rem;cursor:pointer;padding:2px 0;margin-top:-4px}
+  .addDateBtn:hover{text-decoration:underline}
+  .taginput{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-bottom:1.5px solid var(--ink);padding:5px 2px}
+  .taginput:focus-within{border-color:var(--accent)}
+  .taginput input{border:none!important;flex:1;min-width:90px;padding:2px 0!important}
+  .taginput input:focus{outline:none}
+  .tagchip{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:var(--bg);
+        font-size:.82rem;font-weight:600;border-radius:999px;padding:3px 6px 3px 11px}
+  .tagchip button{background:none;border:none;color:var(--bg);opacity:.7;font-size:.95rem;line-height:1;
+        cursor:pointer;padding:0}
+  .tagchip button:hover{opacity:1}
+  .fsubmit{margin-top:8px;background:var(--ink);color:var(--bg);border:none;padding:13px;font-family:inherit;
+           font-weight:800;font-size:.95rem;cursor:pointer;letter-spacing:.02em;transition:background .15s}
+  .fsubmit:hover{background:var(--accent)}
+  .fok{text-align:center;padding:26px 10px}
+  .fok .big{font-size:1.4rem;font-weight:900;margin-bottom:8px;letter-spacing:-.02em}
+  .fok p{color:var(--muted);margin:0}
+  .pend{border:1px solid var(--ink);padding:14px;margin-bottom:12px}
+  .pend .pt{font-weight:700;margin-bottom:4px}
+  .pend .pm{font-size:.78rem;color:var(--muted);margin-bottom:11px;line-height:1.5}
+  .pend .pacts{display:flex;gap:8px;flex-wrap:wrap}
+  .pend button{font-family:inherit;font-size:.78rem;font-weight:700;padding:7px 14px;border:1px solid var(--ink);
+               background:var(--bg);cursor:pointer;color:var(--ink)}
+  .pend .ok{background:var(--ink);color:var(--bg)}
+  .pend .ok:hover{background:var(--accent);border-color:var(--accent)}
+  .pend .no:hover{color:var(--accent);border-color:var(--accent)}
+  .adminEmpty{color:var(--muted);padding:24px 0;text-align:center}
+  .footlink{cursor:pointer}
+  .footlink:hover{color:var(--accent)}
+  .footlink .badge{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;
+        padding:0 4px;background:var(--accent);color:#fff;border-radius:8px;font-size:.62rem;font-weight:800;
+        margin-inline-start:5px;vertical-align:middle}
+
+  /* stage / hero */
+  .stage{position:relative;padding:6px 0 28px}
+  .wordrow{position:relative}
+  .word{margin:.05em 0 0;font-weight:900;line-height:.8;letter-spacing:-.05em;position:relative;z-index:1;
+        font-size:clamp(4.2rem,17vw,14rem);direction:ltr;text-align:start}
+  .word .dot{color:var(--accent)}
+  .disc{display:block;border-radius:50%;background:var(--accent);
+        width:clamp(70px,11vw,178px);aspect-ratio:1;margin-top:24px}
+  .f1wrap{grid-column:2/6;display:flex;flex-direction:column;align-items:flex-start}
+  .band{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;align-items:start;
+        margin-top:clamp(26px,6vw,80px)}
+  .frag{font-size:clamp(1rem,1.5vw,1.35rem);font-weight:400;line-height:1.16;margin:0}
+  .frag.f1{grid-column:2/6}
+  .frag.f2{grid-column:9/13;margin-top:clamp(20px,4vw,56px)}
+  .tile{position:absolute;top:clamp(40px,7vw,120px);inset-inline-end:1%;
+        width:clamp(360px,48vw,660px);z-index:0;background:transparent;pointer-events:none}
+  .tile img{display:block;width:100%;height:auto;object-fit:contain}
+  .statement{font-size:clamp(2rem,6.2vw,5.2rem);font-weight:400;line-height:1.0;letter-spacing:-.025em;
+             margin:clamp(34px,8vw,92px) 0 0;max-width:16ch;margin-inline-start:auto;text-align:start}
+  .statement .o{color:var(--accent)}
+  .cue{margin-top:28px;font-size:.76rem;letter-spacing:.16em;color:var(--muted)}
+  body[data-dir="centered"] .word{text-align:center}
+  body[data-dir="centered"] .statement{margin-inline:auto;text-align:center}
+  body[data-dir="centered"] .cue{text-align:center}
+  body[data-dir="compact"] .stage{padding-bottom:0}
+  body[data-dir="compact"] .band{margin-top:24px}
+  body[data-dir="compact"] .statement{font-size:clamp(1.6rem,4.4vw,3.2rem);margin-top:32px}
+  @media(max-width:680px){
+    .band{grid-template-columns:1fr 1fr;gap:14px}
+    .frag.f1{grid-column:1/2}
+    .frag.f2{grid-column:2/3;margin-top:0}
+    .tile{position:static;grid-column:1/3;margin-top:10px;width:auto;max-width:100%;inset:auto}
+    .statement{max-width:none}
+  }
+
+  /* filter bar — view toggle + filter button + active chips */
+  .bar{position:sticky;top:0;z-index:20;background:var(--bg);padding:14px 0;margin-top:20px;border-bottom:1px solid transparent;transition:border-color .25s,box-shadow .25s}
+  .bar.scrolled{border-bottom-color:var(--ink)}
+  .barRow{display:flex;align-items:center;justify-content:flex-start;gap:12px}
+  .searchWrap{position:relative;flex:1 1 auto;min-width:0;max-width:340px;height:44px}
+  .searchWrap svg{position:absolute;inset-inline-start:14px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--muted);pointer-events:none}
+  #searchInput{width:100%;height:44px;box-sizing:border-box;background:var(--bg);border:1.5px solid var(--ink);
+      border-radius:11px;padding:0 42px 0 38px;font-family:inherit;font-size:.95rem;font-weight:600;color:var(--ink);
+      transition:.15s;letter-spacing:-.01em}
+  #searchInput::placeholder{color:var(--muted);font-weight:500}
+  #searchInput::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+  #searchInput::-webkit-search-decoration{-webkit-appearance:none}
+  #searchInput:focus{outline:none;border-color:var(--accent)}
+  #searchInput:focus + svg{color:var(--accent)}
+  .searchClear{position:absolute;inset-inline-end:8px;top:50%;transform:translateY(-50%);border:none;background:none;
+      cursor:pointer;font-size:1.2rem;line-height:1;color:var(--muted);padding:6px;display:none}
+  .searchClear.show{display:block}
+  .searchClear:hover{color:var(--accent)}
+  @media(max-width:560px){
+    .searchWrap{max-width:none}
+    .wrap{padding:0 16px}
+    .barRow{gap:8px}
+    .filterBtn{padding:0 13px;gap:7px}
+    .filterBtn span:not(.fbCount){font-size:.9rem}
+    .vt{padding:0 12px}
+    #searchInput{padding:0 36px 0 14px;font-size:16px}
+    .searchWrap svg{inset-inline-start:12px}
+  }
+  .viewToggle{display:flex;flex:none;height:44px;box-sizing:border-box;border:1.5px solid var(--ink);border-radius:11px;overflow:hidden;background:var(--bg)}
+  .vt{appearance:none;border:none;background:transparent;padding:0 14px;cursor:pointer;color:var(--ink);
+      display:grid;place-items:center;transition:.15s;border-inline-start:1.5px solid var(--ink)}
+  .vt:first-child{border-inline-start:none}
+  .vt svg{display:block;width:19px;height:19px}
+  .vt.on{background:var(--ink);color:var(--bg)}
+  .filterBtn{appearance:none;display:inline-flex;flex:none;align-items:center;gap:9px;height:44px;box-sizing:border-box;background:var(--bg);
+      border:1.5px solid var(--ink);border-radius:11px;padding:0 17px;cursor:pointer;font-family:inherit;
+      font-size:.95rem;font-weight:700;color:var(--ink);transition:.15s;letter-spacing:-.01em}
+  .filterBtn:hover{background:var(--ink);color:var(--bg)}
+  .filterBtn svg{width:17px;height:17px;display:block}
+  .filterBtn .fbCount{background:var(--accent);color:#fff;font-size:.72rem;font-weight:800;min-width:19px;height:19px;
+      border-radius:99px;display:grid;place-items:center;padding:0 5px}
+  .filterBtn .fbCount[hidden]{display:none}
+  .filterBtn:hover .fbCount{background:#fff;color:var(--ink)}
+  /* active chips row */
+  .chipRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .chipRow:empty{display:none}
+  .chip{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:var(--bg);
+      border:none;border-radius:99px;padding:6px 9px 6px 13px;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer}
+  .chip .x{font-size:1.05rem;line-height:.7;opacity:.75}
+  .chip:hover{background:var(--accent)}
+  .chip:hover .x{opacity:1}
+  .chipClear{background:none;border:none;color:var(--accent);font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;padding:6px 4px}
+  /* filter sheet */
+  .filterSheet{position:fixed;inset:0;z-index:120;display:none}
+  .filterSheet.open{display:block}
+  .filterSheet .fsBack{position:absolute;inset:0;background:rgba(10,10,10,.32)}
+  .fsCard{position:absolute;background:var(--bg);border:1.5px solid var(--ink);display:flex;flex-direction:column;
+      max-height:82vh;box-shadow:9px 9px 0 var(--ink)}
+  /* desktop: anchored panel top-left under bar */
+  @media(min-width:721px){
+    .fsCard{top:84px;inset-inline-start:max(22px,calc(50% - 600px + 22px));width:380px;border-radius:14px}
+  }
+  /* mobile: bottom sheet */
+  @media(max-width:720px){
+    .fsCard{left:0;right:0;bottom:0;border-radius:18px 18px 0 0;border-bottom:none;box-shadow:0 -8px 30px rgba(10,10,10,.2);max-height:88vh}
+  }
+  .fsHead{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--hair)}
+  .fsHead b{font-size:1.05rem;font-weight:800}
+  .fsX{border:none;background:none;font-size:1.6rem;line-height:1;cursor:pointer;color:var(--ink)}
+  .fsBody{padding:6px 18px 14px;overflow:auto}
+  .fgroup{padding:14px 0;border-bottom:1px solid var(--hair)}
+  .fgroup:last-child{border-bottom:none}
+  .fgroup .glab{font-size:.66rem;letter-spacing:.14em;text-transform:lowercase;color:var(--muted);font-weight:700;margin-bottom:11px}
+  .pills{display:flex;flex-wrap:wrap;gap:8px}
+  .pill2{appearance:none;background:var(--bg);border:1.4px solid var(--ink);border-radius:99px;padding:7px 13px;
+      cursor:pointer;font-family:inherit;font-size:.86rem;font-weight:600;color:var(--ink);transition:.12s;
+      display:inline-flex;align-items:center;gap:6px}
+  .pill2:hover{border-color:var(--accent);color:var(--accent)}
+  .pill2.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .pill2 .cnt{font-size:.72rem;opacity:.55;font-weight:500}
+  .pill2.on .cnt{opacity:.7}
+  .fsFoot{display:flex;gap:10px;padding:13px 18px;border-top:1px solid var(--hair)}
+  .fsClear{flex:0 0 auto;background:none;border:1.4px solid var(--ink);border-radius:10px;padding:11px 16px;
+      cursor:pointer;font-family:inherit;font-weight:700;font-size:.9rem;color:var(--ink)}
+  .fsClear:hover{border-color:var(--accent);color:var(--accent)}
+  .fsApply{flex:1;background:var(--ink);color:var(--bg);border:none;border-radius:10px;padding:11px 16px;
+      cursor:pointer;font-family:inherit;font-weight:800;font-size:.95rem}
+  .fsApply:hover{background:var(--accent)}
+
+  /* timeline day-ruler */
+  .rulerWrap{direction:rtl;display:flex;align-items:flex-start;gap:14px;margin-top:16px;padding-top:4px}
+  .rulerNav{flex:0 0 auto;width:30px;height:30px;border:none;background:transparent;
+    cursor:pointer;font-size:1.5rem;line-height:1;color:var(--muted);margin-top:8px;
+    display:flex;align-items:center;justify-content:center;transition:.15s;padding:0}
+  .rulerNav:hover{color:var(--accent)}
+  .ruler{flex:1 1 auto;direction:rtl;display:flex;align-items:flex-start;overflow-x:auto;scrollbar-width:none;cursor:grab;touch-action:pan-y}
+  .ruler.grab{cursor:grabbing}
+  .ruler::-webkit-scrollbar{display:none}
+  .tick{flex:0 0 auto;width:120px;background:none;border:none;cursor:pointer;font-family:inherit;
+    display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 0 0;color:var(--muted)}
+  .tick .dnum{font-size:1.05rem;font-weight:700;color:#474747;font-variant-numeric:tabular-nums;
+    line-height:1;transition:color .15s}
+  .tick .dnum.word{font-size:1.05rem;font-weight:700;color:#474747}
+  .tick .dow{font-size:.72rem;font-weight:400;color:#1e1e1e;transition:color .15s}
+  .tick .stem{width:1.5px;height:18px;background:#cdcdcd;margin-top:3px;transition:.15s}
+  .tick.has .stem{background:#a6a6a6}
+  .tick:hover .dnum{color:var(--accent)}
+  .tick.today .dnum{color:var(--accent);font-weight:800}
+  .tick.today .stem{background:var(--accent)}
+  .tick.sel .dnum{color:var(--accent);font-weight:800}
+  .tick.sel .stem{background:var(--accent)}
+  .tick:focus,.tick:focus-visible{outline:none}
+  @media(max-width:560px){ .tick{width:84px} .tick .dnum{font-size:1.05rem} }
+
+  /* selected-day hero */
+  .tlHero{padding:30px 0 4px}
+  .tlKicker{font-size:.66rem;letter-spacing:.18em;text-transform:lowercase;color:var(--accent);font-weight:800;margin-bottom:10px}
+  .tlTitle{margin:0;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;letter-spacing:-.03em;line-height:1}
+  .tlTitle .hot{color:var(--accent)}
+  .tlSub{margin-top:9px;font-size:.82rem;color:var(--muted);letter-spacing:.05em}
+  .tlEmpty{padding:24px 0;color:var(--muted)}
+  .tlNext{margin:8px 0 0;display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--bg);
+    border:none;border-radius:99px;padding:12px 20px;font-family:inherit;font-weight:700;font-size:.92rem;cursor:pointer;transition:.15s}
+  .tlNext:hover{background:var(--accent)}
+
+  main{padding:30px 0 90px}
+
+  /* list */
+  .day{display:flex;justify-content:space-between;align-items:baseline;margin:40px 0 18px}
+  .day h2{margin:0;font-size:clamp(1.4rem,2.6vw,2rem);font-weight:900;letter-spacing:-.03em}
+  .day h2 .hot{color:var(--accent)}
+  .day .dc{font-size:.66rem;color:var(--muted);letter-spacing:.16em;text-transform:lowercase}
+  #list,#dayDetail{display:flex;flex-direction:column;gap:12px}
+  #dayDetail{margin-top:18px}
+  .card{display:flex;align-items:center;gap:22px;background:var(--card);
+        border:none;padding:16px 22px;text-decoration:none;color:var(--ink);
+        transition:background .28s cubic-bezier(.16,1,.3,1),color .28s,transform .28s,box-shadow .28s}
+  .card:hover{transform:translateY(-3px)}
+  .card .thumb{flex:none;width:76px;height:76px;aspect-ratio:1;background:var(--ink);position:relative;overflow:hidden}
+  .card .thumb img{position:absolute;inset:15%;width:70%;height:70%;object-fit:contain;transition:opacity .28s}
+  .card .thumb .bk{opacity:0}
+  .card .t{flex:none;width:92px;align-self:flex-start;margin-top:3px;text-align:start;
+           display:flex;flex-direction:column;gap:5px}
+  .card .t .tt{font-size:clamp(1.5rem,2.2vw,1.9rem);font-weight:800;color:var(--accent);
+           font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-.02em}
+  .card .t .td{font-size:.77rem;color:var(--muted);line-height:1.3;white-space:nowrap}
+  .card .main{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:start}
+  .card .ti{font-weight:700;font-size:1.02rem;margin:0;line-height:1.25;text-wrap:pretty}
+  .card .host{font-size:.82rem;color:var(--ink);font-weight:600}
+  .card .host b{font-weight:600}
+  .card .host::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;
+        background:var(--accent);margin-inline-end:7px;vertical-align:middle}
+  .card .info{display:flex;align-items:baseline;justify-content:flex-start;gap:4px 18px;flex-wrap:wrap}
+  .card .labels{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.72rem;letter-spacing:.03em;color:var(--ink)}
+  .card .labels span{display:inline-flex;align-items:center;gap:6px}
+  .card .labels span::before{content:"/";color:var(--accent);font-weight:700}
+  .card .labels span:first-child::before{display:none}
+  .card .labels span.fmt{color:var(--muted)}
+  .card .labels span.fmt::before{content:"◇";color:var(--muted);font-weight:400}
+  .card .meta{font-size:.77rem;color:var(--muted);line-height:1.5;white-space:nowrap}
+  .card .end{flex:none;display:flex;flex-direction:row;align-items:center;gap:16px}
+  .card .more{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:700;white-space:nowrap}
+  .card .calbtn{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:.72rem;font-weight:700;
+        color:var(--muted);background:none;border:1px solid var(--hair);border-radius:999px;
+        padding:5px 11px;cursor:pointer;white-space:nowrap;
+        transition:background .2s,color .2s,border-color .2s}
+  .card .calbtn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+  .card .calbtn svg{width:13px;height:13px;flex:none}
+  body[data-cards="invert"] .card:hover .calbtn{border-color:rgba(255,255,255,.32);color:rgba(255,255,255,.7)}
+  body[data-cards="invert"] .card:hover .calbtn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+  .calmenu{position:absolute;z-index:120;background:var(--card,#fff);border:1px solid var(--hair);
+        border-radius:12px;box-shadow:0 12px 34px rgba(0,0,0,.16);padding:6px;min-width:230px;
+        display:flex;flex-direction:column;gap:2px;animation:calpop .14s cubic-bezier(.16,1,.3,1)}
+  @keyframes calpop{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+  .calmenu button{display:flex;align-items:center;gap:10px;width:100%;text-align:start;
+        font:inherit;font-size:.86rem;font-weight:600;color:var(--ink);background:none;border:none;
+        border-radius:8px;padding:10px 11px;cursor:pointer;transition:background .15s}
+  .calmenu button:hover{background:rgba(251,77,30,.1);color:var(--accent)}
+  .calmenu button svg{width:17px;height:17px;flex:none;color:var(--accent)}
+  .card .more .ar{transition:transform .15s}
+  .card .more .ar.wa{display:inline-flex;width:18px;height:18px;color:#25D366}
+  .card .more .ar.wa svg{width:100%;height:100%}
+  .card .more .nolink{color:var(--muted);font-weight:600}
+  body[data-cards="invert"] .card.wacard:hover .more .ar.wa{color:#4ee584}
+  /* invert hover */
+  body[data-cards="invert"] .card:hover{background:var(--ink);color:var(--bg)}
+  body[data-cards="invert"] .card:hover .thumb{background:var(--bg)}
+  body[data-cards="invert"] .card:hover .thumb .bw{opacity:0}
+  body[data-cards="invert"] .card:hover .thumb .bk{opacity:1}
+  body[data-cards="invert"] .card:hover .meta{color:rgba(255,255,255,.55)}
+  body[data-cards="invert"] .card:hover .labels{color:var(--bg)}
+  body[data-cards="invert"] .card:hover .more .ar{transform:translateX(-5px)}
+  /* outline hover */
+  body[data-cards="outline"] .card:hover{border-color:var(--accent)}
+  body[data-cards="outline"] .card:hover .more{color:var(--accent)}
+  body[data-cards="outline"] .card:hover .more .ar{transform:translateX(-5px)}
+  /* minimal: no thumb */
+  body[data-cards="minimal"] .card .thumb{display:none}
+  body[data-cards="minimal"] .card:hover{border-color:var(--accent)}
+  body[data-cards="minimal"] .card:hover .more{color:var(--accent)}
+  body[data-cards="minimal"] .card:hover .more .ar{transform:translateX(-5px)}
+  @media(max-width:680px){
+    .card{flex-wrap:wrap;gap:8px 18px;padding:16px 16px}
+    .card .t{width:auto}
+    .card .t .tt{font-size:1.7rem}
+    .card .t .td{font-size:.85rem}
+    .card .main{flex:1 1 60%;align-items:stretch}
+    .card .ti{font-size:1.12rem}
+    .card .host{font-size:.9rem}
+    .card .info{align-items:stretch}
+    .card .labels{font-size:.82rem;justify-content:flex-start}
+    .card .meta{font-size:.85rem;white-space:normal}
+    .card .more{font-size:.92rem}
+    .card .info{flex-direction:column;gap:5px}
+    .card .end{flex:1 1 100%;justify-content:flex-start;
+               border-top:1px solid var(--hair);padding-top:10px;margin-top:2px}
+  }
+  .empty{text-align:start;color:var(--muted);font-weight:300;padding:50px 0;font-size:1.1rem}
+
+  /* calendar — mono grid */
+  .calbar{display:flex;align-items:center;justify-content:space-between;margin:30px 0 18px}
+  .calbar h2{margin:0;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:900;letter-spacing:-.03em;text-transform:lowercase}
+  .calbar button{background:var(--bg);border:1px solid var(--ink);width:44px;height:44px;border-radius:0;
+                 font-size:1.1rem;cursor:pointer;font-family:inherit;transition:.15s}
+  .calbar button:hover{background:var(--ink);color:var(--bg)}
+  .calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:0;border:none;background:var(--card);
+           border-radius:4px;overflow:hidden;box-shadow:0 2px 10px rgba(20,40,60,.05),0 12px 28px rgba(20,40,60,.06)}
+  .dow{font-size:.6rem;color:var(--muted);text-align:start;background:var(--card);padding:8px;font-weight:700;
+       letter-spacing:.1em;text-transform:lowercase;border-inline-start:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+  .dow:first-child{border-inline-start:none}
+  .cell{background:var(--card);border:none;border-inline-start:1px solid var(--hair);border-bottom:1px solid var(--hair);
+        min-height:112px;padding:7px 8px;cursor:pointer;overflow:hidden;transition:background .12s}
+  .cell:nth-child(7n+1){border-inline-start:none}
+  .cell:hover{background:#fafafa}
+  .cell.out .dn{color:#cfcfcf}
+  .cell.sel{box-shadow:inset 0 0 0 2px var(--accent)}
+  .cell .dn{font-size:.8rem;color:var(--ink);font-weight:700;margin-bottom:5px;line-height:22px}
+  .cell.today .dn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+                  border-radius:50%;background:var(--accent);color:#fff}
+  .chipE{display:block;font-size:.68rem;line-height:1.6;margin-bottom:1px;white-space:nowrap;overflow:hidden;
+         text-overflow:ellipsis;font-weight:500;color:var(--ink)}
+  .chipE .h{color:var(--accent);font-weight:700}
+  .moreE{display:block;font-size:.66rem;color:var(--accent);font-weight:700;margin-top:2px}
+  .dayDetail{margin-top:30px}
+  @media(max-width:560px){
+    .cell{min-height:64px}
+    .chipE,.moreE{display:none}
+    .dotrow{display:flex;gap:4px;flex-wrap:wrap;margin-top:3px}
+    .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+  }
+  @media(min-width:561px){ .dotrow{display:none} }
+
+  footer{border-top:1px solid var(--ink);margin-top:60px}
+  footer .wrap{padding:40px 0;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+  footer .sl{display:block;color:var(--ink);font-weight:900;font-size:clamp(1.6rem,4vw,3rem);letter-spacing:-.03em;line-height:.95;max-width:18ch}
+  footer .fmark{font-size:.7rem;color:var(--muted);letter-spacing:.08em}
+  footer .fmark.flist{display:inline-flex;flex-wrap:wrap;align-items:center;gap:10px}
+
+  /* tweaks panel */
+  #tweaks{position:fixed;bottom:18px;inset-inline-end:18px;width:248px;background:var(--bg);
+          border:1px solid var(--ink);box-shadow:8px 8px 0 var(--ink);z-index:9000;font-size:.82rem;display:none}
+  #tweaks.show{display:block}
+  #tweaks header{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border-bottom:1px solid var(--ink);cursor:move;user-select:none}
+  #tweaks header b{font-weight:800;letter-spacing:.02em}
+  #tweaks header button{border:none;background:none;font-size:1.2rem;cursor:pointer;line-height:1;color:var(--ink)}
+  #tweaks .tk{padding:11px 13px;border-bottom:1px solid var(--hair)}
+  #tweaks .tk:last-child{border-bottom:none}
+  #tweaks .tk .lab{font-size:.6rem;letter-spacing:.16em;text-transform:lowercase;color:var(--muted);margin-bottom:8px}
+  #tweaks .seg{display:flex;border:1px solid var(--ink)}
+  #tweaks .seg button{flex:1;border:none;background:var(--bg);padding:7px 4px;font-family:inherit;font-size:.74rem;font-weight:600;cursor:pointer;border-inline-start:1px solid var(--ink);color:var(--ink)}
+  #tweaks .seg button:first-child{border-inline-start:none}
+  #tweaks .seg button.on{background:var(--ink);color:var(--bg)}
+  #tweaks .sw{display:flex;gap:9px}
+  #tweaks .sw button{width:26px;height:26px;border:1px solid var(--ink);cursor:pointer;padding:0;border-radius:50%}
+  #tweaks .sw button.on{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
+
+  /* — motion — */
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+  @keyframes drift{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(8px,-10px) rotate(6deg)}}
+  @media (prefers-reduced-motion: no-preference){
+    .lift{display:inline-block;overflow:hidden;vertical-align:top}
+    .lift>span{display:inline-block;transform:translateY(115%);
+               animation:liftUp 1.15s cubic-bezier(.16,1,.3,1) forwards}
+    @keyframes liftUp{to{transform:none}}
+    .bar .field{opacity:0;transform:translateY(16px);
+                animation:fadeUp .95s cubic-bezier(.16,1,.3,1) forwards}
+    .bar .field:nth-child(1){animation-delay:.30s}
+    .bar .field:nth-child(2){animation-delay:.38s}
+    .bar .field:nth-child(3){animation-delay:.46s}
+    .bar .field:nth-child(4){animation-delay:.54s}
+    .rv{opacity:0;transform:translateY(26px)}
+    .rv.in{animation:fadeUp 1.05s cubic-bezier(.16,1,.3,1) var(--d,0ms) forwards}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+    body:not([data-motion="off"]) .disc{animation:floaty 7s ease-in-out infinite}
+    body[data-motion="lively"] .disc{animation:floaty 4.4s ease-in-out infinite}
+    body:not([data-motion="off"]) .tile img{animation:drift 9s ease-in-out infinite}
+    body[data-motion="off"] .lift>span{transform:none;animation:none}
+    body[data-motion="off"] .bar .field{opacity:1;transform:none;animation:none}
+    body[data-motion="off"] .rv{opacity:1;transform:none;animation:none}
+  }
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#eef4f7"/>
+  <text x="200" y="225" font-family="Heebo, Arial, sans-serif" font-size="92" font-weight="900" letter-spacing="-4" text-anchor="middle" fill="#0a0a0a">zuzu<tspan fill="#ff3a00">.</tspan></text>
+</svg>
+</template>
+<div class="wrap">
+  <div class="topbar">
+    <span class="tmark" id="homeLink" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">.zuzu<sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
+    <div class="tright">
+      <a class="tinstall quizlink" href="quiz.html" style="font-weight:700"><img src="assets/question-icon.svg" alt="" style="width:16px;height:16px;flex:none"><span>איזה סגנון תנועה מתאים לי?</span></a>
+      <a class="tinstall" href="install.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"></rect><line x1="10.5" y1="18.5" x2="13.5" y2="18.5"></line></svg><span>שמרו כאפליקציה</span></a>
+    </div>
+  </div>
+
+</div>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="barRow">
+      <button class="filterBtn" id="filterBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="5" x2="6" y2="19"/><circle cx="6" cy="9" r="2.4" fill="var(--bg)"/><line x1="14" y1="5" x2="14" y2="19"/><circle cx="14" cy="15" r="2.4" fill="var(--bg)"/></svg>
+        <span>סינון</span><span class="fbCount" id="fbCount" hidden>0</span>
+      </button>
+      <div class="searchWrap">
+        <input type="search" id="searchInput" placeholder="חיפוש מורה, שיעור או מקום…" autocomplete="off">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+        <button class="searchClear" id="searchClear" type="button" aria-label="נקה חיפוש">×</button>
+      </div>
+      <div class="viewToggle" id="viewToggle">
+        <button class="vt" data-view="list" aria-label="תצוגת רשימה" title="רשימה">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="8" y1="18" x2="20" y2="18"/><line x1="3.5" y1="6" x2="3.6" y2="6"/><line x1="3.5" y1="12" x2="3.6" y2="12"/><line x1="3.5" y1="18" x2="3.6" y2="18"/></svg>
+        </button>
+        <button class="vt" data-view="cal" aria-label="תצוגת לוח" title="לוח חודשי">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2.5" x2="8" y2="6"/><line x1="16" y1="2.5" x2="16" y2="6"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chipRow" id="chipRow"></div>
+    <div id="rulerWrap" class="rulerWrap">
+      <div class="ruler" id="ruler"></div>
+      <button class="rulerNav" id="rulerNext" type="button" aria-label="ימים הבאים">←</button>
+    </div>
+  </div>
+</div>
+
+<div class="filterSheet" id="filterSheet">
+  <div class="fsBack" id="fsBack"></div>
+  <div class="fsCard">
+    <div class="fsHead"><b>סינון אירועים</b><button class="fsX" id="fsX" aria-label="סגור">×</button></div>
+    <div class="fsBody" id="fsBody"></div>
+    <div class="fsFoot">
+      <button class="fsClear" id="fsClear" type="button">נקה הכל</button>
+      <button class="fsApply" id="fsApply" type="button">הצג אירועים</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <main>
+    <div id="tlHero" class="tlHero"></div>
+    <div id="list"></div>
+    <div id="calendar" style="display:none">
+      <div class="calbar">
+        <button id="nextM">‹</button>
+        <h2 id="mname"></h2>
+        <button id="prevM">›</button>
+      </div>
+      <div class="calgrid" id="calgrid"></div>
+      <div class="dayDetail" id="dayDetail"></div>
+    </div>
+  </main>
+</div>
+
+<div id="addModal" class="modal" hidden>
+  <div class="modal-card">
+    <button class="modal-x" data-close>×</button>
+    <h2>הוסיפו אירוע</h2>
+    <p class="sub">האירוע יישלח לאישור לפני שיופיע בלוח.</p>
+    <form id="addForm">
+      <label>שם האירוע<input name="title" required maxlength="120"></label>
+      <div id="dateRows">
+        <div class="frow dateRow">
+          <label>תאריך<input type="date" name="date" required></label>
+          <label>שעה<input type="time" name="time" required></label>
+        </div>
+      </div>
+      <button type="button" id="addDate" class="addDateBtn">+ הוסיפו תאריך נוסף</button>
+      <label>סוג תנועה (אפשר כמה)<div class="taginput" id="catTags"><input type="text" id="catInput" list="catOpts" placeholder="הקלידו והוסיפו…" autocomplete="off"></div></label>
+      <div class="frow">
+        <label>עיר / יישוב<input name="city" list="cityOpts" required placeholder="התחילו להקליד…" autocomplete="off"></label>
+        <label>סוג אירוע<select name="format" id="fmtSel"></select></label>
+      </div>
+      <datalist id="catOpts"></datalist>
+      <datalist id="cityOpts"></datalist>
+      <div class="frow">
+        <label>מקום<input name="venue" required placeholder="שם הסטודיו / המרחב"></label>
+        <label>מנחה (לא חובה)<input name="host" placeholder="שם המנחה/ה"></label>
+      </div>
+      <div class="frow">
+        <label>קישור להרשמה<input name="url" type="url" placeholder="https://"></label>
+        <label>טלפון / וואטסאפ (אם אין קישור)<input name="phone" type="tel" placeholder="05X-XXXXXXX"></label>
+      </div>
+      <button type="submit" class="fsubmit">שליחה לאישור</button>
+    </form>
+    <div id="addOk" class="fok" hidden>
+      <div class="big">תודה!</div>
+      <p>האירוע נשלח לאישור — יופיע בלוח ברגע שיאושר.</p>
+      <button class="fsubmit" data-close style="margin-top:16px">סגירה</button>
+    </div>
+  </div>
+</div>
+
+<div id="contactModal" class="modal" hidden>
+  <div class="modal-card">
+    <button class="modal-x" data-close>×</button>
+    <h2>צרו קשר</h2>
+    <p class="sub">שאלה, הצעה, תיקון או סתם לומר שלום — נשמח לשמוע.</p>
+    <form id="contactForm">
+      <label>שם<input name="name" required maxlength="80"></label>
+      <div class="frow">
+        <label>אימייל<input name="email" type="email" required placeholder="you@example.com"></label>
+        <label>טלפון (לא חובה)<input name="phone" type="tel" placeholder="05X-XXXXXXX"></label>
+      </div>
+      <label>הודעה<textarea name="message" required rows="4"></textarea></label>
+      <button type="submit" class="fsubmit">שליחה</button>
+    </form>
+    <div id="contactOk" class="fok" hidden>
+      <div class="big">תודה!</div>
+      <p>ההודעה נשלחה — נחזור אליכם בהקדם.</p>
+      <button class="fsubmit" data-close style="margin-top:16px">סגירה</button>
+    </div>
+  </div>
+</div>
+
+<div id="adminModal" class="modal" hidden>
+  <div class="modal-card">
+    <button class="modal-x" data-close>×</button>
+    <h2>אישור אירועים</h2>
+    <p class="sub">אירועים שממתינים לאישור (נשמרים בדפדפן זה).</p>
+    <div id="pendList"></div>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span class="fmark flist"><span>zuzu © 2026</span><span>·</span><a href="install.html" class="footlink" style="text-decoration:none">הוספה למסך הבית</a><span>·</span><a href="quiz.html" class="footlink" style="text-decoration:none">איזה סגנון מתאים לי?</a><span>·</span><span class="footlink" id="addEventLink">הוסיפו אירוע</span><span>·</span><span class="footlink" id="contactLink">דברו אתי</span><span>·</span><span class="footlink" id="adminLink" hidden>ניהול<span class="badge" id="pendBadge" hidden>0</span></span></span>
+  <span class="fmark">Created with ❤️ by Dana Shimoni</span>
+</div></footer>
+
+<script>
+const EVENTS = [{"date":"2026-08-13","time":"06:45","title":"Movement · עם Tuti","host":"Tuti","venue":"Tzukei Yam","city":"צוקי ים","region":"שרון","category":"מובמנט","discipline":"מובמנט","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-13","time":"08:15","title":"אימפרוביזציה ויצירה","host":"מתן כרמל","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-13","time":"08:30","title":"Movement Fundamentals · יסודות המובמנט (עד 10:00)","host":"ירון פלצ'יק","category":"מובמנט","venue":"FlowMotion · הרימון 1","city":"אודים","region":"שרון","url":"https://flowmo.co.il/services/movement/","price":null,"image":null,"recurring":true,"discipline":"מובמנט","format":"שיעור"},{"date":"2026-08-13","time":"09:30","title":"מובמנט","host":null,"category":"מובמנט","discipline":"מובמנט","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-13","time":"09:30","title":"אומנות התנועה · מחול-ריפוי-חיים","host":"שרון הללי","venue":"סטודיו טל הדר","city":"כפר מונש","region":"שרון","url":"https://www.sharonhilleli.com/summer-1","price":"810 ₪ (סדרה) / 150 ₪ (מפגש בודד)","image":null,"recurring":false,"category":"חקר תנועה","discipline":"חקר תנועה","format":"סדנה"},{"date":"2026-08-13","time":"17:30","title":"היפ הופ לנשים","host":"אסתר באשר","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["היפ הופ"]},{"image":null,"recurring":true,"price":null,"time":"18:00","title":"אקרובטיקה רכה ועבודת רצפה בחוף","host":"עילי","discipline":"אקרו","category":"אקרו","format":"שיעור","venue":"חוף מכמורת","city":"מכמורת","region":"שרון","url":"#","phone":"052-956-9889","date":"2026-08-13"},{"date":"2026-08-13","time":"18:00","title":"קורס מחול לגברים (עד 20:00)","host":"גלבוע אגר","category":"מחול","discipline":"מחול","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס","tags":["לגברים בלבד"]},{"date":"2026-08-13","time":"18:00","title":"רצפי תנועה מודרכים","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו רוניס, דוד אלעזר 7 (קניון ערים)","city":"כפר סבא","region":"שרון","format":"שיעור","price":null,"host":"נועה קדמן","recurring":true,"image":null,"url":"https://www.noakadman.com/"},{"date":"2026-08-13","time":"19:00","title":"מחול מודרני רליס","host":"מורן זילברברג","category":"אימפרוביזציה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"אימפרוביזציה","format":"שיעור","tags":["מחול"]},{"date":"2026-08-13","time":"19:00","title":"כלים לג'אם + ג'אם · הדר גבע","host":"הדר גבע","category":"קונטקט","discipline":"קונטקט","venue":"קהילת ניו יורק 17, תל אביב","city":"תל אביב","region":"תל אביב","url":"#","price":"50 ₪ (כרטיסייה 450)","image":null,"recurring":true,"format":"ג'אם"},{"date":"2026-08-13","time":"19:00","title":"היפ הופ נשים · עם אדל (Faya Fam)","host":"אדל","category":"מחול","discipline":"מחול","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"image":null,"recurring":true,"price":null,"discipline":"מובמנט","category":"מובמנט","format":"שיעור","venue":"בית הספר הדמוקרטי","city":"הוד השרון","region":"שרון","url":"https://movementfreaks.com/","title":"מובמנט · Movement Freaks","time":"19:15","date":"2026-08-13","host":"סטס קזנוביץ'"},{"date":"2026-08-13","time":"19:30","title":"אימפרוביזציה בתנועה","host":"Ida Maria","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-13","time":"19:30","title":"קונטקתנע – שיעור קונטקט 19:30 + תנע ג'אם פתוח 20:30–22:30","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://www.studiotena.org/contactena","price":null,"image":null,"recurring":true,"format":"ג'אם"},{"date":"2026-08-13","time":"20:00","title":"Silo Dance Celebration","category":"אקסטטיק","venue":"סילו תרבות","city":"הוד השרון","region":"שרון","recurring":true,"image":null,"url":"https://www.siloculture.com/thursday-raves","price":null,"discipline":"אקסטטיק","format":"מסיבת ריקוד"},{"date":"2026-08-13","time":"20:15","title":"קורס יסודות בקונטקט אימפרוביזציה (עד 21:45)","host":"גלבוע אגר","category":"קונטקט","discipline":"קונטקט","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס"},{"date":"2026-08-13","time":"20:30","title":"מקצבי הלב · מסע ריקוד חופשי (עד 22:30)","host":"מיכל חלפן, ליטל כסיף","discipline":"אקסטטיק","category":"אקסטטיק","format":"שיעור","venue":"יורט בעדנים","city":"עדנים","region":"שרון","url":"#","phone":"054-7523399","price":null,"image":null,"recurring":true},{"date":"2026-08-13","time":"20:30","title":"מחול אימפרוביזציה וג'אם","host":"מורן זילברברג","category":"אימפרוביזציה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"אימפרוביזציה","format":"שיעור","tags":["מחול"]},{"date":"2026-08-13","time":"20:30","title":"בלט למתחילים · עם ירין","host":"ירין","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"category":"מחול","discipline":"מחול","format":"שיעור"},{"date":"2026-08-13","time":"20:30","title":"ריקוד חופשי · מפגש שבועי","host":"עמרי קליינברגר","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו בשדות ים (ליד הים ומחלף קיסריה)","city":"שדות ים","region":"פרדס חנה והסביבה","url":"https://www.facebook.com/share/p/16PaAw7yA7/","price":null,"image":null,"recurring":true,"format":"ג'אם"},{"date":"2026-08-14","time":"08:00","title":"ניה NIA לנשים","host":"טל אבן-חן","category":"ניה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"ניה","format":"שיעור"},{"date":"2026-08-14","time":"09:00","title":"מיוזיקל","host":"דליה שמריהו","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["מיוזיקל"]},{"date":"2026-08-14","time":"09:00","title":"רצפי תנועה מודרכים","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו פאבליק, התחייה 2","city":"כפר סבא","region":"שרון","format":"שיעור","price":null,"host":"נועה קדמן","recurring":true,"image":null,"url":"https://www.noakadman.com/"},{"date":"2026-08-14","time":"09:45","title":"ריקוד חופשי מונחה","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו פאבליק, התחייה 2","city":"כפר סבא","region":"שרון","format":"מסיבת ריקוד","price":null,"host":"נועה קדמן","recurring":true,"image":null,"url":"https://www.noakadman.com/","tags":["ריקוד חופשי"]},{"image":null,"recurring":true,"price":null,"time":"10:00","title":"שיעור אקרו · ממשיכים","host":"ברוך פויכטונגר","discipline":"אקרו","category":"אקרו","format":"שיעור","venue":"סטודיו בית הצוק","city":"חבצלת השרון","region":"שרון","url":"#","phone":"054-797-3361","date":"2026-08-14"},{"date":"2026-08-14","time":"10:15","title":"Movement & Mobility · מובמנט וניידות (עד 11:45)","host":"ירון פלצ'יק","category":"מובמנט","venue":"FlowMotion · הרימון 1","city":"אודים","region":"שרון","url":"https://flowmo.co.il/services/movement/","price":null,"image":null,"recurring":true,"discipline":"מובמנט","format":"שיעור"},{"date":"2026-08-14","time":"10:30","title":"גאגא/אנשים · בוקר","category":"גאגא","discipline":"גאגא","host":"גאגא/אנשים — מורה מתחלף","venue":"מרכז תאו, וינגייט 168","city":"הרצליה","region":"שרון","url":"https://teo.org.il/dance/גאגא-אנשים-הרצליה/","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-14","time":"10:40","title":"מובמנט","host":"עמית אלימלך","category":"מובמנט","discipline":"מובמנט","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-14","time":"11:00","title":"נטו קונטקט — סוף״ש בתנע","category":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","recurring":false,"url":"https://www.studiotena.org/neto-contact","price":"סופ״ש מלא 600 ₪","image":null,"discipline":"קונטקט","format":"סדנה"},{"date":"2026-08-14","time":"11:00","title":"גאגא/אנשים","category":"גאגא","discipline":"גאגא","venue":"סטודיו לנואה, פרדס חנה","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.gagapeople.com/gaga-pardes-hanna/","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-14","time":"11:00","title":"שיעור שישי · Faya Fam (עד 13:00)","host":null,"category":"מחול","discipline":"מחול","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-14","time":"11:15","title":"היפ הופ אולדסקול","host":"ורד שליו","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["היפ הופ"]},{"date":"2026-08-14","time":"12:15","title":"Ecstatic Dance","host":null,"category":"אקסטטיק","discipline":"אקסטטיק","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"image":null,"recurring":true,"price":null,"discipline":"מובמנט","category":"מובמנט","format":"שיעור","venue":"בית הספר הדמוקרטי","city":"הוד השרון","region":"שרון","url":"https://movementfreaks.com/","title":"מובמנט · Movement Freaks","time":"15:00","date":"2026-08-14","host":"סטס קזנוביץ'"},{"date":"2026-08-14","time":"15:00","title":"Mindfulness & Free Dance · מיינדפולנס וריקוד חופשי","venue":"סטודיו נעים, אבן גבירול 108","city":"תל אביב","region":"תל אביב","url":"#","price":"60 ₪ (הרשמה מראש) / 80 ₪ (במקום)","image":null,"recurring":true,"category":"אקסטטיק","discipline":"אקסטטיק","format":"מסיבת ריקוד","host":"עמית עזז","tags":["ריקוד חופשי"]},{"date":"2026-08-15","time":"10:00","title":"שיעור בר · עם דניאלה (Faya Fam)","host":"דניאלה","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"category":"מחול","discipline":"מחול","format":"שיעור"},{"date":"2026-08-15","time":"19:00","title":"ג'אם ב'קבוצה' · חימום עם רועי שקד","host":"רועי שקד","city":"תל אביב","region":"תל אביב","image":null,"recurring":true,"discipline":"קונטקט","category":"קונטקט","venue":"קהילת ניו יורק 17","url":"#","price":"50 ₪ (כרטיסייה 450)","format":"ג'אם"},{"date":"2026-08-15","time":"19:00","title":"שיעור אימפרוביזציה · עם שי (Faya Fam)","host":"שי","category":"מחול","discipline":"מחול","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-16","time":"","title":"סדנת מבוא · Deep Contact","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"קרית טבעון","region":"צפון","format":"סדנה"},{"city":"תל אביב","region":"תל אביב","venue":"הקבוצה · קהילת ניו יורק 17, יפו","image":null,"recurring":false,"price":null,"date":"2026-08-16","time":"10:00","format":"סדנה","discipline":"מחול","category":"מחול","title":"סדנת קיץ למחול · מתחילים (5 ימים, 16–20.8, 10:00–15:30)","url":"https://www.hakvutza.org.il/en/summer-dance-workshop/"},{"date":"2026-08-16","time":"10:00","title":"סדנת קיץ למחול למתחילים (5 ימים, א׳–ה׳)","host":"צוות הקבוצה","category":"מחול","venue":"הקבוצה · קהילת ניו יורק 17","city":"תל אביב","region":"תל אביב","price":null,"image":null,"recurring":false,"url":"https://www.hakvutza.org.il/סדנת-קיץ-למחול/","discipline":"מחול","format":"סדנה"},{"date":"2026-08-16","time":"10:15","title":"Movement · עם Tuti","host":"Tuti","venue":"Kfar Vitkin","city":"כפר ויתקין","region":"שרון","category":"מובמנט","discipline":"מובמנט","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-16","time":"16:30","title":"קונטקידס · סשן קיץ עם שירי (הורה וילד, גילאי 2-4.5)","host":"שירי","category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://links.payboxapp.com/mELNqDdCzVb","price":"350 ₪ (5 מפגשים) · 320 ₪ בהרשמה מוקדמת עד 26.7","image":null,"recurring":true,"format":"קורס","tags":["עם הילדים"]},{"date":"2026-08-16","time":"16:45","title":"קונטקידס · הורה וילד (קורס קיץ)","host":"אברהם חזין","category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תמרה, רחובות","city":"רחובות","region":"מרכז","url":"https://studiotamara.ravpage.co.il/contakids","price":null,"image":null,"recurring":true,"format":"קורס","tags":["עם הילדים"]},{"date":"2026-08-16","time":"17:45","title":"יסודות הבלט","host":"אדוה גולדשמיט","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["בלט"]},{"date":"2026-08-16","time":"18:00","title":"קורס קיץ במחול לגברים בלבד","host":"אברהם חזין","category":"מחול","discipline":"מחול","venue":"סטודיו תמרה, רחובות","city":"רחובות","region":"מרכז","url":"https://studiotamara.ravpage.co.il/mens","price":null,"image":null,"recurring":true,"format":"קורס","tags":["לגברים בלבד"]},{"date":"2026-08-16","time":"19:00","title":"מודרני בסיס לנשים","host":"עדי גלובן","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["מחול מודרני"]},{"date":"2026-08-16","time":"19:00","title":"רצפי תנועה מודרכים","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו רוניס, דוד אלעזר 7 (קניון ערים)","city":"כפר סבא","region":"שרון","format":"שיעור","price":null,"host":"נועה קדמן","recurring":true,"image":null,"url":"https://www.noakadman.com/"},{"date":"2026-08-16","time":"19:20","title":"AfroGroove","host":"רוני שחר","category":"מחול","discipline":"מחול","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור","tags":["אפריקאי"]},{"date":"2026-08-16","time":"19:30","title":"ריליס ושכלול תנועתי · עם ענבר קובי","host":"ענבר קובי","category":"חקר תנועה","discipline":"חקר תנועה","format":"שיעור","price":null,"venue":"מרכז מחול הכרמל, מושב מגדים, חוף הכרמל 85","city":"מגדים","region":"צפון","url":"https://www.facebook.com/ShinoaDanceWorkshop/","image":null,"recurring":true,"tags":["ריליס"]},{"date":"2026-08-16","time":"19:45","title":"שיעור פתוח · עם הדר גבע (עד 21:30)","host":"הדר גבע","category":"קונטקט","discipline":"קונטקט","venue":"הקבוצה · קהילת ניו יורק 17","city":"תל אביב","region":"תל אביב","url":"#","price":"70 ₪","image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-16","time":"20:00","title":"בלט למתחילים · עם ירין","host":"ירין","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"category":"מחול","discipline":"מחול","format":"שיעור"},{"date":"2026-08-16","time":"20:30","title":"קונטקט אימפרוביזציה","host":"אברהם חזין","category":"קונטקט","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"קונטקט","format":"שיעור"},{"date":"2026-08-16","time":"20:30","title":"Movement by Yaniv Tzadick · אקסטטיק דאנס בחושך","host":"יניב צדיק","category":"אקסטטיק","venue":"סילו תרבות","city":"הוד השרון","region":"שרון","recurring":true,"image":null,"url":"https://www.move-ment.co.il/","price":null,"discipline":"אקסטטיק","format":"מסיבת ריקוד"},{"date":"2026-08-16","time":"20:30","title":"מקצבי הלב · ריקוד חופשי (ראשון בת״א)","category":"אקסטטיק","venue":"האחים מסלאוויטה 7, קומה 1","city":"תל אביב","region":"תל אביב","url":"https://www.facebook.com/profile.php?id=61568110438321","price":null,"image":null,"recurring":true,"tags":["ריקוד חופשי"],"discipline":"אקסטטיק","format":"שיעור","host":"אמיר / נורית / ליטל (מתחלף)"},{"date":"2026-08-16","time":"20:40","title":"קונטקט","host":"איל בנר","category":"קונטקט","discipline":"קונטקט","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"06:45","title":"Movement · עם Tuti","host":"Tuti","venue":"Shoshana","city":"הוד השרון","region":"שרון","category":"מובמנט","discipline":"מובמנט","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"09:30","title":"העונג הסומטי · BMC, המרחבים הנוזליים וקונטקט (קורס קיץ)","host":"מיכאל שחרור","discipline":"חקר תנועה","category":"חקר תנועה","tags":["קונטקט"],"format":"קורס","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://www.michael-shachrur.com/classes/summercourse","price":"1180–1360 ₪","image":null,"recurring":true},{"date":"2026-08-17","time":"09:45","title":"מובמנט","host":"עמית אלימלך","category":"מובמנט","discipline":"מובמנט","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"10:15","title":"Yoga · עם Tuti","host":"Tuti","venue":"Shoshana","city":"הוד השרון","region":"שרון","category":"חקר תנועה","discipline":"חקר תנועה","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"11:15","title":"אימפרוביזציה בתנועה · עידו צדר","host":"עידו צדר","category":"אימפרוביזציה","discipline":"אימפרוביזציה","city":"תל אביב","region":"תל אביב","venue":"סטודיו נעים · סלמה 39","url":"https://www.naim.org.il/class/improvisation","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"16:45","title":"Global Beatz","host":"מעיה נווה","category":"מחול","discipline":"מחול","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור","tags":["מחול מודרני"]},{"date":"2026-08-17","time":"18:00","title":"ניה NIA לנשים","host":"טל אבן-חן","category":"ניה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"ניה","format":"שיעור"},{"date":"2026-08-17","time":"19:00","title":"Strength & Handstands · כוח ועמידות ידיים (עד 20:30)","host":"ירון פלצ'יק","category":"מובמנט","venue":"FlowMotion · הרימון 1","city":"אודים","region":"שרון","url":"https://flowmo.co.il/services/movement/","price":null,"image":null,"recurring":true,"discipline":"מובמנט","format":"שיעור"},{"date":"2026-08-17","time":"19:00","title":"מחול מודרני","host":"ספיר שלו","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["מחול מודרני"]},{"date":"2026-08-17","time":"20:15","title":"אקסטטיק דאנס השרון","category":"אקסטטיק","venue":"סילו תרבות","city":"הוד השרון","region":"שרון","recurring":true,"image":null,"url":"https://www.siloculture.com","price":null,"discipline":"אקסטטיק","format":"שיעור"},{"date":"2026-08-17","time":"20:15","title":"Ecstatic Dance","host":null,"category":"אקסטטיק","discipline":"אקסטטיק","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"20:30","title":"היפ הופ","host":"עופרי שחר","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["היפ הופ"]},{"date":"2026-08-17","time":"20:30","title":"שיעור קונטקט שבועי · רועי שקד (דגש סומטי וטכני)","host":"רועי שקד","city":"תל אביב","region":"תל אביב","image":null,"recurring":true,"discipline":"קונטקט","category":"קונטקט","venue":"סטודיו נעים · סלמה 39","url":"https://www.naim.org.il/contact-impro","price":null,"format":"שיעור"},{"date":"2026-08-18","time":"08:45","title":"Acrobatics · עם Shizi","host":"Shizi","venue":"Shoshana","city":"הוד השרון","region":"שרון","category":"אקרו","discipline":"אקרו","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"09:00","title":"בלט קלאסי לנשים · עם רבקה נתן","host":"רבקה נתן","category":"מחול","discipline":"מחול","format":"שיעור","price":null,"venue":"מרכז מחול הכרמל, מושב מגדים, חוף הכרמל 85","city":"מגדים","region":"צפון","url":"https://www.facebook.com/ShinoaDanceWorkshop/","image":null,"recurring":true,"tags":["בלט"]},{"date":"2026-08-18","time":"09:00","title":"רצפי תנועה מודרכים","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו פאבליק, התחייה 2","city":"כפר סבא","region":"שרון","format":"שיעור","price":null,"host":"נועה קדמן","recurring":true,"image":null,"url":"https://www.noakadman.com/"},{"date":"2026-08-18","time":"11:30","title":"Movement · עם Tuti","host":"Tuti","venue":"Rishpon","city":"רשפון","region":"שרון","category":"מובמנט","discipline":"מובמנט","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"12:15","title":"מובמנט אינטגרציה","host":"דנה שביב","category":"מובמנט","discipline":"מובמנט","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"16:45","title":"פלדנקרייז","host":"ינון זלצמן","category":"חקר תנועה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"חקר תנועה","format":"שיעור","tags":["פלדנקרייז"]},{"date":"2026-08-18","time":"17:15","title":"מחול מודרני","host":"אסתר באשר","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["מחול מודרני"]},{"date":"2026-08-18","time":"18:00","title":"Movement · עם Tuti","host":"Tuti","venue":"Shoshana","city":"הוד השרון","region":"שרון","category":"מובמנט","discipline":"מובמנט","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"18:30","title":"היפ הופ","host":"אסתר באשר","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["היפ הופ"]},{"date":"2026-08-18","time":"19:00","title":"קיץ של אימפרוביזציה בשפת ה־PLAY","host":"אילנית תדמור","discipline":"אימפרוביזציה","category":"אימפרוביזציה","format":"שיעור","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://www.instagram.com/play_4_dance/","price":"280 ₪ (למפגש)","image":null,"recurring":true},{"date":"2026-08-18","time":"19:00","title":"גאגא/אנשים","category":"גאגא","discipline":"גאגא","host":"גאגא/אנשים — מורה מתחלף","venue":"מרכז תאו, וינגייט 168","city":"הרצליה","region":"שרון","url":"https://teo.org.il/dance/גאגא-אנשים-הרצליה/","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"19:30","title":"גאגא/אנשים","category":"גאגא","discipline":"גאגא","venue":"סטודיו לנואה, פרדס חנה","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.gagapeople.com/gaga-pardes-hanna/","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"19:30","title":"מודרני לנשים · עם אתי טובי צדיק","host":"אתי טובי צדיק","category":"מחול","discipline":"מחול","format":"שיעור","price":"280 ₪ לחודש","venue":"מרכז מחול הכרמל, מושב מגדים, חוף הכרמל 85","city":"מגדים","region":"צפון","url":"https://www.facebook.com/ShinoaDanceWorkshop/","image":null,"recurring":true,"tags":["מחול מודרני"]},{"date":"2026-08-18","time":"19:40","title":"גאגא/אנשים","host":"מורה מתחלף","category":"גאגא","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"גאגא","format":"שיעור"},{"date":"2026-08-18","time":"20:40","title":"מחול אימפרוביזציה","host":"ענבל אושמן","category":"אימפרוביזציה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"אימפרוביזציה","format":"שיעור","tags":["מחול"]},{"date":"2026-08-19","time":"10:00","title":"קורס העמקה טכנית בקונטקט · PRACTICE INA (עד 14:00)","host":"שרון פרידמן","category":"קונטקט","discipline":"קונטקט","venue":"תמרה | בית הספר למחול, רחובות","city":"רחובות","region":"מרכז","url":"https://studiotamara.ravpage.co.il","price":null,"image":null,"recurring":true,"format":"קורס"},{"date":"2026-08-20","time":"09:30","title":"אומנות התנועה · מחול-ריפוי-חיים","host":"שרון הללי","venue":"סטודיו טל הדר","city":"כפר מונש","region":"שרון","url":"https://www.sharonhilleli.com/summer-1","price":"810 ₪ (סדרה) / 150 ₪ (מפגש בודד)","image":null,"recurring":false,"category":"חקר תנועה","discipline":"חקר תנועה","format":"סדנה"},{"date":"2026-08-20","time":"18:00","title":"קורס מחול לגברים (עד 20:00)","host":"גלבוע אגר","category":"מחול","discipline":"מחול","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס","tags":["לגברים בלבד"]},{"date":"2026-08-20","time":"19:30","title":"קונטקתנע – שיעור קונטקט 19:30 + תנע ג'אם פתוח 20:30–22:30","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://www.studiotena.org/contactena","price":null,"image":null,"recurring":true,"format":"ג'אם"},{"date":"2026-08-20","time":"20:15","title":"קורס יסודות בקונטקט אימפרוביזציה (עד 21:45)","host":"גלבוע אגר","category":"קונטקט","discipline":"קונטקט","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס"},{"date":"2026-08-21","time":"18:00","title":"Tribe Night · Tribe Vibe (21–22.8, עד 13:00)","host":null,"category":"אקסטטיק","discipline":"אקסטטיק","venue":"סטודיו פנטהריי","city":"גניגר","region":"צפון","url":"https://web.vibez.io/events/TRIBENIGHT","price":null,"image":null,"recurring":false,"format":"ריטריט"},{"date":"2026-08-23","time":"16:30","title":"קונטקידס · סשן קיץ עם שירי (הורה וילד, גילאי 2-4.5)","host":"שירי","category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://links.payboxapp.com/mELNqDdCzVb","price":"350 ₪ (5 מפגשים) · 320 ₪ בהרשמה מוקדמת עד 26.7","image":null,"recurring":true,"format":"קורס","tags":["עם הילדים"]},{"date":"2026-08-24","time":"16:30","title":"שמ-ים · סדרת החוף הקייצית (עד 20:30)","host":"איריס נייס","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"חוף מכמורת","city":"מכמורת","region":"שרון","url":"#","price":null,"image":null,"recurring":true,"format":"סדנה","tags":["תנועה מחוץ לסטודיו"]},{"date":"2026-08-26","time":"10:00","title":"קורס העמקה טכנית בקונטקט · PRACTICE INA (עד 14:00)","host":"שרון פרידמן","category":"קונטקט","discipline":"קונטקט","venue":"תמרה | בית הספר למחול, רחובות","city":"רחובות","region":"מרכז","url":"https://studiotamara.ravpage.co.il","price":null,"image":null,"recurring":true,"format":"קורס"},{"date":"2026-08-27","time":"09:30","title":"אומנות התנועה · מחול-ריפוי-חיים","host":"שרון הללי","venue":"סטודיו טל הדר","city":"כפר מונש","region":"שרון","url":"https://www.sharonhilleli.com/summer-1","price":"810 ₪ (סדרה) / 150 ₪ (מפגש בודד)","image":null,"recurring":false,"category":"חקר תנועה","discipline":"חקר תנועה","format":"סדנה"},{"date":"2026-08-27","time":"18:00","title":"קורס מחול לגברים (עד 20:00)","host":"גלבוע אגר","category":"מחול","discipline":"מחול","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס","tags":["לגברים בלבד"]},{"date":"2026-08-27","time":"19:30","title":"קונטקתנע – שיעור קונטקט 19:30 + תנע ג'אם פתוח 20:30–22:30","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://www.studiotena.org/contactena","price":null,"image":null,"recurring":true,"format":"ג'אם"},{"date":"2026-08-27","time":"20:15","title":"קורס יסודות בקונטקט אימפרוביזציה (עד 21:45)","host":"גלבוע אגר","category":"קונטקט","discipline":"קונטקט","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס"},{"date":"2026-08-28","time":"10:30","title":"הגנה על החיים · סדנה (נרקוד, נכתוב, נשתף — עד 16:30)","host":"דינא עוואד ועדי ארגוב","discipline":"ריקוד חופשי","category":"ריקוד חופשי","tags":["כתיבה"],"format":"סדנה","venue":"מרכז יוטוני · האשלג 22","city":"חיפה","region":"צפון","url":"#","phone":"054-455-8813","price":null,"image":null,"recurring":false},{"date":"2026-08-30","time":"16:30","title":"קונטקידס · סשן קיץ עם שירי (הורה וילד, גילאי 2-4.5)","host":"שירי","category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://links.payboxapp.com/mELNqDdCzVb","price":"350 ₪ (5 מפגשים) · 320 ₪ בהרשמה מוקדמת עד 26.7","image":null,"recurring":true,"format":"קורס","tags":["עם הילדים"]},{"date":"2026-08-31","time":"16:30","title":"שמ-ים · סדרת החוף הקייצית (עד 20:30)","host":"איריס נייס","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"חוף מכמורת","city":"מכמורת","region":"שרון","url":"#","price":null,"image":null,"recurring":true,"format":"סדנה","tags":["תנועה מחוץ לסטודיו"]},{"date":"2026-09-01","time":"09:30","title":"Inside Out · קורס קיץ בתנועת הגוף והקול (עד 14:00)","host":"דפנה המנדינגר, דנה לוי","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו בת דור","city":"באר שבע","region":"דרום","url":"https://www.dafna-hemmendinger.com/about-4","price":"2350 ₪ (הרשמה מוקדמת) · 2550 ₪ (מאוחרת)","image":null,"recurring":true,"format":"קורס"},{"host":"סער אוסטרייכר","category":"קונטקט","discipline":"קונטקט","format":"קורס","price":null,"image":null,"recurring":false,"venue":"Deep Contact","date":"2026-09-01","time":"17:30","title":"Deep Contact · תכנית שנתית למתקדמים — ימי שלישי (קונטקט, עד 19:45)","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://deepcontact.org/mitkadmim/mitkadmimpardes"},{"date":"2026-09-01","time":"17:30","title":"קורס מתקדמים שנתי · Deep Contact","host":null,"url":"https://deepcontact.org/mitkadmim/mitkadmimpardes/","price":null,"format":"קורס","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","image":null,"recurring":false,"category":"קונטקט","discipline":"קונטקט"},{"date":"2026-09-01","time":"20:00","title":"סדנת ביי לריצוי · Deep Contact","host":null,"url":"https://deepcontact.org/mavopardeslp/","price":null,"format":"סדנה","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","image":null,"recurring":false,"category":"קונטקט","discipline":"קונטקט"},{"date":"2026-09-07","time":"10:00","title":"הגוף המודע והנגלה · יום פתוח (יום התנסות)","host":"נעם כרמלי, מיכאל שחרור","category":"אימפרוביזציה","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","recurring":false,"url":"https://www.studiotena.org/conscious-body","price":"50 ₪","image":"https://static.wixstatic.com/media/f45e80_1416f1a13d7e40dcaed4f3b1e7e9bf82~mv2.jpg/v1/fill/w_640,h_440,al_c/photo.jpg","discipline":"אימפרוביזציה","format":"סדנה"},{"host":"סער אוסטרייכר","category":"קונטקט","discipline":"קונטקט","format":"קורס","price":null,"image":null,"recurring":false,"venue":"Deep Contact","date":"2026-09-07","time":"17:15","title":"Deep Contact · תכנית שנתית למנוסים — ימי שני (קונטקט, עד 19:15)","city":"תל אביב","region":"תל אביב","url":"https://deepcontact.org/product/menusimtlv25"},{"host":"סשה צ'רניבסקי וסער אוסטרייכר","category":"קונטקט","discipline":"קונטקט","format":"קורס","price":null,"image":null,"recurring":false,"venue":"Deep Contact","date":"2026-09-07","time":"19:30","title":"Deep Contact · תכנית שנתית למתקדמים — ימי שני (קונטקט, עד 21:45)","city":"תל אביב","region":"תל אביב","url":"https://deepcontact.org/mitkadmim/tlv25"},{"date":"2026-09-07","time":"19:30","title":"Deep Contact · תכנית שנתית מתקדמים — ימי שני (לבעלי ניסיון של שנתיים ומעלה, עד 21:45)","host":"סער אוסטרייכר, וסשה","category":"קונטקט","discipline":"קונטקט","venue":"תל אביב","city":"תל אביב","region":"תל אביב","url":"https://deepcontact.org/mitkadmim/tlv25/","price":null,"image":null,"recurring":false,"format":"קורס"},{"date":"2026-09-08","time":"09:30","title":"Inside Out · קורס קיץ בתנועת הגוף והקול (עד 14:00)","host":"דפנה המנדינגר, דנה לוי","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו בת דור","city":"באר שבע","region":"דרום","url":"https://www.dafna-hemmendinger.com/about-4","price":"2350 ₪ (הרשמה מוקדמת) · 2550 ₪ (מאוחרת)","image":null,"recurring":true,"format":"קורס"},{"date":"2026-09-12","time":"","title":"סדנת מבוא · Deep Contact","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"קרית טבעון","region":"צפון","format":"סדנה"},{"date":"2026-09-14","time":"00:00","title":"ריטריט אימפרוביזציה בתנועה · פארוס, יוון (אילנית תדמור ולירון מיארה)","host":"אילנית תדמור, לירון מיארה","category":"אימפרוביזציה","venue":"מרכז טאוס, פארוס","city":"פארוס","region":"חו״ל","url":"https://studiotamara.ravpage.co.il/ritritparos","price":null,"image":null,"recurring":false,"discipline":"אימפרוביזציה","format":"ריטריט"},{"date":"2026-09-14","time":"09:00","title":"מחול ותודעה בתנועה · הקורס השנתי לנשים 2026/27","host":"סיגל זיו","category":"נשים בלבד","discipline":"נשים בלבד","venue":"תל אביב","city":"תל אביב","region":"תל אביב","url":"https://tribalfusion.ravpage.co.il/todaa","price":null,"image":null,"recurring":false,"format":"קורס"},{"date":"2026-09-15","time":"","title":"קורס יסודות קונטקט · Deep Contact (14 מפגשים)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"תל אביב","region":"תל אביב","format":"קורס"},{"date":"2026-09-15","time":"09:30","title":"Inside Out · קורס קיץ בתנועת הגוף והקול (עד 14:00)","host":"דפנה המנדינגר, דנה לוי","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו בת דור","city":"באר שבע","region":"דרום","url":"https://www.dafna-hemmendinger.com/about-4","price":"2350 ₪ (הרשמה מוקדמת) · 2550 ₪ (מאוחרת)","image":null,"recurring":true,"format":"קורס"},{"date":"2026-09-17","time":"","title":"ריטריט קונטקט · Deep Contact (17–19.9)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"יער המאכל · בית לחם הגלילית","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"בית לחם הגלילית","region":"צפון","format":"ריטריט"},{"date":"2026-09-18","time":"11:00","title":"נטו אימפרוביזציה — סוף״ש בתנע","category":"אימפרוביזציה","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","recurring":false,"url":"https://www.studiotena.org/neto-contact","price":"סופ״ש מלא 600 ₪","image":null,"discipline":"אימפרוביזציה","format":"סדנה"},{"date":"2026-09-22","time":"09:30","title":"Inside Out · קורס קיץ בתנועת הגוף והקול (עד 14:00)","host":"דפנה המנדינגר, דנה לוי","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו בת דור","city":"באר שבע","region":"דרום","url":"https://www.dafna-hemmendinger.com/about-4","price":"2350 ₪ (הרשמה מוקדמת) · 2550 ₪ (מאוחרת)","image":null,"recurring":true,"format":"קורס"},{"date":"2026-10-04","time":"09:30","title":"המסלול הדו-שנתי ללימודי מחול (מחזור 25-27) · אוק׳ 26–יוני 27","host":null,"category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.ravpage.co.il/magal2527","price":null,"image":null,"recurring":false,"discipline":"מחול","format":"קורס","tags":["מחול"]},{"date":"2026-10-04","time":"10:00","title":"ריקוד לגוף הנשי · פורטל האגן, יוגה נשית ו-BMC (10:00–12:30, קורס 30 מפגשים)","host":"ליאת טופז","venue":"סטודיו ירוק עז, אילניה","city":"אילניה","region":"צפון","url":"https://bmcliattopaz.ravpage.co.il/dance","price":null,"image":null,"recurring":true,"category":"חקר תנועה","discipline":"חקר תנועה","format":"קורס"},{"date":"2026-10-04","time":"10:00","title":"יום לימודים מלא ריקוד וקונסטלציה משפחתית · עם ליאת טופז","host":"ליאת טופז","venue":"סטודיו ירוק עז, אילניה","city":"אילניה","region":"צפון","url":"https://bmcliattopaz.ravpage.co.il/dance","price":null,"image":null,"recurring":false,"category":"חקר תנועה","discipline":"חקר תנועה","format":"סדנה"},{"date":"2026-10-08","time":"","title":"הניצוץ שבתוכי · ריטריט לנשים במצפה רמון (8–10.10, 3 ימים)","host":"אור בגים, מירי בלנק","category":"נשים בלבד","discipline":"נשים בלבד","venue":"מצפה רמון","city":"מצפה רמון","region":"דרום","url":"https://www.miriblank.co.il/innerbalance-reatret-in-mitzpe-ramon/","price":null,"image":null,"recurring":false,"format":"ריטריט"},{"date":"2026-10-10","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-10-13","time":"20:00","title":"קורס יסודות · Deep Contact (14 מפגשים)","host":null,"url":"https://deepcontact.org/yesodot/yesodot_einshemer/","price":null,"format":"קורס","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","image":null,"recurring":false,"category":"קונטקט","discipline":"קונטקט"},{"date":"2026-10-16","time":"","title":"ריטריט קונטקט · Deep Contact (16–17.10)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"יער המאכל · בית לחם הגלילית","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"בית לחם הגלילית","region":"צפון","format":"ריטריט"},{"date":"2026-10-21","time":"10:00","title":"קורס הכשרת מורים לאימפרוביזציה (אילנית תדמור) · ימי ד׳ 21.10.26–3.7.27","host":"אילנית תדמור","category":"אימפרוביזציה","venue":"תמרה — מרכז הכרמל, מרגלית 4","city":"חיפה","region":"צפון","url":"https://studiotamara.ravpage.co.il/ilanithaifa","price":null,"image":null,"recurring":false,"discipline":"אימפרוביזציה","format":"קורס"},{"date":"2026-10-21","time":"10:00","title":"קורס אנטומיה חווייתית · השלד, השרירים ודפוסים אמבריולוגיים (BMC, 12 מפגשים)","host":"תמר ארקין","category":"חקר תנועה","discipline":"חקר תנועה","venue":"סטודיו ה\"חללון\", קרית טבעון","city":"קרית טבעון","region":"צפון","url":"https://www.tamararkin.com/body-mind-centering-course-tivon","price":null,"image":null,"recurring":false,"format":"קורס","tags":[]},{"date":"2026-10-25","time":"","title":"קורס יסודות קונטקט · Deep Contact (14 מפגשים)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"קרית טבעון","region":"צפון","format":"קורס"},{"date":"2026-10-26","time":"09:30","title":"הגוף המודע והנגלה · מחזור 15 — תכנית שנתית (ימי שני)","host":"נעם כרמלי, מיכאל שחרור","category":"אימפרוביזציה","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","recurring":false,"url":"https://www.studiotena.org/conscious-body","price":"6,600 ₪ (מוקדם)","image":"https://static.wixstatic.com/media/f45e80_1416f1a13d7e40dcaed4f3b1e7e9bf82~mv2.jpg/v1/fill/w_640,h_440,al_c/photo.jpg","discipline":"אימפרוביזציה","format":"קורס"},{"date":"2026-10-30","time":"11:00","title":"נטו קונטקט — סוף״ש בתנע","category":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","recurring":false,"url":"https://www.studiotena.org/neto-contact","price":"סופ״ש מלא 600 ₪","image":null,"discipline":"קונטקט","format":"סדנה"},{"date":"2026-10-31","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-11-08","time":"","title":"קורס יסודות קונטקט · Deep Contact (14 מפגשים)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"תל אביב","region":"תל אביב","format":"קורס"},{"date":"2026-11-13","time":"","title":"קורס יסודות קונטקט · Deep Contact (14 מפגשים)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"חיפה","region":"צפון","format":"קורס"},{"date":"2026-11-25","time":"","title":"הכשרת מנחי קבוצות · Deep Contact (11 מפגשים)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"עין שמר","region":"פרדס חנה והסביבה","format":"קורס"},{"date":"2026-11-28","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-12-26","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-01-16","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-02-13","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-03-13","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-04-10","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-05-08","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-06-26","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-07-03","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"}];
+const TODAY = new Date(); TODAY.setHours(0,0,0,0);
+try{(JSON.parse(localStorage.getItem("zuzu_approved_events")||"[]")).forEach(e=>EVENTS.push(e));}catch(_e){}
+const HEB_DAYS = ["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
+const HEB_MONTHS = ["ינואר","פברואר","מרץ","אפריל","מאי","יוני","יולי","אוגוסט","ספטמבר","אוקטובר","נובמבר","דצמבר"];
+const state = {view:"list", when:"all", q:"", cats:new Set(), fmts:new Set(), regs:new Set(),
+               calY:TODAY.getFullYear(), calM:TODAY.getMonth(), selDay:null, selDate:null};
+
+function dateOf(e){ const [y,m,d]=e.date.split("-").map(Number); return new Date(y,m-1,d); }
+function iso(dt){ return dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0"); }
+state.selDate=iso(TODAY);
+function fmtDay(dt){
+  const diff=Math.round((dt-TODAY)/864e5);
+  const base=`יום ${HEB_DAYS[dt.getDay()]} · ${dt.getDate()}.${dt.getMonth()+1}`;
+  if(diff===0) return '<span class="hot">היום</span> · '+base;
+  if(diff===1) return "מחר · "+base;
+  return base;
+}
+const REGION_INCLUDES = {"מרכז":["מרכז","תל אביב","שרון"]};
+function passFilters(e){
+  if(state.q){
+    const hay=[e.title,e.host,e.venue,e.city,e.region,e.discipline||e.category,...(e.tags||[]),e.format].filter(Boolean).join(" ").toLowerCase();
+    if(!state.q.split(/\s+/).every(w=>hay.includes(w))) return false;
+  }
+  const cats=[...String(e.discipline||e.category||"").split(",").map(s=>s.trim()).filter(Boolean),...(e.tags||[])];
+  if(state.cats.size && !cats.some(c=>state.cats.has(c))) return false;
+  if(state.fmts.size){
+    const fmtOk=state.fmts.has(e.format||"שיעור");
+    const audOk=[...state.fmts].some(v=>AUDIENCE_TAGS.includes(v)&&cats.includes(v));
+    if(!fmtOk && !audOk) return false;
+  }
+  if(state.regs.size){
+    let ok=false;
+    for(const sel of state.regs){ if((REGION_INCLUDES[sel]||[sel]).includes(e.region)){ ok=true; break; } }
+    if(!ok) return false;
+  }
+  return true;
+}
+function inWhen(e){
+  const diff=Math.round((dateOf(e)-TODAY)/864e5);
+  if(state.q) return diff>=0;            // while searching, look across all upcoming dates
+  if(state.when==="tonight") return diff===0;
+  if(state.when==="tomorrow") return diff===1;
+  if(state.when==="week") return diff>=0 && diff<7;
+  return diff>=0;
+}
+function setCount(n){ const el=document.getElementById("countNum"); if(el) el.textContent=String(n).padStart(3,"0"); }
+// staggered scroll reveals (poeza-style)
+const rvIO=new IntersectionObserver(es=>{for(const en of es){if(en.isIntersecting){en.target.classList.add("in");rvIO.unobserve(en.target);}}},{threshold:.06});
+function reveal(scope,sel,step,cap){
+  if(!scope) return;
+  scope.querySelectorAll(sel).forEach((el,i)=>{
+    el.classList.add("rv");
+    el.style.setProperty("--d",Math.min(i*step,cap)+"ms");
+    rvIO.observe(el);
+  });
+}
+const CAT_COLOR={
+  "ג'אם":"#ff4d00","קונטקט":"#5b6cff","אקסטטיק":"#c026d3","גאגא":"#7754de",
+  "אימפרוביזציה":"#0ea5a4","מובמנט":"#e8590c","ביודנסה":"#16a34a","יוגה":"#2563eb",
+  "סדנה":"#0284c7","אחר":"#6b7280"};
+function catColor(c){ return "#fb4d1e"; }
+// Normalize an Israeli/international phone to wa.me digits (972…)
+function waDigits(p){
+  if(!p) return "";
+  let d=(""+p).replace(/[^\d+]/g,"");
+  if(d[0]==="+") d=d.slice(1);
+  else if(d[0]==="0") d="972"+d.slice(1);
+  else if(d.slice(0,3)!=="972") d="972"+d;
+  return d;
+}
+// Decide the card's "register" link: real URL, else a WhatsApp chat from phone, else none
+function regLink(e){
+  if(e.url && e.url!=="#" && e.url!=="") return {href:e.url, wa:false};
+  const d=waDigits(e.phone);
+  if(d) return {href:"https://wa.me/"+d+"?text="+encodeURIComponent('היי, ראיתי את "'+(e.title||"")+'" בזוזו ואשמח לפרטים 🙏'), wa:true};
+  return null;
+}
+function cardHtml(e){
+  const t=e.time.replace(/^0/,"");
+  const dd=dateOf(e);
+  const dateStr=`${HEB_DAYS[dd.getDay()]} ${dd.getDate()}.${dd.getMonth()+1}`;
+  const loc=e.city?`${e.venue}, ${e.city}`:e.venue;
+  const link=regLink(e);
+  const href=link?link.href:"";
+  const moreInner=link
+    ? (link.wa
+        ? '<span>כתבו בוואטסאפ</span><span class="ar wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 1.8c2.16 0 4.19.84 5.72 2.37a8.02 8.02 0 0 1 2.37 5.72c0 4.46-3.63 8.09-8.1 8.09a8.1 8.1 0 0 1-4.12-1.13l-.3-.18-3.06.8.82-2.99-.2-.31a8.04 8.04 0 0 1-1.24-4.3c0-4.46 3.63-8.09 8.09-8.09Zm4.67 11.5c-.05-.08-.18-.13-.38-.23-.2-.1-1.2-.59-1.39-.66-.18-.07-.32-.1-.45.1-.13.2-.51.66-.63.79-.12.13-.23.15-.43.05-.2-.1-.85-.31-1.62-1a6.1 6.1 0 0 1-1.12-1.39c-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.33.07-.13.03-.25-.02-.35-.05-.1-.45-1.08-.62-1.48-.16-.39-.33-.34-.45-.34l-.38-.01a.74.74 0 0 0-.53.25c-.18.2-.7.68-.7 1.66 0 .98.72 1.93.82 2.06.1.13 1.4 2.14 3.4 3 .47.2.85.33 1.14.42.48.15.92.13 1.26.08.39-.06 1.2-.49 1.37-.96.17-.47.17-.88.12-.96Z"/></svg></span>'
+        : `<span>${e.format==="הופעה/מופע"?"לפרטים ורכישה":"לפרטים והרשמה"}</span><span class="ar">←</span>`)
+    : '<span class="nolink">פרטים בקרוב</span>';
+  const tag=link?"a":"div";
+  const attrs=link?` href="${href}" target="_blank"`:"";
+  return `<${tag} class="card${link&&link.wa?" wacard":""}"${attrs}>
+    <div class="thumb"></div>
+    <div class="t"><span class="tt">${t}</span><span class="td">${dateStr}</span></div>
+    <div class="main">
+      <h3 class="ti">${e.title}</h3>
+      ${e.host?`<div class="host">עם <b>${e.host}</b></div>`:""}
+      <div class="info">
+        <div class="labels">${[...String(e.discipline||e.category||"").split(",").map(s=>s.trim()).filter(Boolean),...(e.tags||[])].map(c=>`<span>${c}</span>`).join("")}${e.format&&e.format!=="שיעור"?`<span class="fmt">${e.format}</span>`:""}<span>${e.region}</span></div>
+        <div class="meta">${loc}</div>
+      </div>
+    </div>
+    <div class="end">
+      <button type="button" class="calbtn" data-cal data-d="${e.date}" data-tm="${e.time}" data-fmt="${encodeURIComponent(e.format||"")}" data-ti="${encodeURIComponent(e.title)}" data-loc="${encodeURIComponent(loc)}" data-url="${encodeURIComponent(e.url||"")}" data-host="${encodeURIComponent(e.host||"")}" aria-label="הוסף ליומן"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="17" rx="2"></rect><path d="M16 2v5M8 2v5M3 9.5h18M12 14v4M10 16h4"></path></svg><span>יומן</span></button>
+      <div class="more">${moreInner}</div>
+    </div>
+  </${tag}>`;
+}
+
+function icsDownload(ev){
+  const pad=n=>String(n).padStart(2,"0");
+  const start=new Date(ev.date+"T"+((ev.time||"00:00")));
+  // multi-session formats (course/workshop/retreat) default to longer blocks
+  const longFmt=["קורס","סדנה","ריטריט"].includes(ev.format);
+  const end=new Date(start.getTime()+(longFmt?120:90)*60000);
+  const fmt=d=>d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+"T"+pad(d.getHours())+pad(d.getMinutes())+"00";
+  const esc=s=>(s||"").replace(/([,;\\])/g,"\\$1").replace(/\r?\n/g,"\\n");
+  const desc=[ev.host?"עם "+ev.host:"",ev.url].filter(Boolean).join("\n");
+  const lines=[
+    "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//zuzu.today//calendar//HE","CALSCALE:GREGORIAN","METHOD:PUBLISH",
+    "BEGIN:VEVENT",
+    "UID:"+fmt(start)+"-"+Math.random().toString(36).slice(2,8)+"@zuzu.today",
+    "DTSTAMP:"+fmt(new Date()),
+    "DTSTART:"+fmt(start),
+    "DTEND:"+fmt(end),
+    "SUMMARY:"+esc(ev.title),
+    ev.loc?"LOCATION:"+esc(ev.loc):"",
+    desc?"DESCRIPTION:"+esc(desc):"",
+    ev.url?"URL:"+esc(ev.url):"",
+    "END:VEVENT","END:VCALENDAR"
+  ].filter(Boolean);
+  const blob=new Blob([lines.join("\r\n")],{type:"text/calendar;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(ev.title||"event").replace(/[^\w\u0590-\u05FF]+/g,"-").replace(/^-|-$/g,"").slice(0,40)+".ics";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),3000);
+}
+function gcalUrl(ev){
+  const pad=n=>String(n).padStart(2,"0");
+  const start=new Date(ev.date+"T"+((ev.time||"00:00")));
+  const longFmt=["קורס","סדנה","ריטריט"].includes(ev.format);
+  const end=new Date(start.getTime()+(longFmt?120:90)*60000);
+  const fmt=d=>d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+"T"+pad(d.getHours())+pad(d.getMinutes())+"00";
+  const desc=[ev.host?"עם "+ev.host:"",ev.url].filter(Boolean).join("\n");
+  const p=new URLSearchParams({action:"TEMPLATE",text:ev.title||"",dates:fmt(start)+"/"+fmt(end),ctz:"Asia/Jerusalem"});
+  if(desc)p.set("details",desc); if(ev.loc)p.set("location",ev.loc);
+  return "https://calendar.google.com/calendar/render?"+p.toString();
+}
+let calMenuEl=null;
+// ---- lightweight analytics (Vercel Web Analytics custom events) ----
+function track(name,data){
+  try{
+    var clean={};
+    if(data) for(var k in data){ var v=data[k]; if(v!=null && v!=="") clean[k]=String(v).slice(0,60); }
+    if(window.va) window.va("event",{name:name,data:clean});
+    // also log to the Sheet-backed analytics endpoint (fire-and-forget, no CORS preflight)
+    if(window.ZUZU_API){
+      fetch(window.ZUZU_API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
+        body:JSON.stringify({action:"track",name:name,data:clean,page:location.pathname})}).catch(()=>{});
+    }
+  }catch(_){}
+}
+document.addEventListener("click",ev=>{
+  const b=ev.target.closest(".calbtn"); if(!b) return;
+  ev.preventDefault(); ev.stopPropagation();
+  const d=b.dataset, dec=s=>s?decodeURIComponent(s):"";
+  const data={date:d.d,time:d.tm,format:dec(d.fmt),title:dec(d.ti),loc:dec(d.loc),url:dec(d.url),host:dec(d.host)};
+  track("add_to_calendar",{title:data.title,format:data.format});
+  window.open(gcalUrl(data),"_blank","noopener");
+});
+// track clicks on event cards (which listing → registration link)
+document.addEventListener("click",ev=>{
+  const card=ev.target.closest("a.card"); if(!card) return;
+  if(ev.target.closest(".calbtn")) return;
+  const ti=card.querySelector(".ti"), labels=card.querySelector(".labels span"), meta=card.querySelector(".meta");
+  track("event_click",{
+    title: ti?ti.textContent:"",
+    discipline: labels?labels.textContent:"",
+    venue: meta?meta.textContent:""
+  });
+});
+
+function dedupeEvents(){
+  // collapse events sharing date+time+venue (keeps the first, drops later copies
+  // even if their titles differ slightly, e.g. an added "(עד 22:00)")
+  const seen=new Set(),out=[];
+  for(const e of EVENTS){
+    const k=(e.date||"")+"|"+(e.time||"")+"|"+((e.venue||"").trim());
+    if(seen.has(k))continue;
+    seen.add(k);out.push(e);
+  }
+  if(out.length!==EVENTS.length)EVENTS.length=0,EVENTS.push(...out);
+}
+
+function renderList(){
+  dedupeEvents();
+  const list=document.getElementById("list");
+  const evs=EVENTS.filter(e=>passFilters(e)&&inWhen(e)).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(a.time<b.time?-1:1));
+  setCount(evs.length);
+  if(!evs.length){ list.innerHTML='<div class="empty">אין אירועים בסינון הזה — נסו להרחיב את הבחירה ←</div>'; return; }
+  const perDay={}; evs.forEach(e=>perDay[e.date]=(perDay[e.date]||0)+1);
+  let html="", last="";
+  for(const e of evs){
+    if(e.date!==last){ html+=`<div class="day"><h2>${fmtDay(dateOf(e))}</h2><span class="dc">${String(perDay[e.date]).padStart(2,"0")} אירועים</span></div>`; last=e.date; }
+    html+=cardHtml(e);
+  }
+  list.innerHTML=html;
+  reveal(list,".day,.card,.empty",70,420);
+}
+function renderCalendar(){
+  const {calY,calM}=state;
+  document.getElementById("mname").textContent=HEB_MONTHS[calM]+" "+calY;
+  const byDay={}; const f=EVENTS.filter(passFilters);
+  f.forEach(e=>{ (byDay[e.date]=byDay[e.date]||[]).push(e); });
+  setCount(f.filter(e=>{const d=dateOf(e);return d.getFullYear()===calY&&d.getMonth()===calM;}).length);
+  const first=new Date(calY,calM,1); const start=new Date(first); start.setDate(1-first.getDay());
+  let html=HEB_DAYS.map(d=>`<div class="dow">${d}</div>`).join("");
+  const cur=new Date(start);
+  for(let i=0;i<42;i++){
+    const key=iso(cur);
+    const evs=(byDay[key]||[]).slice().sort((a,b)=>a.time<b.time?-1:1);
+    const cls=["cell"];
+    if(cur.getMonth()!==calM) cls.push("out");
+    if(+cur===+TODAY) cls.push("today");
+    if(state.selDay===key) cls.push("sel");
+    const chips=evs.slice(0,3).map(e=>`<span class="chipE"><span class="h">${e.time}</span> ${e.title}</span>`).join("");
+    const more=evs.length>3?`<span class="moreE">+${evs.length-3} נוספים</span>`:"";
+    const dots=`<span class="dotrow">${evs.slice(0,5).map(()=>'<span class="dot"></span>').join("")}</span>`;
+    html+=`<div class="${cls.join(" ")}" data-day="${key}"><div class="dn">${cur.getDate()}</div>${chips}${more}${dots}</div>`;
+    cur.setDate(cur.getDate()+1);
+    if(i>=34 && cur.getMonth()!==calM && cur.getDay()===0) break;
+  }
+  document.getElementById("calgrid").innerHTML=html;
+  reveal(document.getElementById("calgrid"),".cell",14,360);
+  document.querySelectorAll(".cell").forEach(c=>c.onclick=()=>{ state.selDay=c.dataset.day; renderCalendar(); });
+  const box=document.getElementById("dayDetail");
+  if(state.selDay){
+    const evs=(byDay[state.selDay]||[]).slice().sort((a,b)=>a.time<b.time?-1:1);
+    const dt=new Date(state.selDay);
+    box.innerHTML=`<div class="day"><h2>${fmtDay(dt)}</h2></div>`+(evs.length?evs.map(cardHtml).join(""):'<div class="empty">אין אירועים ביום הזה</div>');
+  } else box.innerHTML="";
+  reveal(box,".day,.card,.empty",70,420);
+}
+function render(){
+  const cal=state.view==="cal";
+  document.getElementById("calendar").style.display=cal?"block":"none";
+  document.getElementById("list").style.display=cal?"none":"flex";
+  document.getElementById("rulerWrap").style.display=cal?"none":"";
+  document.getElementById("tlHero").style.display=cal?"none":"";
+  document.querySelectorAll(".vt").forEach(b=>b.classList.toggle("on",b.dataset.view===state.view));
+  cal?renderCalendar():renderTimeline();
+}
+
+/* ---------- timeline (day ruler) view ---------- */
+function timelineDays(){
+  let maxIso=iso(TODAY);
+  for(const e of EVENTS){ if(e.date>maxIso) maxIso=e.date; }
+  const end=dateOf({date:maxIso});
+  const days=[]; const d=new Date(TODAY); let guard=0;
+  while(d<=end && guard++<400){ days.push(new Date(d)); d.setDate(d.getDate()+1); }
+  return days;
+}
+function dayCount(key){ let n=0; for(const e of EVENTS){ if(e.date===key && passFilters(e)) n++; } return n; }
+function heroLabel(dt){
+  const diff=Math.round((dt-TODAY)/864e5);
+  const full=`יום ${HEB_DAYS[dt.getDay()]} · ${dt.getDate()}.${dt.getMonth()+1}`;
+  if(diff===0) return ["היום", full, true];
+  if(diff===1) return ["מחר", full, false];
+  return [`יום ${HEB_DAYS[dt.getDay()]}`, `${dt.getDate()}.${dt.getMonth()+1}`, false];
+}
+function renderTimeline(){
+  dedupeEvents();
+  const ruler=document.getElementById("ruler");
+  const hero=document.getElementById("tlHero");
+  const list=document.getElementById("list");
+  const wrap=document.getElementById("rulerWrap");
+
+  // search mode → flat results across all upcoming days; hide the ruler
+  if(state.q){
+    wrap.style.display="none"; hero.style.display="none";
+    const evs=EVENTS.filter(e=>passFilters(e)&&inWhen(e)).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(a.time<b.time?-1:1));
+    setCount(evs.length);
+    if(!evs.length){ list.innerHTML='<div class="empty">לא נמצאו אירועים — נסו מילה אחרת ←</div>'; return; }
+    const perDay={}; evs.forEach(e=>perDay[e.date]=(perDay[e.date]||0)+1);
+    let h="",last="";
+    for(const e of evs){
+      if(e.date!==last){ h+=`<div class="day"><h2>${fmtDay(dateOf(e))}</h2><span class="dc">${String(perDay[e.date]).padStart(2,"0")} אירועים</span></div>`; last=e.date; }
+      h+=cardHtml(e);
+    }
+    list.innerHTML=h; reveal(list,".day,.card,.empty",70,420); return;
+  }
+
+  // "week" shortcut → flat results across the next 7 days (same rendering as search mode)
+  if(state.when==="week"){
+    wrap.style.display="none"; hero.style.display="none";
+    const evs=EVENTS.filter(e=>passFilters(e)&&inWhen(e)).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(a.time<b.time?-1:1));
+    setCount(evs.length);
+    if(!evs.length){ list.innerHTML='<div class="empty">אין אירועים השבוע.</div>'; return; }
+    const perDay={}; evs.forEach(e=>perDay[e.date]=(perDay[e.date]||0)+1);
+    let h="",last="";
+    for(const e of evs){
+      if(e.date!==last){ h+=`<div class="day"><h2>${fmtDay(dateOf(e))}</h2><span class="dc">${String(perDay[e.date]).padStart(2,"0")} אירועים</span></div>`; last=e.date; }
+      h+=cardHtml(e);
+    }
+    list.innerHTML=h; reveal(list,".day,.card,.empty",70,420); return;
+  }
+
+  wrap.style.display=""; hero.style.display="";
+
+  // "today"/"tomorrow" shortcuts → jump the ruler to that specific day
+  if(state.when==="tonight") state.selDate=iso(TODAY);
+  else if(state.when==="tomorrow"){ const t=new Date(TODAY); t.setDate(t.getDate()+1); state.selDate=iso(t); }
+
+  const days=timelineDays();
+  if(!days.some(d=>iso(d)===state.selDate)) state.selDate=iso(TODAY);
+
+  let rh="";
+  days.forEach(d=>{
+    const key=iso(d), c=dayCount(key);
+    const sel=key===state.selDate, today=+d===+TODAY;
+    const diff=Math.round((d-TODAY)/864e5);
+    const cls=["tick"]; if(c>0)cls.push("has"); if(today)cls.push("today"); if(sel)cls.push("sel");
+    const top=d.getDate(), topCls="dnum";
+    const dowLabel = today ? "היום" : (diff===1 ? "מחר" : HEB_DAYS[d.getDay()]);
+    rh+=`<button class="${cls.join(" ")}" data-day="${key}" title="${c} אירועים">`+
+        `<span class="${topCls}">${top}</span>`+
+        `<span class="dow">${dowLabel}</span>`+
+        `<span class="stem"></span>`+
+        `</button>`;
+  });
+  ruler.innerHTML=rh;
+  ruler.querySelectorAll(".tick").forEach(t=>t.onclick=()=>selectDay(t.dataset.day));
+
+  const selDt=dateOf({date:state.selDate});
+  const dayEvs=EVENTS.filter(e=>e.date===state.selDate&&passFilters(e)).sort((a,b)=>a.time<b.time?-1:1);
+  setCount(dayEvs.length);
+  const hl=heroLabel(selDt), big=hl[0], small=hl[1], isToday=hl[2];
+  hero.innerHTML=`<h2 class="tlTitle">${isToday?`<span class="hot">${big}</span>`:big}</h2>`+
+    `<div class="tlSub">${small} · ${dayEvs.length?String(dayEvs.length).padStart(2,"0")+" אירועים":"אין אירועים"}</div>`;
+
+  if(dayEvs.length){
+    list.innerHTML=dayEvs.map(cardHtml).join("");
+  }else{
+    const isoDays=days.map(iso);
+    const nextKey=isoDays.find(k=>k>state.selDate && dayCount(k)>0);
+    list.innerHTML=nextKey
+      ? `<button class="tlNext" data-next="${nextKey}">לקפוץ ליום הקרוב עם אירועים →</button>`
+      : `<div class="tlEmpty">אין עוד אירועים בהמשך הלוח.</div>`;
+    const nb=list.querySelector(".tlNext"); if(nb) nb.onclick=()=>selectDay(nb.dataset.next);
+  }
+  reveal(list,".card",60,380);
+  centerSelected(false);
+}
+function selectDay(key){ state.when="all"; state.selDate=key; try{track("select_day",{value:key});}catch(_e){} renderTimeline(); centerSelected(true); }
+function stepDay(delta){
+  const days=timelineDays().map(iso); const i=days.indexOf(state.selDate);
+  const ni=Math.min(days.length-1,Math.max(0,(i<0?0:i)+delta));
+  if(days[ni]) selectDay(days[ni]);
+}
+function centerSelected(smooth){
+  const ruler=document.getElementById("ruler"); const t=ruler.querySelector(".tick.sel"); if(!t) return;
+  const rRect=ruler.getBoundingClientRect(), tRect=t.getBoundingClientRect();
+  const delta=(tRect.left+tRect.width/2)-(rRect.left+rRect.width/2);
+  ruler.scrollBy({left:delta, behavior:smooth?"smooth":"auto"});
+}
+(function wireTimeline(){
+  const p=document.getElementById("rulerPrev"), n=document.getElementById("rulerNext");
+  if(p) p.onclick=()=>stepDay(-1);
+  if(n) n.onclick=()=>stepDay(1);
+
+  // drag-to-scroll the ruler (pointer), suppressing the day-click after a real drag
+  const ruler=document.getElementById("ruler");
+  if(ruler){
+    let down=false,moved=false,startX=0,startScroll=0,pid=null;
+    ruler.addEventListener("pointerdown",e=>{
+      if(e.button!==undefined&&e.button!==0) return;
+      down=true;moved=false;startX=e.clientX;startScroll=ruler.scrollLeft;pid=e.pointerId;
+      ruler.classList.add("grab");
+    });
+    ruler.addEventListener("pointermove",e=>{
+      if(!down) return;
+      const dx=e.clientX-startX;
+      if(!moved&&Math.abs(dx)>5){ moved=true; try{ruler.setPointerCapture(pid);}catch(_e){} }
+      if(moved){ ruler.scrollLeft=startScroll-dx; e.preventDefault(); }
+    });
+    const end=()=>{ if(!down)return; down=false; ruler.classList.remove("grab");
+      if(moved){ ruler.classList.add("dragged"); setTimeout(()=>ruler.classList.remove("dragged"),0); } };
+    ruler.addEventListener("pointerup",end);
+    ruler.addEventListener("pointercancel",end);
+    ruler.addEventListener("pointerleave",end);
+    // block the synthetic click on a tick if the gesture was a drag
+    ruler.addEventListener("click",e=>{ if(ruler.classList.contains("dragged")){ e.stopPropagation(); e.preventDefault(); } },true);
+    // trackpad / shift-wheel horizontal scroll
+    ruler.addEventListener("wheel",e=>{
+      if(Math.abs(e.deltaX)>Math.abs(e.deltaY)) return; // native horizontal already handled
+      ruler.scrollLeft+=e.deltaY; e.preventDefault();
+    },{passive:false});
+  }
+  document.addEventListener("keydown",e=>{
+    if(state.view!=="list"||state.q) return;
+    const a=document.activeElement; if(a&&/^(input|textarea|select)$/i.test(a.tagName)) return;
+    if(e.key==="ArrowLeft"){ e.preventDefault(); stepDay(1); }
+    else if(e.key==="ArrowRight"){ e.preventDefault(); stepDay(-1); }
+  });
+})();
+
+/* ---- filter system: view toggle + filter sheet + active chips ---- */
+const EVENT_FORMATS=["שיעור","ג'אם","סדנה","קורס","ריטריט","מסיבת ריקוד","הופעה/מופע"];
+const WHENS=[["tonight","היום"],["tomorrow","מחר"],["week","השבוע"],["all","הכל"]];
+const moveCount=v=>EVENTS.filter(e=>[e.discipline||e.category,...(e.tags||[])].includes(v)).length;
+const AUDIENCE_TAGS=["נשים בלבד","לגברים בלבד"];
+const fmtCount=v=>AUDIENCE_TAGS.includes(v)?moveCount(v):EVENTS.filter(e=>(e.format||"שיעור")===v).length;
+const MOVES=[...new Set(EVENTS.flatMap(e=>[e.discipline||e.category,...(e.tags||[])]))].filter(c=>c&&!EVENT_FORMATS.includes(c)&&!AUDIENCE_TAGS.includes(c)&&!["סטודיו","אחר","כתיבה יוצרת","למתחילים","דאנסהול","כנס המרחב החי","מופע רחוב"].includes(c)&&moveCount(c)>1);
+const FMTS=[...new Set(EVENTS.map(e=>e.format||"שיעור"))].concat(AUDIENCE_TAGS.filter(t=>moveCount(t)>0));
+const AREAS=[...new Set(EVENTS.map(e=>e.region))].filter(r=>r&&!/לא צוין|חו.?ל/.test(r));
+const areaCount=v=>EVENTS.filter(e=>e.region===v).length;
+MOVES.sort((a,b)=>moveCount(b)-moveCount(a));
+FMTS.sort((a,b)=>fmtCount(b)-fmtCount(a));
+AREAS.sort((a,b)=>areaCount(b)-areaCount(a));
+
+document.querySelectorAll(".vt").forEach(b=>b.onclick=()=>{ state.view=b.dataset.view; render(); });
+
+const tagCount=()=>state.cats.size+state.fmts.size+state.regs.size;
+let sheetOpen=false;
+const sheet=document.getElementById("filterSheet");
+
+function renderChips(){
+  const row=document.getElementById("chipRow"); row.innerHTML="";
+  const add=(label,onRemove)=>{
+    const b=document.createElement("button"); b.className="chip"; b.type="button";
+    b.innerHTML=`<span class="x">×</span>${label}`;
+    b.onclick=()=>{ onRemove(); refreshAll(); render(); };
+    row.appendChild(b);
+  };
+
+  [...state.cats].forEach(v=>add(v,()=>state.cats.delete(v)));
+  [...state.fmts].forEach(v=>add(v,()=>state.fmts.delete(v)));
+  [...state.regs].forEach(v=>add(v,()=>state.regs.delete(v)));
+  if(tagCount()>0){
+    const c=document.createElement("button"); c.className="chipClear"; c.type="button"; c.textContent="נקה הכל";
+    c.onclick=()=>{ clearAll(); refreshAll(); render(); };
+    row.appendChild(c);
+  }
+}
+function renderSheet(){
+  const body=document.getElementById("fsBody");
+  const grp=(lab,inner)=>`<div class="fgroup"><div class="glab">${lab}</div><div class="pills">${inner}</div></div>`;
+  const wp=WHENS.map(([v,l])=>`<button class="pill2 ${state.when===v?'on':''}" data-axis="when" data-v="${v}">${l}</button>`).join("");
+  const mp=MOVES.map(v=>`<button class="pill2 ${state.cats.has(v)?'on':''}" data-axis="cats" data-v="${v}">${v}<span class="cnt">${moveCount(v)}</span></button>`).join("");
+  const fp=FMTS.map(v=>`<button class="pill2 ${state.fmts.has(v)?'on':''}" data-axis="fmts" data-v="${v}">${v}<span class="cnt">${fmtCount(v)}</span></button>`).join("");
+  const ap=AREAS.map(v=>`<button class="pill2 ${state.regs.has(v)?'on':''}" data-axis="regs" data-v="${v}">${v}<span class="cnt">${areaCount(v)}</span></button>`).join("");
+  body.innerHTML=grp("מתי",wp)+grp("אזור",ap)+grp("סוג תנועה",mp)+grp("סוג אירוע",fp);
+  body.querySelectorAll(".pill2").forEach(p=>p.onclick=()=>{
+    const ax=p.dataset.axis, v=p.dataset.v;
+    if(ax==="when"){ state.when=v; }
+    else { const set=state[ax]; set.has(v)?set.delete(v):set.add(v); }
+    // track which filters people use (only when turning a filter ON)
+    if(ax==="cats" && state.cats.has(v)) track("filter_movement",{value:v});
+    else if(ax==="fmts" && state.fmts.has(v)) track("filter_format",{value:v});
+    else if(ax==="regs" && state.regs.has(v)) track("filter_region",{value:v});
+    renderSheet(); renderChips(); updateFbCount(); render();
+  });
+}
+function updateFbCount(){
+  const n=tagCount(), el=document.getElementById("fbCount");
+  el.textContent=n; el.hidden=(n===0);
+}
+function refreshAll(){ renderChips(); updateFbCount(); if(sheetOpen) renderSheet(); }
+function clearAll(){ state.when="all"; state.cats.clear(); state.fmts.clear(); state.regs.clear(); }
+
+function openSheet(){ sheetOpen=true; renderSheet(); sheet.classList.add("open"); }
+function closeSheet(){ sheetOpen=false; sheet.classList.remove("open"); }
+document.getElementById("filterBtn").onclick=()=>sheetOpen?closeSheet():openSheet();
+document.getElementById("fsX").onclick=closeSheet;
+document.getElementById("fsBack").onclick=closeSheet;
+document.getElementById("fsApply").onclick=closeSheet;
+document.getElementById("fsClear").onclick=()=>{ clearAll(); renderSheet(); renderChips(); updateFbCount(); render(); };
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&sheetOpen)closeSheet(); });
+
+function changeMonth(delta){
+  let m=state.calM+delta, y=state.calY;
+  if(m<0){ m=11; y--; } else if(m>11){ m=0; y++; }
+  state.calM=m; state.calY=y; state.selDay=null;
+  renderCalendar();
+}
+document.getElementById("nextM").onclick=()=>changeMonth(-1);
+document.getElementById("prevM").onclick=()=>changeMonth(1);
+
+const __bar=document.querySelector(".bar");
+function __barShadow(){ if(__bar) __bar.classList.toggle("scrolled", window.scrollY>4); }
+window.addEventListener("scroll",__barShadow,{passive:true}); __barShadow();
+
+reveal(document.querySelector("footer"),".sl",0,0);
+
+/* clicking the zuzu wordmark resets to the default homepage (today's events) */
+(function(){
+  const home=document.getElementById("homeLink");
+  if(!home) return;
+  home.addEventListener("click",()=>{
+    state.view="list"; state.when="all"; state.selDate=iso(TODAY); state.q="";
+    state.cats.clear(); state.fmts.clear(); state.regs.clear();
+    const inp=document.getElementById("searchInput");
+    if(inp){ inp.value=""; const c=document.getElementById("searchClear"); if(c)c.classList.remove("show"); }
+    if(typeof sheetOpen!=="undefined" && sheetOpen && typeof closeSheet==="function") closeSheet();
+    refreshAll(); render();
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+})();
+
+/* search */
+(function(){
+  const inp=document.getElementById("searchInput"), clr=document.getElementById("searchClear");
+  let t=null;
+  function apply(){
+    state.q=inp.value.trim().toLowerCase();
+    clr.classList.toggle("show", inp.value.length>0);
+    if(state.view==="cal"){ state.view="list"; }
+    render();
+  }
+  inp.addEventListener("input",()=>{ clearTimeout(t); t=setTimeout(apply,140); });
+  clr.addEventListener("click",()=>{ inp.value=""; apply(); inp.focus(); });
+})();
+
+(function(){
+  const params = new URLSearchParams(location.search);
+  const cat = params.get("cat");
+  if(cat && MOVES.includes(cat)){ state.cats.add(cat); state.view="list"; }
+})();
+refreshAll();
+render();
+</script>
+
+<script>
+/* ---- Add-event form + moderation panel ---- */
+(function(){
+  /* ===== EVENT SUBMISSIONS =====
+     The "הוסיפו אירוע" form emails the submission straight to you via Formspree.
+     Create a form in your Formspree dashboard and paste its endpoint URL here
+     (looks like https://formspree.io/f/xxxxxxxx): */
+  const ZUZU_FORMSPREE = "https://formspree.io/f/mykobzkv";
+
+  /* (alternatives, leave empty if using Formspree above) */
+  const ZUZU_FORM_KEY = "";   // Web3Forms access key
+  const ZUZU_EMAIL = "";      // mailto fallback address
+  const ZUZU_API = "https://script.google.com/macros/s/AKfycbwvg0wayPRD1W6_nV4_R7jfNj7gpho3TBW7mMLPI9AVqlpURYang_DbusX8rVZuVgc3/exec";   // Google Apps Script endpoint
+  window.ZUZU_API = ZUZU_API; // exposed so the global track() helper can also log to the Sheet
+
+  const PEND="zuzu_pending_events", APR="zuzu_approved_events";
+  const g=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}};
+  const s=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+  const cats=[...new Set(EVENTS.flatMap(e=>[e.discipline||e.category,...(e.tags||[])]))].sort();
+  // city → region: seeded from existing events, plus common Israeli towns
+  const CITY_REGION={
+    // תל אביב
+    "תל אביב":"תל אביב","תל אביב-יפו":"תל אביב","יפו":"תל אביב","רמת גן":"תל אביב","גבעתיים":"תל אביב","בת ים":"תל אביב","חולון":"תל אביב","בני ברק":"תל אביב",
+    // שרון
+    "הרצליה":"שרון","רעננה":"שרון","כפר סבא":"שרון","הוד השרון":"שרון","רמת השרון":"שרון","נתניה":"שרון","אבן יהודה":"שרון","אודים":"שרון","עדנים":"שרון","מושב חרות":"שרון","השרון":"שרון","צור יגאל":"שרון","כפר יונה":"שרון","תל מונד":"שרון","קדימה":"שרון","צורן":"שרון","קלנסווה":"שרון",
+    // מרכז
+    "רחובות":"מרכז","ראשון לציון":"מרכז","נס ציונה":"מרכז","רמלה":"מרכז","לוד":"מרכז","פתח תקווה":"מרכז","ראש העין":"מרכז","יבנה":"מרכז","גדרה":"מרכז","גן יבנה":"מרכז","באר יעקב":"מרכז","יהוד":"מרכז","אור יהודה":"מרכז","אריאל":"מרכז","טל שחר":"מרכז","רעות":"מרכז","מכבים":"מרכז","שוהם":"מרכז",
+    // ירושלים
+    "ירושלים":"ירושלים","מבשרת ציון":"ירושלים","בית שמש":"ירושלים","מעלה אדומים":"ירושלים","נטף":"ירושלים","מודיעין":"ירושלים","עין כרם":"ירושלים","אבן ספיר":"ירושלים",
+    // דרום
+    "באר שבע":"דרום","אשדוד":"דרום","אשקלון":"דרום","מצפה רמון":"דרום","ערד":"דרום","דימונה":"דרום","אילת":"דרום","שדרות":"דרום","נתיבות":"דרום","אופקים":"דרום","מיתר":"דרום","להבים":"דרום","עומר":"דרום","קריית גת":"דרום","קרית גת":"דרום",
+    // צפון
+    "חיפה":"צפון","כרמיאל":"צפון","נהריה":"צפון","עכו":"צפון","צפת":"צפון","טבריה":"צפון","קריית שמונה":"צפון","עפולה":"צפון","נצרת":"צפון","מגדל העמק":"צפון","יקנעם":"צפון","כפר בלום":"צפון","עמק יזרעאל":"צפון","גניגר":"צפון","בית לחם הגלילית":"צפון","רמת ישי":"צפון","כפר ורדים":"צפון","מעלות":"צפון","שלומי":"צפון","ראש פינה":"צפון","בית שאן":"צפון","קריית ביאליק":"צפון","קריית מוצקין":"צפון","קריית ים":"צפון","קריית אתא":"צפון","קריות":"צפון","מגידו":"צפון",
+    // פרדס חנה והסביבה
+    "פרדס חנה":"פרדס חנה והסביבה","פרדס חנה-כרכור":"פרדס חנה והסביבה","כרכור":"פרדס חנה והסביבה","עין שמר":"פרדס חנה והסביבה","חדרה":"פרדס חנה והסביבה","זכרון יעקב":"פרדס חנה והסביבה","בנימינה":"פרדס חנה והסביבה","גבעת עדה":"פרדס חנה והסביבה","קיסריה":"פרדס חנה והסביבה","אור עקיבא":"פרדס חנה והסביבה","מעגן מיכאל":"פרדס חנה והסביבה",
+    // אונליין
+    "אונליין":"אונליין","זום":"אונליין","אונליין / זום":"אונליין"
+  };
+  // merge any cities already present in the data
+  EVENTS.forEach(e=>{ if(e.city && e.region && !CITY_REGION[e.city.trim()]) CITY_REGION[e.city.trim()]=e.region; });
+  window.CITY_REGION=CITY_REGION;
+  const cityList=[...new Set(Object.keys(CITY_REGION))].sort((a,b)=>a.localeCompare(b,"he"));
+  document.getElementById("catOpts").innerHTML=cats.map(c=>`<option value="${c}"></option>`).join("");
+  const cityOpts=document.getElementById("cityOpts"); if(cityOpts) cityOpts.innerHTML=cityList.map(c=>`<option value="${c}"></option>`).join("");
+  const FORMATS=["שיעור","ג'אם","סדנה","קורס","ריטריט","מסיבת ריקוד","הופעה/מופע"];
+  const fmtSel=document.getElementById("fmtSel"); if(fmtSel) fmtSel.innerHTML=FORMATS.map(x=>`<option>${x}</option>`).join("");
+  // pull approved events from the live backend (if configured) and merge
+  if(ZUZU_API){
+    fetch(ZUZU_API+"?action=approved").then(r=>r.json()).then(arr=>{
+      if(Array.isArray(arr)&&arr.length){arr.forEach(e=>EVENTS.push(e));if(typeof render==="function")render();}
+    }).catch(()=>{});
+  }
+  const addM=document.getElementById("addModal"), admM=document.getElementById("adminModal"), cnM=document.getElementById("contactModal");
+  const form=document.getElementById("addForm"), ok=document.getElementById("addOk");
+  const cnForm=document.getElementById("contactForm"), cnOk=document.getElementById("contactOk");
+  // ----- multiple dates -----
+  const dateRows=document.getElementById("dateRows");
+  function addDateRow(){
+    const r=document.createElement("div"); r.className="frow dateRow";
+    r.innerHTML='<label>תאריך נוסף<input type="date" name="date"></label>'+
+                '<label>שעה<input type="time" name="time"></label>'+
+                '<button type="button" class="delDate" aria-label="הסרת תאריך">×</button>';
+    r.querySelector(".delDate").onclick=()=>r.remove();
+    dateRows.appendChild(r);
+    r.querySelector('input[type="date"]').focus();
+  }
+  function resetDateRows(){ dateRows.querySelectorAll(".dateRow:not(:first-child)").forEach(r=>r.remove()); }
+  const addDateBtn=document.getElementById("addDate"); if(addDateBtn) addDateBtn.onclick=addDateRow;
+  // ----- multiple movement-type tags -----
+  const catBox=document.getElementById("catTags"), catInput=document.getElementById("catInput");
+  let catTags=[];
+  function renderCatTags(){
+    catBox.querySelectorAll(".tagchip").forEach(c=>c.remove());
+    catTags.forEach((t,i)=>{
+      const c=document.createElement("span"); c.className="tagchip";
+      c.innerHTML=esc(t)+'<button type="button" aria-label="הסרה">×</button>';
+      c.querySelector("button").onclick=()=>{catTags.splice(i,1);renderCatTags();};
+      catBox.insertBefore(c,catInput);
+    });
+    catInput.required=catTags.length===0;
+  }
+  function addCatTag(v){
+    v=(v||"").trim().replace(/,+$/,"").trim();
+    if(v && !catTags.includes(v)) catTags.push(v);
+    catInput.value=""; renderCatTags();
+  }
+  if(catInput){
+    catInput.addEventListener("keydown",e=>{
+      if(e.key==="Enter"||e.key===","){ e.preventDefault(); addCatTag(catInput.value); }
+      else if(e.key==="Backspace" && !catInput.value && catTags.length){ catTags.pop(); renderCatTags(); }
+    });
+    catInput.addEventListener("change",()=>{ if(catInput.value) addCatTag(catInput.value); }); // datalist pick
+    catInput.addEventListener("blur",()=>{ if(catInput.value) addCatTag(catInput.value); });
+  }
+  function resetCatTags(){ catTags=[]; if(catInput) catInput.value=""; renderCatTags(); }
+  function openAdd(){form.hidden=false;ok.hidden=true;form.reset();resetDateRows();resetCatTags();resetScan();addM.hidden=false;}
+  function openContact(){cnForm.hidden=false;cnOk.hidden=true;cnForm.reset();cnM.hidden=false;}
+  function closeAll(){addM.hidden=true;admM.hidden=true;cnM.hidden=true;}
+  document.getElementById("addEventLink").onclick=openAdd;
+  document.getElementById("contactLink").onclick=openContact;
+  document.querySelectorAll("[data-close]").forEach(b=>b.onclick=closeAll);
+  [addM,admM,cnM].forEach(m=>m.onclick=e=>{if(e.target===m)closeAll();});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll();});
+
+  /* ----- screenshot → events (Vision AI via backend) ----- */
+  const dz=document.getElementById("scanDrop"), fileIn=document.getElementById("scanFile"),
+        prev=document.getElementById("scanPrev"), simg=document.getElementById("scanImg"),
+        hint=document.getElementById("scanHint"), sstat=document.getElementById("scanStatus"),
+        sres=document.getElementById("scanResults");
+  let scanData=null;
+  function resetScan(){scanData=null;if(prev)prev.hidden=true;if(hint)hint.hidden=false;if(sstat)sstat.hidden=true;if(sres)sres.innerHTML="";if(simg)simg.src="";if(fileIn)fileIn.value="";}
+  function loadFile(file){
+    if(!file||!/^image\//.test(file.type))return;
+    const r=new FileReader();
+    r.onload=()=>{scanData={dataURL:r.result,mime:file.type};simg.src=r.result;prev.hidden=false;hint.hidden=true;sstat.hidden=true;sres.innerHTML="";};
+    r.readAsDataURL(file);
+  }
+  function setF(n,v){const el=form.elements[n];if(el)el.value=(v==null?"":v);}
+  function fillForm(ev){
+    setF("title",ev.title);setF("date",ev.date);setF("time",(ev.time||"").slice(0,5));
+    setF("category",ev.category);if(ev.region)setF("region",ev.region);
+    setF("venue",ev.venue);setF("city",ev.city);
+    setF("url",(ev.url&&ev.url!=="#")?ev.url:"");setF("price",ev.price);setF("host",ev.host);
+    sstat.hidden=false;sstat.className="scanStatus";sstat.textContent="↓ הפרטים מולאו בטופס — בדקו, תקנו ושלחו לאישור.";
+  }
+  if(dz){
+    document.getElementById("scanPick").onclick=()=>fileIn.click();
+    fileIn.onchange=()=>loadFile(fileIn.files[0]);
+    document.getElementById("scanClear").onclick=resetScan;
+    ["dragenter","dragover"].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.add("drag");}));
+    ["dragleave","drop"].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.remove("drag");}));
+    dz.addEventListener("drop",e=>{const f=e.dataTransfer.files[0];if(f)loadFile(f);});
+    document.addEventListener("paste",e=>{if(addM.hidden)return;const it=[...((e.clipboardData||{}).items||[])].find(i=>/^image\//.test(i.type));if(it){const f=it.getAsFile();if(f)loadFile(f);}});
+    document.getElementById("scanGo").onclick=async()=>{
+      if(!scanData)return;
+      const go=document.getElementById("scanGo");
+      if(!ZUZU_API){sstat.hidden=false;sstat.className="scanStatus err";sstat.textContent="כדי לנתח צילומים צריך לחבר את ה-backend (ראו backend/SETUP.md). בינתיים מלאו ידנית למטה.";return;}
+      sstat.hidden=false;sstat.className="scanStatus";sstat.textContent="מנתח את הצילום…";go.disabled=true;
+      try{
+        const res=await fetch(ZUZU_API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"scan",image:scanData.dataURL,mime:scanData.mime})});
+        const data=await res.json();
+        const evs=Array.isArray(data)?data:(data.events||[]);
+        if(data&&data.error){sstat.className="scanStatus err";sstat.textContent="⚠ "+data.error;go.disabled=false;return;}
+        if(!evs.length){sstat.textContent="לא זוהו אירועים בצילום. נסו צילום ברור יותר או מלאו ידנית.";go.disabled=false;return;}
+        sstat.textContent=`זוהו ${evs.length} אירועים — טענו כל אחד לטופס, בדקו ושלחו:`;
+        sres.innerHTML=evs.map((e,i)=>`<div class="scanRes"><div class="rt">${esc(e.title||"(ללא שם)")}<small>${esc(e.date||"")} ${esc((e.time||"").slice(0,5))} · ${esc(e.venue||"")}${e.city?", "+esc(e.city):""}</small></div><button type="button" data-fill="${i}">מילוי בטופס</button></div>`).join("");
+        sres.querySelectorAll("[data-fill]").forEach(b=>b.onclick=()=>fillForm(evs[+b.dataset.fill]));
+      }catch(err){sstat.className="scanStatus err";sstat.textContent="הניתוח נכשל (בדקו את חיבור ה-backend). אפשר למלא ידנית.";}
+      go.disabled=false;
+    };
+  }
+  form.onsubmit=async e=>{
+    e.preventDefault();
+    const f=new FormData(form);
+    // movement-type tags — require at least one
+    if(catInput && catInput.value) addCatTag(catInput.value);
+    if(!catTags.length){ if(catInput){catInput.required=true; catInput.reportValidity&&catInput.reportValidity();} return; }
+    // collect every date+time row (first is the primary date)
+    const dAll=f.getAll("date"), tAll=f.getAll("time");
+    const pairs=dAll.map((d,i)=>({date:(d||"").trim(),time:(tAll[i]||"").trim()})).filter(p=>p.date);
+    const city=(f.get("city")||"").trim();
+    // derive region from the city/town (exact, then fuzzy contains-match)
+    const cm=window.CITY_REGION||{};
+    let region=cm[city];
+    if(!region && city){
+      const hit=Object.keys(cm).find(k=>city.includes(k)||k.includes(city));
+      if(hit) region=cm[hit];
+    }
+    const ev={date:pairs[0]?pairs[0].date:"",time:pairs[0]?pairs[0].time:"",title:(f.get("title")||"").trim(),
+      category:catTags[0],discipline:catTags[0],
+      format:f.get("format")||"שיעור",venue:(f.get("venue")||"").trim(),
+      city:city||null,region:region||"(לא זוהה — לפי עיר)",
+      url:(f.get("url")||"").trim()||"#",price:null,
+      image:null,recurring:false,_at:Date.now()};
+    if(catTags.length>1) ev.tags=catTags.slice(1);
+    if(pairs.length>1) ev.dates=pairs;
+    const _h=(f.get("host")||"").trim(); if(_h) ev.host=_h;
+
+    // readable summary used for both email channels
+    const when=pairs.map(p=>p.date+(p.time?" · "+p.time:"")).join("  |  ");
+    const rows=[
+      ["שם האירוע", ev.title],
+      [pairs.length>1?"תאריכים":"תאריך ושעה", when],
+      ["מנחה / מורה", _h],
+      ["סוג תנועה", catTags.join(", ")],
+      ["סוג אירוע", ev.format],
+      ["מקום", ev.venue],
+      ["עיר", ev.city||""],
+      ["אזור (אוטומטי)", ev.region],
+      ["קישור להרשמה", ev.url==="#"?"":ev.url]
+    ];
+    const subject="אירוע חדש ל-zuzu: "+(ev.title||"");
+
+    const submitBtn=form.querySelector(".fsubmit");
+    if(submitBtn){submitBtn.disabled=true;submitBtn.textContent="שולח…";}
+    let sent=false;
+
+    // Formspree (emails you; same service as your other site)
+    if(ZUZU_FORMSPREE){
+      try{
+        const payload={_subject:subject};
+        rows.forEach(([k,v])=>payload[k]=v||"—");
+        const r=await fetch(ZUZU_FORMSPREE,{method:"POST",
+          headers:{"Content-Type":"application/json",Accept:"application/json"},
+          body:JSON.stringify(payload)});
+        sent=r.ok;
+      }catch(_){}
+    }
+
+    // Web3Forms (alternative)
+    if(!sent && ZUZU_FORM_KEY){
+      try{
+        const fields={access_key:ZUZU_FORM_KEY,subject:subject,from_name:"zuzu · טופס אירועים"};
+        rows.forEach(([k,v])=>fields[k]=v||"—");
+        const r=await fetch("https://api.web3forms.com/submit",{method:"POST",
+          headers:{"Content-Type":"application/json",Accept:"application/json"},
+          body:JSON.stringify(fields)});
+        sent=!!(await r.json()).success;
+      }catch(_){}
+    }
+
+    // mailto fallback (opens submitter's mail app addressed to you)
+    if(!sent && !ZUZU_FORMSPREE && !ZUZU_FORM_KEY && ZUZU_EMAIL){
+      const body=rows.map(([k,v])=>k+": "+(v||"—")).join("\n");
+      window.location.href="mailto:"+ZUZU_EMAIL+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+      sent=true;
+    }
+
+    // legacy backend, if ever re-enabled
+    if(ZUZU_API){ fetch(ZUZU_API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(ev)}).catch(()=>{}); }
+
+    // local safety copy (only meaningful if nothing else is configured)
+    if(!ZUZU_FORMSPREE && !ZUZU_FORM_KEY && !ZUZU_EMAIL && !ZUZU_API){ const p=g(PEND);p.push(ev);s(PEND,p);badge(); }
+
+    if(submitBtn){submitBtn.disabled=false;submitBtn.textContent="שליחה לאישור";}
+    // track what people submit (which movement tags, format, region, # of dates)
+    track("submit_event",{
+      movements: catTags.join(", "),
+      format: ev.format,
+      region: ev.region,
+      dates: pairs.length
+    });
+    form.hidden=true;ok.hidden=false;
+  };
+  cnForm.onsubmit=async(ev)=>{
+    ev.preventDefault();
+    const f=new FormData(cnForm);
+    const rows=[
+      ["שם", (f.get("name")||"").trim()],
+      ["אימייל", (f.get("email")||"").trim()],
+      ["טלפון", (f.get("phone")||"").trim()],
+      ["הודעה", (f.get("message")||"").trim()]
+    ];
+    const subject="פנייה חדשה מ-zuzu: "+(f.get("name")||"");
+    const submitBtn=cnForm.querySelector(".fsubmit");
+    if(submitBtn){submitBtn.disabled=true;submitBtn.textContent="שולח…";}
+    let sent=false;
+    if(ZUZU_FORMSPREE){
+      try{
+        const payload={_subject:subject, _replyto:(f.get("email")||"").trim()};
+        rows.forEach(([k,v])=>payload[k]=v||"—");
+        const r=await fetch(ZUZU_FORMSPREE,{method:"POST",
+          headers:{"Content-Type":"application/json",Accept:"application/json"},
+          body:JSON.stringify(payload)});
+        sent=r.ok;
+      }catch(_){}
+    }
+    if(!sent && ZUZU_FORM_KEY){
+      try{
+        const fields={access_key:ZUZU_FORM_KEY,subject:subject,from_name:"zuzu · צרו קשר"};
+        rows.forEach(([k,v])=>fields[k]=v||"—");
+        const r=await fetch("https://api.web3forms.com/submit",{method:"POST",
+          headers:{"Content-Type":"application/json",Accept:"application/json"},
+          body:JSON.stringify(fields)});
+        sent=!!(await r.json()).success;
+      }catch(_){}
+    }
+    if(!sent && !ZUZU_FORMSPREE && !ZUZU_FORM_KEY && ZUZU_EMAIL){
+      const body=rows.map(([k,v])=>k+": "+(v||"—")).join("\n");
+      window.location.href="mailto:"+ZUZU_EMAIL+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+      sent=true;
+    }
+    if(submitBtn){submitBtn.disabled=false;submitBtn.textContent="שליחה";}
+    track("submit_contact",{});
+    cnForm.hidden=true;cnOk.hidden=false;
+  };
+  const badgeEl=document.getElementById("pendBadge");
+  function badge(){const n=g(PEND).length;badgeEl.hidden=n===0;badgeEl.textContent=n;}
+  function esc(t){return String(t==null?"":t).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+  function renderAdmin(){
+    const list=document.getElementById("pendList");const p=g(PEND);
+    if(!p.length){list.innerHTML='<div class="adminEmpty">אין אירועים שממתינים לאישור.</div>';return;}
+    list.innerHTML=p.map((e,i)=>`<div class="pend">
+      <div class="pt">${esc(e.time)} · ${esc(e.title)}</div>
+      <div class="pm">${esc(e.category)} · ${esc(e.venue)}${e.city?", "+esc(e.city):""} · ${esc(e.region)} · ${esc(e.date)}</div>
+      <div class="pacts">
+        <button class="ok" data-ok="${i}">אישור</button>
+        <button class="no" data-no="${i}">דחייה</button>
+        <button data-cp="${i}">העתקת JSON</button>
+      </div></div>`).join("");
+    list.querySelectorAll("[data-ok]").forEach(b=>b.onclick=()=>approve(+b.dataset.ok));
+    list.querySelectorAll("[data-no]").forEach(b=>b.onclick=()=>reject(+b.dataset.no));
+    list.querySelectorAll("[data-cp]").forEach(b=>b.onclick=()=>{const ev=g(PEND)[+b.dataset.cp];const c={...ev};delete c._at;navigator.clipboard&&navigator.clipboard.writeText(JSON.stringify(c));b.textContent="הועתק ✓";});
+  }
+  function approve(i){const p=g(PEND);const ev=p.splice(i,1)[0];if(!ev)return;delete ev._at;s(PEND,p);const a=g(APR);a.push(ev);s(APR,a);EVENTS.push(ev);if(typeof render==="function")render();badge();renderAdmin();}
+  function reject(i){const p=g(PEND);p.splice(i,1);s(PEND,p);badge();renderAdmin();}
+  document.getElementById("adminLink").onclick=()=>{renderAdmin();admM.hidden=false;};
+  (function(){
+    const ADMIN_KEY="zuzu_is_admin";
+    const params=new URLSearchParams(location.search);
+    if(params.get("admin")==="dana"){ localStorage.setItem(ADMIN_KEY,"1"); }
+    if(localStorage.getItem(ADMIN_KEY)==="1"){
+      document.getElementById("adminLink").hidden=false;
+    }
+  })();
+  badge();
+})();
+</script>
+
+<script>
+/* ---- Tweaks panel (vanilla, host-protocol aware) ---- */
+(function(){
+  const KEY="zuzu_blit_tweaks";
+  const DEF={dir:"gallery",accent:"flame",cards:"minimal",motion:"subtle"};
+  let tw=Object.assign({},DEF);
+  try{tw=Object.assign(tw,JSON.parse(localStorage.getItem(KEY)||"{}"));}catch(e){}
+  function apply(){
+    const b=document.body;
+    if(tw.accent&&tw.accent!=="flame")b.setAttribute("data-accent",tw.accent);else b.removeAttribute("data-accent");
+    b.setAttribute("data-dir",tw.dir);
+    b.setAttribute("data-cards",tw.cards);
+    b.setAttribute("data-motion",tw.motion);
+  }
+  apply();
+  const p=document.createElement("div"); p.id="tweaks";
+  p.innerHTML=`<header><b>Tweaks</b><button id="tkClose" title="close">×</button></header>
+   <div class="tk"><div class="lab">כיוון</div><div class="seg" data-k="dir">
+     <button data-v="gallery">גלריה</button><button data-v="centered">ממורכז</button><button data-v="compact">קומפקטי</button></div></div>
+   <div class="tk"><div class="lab">צבע הדגשה</div><div class="sw" data-k="accent">
+     <button data-v="flame" style="background:#ff3a00"></button>
+     <button data-v="ember" style="background:#ff5c1a"></button>
+     <button data-v="blue" style="background:#1f3cff"></button>
+     <button data-v="ink" style="background:#0a0a0a"></button></div></div>
+   <div class="tk"><div class="lab">סגנון כרטיס</div><div class="seg" data-k="cards">
+     <button data-v="invert">היפוך</button><button data-v="outline">מתאר</button><button data-v="minimal">מינימלי</button></div></div>
+   <div class="tk"><div class="lab">תנועה</div><div class="seg" data-k="motion">
+     <button data-v="off">כבוי</button><button data-v="subtle">עדין</button><button data-v="lively">חי</button></div></div>`;
+  document.body.appendChild(p);
+  function sync(){p.querySelectorAll("[data-k]").forEach(g=>{const k=g.dataset.k;g.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.v===tw[k]));});}
+  p.querySelectorAll("[data-k] button").forEach(b=>b.onclick=()=>{const k=b.parentElement.dataset.k;tw[k]=b.dataset.v;localStorage.setItem(KEY,JSON.stringify(tw));apply();sync();});
+  sync();
+  p.querySelector("#tkClose").onclick=()=>{p.classList.remove("show");window.parent.postMessage({type:"__edit_mode_dismissed"},"*");};
+  window.addEventListener("message",e=>{const t=e&&e.data&&e.data.type;if(t==="__activate_edit_mode")p.classList.add("show");else if(t==="__deactivate_edit_mode")p.classList.remove("show");});
+  window.parent.postMessage({type:"__edit_mode_available"},"*");
+  const hd=p.querySelector("header");let dx=0,dy=0,drag=false;
+  hd.addEventListener("mousedown",e=>{if(e.target.id==="tkClose")return;drag=true;const r=p.getBoundingClientRect();dx=e.clientX-r.left;dy=e.clientY-r.top;});
+  window.addEventListener("mousemove",e=>{if(!drag)return;p.style.left=(e.clientX-dx)+"px";p.style.top=(e.clientY-dy)+"px";p.style.right="auto";p.style.bottom="auto";p.style.insetInlineEnd="auto";});
+  window.addEventListener("mouseup",()=>drag=false);
+})();
+</script>
+<!-- Vercel Web Analytics + Speed Insights (load only on the live site) -->
+<script>
+(function(){
+  var h=location.hostname;
+  if(h==="localhost"||h==="127.0.0.1"||!/(zuzu\.today|vercel\.app)$/.test(h)) return;
+  window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};
+  window.si=window.si||function(){(window.siq=window.siq||[]).push(arguments);};
+  function add(src){var s=document.createElement("script");s.defer=true;s.src=src;document.head.appendChild(s);}
+  add("/_vercel/insights/script.js");
+  add("/_vercel/speed-insights/script.js");
+})();
+</script>
+<!-- PWA service worker -->
+<script>
+(function(){
+  if(!("serviceWorker" in navigator)) return;
+  var h=location.hostname;
+  if(location.protocol!=="https:" && h!=="localhost" && h!=="127.0.0.1") return;
+  window.addEventListener("load",function(){
+    navigator.serviceWorker.register("sw.js").catch(function(){});
+  });
+})();
+</script>
+<!-- PWA install affordance -->
+<style>
+  #pwaInstall{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:9000;
+    display:flex;align-items:center;gap:12px;max-width:calc(100vw - 28px);
+    background:#0a0a0a;color:#fff;border-radius:999px;padding:10px 12px 10px 18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.28);font-size:.86rem;font-weight:600;
+    animation:pwaUp .3s cubic-bezier(.16,1,.3,1)}
+  #pwaInstall[hidden]{display:none}
+  @keyframes pwaUp{from{opacity:0;transform:translate(-50%,14px)}to{opacity:1;transform:translate(-50%,0)}}
+  #pwaInstall .pwaIco{width:26px;height:26px;border-radius:7px;flex:none}
+  #pwaInstall .pwaTxt{line-height:1.3}
+  #pwaInstall .pwaTxt b{color:var(--accent,#ff3a00);font-weight:800}
+  #pwaInstall .pwaGo{flex:none;background:var(--accent,#ff3a00);color:#fff;border:none;
+    font:inherit;font-weight:800;border-radius:999px;padding:8px 16px;cursor:pointer;white-space:nowrap}
+  #pwaInstall .pwaX{flex:none;background:none;border:none;color:rgba(255,255,255,.6);
+    font-size:1.2rem;line-height:1;cursor:pointer;padding:4px 6px}
+  @media(max-width:480px){#pwaInstall{font-size:.8rem;padding:9px 10px 9px 14px}}
+</style>
+<script>
+(function(){
+  var KEY="zuzu_pwa_dismissed";
+  var standalone=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;
+  if(standalone){
+    // already installed → hide the install pill AND the top-bar "install" link
+    var ti=document.querySelector(".tinstall:not(.quizlink)"); if(ti) ti.style.display="none";
+    return;
+  }
+  if(localStorage.getItem(KEY)) return;  // user dismissed before
+
+  var ua=navigator.userAgent;
+  // Only suggest installing on actual phones — not desktop/laptop.
+  var isPhone=/iphone|ipod/i.test(ua) || (/android/i.test(ua) && /mobile/i.test(ua)) ||
+              (matchMedia("(pointer:coarse)").matches && matchMedia("(max-width:560px)").matches);
+  if(!isPhone){
+    // desktop/laptop → no install suggestion at all (pill + top-bar link)
+    var tid=document.querySelector(".tinstall:not(.quizlink)"); if(tid) tid.style.display="none";
+    return;
+  }
+
+  var isiOS=/iphone|ipad|ipod/i.test(ua)&&!window.MSStream;
+  var isSafari=isiOS&&/safari/i.test(ua)&&!/crios|fxios/i.test(ua);
+  var deferred=null, el=null;
+
+  function box(inner){
+    el=document.createElement("div"); el.id="pwaInstall";
+    el.innerHTML='<img class="pwaIco" src="favicon-192.png" alt="">'+inner+
+      '<button class="pwaX" aria-label="סגירה">×</button>';
+    document.body.appendChild(el);
+    el.querySelector(".pwaX").onclick=function(){ el.remove(); el=null; localStorage.setItem(KEY,"1"); };
+    return el;
+  }
+
+  // Android / desktop Chrome — real install prompt
+  window.addEventListener("beforeinstallprompt", function(e){
+    e.preventDefault(); deferred=e;
+    if(el) return;
+    box('<span class="pwaTxt">התקינו את <b>Zuzu</b> למסך הבית</span>'+
+        '<button class="pwaGo">התקנה</button>');
+    el.querySelector(".pwaGo").onclick=function(){
+      if(!deferred) return;
+      deferred.prompt();
+      deferred.userChoice.finally(function(){ deferred=null; if(el){el.remove();el=null;} localStorage.setItem(KEY,"1"); });
+    };
+  });
+  window.addEventListener("appinstalled", function(){ if(el){el.remove();el=null;} localStorage.setItem(KEY,"1"); });
+
+  // iOS Safari — no prompt API; point to the full install guide
+  if(isSafari){
+    setTimeout(function(){
+      if(el||standalone) return;
+      box('<span class="pwaTxt">להוספת <b>Zuzu</b> למסך הבית</span>'+
+          '<a class="pwaGo" href="install.html">איך?</a>');
+    }, 2600);
+  }
+})();
+</script>
+</body>
+</html>
+
+<style id="__om-edit-overrides">
+#ruler .tick,
+#ruler .tick:focus,
+#ruler .tick:focus-visible,
+#ruler .tick .dnum,
+#ruler .tick .dow {
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+</style>
