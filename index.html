@@ -858,7 +858,8 @@ function renderList(){
   const list=document.getElementById("list");
   const evs=EVENTS.filter(e=>passFilters(e)&&inWhen(e)).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(a.time<b.time?-1:1));
   setCount(evs.length);
-  if(!evs.length){ list.innerHTML=window.ZUZU_LOADING?loadingHtml(4):'<div class="empty">אין אירועים בסינון הזה — נסו להרחיב את הבחירה ←</div>'; return; }
+  if(window.ZUZU_LOADING){ list.innerHTML=loadingHtml(4); return; }
+  if(!evs.length){ list.innerHTML='<div class="empty">אין אירועים בסינון הזה — נסו להרחיב את הבחירה ←</div>'; return; }
   const perDay={}; evs.forEach(e=>perDay[e.date]=(perDay[e.date]||0)+1);
   let html="", last="";
   for(const e of evs){
@@ -954,7 +955,8 @@ function renderTimeline(){
     wrap.style.display="none"; hero.style.display="none";
     const evs=EVENTS.filter(e=>passFilters(e)&&inWhen(e)).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(a.time<b.time?-1:1));
     setCount(evs.length);
-    if(!evs.length){ list.innerHTML=window.ZUZU_LOADING?loadingHtml(4):'<div class="empty">לא נמצאו אירועים — נסו מילה אחרת ←</div>'; return; }
+    if(window.ZUZU_LOADING){ list.innerHTML=loadingHtml(4); return; }
+    if(!evs.length){ list.innerHTML='<div class="empty">לא נמצאו אירועים — נסו מילה אחרת ←</div>'; return; }
     const perDay={}; evs.forEach(e=>perDay[e.date]=(perDay[e.date]||0)+1);
     let h="",last="";
     for(const e of evs){
@@ -969,7 +971,8 @@ function renderTimeline(){
     wrap.style.display="none"; hero.style.display="none";
     const evs=EVENTS.filter(e=>passFilters(e)&&inWhen(e)).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(a.time<b.time?-1:1));
     setCount(evs.length);
-    if(!evs.length){ list.innerHTML=window.ZUZU_LOADING?loadingHtml(4):'<div class="empty">אין אירועים השבוע.</div>'; return; }
+    if(window.ZUZU_LOADING){ list.innerHTML=loadingHtml(4); return; }
+    if(!evs.length){ list.innerHTML='<div class="empty">אין אירועים השבוע.</div>'; return; }
     const perDay={}; evs.forEach(e=>perDay[e.date]=(perDay[e.date]||0)+1);
     let h="",last="";
     for(const e of evs){
@@ -1009,15 +1012,18 @@ function renderTimeline(){
   const dayEvs=EVENTS.filter(e=>e.date===state.selDate&&passFilters(e)).sort((a,b)=>a.time<b.time?-1:1);
   setCount(dayEvs.length);
   const hl=heroLabel(selDt), big=hl[0], small=hl[1], isToday=hl[2];
-  const subCount = dayEvs.length ? String(dayEvs.length).padStart(2,"0")+" אירועים"
-                 : (window.ZUZU_LOADING ? "טוען…" : "אין אירועים");
+  // while the live list is still coming in, show the skeleton — even if the baked
+  // seed already has a few events for this day — so people don't see a partial list
+  // (one event) jump to the full list a second later.
+  const subCount = window.ZUZU_LOADING ? "טוען…"
+                 : (dayEvs.length ? String(dayEvs.length).padStart(2,"0")+" אירועים" : "אין אירועים");
   hero.innerHTML=`<h2 class="tlTitle">${isToday?`<span class="hot">${big}</span>`:big}</h2>`+
     `<div class="tlSub">${small} · ${subCount}</div>`;
 
-  if(dayEvs.length){
-    list.innerHTML=dayEvs.map(cardHtml).join("");
-  }else if(window.ZUZU_LOADING){
+  if(window.ZUZU_LOADING){
     list.innerHTML=loadingHtml(3);
+  }else if(dayEvs.length){
+    list.innerHTML=dayEvs.map(cardHtml).join("");
   }else{
     const isoDays=days.map(iso);
     const nextKey=isoDays.find(k=>k>state.selDate && dayCount(k)>0);
