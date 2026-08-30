@@ -408,6 +408,21 @@
   }
   .empty{text-align:start;color:var(--muted);font-weight:300;padding:50px 0;font-size:1.1rem}
 
+  /* loading skeleton — shown while the live list is still coming in */
+  .zloading{display:flex;align-items:center;gap:10px;color:var(--muted);font-weight:400;font-size:.95rem;padding:6px 2px 14px}
+  .zspin{width:15px;height:15px;border:2px solid var(--muted);border-top-color:transparent;border-radius:50%;
+         display:inline-block;animation:zspin .7s linear infinite}
+  @keyframes zspin{to{transform:rotate(360deg)}}
+  .zskel{background:var(--card);border:1px solid var(--hair);padding:20px 22px;margin-bottom:12px}
+  .zskel-t{height:15px;width:52%;border-radius:3px;margin-bottom:11px;
+           background:linear-gradient(90deg,#e9edef 25%,#f4f7f8 37%,#e9edef 63%);background-size:400% 100%;animation:zshim 1.3s ease infinite}
+  .zskel-s{height:11px;width:34%;border-radius:3px;
+           background:linear-gradient(90deg,#e9edef 25%,#f4f7f8 37%,#e9edef 63%);background-size:400% 100%;animation:zshim 1.3s ease infinite}
+  @keyframes zshim{0%{background-position:100% 0}100%{background-position:-100% 0}}
+  .zerr{padding:34px 0}
+  .zerr .tlNext{margin-inline-start:8px}
+  @media (prefers-reduced-motion:reduce){ .zspin,.zskel-t,.zskel-s{animation:none} }
+
   /* calendar — mono grid */
   .calbar{display:flex;align-items:center;justify-content:space-between;margin:30px 0 18px}
   .calbar h2{margin:0;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:900;letter-spacing:-.03em;text-transform:lowercase}
@@ -666,7 +681,7 @@ function passFilters(e){
     const hay=[e.title,e.host,e.venue,e.city,e.region,e.discipline||e.category,...(e.tags||[]),e.format].filter(Boolean).join(" ").toLowerCase();
     if(!state.q.split(/\s+/).every(w=>hay.includes(w))) return false;
   }
-  const cats=[e.discipline||e.category,...(e.tags||[])];
+  const cats=[...String(e.discipline||e.category||"").split(",").map(s=>s.trim()).filter(Boolean),...(e.tags||[])];
   if(state.cats.size && !cats.some(c=>state.cats.has(c))) return false;
   if(state.fmts.size){
     const fmtOk=state.fmts.has(e.format||"שיעור");
@@ -741,7 +756,7 @@ function cardHtml(e){
       <h3 class="ti">${e.title}</h3>
       ${e.host?`<div class="host">עם <b>${e.host}</b></div>`:""}
       <div class="info">
-        <div class="labels">${[e.discipline||e.category,...(e.tags||[])].map(c=>`<span>${c}</span>`).join("")}${e.format&&e.format!=="שיעור"?`<span class="fmt">${e.format}</span>`:""}<span>${e.region}</span></div>
+        <div class="labels">${[...String(e.discipline||e.category||"").split(",").map(s=>s.trim()).filter(Boolean),...(e.tags||[])].map(c=>`<span>${c}</span>`).join("")}${e.format&&e.format!=="שיעור"?`<span class="fmt">${e.format}</span>`:""}<span>${e.region}</span></div>
         <div class="meta">${loc}</div>
       </div>
     </div>
@@ -843,7 +858,7 @@ function renderList(){
   const list=document.getElementById("list");
   const evs=EVENTS.filter(e=>passFilters(e)&&inWhen(e)).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(a.time<b.time?-1:1));
   setCount(evs.length);
-  if(!evs.length){ list.innerHTML='<div class="empty">אין אירועים בסינון הזה — נסו להרחיב את הבחירה ←</div>'; return; }
+  if(!evs.length){ list.innerHTML=window.ZUZU_LOADING?loadingHtml(4):'<div class="empty">אין אירועים בסינון הזה — נסו להרחיב את הבחירה ←</div>'; return; }
   const perDay={}; evs.forEach(e=>perDay[e.date]=(perDay[e.date]||0)+1);
   let html="", last="";
   for(const e of evs){
@@ -887,6 +902,19 @@ function renderCalendar(){
   } else box.innerHTML="";
   reveal(box,".day,.card,.empty",70,420);
 }
+/* ---- loading state: the live event list arrives a beat after first paint;
+        show a skeleton so people don't think the day is empty ---- */
+window.ZUZU_LOADING = true;   // true until the backend fetch resolves (or fails)
+function loadingHtml(n){
+  n = n || 3;
+  var cards = "";
+  for(var i=0;i<n;i++) cards += '<div class="zskel"><div class="zskel-t"></div><div class="zskel-s"></div></div>';
+  return '<div class="zloading"><span class="zspin"></span>טוען אירועים…</div>'+cards;
+}
+function errorHtml(){
+  return '<div class="empty zerr">לא הצלחנו לטעון את האירועים כרגע. '+
+         '<button type="button" id="zRetry" class="tlNext">נסו שוב →</button></div>';
+}
 function render(){
   const cal=state.view==="cal";
   document.getElementById("calendar").style.display=cal?"block":"none";
@@ -926,7 +954,7 @@ function renderTimeline(){
     wrap.style.display="none"; hero.style.display="none";
     const evs=EVENTS.filter(e=>passFilters(e)&&inWhen(e)).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(a.time<b.time?-1:1));
     setCount(evs.length);
-    if(!evs.length){ list.innerHTML='<div class="empty">לא נמצאו אירועים — נסו מילה אחרת ←</div>'; return; }
+    if(!evs.length){ list.innerHTML=window.ZUZU_LOADING?loadingHtml(4):'<div class="empty">לא נמצאו אירועים — נסו מילה אחרת ←</div>'; return; }
     const perDay={}; evs.forEach(e=>perDay[e.date]=(perDay[e.date]||0)+1);
     let h="",last="";
     for(const e of evs){
@@ -941,7 +969,7 @@ function renderTimeline(){
     wrap.style.display="none"; hero.style.display="none";
     const evs=EVENTS.filter(e=>passFilters(e)&&inWhen(e)).sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(a.time<b.time?-1:1));
     setCount(evs.length);
-    if(!evs.length){ list.innerHTML='<div class="empty">אין אירועים השבוע.</div>'; return; }
+    if(!evs.length){ list.innerHTML=window.ZUZU_LOADING?loadingHtml(4):'<div class="empty">אין אירועים השבוע.</div>'; return; }
     const perDay={}; evs.forEach(e=>perDay[e.date]=(perDay[e.date]||0)+1);
     let h="",last="";
     for(const e of evs){
@@ -981,11 +1009,15 @@ function renderTimeline(){
   const dayEvs=EVENTS.filter(e=>e.date===state.selDate&&passFilters(e)).sort((a,b)=>a.time<b.time?-1:1);
   setCount(dayEvs.length);
   const hl=heroLabel(selDt), big=hl[0], small=hl[1], isToday=hl[2];
+  const subCount = dayEvs.length ? String(dayEvs.length).padStart(2,"0")+" אירועים"
+                 : (window.ZUZU_LOADING ? "טוען…" : "אין אירועים");
   hero.innerHTML=`<h2 class="tlTitle">${isToday?`<span class="hot">${big}</span>`:big}</h2>`+
-    `<div class="tlSub">${small} · ${dayEvs.length?String(dayEvs.length).padStart(2,"0")+" אירועים":"אין אירועים"}</div>`;
+    `<div class="tlSub">${small} · ${subCount}</div>`;
 
   if(dayEvs.length){
     list.innerHTML=dayEvs.map(cardHtml).join("");
+  }else if(window.ZUZU_LOADING){
+    list.innerHTML=loadingHtml(3);
   }else{
     const isoDays=days.map(iso);
     const nextKey=isoDays.find(k=>k>state.selDate && dayCount(k)>0);
@@ -1223,11 +1255,26 @@ render();
   const FORMATS=["שיעור","ג'אם","סדנה","קורס","ריטריט","מסיבת ריקוד","הופעה/מופע"];
   const fmtSel=document.getElementById("fmtSel"); if(fmtSel) fmtSel.innerHTML=FORMATS.map(x=>`<option>${x}</option>`).join("");
   // pull approved events from the live backend (if configured) and merge
-  if(ZUZU_API){
+  function loadApproved(){
+    if(!ZUZU_API){ window.ZUZU_LOADING=false; if(typeof render==="function")render(); return; }
+    window.ZUZU_LOADING=true;
+    if(typeof render==="function")render();   // paint the skeleton immediately
     fetch(ZUZU_API+"?action=approved").then(r=>r.json()).then(arr=>{
-      if(Array.isArray(arr)&&arr.length){arr.forEach(e=>EVENTS.push(e));if(typeof render==="function")render();}
-    }).catch(()=>{});
+      window.ZUZU_LOADING=false;
+      if(Array.isArray(arr)&&arr.length){arr.forEach(e=>EVENTS.push(e));}
+      if(typeof render==="function")render();
+    }).catch(()=>{
+      window.ZUZU_LOADING=false;
+      if(typeof render==="function")render();
+      // still nothing on screen? surface a retry instead of a silent empty day
+      const list=document.getElementById("list");
+      if(list && !list.querySelector(".card")){
+        list.innerHTML=errorHtml();
+        const rb=document.getElementById("zRetry"); if(rb) rb.onclick=loadApproved;
+      }
+    });
   }
+  loadApproved();
   const addM=document.getElementById("addModal"), admM=document.getElementById("adminModal"), cnM=document.getElementById("contactModal");
   const form=document.getElementById("addForm"), ok=document.getElementById("addOk");
   const cnForm=document.getElementById("contactForm"), cnOk=document.getElementById("contactOk");
