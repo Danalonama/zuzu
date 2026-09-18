@@ -1,0 +1,896 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zuzu · אישור אירועים</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48cmVjdCB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcgcng9JzIyJyBmaWxsPScjMTQxMjEwJy8+PHBhdGggZD0nTTMyIDM1IEg2OCBMMzYgNjUgSDcwJyBmaWxsPSdub25lJyBzdHJva2U9JyNlODYwMmMnIHN0cm9rZS13aWR0aD0nMTEnIHN0cm9rZS1saW5lY2FwPSdyb3VuZCcgc3Ryb2tlLWxpbmVqb2luPSdyb3VuZCcvPjwvc3ZnPg==">
+<style>
+  :root{--bg:#f2f1ef;--card:#fff;--ink:#232830;--muted:#7a828e;--line:#e7e7e4;--accent:#e8602c;
+    --ok:#1f7a5a;--okbg:#e6f4ee;--no:#c0392b;--nobg:#fdecea;--warn:#b9770e;--warnbg:#fdf3e2;--chip:#f0f0ee;
+    --btnok:#26b268;--btnokh:#1f9d59;--btnno:#ef4d45;--btnnoh:#e13a32;
+    --purple:#7c5cda;--purplebg:#efeafe;--yellowbg:#fbf3cf;--yellowink:#7c6a12;--field:#e4e4e1;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.5 "Assistant","Heebo",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;padding:0 0 80px}
+  .wrap{max-width:680px;margin:0 auto;padding:0 14px}
+  header{padding:26px 0 10px;text-align:center}
+  .brand{font-weight:800;color:var(--accent);font-size:15px;text-decoration:none}
+  h1{font-size:24px;margin:8px 0 2px;letter-spacing:-.02em}
+  .sub{color:var(--muted);font-size:14px;margin:0}
+  .ver{display:inline-block;margin-top:8px;font-size:11.5px;font-weight:700;color:var(--ok);background:var(--okbg);border-radius:999px;padding:3px 12px}
+  #tokenBar{display:flex;gap:8px;margin:14px 0;align-items:center}
+  #tokenBar input{flex:1;font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+  #tokenBar button,.reload{font:inherit;font-weight:700;border:none;border-radius:10px;padding:9px 15px;background:var(--ink);color:#fff;cursor:pointer}
+  .tabs{display:flex;gap:8px;justify-content:center;margin:8px 0 4px;flex-wrap:wrap}
+  .tab{font:inherit;font-weight:700;font-size:14px;border:1px solid var(--line);background:var(--card);color:var(--muted);
+    border-radius:999px;padding:7px 16px;cursor:pointer;display:inline-flex;gap:7px;align-items:center}
+  .tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .tab .tc{font-size:12px;font-weight:800;background:rgba(0,0,0,.08);border-radius:999px;padding:1px 8px;min-width:20px;text-align:center}
+  .tab.on .tc{background:rgba(255,255,255,.22)}
+  #addbar{margin:10px 0 6px;text-align:center}
+  .addbtn{font:inherit;font-weight:800;border:1px dashed var(--accent);background:var(--chip);color:var(--accent);
+    border-radius:12px;padding:9px 18px;cursor:pointer}
+  .addbtn:hover{background:var(--accent);color:#fff}
+  .addpanel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0 0;text-align:start}
+  .addpanel textarea{width:100%;min-height:88px;resize:vertical;font:inherit;font-size:14.5px;border:1px solid var(--line);border-radius:10px;padding:10px}
+  .filelbl{display:block;font-size:13px;color:var(--muted);font-weight:700;margin:10px 0 4px}
+  .filelbl input{display:block;margin-top:6px;font:inherit;font-size:13px}
+  .pasteinfo{margin-top:8px;font-size:13px;color:var(--ok);font-weight:700;background:var(--okbg);border-radius:8px;padding:6px 10px;display:inline-flex;gap:8px;align-items:center}
+  .pasteinfo button{background:none;border:none;color:var(--no);font:inherit;font-weight:700;cursor:pointer;padding:0}
+  .addpanel img.thumb{max-height:70px;border-radius:6px;margin-inline-start:6px;vertical-align:middle}
+  .addactions{display:flex;gap:10px;align-items:center;margin-top:10px}
+  .urlrow{display:flex;gap:8px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);flex-wrap:wrap}
+  .urlrow input{flex:1;min-width:180px;font:inherit;font-size:14px;border:1px solid var(--line);border-radius:10px;padding:9px 11px}
+  /* unified upload box */
+  .dropzone{position:relative;border:2px dashed var(--line);border-radius:12px;background:#fff;transition:border-color .15s,background .15s}
+  .dropzone.drag{border-color:var(--accent);background:var(--chip)}
+  .dropzone textarea{width:100%;min-height:92px;resize:vertical;font:inherit;font-size:14.5px;border:none;border-radius:12px;padding:12px;background:transparent}
+  .dropzone textarea:focus{outline:none}
+  .dzbtns{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .chipadd{font:inherit;font-weight:700;font-size:13px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:7px 12px;cursor:pointer}
+  .chipadd:hover{border-color:var(--accent);color:var(--accent)}
+  .dznote{font-size:11.5px;color:var(--muted);flex:1;min-width:150px}
+  .queuetags{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+  .qtag{display:inline-flex;align-items:center;gap:7px;background:var(--chip);border:1px solid #f0d8c8;border-radius:10px;padding:5px 8px 5px 10px;max-width:240px}
+  .qtag img{height:34px;width:34px;object-fit:cover;border-radius:6px}
+  .qtag .qk{font-size:10px;font-weight:800;color:var(--accent);letter-spacing:.03em;white-space:nowrap}
+  .qtag .qt{font-size:12.5px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px}
+  .qtag .qx{background:none;border:none;color:var(--no);cursor:pointer;font-size:13px;padding:0;line-height:1;opacity:.6}
+  .qtag .qx:hover{opacity:1}
+  .qc{display:inline-block;background:rgba(255,255,255,.28);border-radius:999px;padding:0 8px;font-size:12px;min-width:18px;margin-inline-start:4px}
+  .controls{display:flex;gap:10px;align-items:center;margin:12px 0 4px;flex-wrap:wrap}
+  .controls input[type=search]{flex:1;min-width:180px;font:inherit;font-size:14px;border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:var(--card)}
+  .controls .soon{display:inline-flex;gap:6px;align-items:center;font-size:13.5px;font-weight:700;color:var(--muted);white-space:nowrap;cursor:pointer}
+  .count{margin:6px 0 14px;font-size:13px;color:var(--muted);font-weight:700;text-align:center}
+  .card{background:var(--card);border:1px solid #efefec;border-radius:24px;padding:30px 32px;margin:16px 0;box-shadow:0 1px 3px rgba(20,20,20,.05),0 8px 30px rgba(20,20,20,.04)}
+  .card.past{border-color:#f0c9a0;background:#fffdf9}
+  .cardtop{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-start;margin:0 0 20px}
+  .why{font-size:13px;font-weight:700;color:var(--yellowink);background:var(--yellowbg);border-radius:10px;padding:8px 14px;display:inline-block}
+  .past .pastflag,.pastflag{font-size:12px;color:var(--no);font-weight:700;margin-inline-start:8px}
+  .repflag{font-size:12px;color:var(--ok);font-weight:700;margin-inline-start:8px;background:var(--okbg);border-radius:8px;padding:2px 8px}
+  .dupflag{font-size:12px;color:#8a4b00;font-weight:700;margin-inline-start:8px;background:#fdf0e0;border-radius:8px;padding:2px 8px}
+  .vbox{margin-top:12px;font-size:13px;border-radius:10px;padding:9px 12px;line-height:1.5}
+  .vbox.active{background:var(--okbg);color:var(--ok)} .vbox.stale{background:var(--nobg);color:var(--no)} .vbox.uncertain{background:var(--warnbg);color:var(--warn)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 18px}
+  .grid .full{grid-column:1 / -1}
+  label{display:flex;flex-direction:column;gap:8px;font-size:13.5px;letter-spacing:0;color:var(--muted);font-weight:600}
+  input,select,textarea{font:inherit;font-size:15px;font-weight:500;color:var(--ink);
+    border:1px solid var(--field);border-radius:12px;padding:13px 14px;background:#fff;width:100%}
+  input::placeholder,textarea::placeholder{color:#b7bcc4}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(232,96,44,.10)}
+  select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239aa0a8' stroke-width='2.4'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:left 14px center;padding-inline-start:34px}
+  .chipbox{display:flex;flex-wrap:wrap;gap:7px;align-items:center;border:1px solid var(--field);border-radius:12px;padding:9px 12px;background:#fff;min-height:52px}
+  .chipbox:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(232,96,44,.10)}
+  .catchip{display:inline-flex;align-items:center;gap:6px;background:var(--chip);color:var(--ink);border-radius:999px;padding:5px 8px 5px 12px;font-size:13.5px;font-weight:500;border:1px solid #e4e4e0}
+  .catchip .x{background:none;border:none;color:#9aa0a8;cursor:pointer;font-size:12px;padding:0;line-height:1;opacity:.85}
+  .catchip .x:hover{opacity:1}
+  .catinput{flex:1;min-width:90px;border:none!important;padding:2px 4px!important;font:inherit;font-size:14px;outline:none}
+  .dw{font-weight:500;color:#8a857c;font-size:12.5px}
+  .endcourse .lbl{font-size:13.5px;color:var(--muted);font-weight:600;margin-bottom:8px}
+  .dualrow{display:flex;gap:10px;align-items:flex-end}
+  .dualf{flex:1;display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:var(--muted);font-weight:600}
+  .orsep{color:var(--muted);font-weight:700;padding-bottom:13px}
+  .rechint{font-size:11.5px;color:var(--muted);margin:6px 2px 0;line-height:1.5}
+  .cardfoot{margin-top:22px}
+  .footdiv{border:none;border-top:1px solid #ececea;margin:0 0 18px}
+  .linkrow{text-align:start;margin:0 0 16px;font-size:14px}
+  .openlink{display:inline-flex;align-items:center;gap:6px;background:var(--purplebg);color:var(--purple);font-weight:700;text-decoration:none;border-radius:11px;padding:9px 16px}
+  .openlink:hover{background:#e5ddfb}
+  .linkrow .nolink{color:var(--muted);font-size:13.5px}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .btn{font:inherit;font-weight:700;font-size:15px;border:1px solid transparent;border-radius:12px;padding:13px 20px;cursor:pointer;line-height:1;transition:background .12s,color .12s,border-color .12s}
+  .approve{background:var(--btnok);color:#fff}
+  .approve:hover{background:var(--btnokh)}
+  .reject{background:var(--btnno);color:#fff}
+  .reject:hover{background:var(--btnnoh)}
+  .verify{background:#fff;color:var(--ink);border-color:var(--field)}
+  .verify:hover{background:#f6f6f4;border-color:#d5d5d1}
+  .unreview{background:#fff;color:#54606b;border-color:var(--field)}
+  .unreview:hover{background:#f6f6f4}
+  .del{background:#fff;color:#c0564e;border-color:var(--field)}
+  .del:hover{background:#fdecea;border-color:#f2c9c4}
+  .del.armed{background:var(--btnno);color:#fff;border-color:var(--btnno)}
+  .delrow{display:flex;justify-content:flex-end;margin-top:12px}
+  .newbanner{background:var(--purplebg);color:var(--purple);border:1px solid #d9ccf7;border-radius:12px;padding:12px 14px;margin:6px 0 12px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .newbanner button{margin-inline-start:auto;font:inherit;font-weight:700;font-size:13px;border:1px solid var(--purple);background:#fff;color:var(--purple);border-radius:9px;padding:7px 13px;cursor:pointer}
+  .newbanner button:hover{background:var(--purple);color:#fff}
+  .bulkbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--okbg);border:1px solid #bfe3d2;border-radius:12px;padding:10px 14px;margin:6px 0 12px;font-size:13.5px;font-weight:700;color:var(--ok)}
+  .bulkbar button{margin-inline-start:auto;font:inherit;font-weight:800;font-size:13px;border:none;border-radius:9px;padding:8px 14px;background:var(--btnok);color:#fff;cursor:pointer}
+  .bulkbar button:hover{background:var(--btnokh)}
+  .bulkbar button:disabled{opacity:.7;cursor:default}
+  /* compact collapsed list + multi-select */
+  .selbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--okbg);border:1px solid #bfe3d2;border-radius:12px;padding:10px 14px;margin:6px 0 12px;font-size:13.5px;font-weight:800;color:var(--ok);position:sticky;top:8px;z-index:5;box-shadow:0 2px 10px rgba(20,20,20,.06)}
+  .selbar label{flex-direction:row;align-items:center;gap:7px;color:var(--ok);font-weight:800;font-size:13.5px;cursor:pointer}
+  .selbar label input{width:18px;height:18px;accent-color:var(--btnok)}
+  .selbar .grow{flex:1}
+  .selbar button{font:inherit;font-weight:800;font-size:13px;border:none;border-radius:9px;padding:8px 14px;background:var(--btnok);color:#fff;cursor:pointer}
+  .selbar button.ghost{background:#fff;color:var(--ok);border:1px solid #bfe3d2}
+  .selbar button:disabled{opacity:.5;cursor:default}
+  .clist{display:flex;flex-direction:column;gap:8px}
+  .crow{background:var(--card);border:1px solid #efefec;border-radius:14px;padding:10px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 1px 2px rgba(20,20,20,.04)}
+  .crow.past{border-color:#f0c9a0;background:#fffdf9}
+  .crow input.csel{width:20px;height:20px;flex:none;accent-color:var(--btnok);cursor:pointer}
+  .cmain{flex:1;min-width:0;cursor:pointer}
+  .ctitle{font-weight:700;font-size:15px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cmeta{font-size:12.5px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .crow .repflag,.crow .pastflag,.crow .dupflag{margin:0}
+  .cexp{font:inherit;font-weight:700;font-size:13px;border:1px solid var(--field);background:#fff;color:#54606b;border-radius:9px;padding:7px 12px;cursor:pointer;flex:none}
+  .cexp:hover{background:#f6f6f4}
+  .cbody{flex-basis:100%}
+  .cbody .card{margin:6px 0 0}
+  .savebtn{background:#eef1f0;color:#3a5a4e;border-color:var(--field)}
+  .savebtn:hover{background:var(--ok);color:#fff}
+  .focusnav{display:flex;justify-content:center;margin:18px 0 4px}
+  .skip{background:#fff;color:#54606b;border:1px solid var(--field)}
+  .skip:hover{background:#f6f6f4}
+  .enrichwrap{margin:16px 0 0}
+  .enrichtoggle{font:inherit;font-weight:700;font-size:13.5px;border:1px dashed var(--purple);background:var(--purplebg);color:var(--purple);border-radius:11px;padding:9px 15px;cursor:pointer}
+  .enrichtoggle:hover{background:#e5ddfb}
+  .enrich{margin-top:10px;border:1px solid var(--field);border-radius:12px;padding:12px;background:#faf9f7}
+  .enrichbox{width:100%;min-height:64px;resize:vertical;font:inherit;font-size:14px;border:1px solid var(--field);border-radius:10px;padding:10px;background:#fff}
+  .enrichrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .btn.small{padding:9px 14px;font-size:13.5px}
+  .enrichpick{background:#fff;color:var(--ink);border-color:var(--field)}
+  .enrichpick:hover{background:#f6f6f4}
+  .enrichtag{font-size:12.5px;font-weight:700;color:var(--ink);background:var(--chip);border:1px solid #e4e4e0;border-radius:8px;padding:5px 10px}
+  .manualwrap{margin-top:14px;border-top:1px dashed var(--line);padding-top:12px}
+  .manualform{margin-top:10px}
+  .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .mgrid .full{grid-column:1 / -1}
+  .statuspill{font-size:13px;font-weight:800;border-radius:999px;padding:8px 15px}
+  .statuspill.approved{background:var(--okbg);color:var(--ok)}
+  .statuspill.rejected{background:var(--nobg);color:var(--no)}
+  .reason{flex:1;min-width:180px;padding-inline-start:34px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239aa0a8' stroke-width='2.4'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:left 14px center}
+  .msg{font-size:13px;font-weight:700}
+  .msg.g{color:var(--ok)} .msg.r{color:var(--no)}
+  .empty,.err{text-align:center;color:var(--muted);padding:44px 12px}
+  .err{color:var(--no)}
+  .gone{opacity:.45;pointer-events:none}
+  footer{text-align:center;margin-top:26px;color:var(--muted);font-size:12.5px}
+  footer a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="https://zuzu.today">zuzu · לוח האירועים</a>
+    <h1>אישור אירועים</h1>
+    <p class="sub">האירועים שממתינים לבדיקה — אשרו, תקנו, או דחו עם סיבה</p>
+    <div class="ver">🟢 v3.7 — חיפוש בכל האירועים (טאב "הכל") · הקוד נשמר בדפדפן · v3.6: רשימה מכווצת עם תיבות סימון · אישור מרובה (נבחרים / הכל) · לחיצה על שורה פותחת לעריכה · "מצב מיקוד" לאחד-בכל-פעם</div>
+  </header>
+
+  <div id="tokenBar">
+    <input id="token" type="password" placeholder="קוד גישה (REVIEW_TOKEN)" autocomplete="off">
+    <button id="load">טען</button>
+  </div>
+
+  <div id="tabs" class="tabs" hidden>
+    <button class="tab" data-filter="all">הכל 🔍</button>
+    <button class="tab on" data-filter="pending">לבדיקה <span class="tc" id="tc-pending"></span></button>
+    <button class="tab" data-filter="past">עבר <span class="tc" id="tc-past"></span></button>
+    <button class="tab" data-filter="duplicates">כפילויות <span class="tc" id="tc-duplicates"></span></button>
+    <button class="tab" data-filter="approved">אושרו <span class="tc" id="tc-approved"></span></button>
+    <button class="tab" data-filter="rejected">נדחו <span class="tc" id="tc-rejected"></span></button>
+  </div>
+  <div id="addbar" hidden>
+    <button id="addToggle" class="addbtn" type="button">➕ הוסף אירוע חדש</button>
+    <div id="addPanel" class="addpanel" hidden>
+      <div id="dropzone" class="dropzone">
+        <textarea id="addBox" placeholder="📋 הדביקו צילום מסך (Cmd/Ctrl+V) · 🔗 הדביקו קישור · 📝 הקלידו או הדביקו טקסט · או גררו לכאן תמונה או PDF"></textarea>
+        <input id="addFile" type="file" accept="image/*,application/pdf,.pdf" multiple hidden>
+      </div>
+      <div class="dzbtns">
+        <button id="addItemBtn" class="chipadd" type="button">➕ הוסף לרשימה</button>
+        <button id="pickBtn" class="chipadd" type="button">📎 העלה תמונה / PDF</button>
+        <span class="dznote">כל פריט (טקסט / צילום / PDF / קישור) נוסף כתגית למטה. אפשר לצבור כמה שרוצים ואז לשלוח את כולם יחד.</span>
+      </div>
+      <div id="queueTags" class="queuetags"></div>
+      <div class="addactions">
+        <button id="sendQueue" class="btn approve" type="button">שלחו לבדיקה <span id="qCount" class="qc">0</span> ←</button>
+        <button id="clearQueue" class="btn unreview" type="button" hidden>נקה הכל</button>
+        <span id="addMsg" class="msg"></span>
+      </div>
+      <div class="rechint">Claude יקרא כל פריט בנפרד, יחלץ את פרטי האירוע, וייצור שורה בלשונית "לבדיקה" לאישורכם. קישורים שדורשים התחברות (פייסבוק/אינסטגרם) לרוב לא יעבדו — עדיף צילום מסך.</div>
+      <div class="manualwrap">
+        <button id="manualToggle" class="chipadd" type="button">✍️ הזנה ידנית (בלי AI, בלי קרדיט)</button>
+        <div id="manualForm" class="manualform" hidden>
+          <div class="mgrid">
+            <label class="full">כותרת*<input id="m_title"></label>
+            <label>תאריך*<input id="m_date" type="date"></label>
+            <label>משעה<input id="m_time" type="text" inputmode="numeric" dir="ltr" placeholder="20:00" maxlength="5"></label>
+            <label>מקום (venue)<input id="m_venue" list="venuelist"></label>
+            <label>עיר<input id="m_city"></label>
+            <label>מנחה (host)<input id="m_host" list="hostlist"></label>
+            <label>טלפון/וואטסאפ<input id="m_phone"></label>
+            <label>קטגוריה<input id="m_category" list="catlist" placeholder="קונטקט / אקסטטיק / מחול…"></label>
+            <label>סוג<select id="m_type"></select></label>
+            <label class="full">קישור (url)<input id="m_url" placeholder="https://"></label>
+            <label>חזרתיות<select id="m_repeat">
+              <option value="">חד-פעמי</option>
+              <option value="weekly">שבועי</option>
+              <option value="biweekly">דו-שבועי</option>
+              <option value="monthly">חודשי</option>
+              <option value="dates">כמה תאריכים</option>
+            </select></label>
+            <label id="m_countrow" style="display:none">מספר מפגשים<input id="m_count" type="text" inputmode="numeric" placeholder="למשל 8"></label>
+            <label id="m_endrow" style="display:none">תאריך סיום (במקום מספר מפגשים)<input id="m_date_end" type="date"></label>
+            <label class="full" id="m_datesrow" style="display:none">כל התאריכים (מופרדים בפסיק)<input id="m_dates" placeholder="1.9, 15.9, 29.9"></label>
+            <label class="full" id="m_teachersrow" style="display:none">מורה מתחלף/ת לפי תאריך (לגאגא שבועי)<textarea id="m_teachers" rows="2" placeholder="1.9=יערה מוזס; 8.9=קורנליה לך"></textarea></label>
+          </div>
+          <div class="addactions">
+            <button id="manualSave" class="btn approve" type="button">שמור אירוע ←</button>
+            <span id="manualMsg" class="msg"></span>
+          </div>
+          <div class="rechint">נשמר ישר ללשונית "לבדיקה" — <b>בלי AI, בלי קרדיט</b>. אזור מתמלא אוטומטית מהעיר/מקום. אפשר להשלים פרטים אחר כך בכרטיס.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="controls" class="controls" hidden>
+    <input id="search" type="search" placeholder="🔍 חיפוש חכם (כותרת, מנחה, מקום, עיר, אזור, תחום)…">
+    <label class="soon"><input id="focusChk" type="checkbox"> מצב מיקוד (אחד בכל פעם)</label>
+    <label class="soon"><input id="soonChk" type="checkbox"> רק השבוע הקרוב</label>
+  </div>
+  <div id="count" class="count"></div>
+  <div id="list"></div>
+  <datalist id="catlist"></datalist>
+  <datalist id="hostlist"></datalist>
+  <datalist id="venuelist"></datalist>
+  <datalist id="reasonlist"></datalist>
+  <footer>שינויים נשמרים ישר ל-Sheet · דחייה + סיבה עוזרת ל-zuzu ללמוד · <a href="https://zuzu.today">חזרה לאתר</a></footer>
+</div>
+
+<script>
+// ====== CONFIG ======
+const ZUZU_API = "https://script.google.com/macros/s/AKfycbwvg0wayPRD1W6_nV4_R7jfNj7gpho3TBW7mMLPI9AVqlpURYang_DbusX8rVZuVgc3/exec";
+
+let TOKEN = "";
+let CATS = [], TYPES = [], REGIONS = [], TEACHERS = [], VENUES = [];
+const REASONS = [
+  "אירוע מיושן / כבר לא מתקיים",
+  "אירוע חודשי שהופיע כל שבוע בטעות",
+  "כפילות",
+  "המורה/הקבוצה כבר לא פעילים",
+  "אין תאריך ודאי",
+  "תאריך עבר",
+  "לא רלוונטי (לא תנועה/מחול)",
+  "חסרים פרטים",
+  "לא אושר שהאירוע מתקיים",
+  "מקור לא אמין"
+];
+let FILTER = "pending";
+let FOCUS = false;     // focus mode: show one event at a time. Default OFF → compact multi-select list
+let ALL_EVS = [];
+let NEW_UIDS = null;   // when set (Set of uids), show ONLY the just-added events
+let PENDING_NEW = null;// {explicit:[uids], before:Set} consumed by load() to compute NEW_UIDS
+const HEB_DOW = ["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","שבת"];
+const $ = s => document.querySelector(s);
+
+document.querySelectorAll(".tab").forEach(t => t.onclick = () => {
+  FILTER = t.getAttribute("data-filter");
+  NEW_UIDS = null;   // leaving the just-added view
+  document.querySelectorAll(".tab").forEach(x => x.classList.toggle("on", x===t));
+  if (TOKEN) load();
+});
+
+// ====== unified upload queue ======
+document.getElementById("addToggle").onclick = () => {
+  const p = document.getElementById("addPanel"); p.hidden = !p.hidden;
+};
+function readFileAsDataURL(file){
+  return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file); });
+}
+let QUEUE = [];  // {id,kind:'image'|'text'|'url',image,mime,text,url,label}
+let QID = 0;
+const addMsg = (t,cls)=>{ const m=document.getElementById("addMsg"); m.textContent=t; m.className="msg "+(cls||""); };
+function renderQueue(){
+  const box = document.getElementById("queueTags");
+  box.innerHTML = QUEUE.map(it=>{
+    let inner;
+    if(it.kind==="image") inner = '<img src="'+it.image+'"><span class="qk">תמונה</span>';
+    else if(it.kind==="pdf") inner = '<span class="qk">📄 PDF</span><span class="qt">'+esc(it.label)+'</span>';
+    else inner = '<span class="qk">'+(it.kind==="url"?"קישור":"טקסט")+'</span><span class="qt">'+esc(it.label)+'</span>';
+    return '<span class="qtag" data-qid="'+it.id+'">'+inner+'<button type="button" class="qx" data-qrm>✕</button></span>';
+  }).join("");
+  box.querySelectorAll("[data-qrm]").forEach(b=> b.onclick=()=>{ const id=+b.closest(".qtag").getAttribute("data-qid"); QUEUE=QUEUE.filter(x=>x.id!==id); renderQueue(); });
+  document.getElementById("qCount").textContent = QUEUE.length;
+  document.getElementById("clearQueue").hidden = QUEUE.length===0;
+}
+function addFileItem(file){
+  if(!file) return;
+  const isPdf = /pdf/i.test(file.type||"") || /\.pdf$/i.test(file.name||"");
+  const isImg = (file.type||"").indexOf("image")===0;
+  if(!isPdf && !isImg){ addMsg("אפשר להעלות תמונה או PDF בלבד","r"); return; }
+  const cap = isPdf ? 10 : 8;   // PDFs may be a bit larger
+  if(file.size > cap*1024*1024){ addMsg("הקובץ גדול מדי (מקסימום "+cap+"MB)","r"); return; }
+  readFileAsDataURL(file).then(dataUrl=>{
+    QUEUE.push({id:++QID, kind:isPdf?"pdf":"image", image:dataUrl,
+      mime:file.type||(isPdf?"application/pdf":"image/png"), label:file.name||(isPdf?"PDF":"תמונה")});
+    renderQueue(); addMsg("");
+  }).catch(()=>addMsg("שגיאה בקריאת הקובץ","r"));
+}
+function addTextOrUrlFromBox(){
+  const el = document.getElementById("addBox");
+  const v = (el.value||"").trim();
+  if(!v){ addMsg("הקלידו טקסט או הדביקו קישור בתיבה","r"); return false; }
+  if(/^https?:\/\/\S+$/i.test(v)) QUEUE.push({id:++QID, kind:"url", url:v, label:v.replace(/^https?:\/\//i,"").slice(0,60)});
+  else QUEUE.push({id:++QID, kind:"text", text:v, label:v.replace(/\s+/g," ").slice(0,60)});
+  el.value=""; renderQueue(); addMsg(""); return true;
+}
+document.getElementById("addItemBtn").onclick = ()=> addTextOrUrlFromBox();
+document.getElementById("pickBtn").onclick = ()=> document.getElementById("addFile").click();
+document.getElementById("addFile").onchange = (e)=>{ Array.from(e.target.files||[]).forEach(addFileItem); e.target.value=""; };
+document.getElementById("clearQueue").onclick = ()=>{ QUEUE=[]; renderQueue(); addMsg(""); };
+// paste a screenshot anywhere while the panel is open (text still lands in the box normally)
+document.addEventListener("paste", (e)=>{
+  const panel=document.getElementById("addPanel"); if(panel.hidden) return;
+  const items=(e.clipboardData&&e.clipboardData.items)||[];
+  for(const it of items){ if(it.type && it.type.indexOf("image")===0){ const f=it.getAsFile(); if(f){ e.preventDefault(); addFileItem(f); } return; } }
+});
+// drag & drop image / PDF files onto the box
+const dz = document.getElementById("dropzone");
+["dragenter","dragover"].forEach(ev=> dz.addEventListener(ev, e=>{ e.preventDefault(); dz.classList.add("drag"); }));
+dz.addEventListener("dragleave", e=>{ e.preventDefault(); dz.classList.remove("drag"); });
+dz.addEventListener("drop", e=>{ e.preventDefault(); dz.classList.remove("drag"); const fs=(e.dataTransfer&&e.dataTransfer.files)||[]; Array.from(fs).forEach(addFileItem); });
+// send the whole queue: one request per item, sum the added events, then reset
+document.getElementById("sendQueue").onclick = async ()=>{
+  const box=document.getElementById("addBox");
+  if((box.value||"").trim()) addTextOrUrlFromBox();   // don't lose typed-but-not-added text
+  if(!QUEUE.length){ addMsg("אין פריטים לשלוח — הוסיפו טקסט, צילום או קישור","r"); return; }
+  const btn=document.getElementById("sendQueue"); btn.disabled=true;
+  const beforeUids = new Set((FILTER==="pending"?ALL_EVS:[]).map(e=>e.uid));   // fallback: detect new by diff
+  const total=QUEUE.length; let added=0, failed=0, newUids=[], errs=[];
+  for(let i=0;i<QUEUE.length;i++){
+    const it=QUEUE[i];
+    addMsg("מנתח פריט "+(i+1)+" מתוך "+total+"…","");
+    let r;
+    if(it.kind==="url") r=await post({action:"review_add_url", url:it.url});
+    else r=await post({action:"review_add", text:it.text||"", image:it.image||"", mime:it.mime||""});
+    if(r && r.ok){
+      added += (r.added||0);
+      if(Array.isArray(r.uids)) newUids.push(...r.uids);
+      if((r.added||0)===0) errs.push("פריט "+(i+1)+": לא נמצאו אירועים בטקסט/מקור");   // ran, but extracted nothing
+    } else { failed++; errs.push("פריט "+(i+1)+": "+((r&&r.error)||"שגיאה לא ידועה")); }
+  }
+  btn.disabled=false;
+  QUEUE=[]; renderQueue(); box.value="";
+  const errTxt = errs.length ? (" — "+errs.join(" · ")) : "";
+  addMsg((added?("✓ נוספו "+added+" אירועים לבדיקה"):"לא נוספו אירועים")+(failed?(" · "+failed+" נכשלו"):"")+errTxt, (failed||!added)?"r":"g");
+  if(added){                                    // only jump to the "just added" view if something actually landed
+    PENDING_NEW = { explicit: newUids, before: beforeUids };
+    FILTER="pending";
+    document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on", x.getAttribute("data-filter")==="pending"));
+    load();
+  }
+};
+
+// manual entry — create an event with NO AI (fills straight into the review queue)
+document.getElementById("manualToggle").onclick = ()=>{
+  const f=document.getElementById("manualForm"); f.hidden=!f.hidden;
+  const ts=document.getElementById("m_type");
+  if(!f.hidden && ts && ts.options.length<=0){ ts.innerHTML='<option value=""></option>'+(TYPES||[]).map(t=>'<option>'+esc(t)+'</option>').join(""); }
+};
+// manual recurrence: show the right extra fields per repeat choice
+(function(){
+  const rep=document.getElementById("m_repeat"); if(!rep) return;
+  rep.addEventListener("change", ()=>{
+    const per=/^(weekly|biweekly|monthly)$/.test(rep.value);
+    const show=(id,on)=>{ const el=document.getElementById(id); if(el) el.style.display=on?"":"none"; };
+    show("m_countrow", per); show("m_endrow", per); show("m_teachersrow", per);
+    show("m_datesrow", rep.value==="dates");
+  });
+})();
+document.getElementById("manualSave").onclick = async ()=>{
+  const mm=(t,c)=>{ const m=document.getElementById("manualMsg"); m.textContent=t; m.className="msg "+(c||""); };
+  const g=id=>(document.getElementById(id).value||"").trim();
+  const title=g("m_title"), date=g("m_date");
+  if(!title || !date){ mm("כותרת ותאריך הם חובה","r"); return; }
+  mm("שומר…","");
+  const r=await post({ title, date, time:normTime(g("m_time")), venue:g("m_venue"), city:g("m_city"),
+    host:g("m_host"), phone:g("m_phone"), category:g("m_category"), type:g("m_type")?g("m_type"):"",
+    url:g("m_url"),
+    repeat:g("m_repeat"), dates:g("m_dates"), date_end:g("m_date_end"), count:g("m_count"), teachers:g("m_teachers"),
+    source:"manual" });
+  if(r && (r.status || r.uid || r.ok)){
+    mm("✓ נוסף לבדיקה","g");
+    ["m_title","m_date","m_time","m_venue","m_city","m_host","m_phone","m_category","m_url","m_dates","m_date_end","m_count","m_teachers"].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=""; });
+    const ts=document.getElementById("m_type"); if(ts) ts.value="";
+    const rp=document.getElementById("m_repeat"); if(rp){ rp.value=""; ["m_countrow","m_endrow","m_teachersrow","m_datesrow"].forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display="none"; }); }
+    FILTER="pending";
+    document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on", x.getAttribute("data-filter")==="pending"));
+    load();
+  } else mm("שגיאה: "+((r&&r.error)||"נסו שוב"),"r");
+};
+
+// token can come from the URL hash (#your-token) so it isn't typed each time, or from the box
+const TOKEN_KEY = "zuzu_review_token";
+function saveToken(t){ try{ localStorage.setItem(TOKEN_KEY, t); }catch(e){} }
+(function initToken(){
+  const h = (location.hash || "").replace(/^#/, "").trim();
+  let saved = ""; try{ saved = localStorage.getItem(TOKEN_KEY) || ""; }catch(e){}
+  if (h) { TOKEN = decodeURIComponent(h); saveToken(TOKEN); history.replaceState(null, "", location.pathname + location.search); }
+  else if (saved) { TOKEN = saved; }
+  if (TOKEN) { $("#token").value = TOKEN; }
+})();
+
+$("#load").onclick = () => { TOKEN = $("#token").value.trim(); if(TOKEN){ saveToken(TOKEN); load(); } };
+$("#token").addEventListener("keydown", e => { if(e.key==="Enter"){ TOKEN=$("#token").value.trim(); if(TOKEN){ saveToken(TOKEN); load(); } } });
+if (TOKEN) load();
+
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+// normalize for fuzzy/partial search: lowercase, strip niqqud & punctuation, unify Hebrew final letters
+function norm(s){ return String(s==null?"":s).toLowerCase()
+  .replace(/[֑-ׇ]/g,"")
+  .replace(/[."'`׳״,\-–—()\[\]/]/g," ")
+  .replace(/ך/g,"כ").replace(/ם/g,"מ").replace(/ן/g,"נ").replace(/ף/g,"פ").replace(/ץ/g,"צ")
+  .replace(/\s+/g," ").trim(); }
+// force any time entry into 24h HH:MM (Israeli). handles "10pm", "9:5", "2200", "22.00", "10:00 PM"
+function normTime(s){
+  s=String(s==null?"":s).trim(); if(!s) return "";
+  var ap=null, am=s.match(/([ap])\.?\s*m/i); if(am){ ap=am[1].toLowerCase(); s=s.replace(/([ap])\.?\s*m/i,""); }
+  var digits=(s.match(/\d+/g)||[]), h, mn;
+  if(digits.length>=2){ h=+digits[0]; mn=+digits[1]; }
+  else if(digits.length===1){ var d=digits[0];
+    if(d.length<=2){ h=+d; mn=0; } else if(d.length===3){ h=+d.slice(0,1); mn=+d.slice(1); } else { h=+d.slice(0,2); mn=+d.slice(2,4); } }
+  else return s.trim();
+  if(isNaN(h)) return s.trim(); if(isNaN(mn)) mn=0;
+  if(ap==="p" && h<12) h+=12; if(ap==="a" && h===12) h=0;
+  if(h>23) h=23; if(mn>59) mn=59;
+  return ("0"+h).slice(-2)+":"+("0"+mn).slice(-2);
+}
+function dow(iso){ const p=(iso||"").split("-"); if(p.length<3) return ""; const d=new Date(+p[0],+p[1]-1,+p[2]); return HEB_DOW[d.getDay()]||""; }
+function opts(list, sel){ return ['<option value=""></option>'].concat(list.map(v=>`<option ${v===sel?"selected":""}>${esc(v)}</option>`)).join(""); }
+function optsMulti(list, selStr){ const set=new Set(String(selStr||"").split(",").map(s=>s.trim()).filter(Boolean)); return list.map(v=>`<option ${set.has(v)?"selected":""}>${esc(v)}</option>`).join(""); }
+function catList(str){ return String(str||"").split(",").map(s=>s.trim()).filter(Boolean); }
+function catChip(v){ return `<span class="catchip" data-val="${esc(v)}">${esc(v)}<button type="button" class="x" data-rmcat>✕</button></span>`; }
+function setDatalist(id, arr){ const el=document.getElementById(id); if(el) el.innerHTML = (arr||[]).filter(Boolean).map(v=>'<option value="'+esc(v)+'"></option>').join(""); }
+
+const EMPTY = {all:"אין אירועים", pending:"אין אירועים לבדיקה כרגע 🎉", past:"אין אירועי עבר ממתינים", duplicates:"לא נמצאו כפילויות 🎉", approved:"עדיין לא אושרו אירועים", rejected:"עדיין לא נדחו אירועים"};
+const LABEL = {all:"כל האירועים — לחיפוש ועריכה", pending:"ממתינים לבדיקה", past:"תאריך עבר — ממתינים", duplicates:"כפילויות (אותו יום + מנחה)", approved:"אושרו ופורסמו", rejected:"נדחו"};
+
+async function load(){
+  $("#list").innerHTML = '<div class="empty">טוען…</div>';
+  $("#count").textContent = "";
+  let data;
+  const FILTERS = ["pending","past","duplicates","approved","rejected"];
+  const fetchOne = f => fetch(ZUZU_API + "?pending=1&filter=" + f + "&token=" + encodeURIComponent(TOKEN)).then(r=>r.json());
+  try{
+    if(FILTER==="all"){
+      const rs = await Promise.all(FILTERS.map(fetchOne));
+      const bad = rs.find(r=>!r || r.ok===false);
+      if(bad){ data = bad; }
+      else {
+        const seen = new Map();
+        rs.forEach((r,i)=>(r.events||[]).forEach(e=>{ if(!seen.has(e.uid)){ e._status = FILTERS[i]; seen.set(e.uid, e); } }));
+        data = Object.assign({}, rs[0], {events: Array.from(seen.values())});
+      }
+    } else data = await fetchOne(FILTER);
+  }
+  catch(err){ $("#list").innerHTML = '<div class="err">שגיאת רשת. נסו לרענן.</div>'; return; }
+  if(!data || data.ok===false){ $("#tabs").hidden=true; try{ localStorage.removeItem(TOKEN_KEY); }catch(e){} $("#list").innerHTML = '<div class="err">קוד גישה שגוי או שהמערכת לא זמינה.</div>'; return; }
+  CATS=data.categories||[]; TYPES=data.types||[]; REGIONS=data.regions||[];
+  TEACHERS=data.teachers||[]; VENUES=data.venues||[];
+  setDatalist("catlist", CATS);
+  setDatalist("hostlist", TEACHERS.map(t=>t.name));
+  setDatalist("venuelist", VENUES.map(v=>v.name));
+  setDatalist("reasonlist", REASONS);
+  const c = data.counts||{};
+  $("#tabs").hidden = false; $("#addbar").hidden = false;
+  $("#tc-pending").textContent = c.pending!=null?c.pending:"";
+  $("#tc-past").textContent = c.past!=null?c.past:"";
+  $("#tc-duplicates").textContent = c.duplicates!=null?c.duplicates:"";
+  $("#tc-approved").textContent = c.approved!=null?c.approved:"";
+  $("#tc-rejected").textContent = c.rejected!=null?c.rejected:"";
+  ALL_EVS = data.events||[];
+  if(PENDING_NEW){   // turn a just-completed upload into a filtered "just added" view
+    let ns;
+    if(PENDING_NEW.explicit && PENDING_NEW.explicit.length) ns = new Set(PENDING_NEW.explicit);
+    else ns = new Set(ALL_EVS.filter(e=>!PENDING_NEW.before.has(e.uid)).map(e=>e.uid));   // fallback diff
+    NEW_UIDS = ns.size ? ns : null;
+    PENDING_NEW = null;
+  }
+  $("#controls").hidden = ALL_EVS.length===0;
+  renderList();
+}
+function isoAhead(days){ const d=new Date(); d.setDate(d.getDate()+days); return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2); }
+function renderList(){
+  const q = ($("#search").value||"").trim();
+  const soon = $("#soonChk").checked;
+  const t0 = isoAhead(0), t7 = isoAhead(7);
+  let evs = ALL_EVS;
+  if(NEW_UIDS){ evs = evs.filter(e=>NEW_UIDS.has(e.uid)); }   // "just added" view
+  if(q){ const words=norm(q).split(/\s+/).filter(Boolean);
+    evs = evs.filter(e=>{ const hay=norm([e.title,e.host,e.venue,e.city,e.region,e.category,e.type].filter(Boolean).join(" ")); return words.every(w=>hay.includes(w)); }); }
+  if(soon){ evs = evs.filter(e=> e.date && e.date>=t0 && e.date<=t7); }
+  const banner = NEW_UIDS ? '<div class="newbanner">✨ מציג <b>'+evs.length+'</b> אירועים שהרגע הוספת — אשרי או השלימי אותם.<button id="showAllBtn" type="button">הצג את כל התור →</button></div>' : '';
+  const wireBanner = ()=>{ const b=document.getElementById("showAllBtn"); if(b) b.onclick=()=>{ NEW_UIDS=null; renderList(); }; };
+  // bulk-approve the whole shown set (pending/past) — no one-by-one
+  const canBulk = (FILTER==="pending"||FILTER==="past") && evs.length>1;
+  const bulkbar = canBulk ? '<div class="bulkbar">⚡ <span>'+evs.length+' אירועים בתצוגה</span><button id="bulkBtn" type="button">✓ אשר את כולם ('+evs.length+')</button></div>' : '';
+  const bulkList = evs.slice();
+  const wireBulk = ()=>{ const b=document.getElementById("bulkBtn"); if(!b) return;
+    b.onclick = async ()=>{
+      if(b.dataset.armed!=="1"){ b.dataset.armed="1"; b.textContent="בטוח? אשר "+bulkList.length+" אירועים"; setTimeout(()=>{ if(b){ b.dataset.armed=""; b.textContent="✓ אשר את כולם ("+bulkList.length+")"; } },4000); return; }
+      b.disabled=true;
+      for(let i=0;i<bulkList.length;i++){ b.textContent="מאשר "+(i+1)+" מתוך "+bulkList.length+"…"; await post({action:"approve", uid:bulkList[i].uid}); }
+      load();
+    };
+  };
+  if(!evs.length){
+    if(NEW_UIDS){
+      $("#list").innerHTML = '<div class="newbanner">✅ סיימת עם האירועים שהוספת!<button id="showAllBtn" type="button">המשך לכל התור →</button></div>';
+      wireBanner(); $("#count").textContent = "";
+    } else {
+      $("#list").innerHTML = '<div class="empty">'+((q||soon)?"אין תוצאות לסינון":(EMPTY[FILTER]||"אין פריטים"))+'</div>';
+      $("#count").textContent = ALL_EVS.length ? (ALL_EVS.length+" בסך הכל · 0 בסינון") : "";
+    }
+    return;
+  }
+  // focus mode (pending/past): show one card at a time and auto-advance after each action
+  if(FOCUS && (FILTER==="pending"||FILTER==="past")){
+    const cur = evs[0];
+    $("#count").textContent = "נותרו " + evs.length + " " + (LABEL[FILTER]||"") + " · מציג אחד בכל פעם (הקרוב ביותר)";
+    $("#list").innerHTML = banner + bulkbar + card(cur) + '<div class="focusnav"><button class="btn skip" id="skipBtn">דלג לאירוע הבא ←</button></div>';
+    wireBanner(); wireBulk(); wire(cur);
+    const sb = document.getElementById("skipBtn");
+    if(sb) sb.onclick = ()=>{ const i=ALL_EVS.indexOf(cur); if(i>=0){ ALL_EVS.push(ALL_EVS.splice(i,1)[0]); } renderList(); };
+    return;
+  }
+  $("#count").textContent = evs.length + " אירועים · " + (LABEL[FILTER]||"") + (evs.length!==ALL_EVS.length ? (" (מתוך "+ALL_EVS.length+")") : "");
+  renderCompact(evs);
+  wireBanner();
+}
+// ---- compact collapsed list with checkboxes + multi-approve (pending/past) ----
+function compactRow(e){
+  const dw = dow(e.date);
+  const STATUS_HE = {pending:"ממתין", past:"עבר", duplicates:"כפילות", approved:"✓ פורסם", rejected:"✕ נדחה"};
+  const meta = [FILTER==="all"?(STATUS_HE[e._status]||""):"", e.date?(e.date+(dw?" · יום "+dw:"")):"", e.time?normTime(e.time):"", e.host||"", e.venue||e.city||"", e.category||""].filter(Boolean).join("  ·  ");
+  const selectable = (FILTER==="pending"||FILTER==="past");
+  const flags = (e.repeat==="weekly"?'<span class="repflag">🔁</span>':'') + (e.past?'<span class="pastflag">⚠ עבר</span>':'') + (e.dupGroup?'<span class="dupflag">👯 כפילות</span>':'');
+  return '<div class="crow '+(e.past?"past":"")+'" data-crow="'+esc(e.uid)+'">'
+    + (selectable?'<input type="checkbox" class="csel" data-sel="'+esc(e.uid)+'">':'')
+    + '<div class="cmain" data-expandhead><div class="ctitle">'+esc(e.title||"(ללא כותרת)")+' '+flags+'</div><div class="cmeta">'+esc(meta)+'</div></div>'
+    + '<button class="cexp" data-expand type="button">ערוך ▾</button>'
+    + '<div class="cbody" data-cbody hidden></div>'
+    + '</div>';
+}
+function renderCompact(evs){
+  const selectable = (FILTER==="pending"||FILTER==="past");
+  const banner = NEW_UIDS ? '<div class="newbanner">✨ מציג <b>'+evs.length+'</b> אירועים שהרגע הוספת.<button id="showAllBtn" type="button">הצג את כל התור →</button></div>' : '';
+  const selbar = selectable ? (
+    '<div class="selbar">'
+    + '<label><input type="checkbox" id="selAll"> בחר הכל</label>'
+    + '<span id="selCount">0 נבחרו</span>'
+    + '<span class="grow"></span>'
+    + '<button id="apprSel" class="ghost" type="button" disabled>✓ אשר נבחרים</button>'
+    + '<button id="apprAll" type="button">✓ אשר את כולם ('+evs.length+')</button>'
+    + '</div>') : '';
+  $("#list").innerHTML = banner + selbar + '<div class="clist">'+evs.map(compactRow).join("")+'</div>';
+  const byUid={}; evs.forEach(e=>byUid[e.uid]=e);
+  document.querySelectorAll(".crow").forEach(row=>{
+    const uid=row.getAttribute("data-crow"), e=byUid[uid];
+    const head=row.querySelector("[data-expandhead]"), btn=row.querySelector("[data-expand]"), body=row.querySelector("[data-cbody]");
+    let built=false;
+    const toggle=()=>{
+      const opening = body.hidden;
+      if(opening && !built){ body.innerHTML=card(e); wire(e); built=true; }
+      body.hidden=!opening; row.classList.toggle("expanded", opening);
+      if(btn) btn.textContent = opening ? "כווץ ▴" : "ערוך ▾";
+    };
+    if(btn) btn.onclick=toggle;
+    if(head) head.onclick=toggle;
+  });
+  if(selectable) wireSelection(evs);
+}
+function wireSelection(evs){
+  const boxes=()=>Array.from(document.querySelectorAll(".csel"));
+  const selAll=document.getElementById("selAll"), cnt=document.getElementById("selCount"),
+        aSel=document.getElementById("apprSel"), aAll=document.getElementById("apprAll");
+  const selectedUids=()=>boxes().filter(b=>b.checked).map(b=>b.getAttribute("data-sel"));
+  const update=()=>{ const n=selectedUids().length;
+    if(cnt) cnt.textContent=n+" נבחרו";
+    if(aSel){ aSel.disabled=n===0; if(aSel.dataset.armed!=="1") aSel.textContent="✓ אשר נבחרים"+(n?(" ("+n+")"):""); }
+    if(selAll){ const total=boxes().length; selAll.checked = n>0 && n===total; selAll.indeterminate = n>0 && n<total; }
+  };
+  boxes().forEach(b=> b.onchange=update);
+  if(selAll) selAll.onchange=()=>{ boxes().forEach(b=>b.checked=selAll.checked); update(); };
+  const armApprove=(btn, getUids, resetLabel)=>{
+    if(!btn) return;
+    btn.onclick=async()=>{
+      const uids=getUids(); if(!uids.length) return;
+      if(btn.dataset.armed!=="1"){ btn.dataset.armed="1"; btn.textContent="בטוח? אשר "+uids.length+" ✓";
+        setTimeout(()=>{ if(btn){ btn.dataset.armed=""; btn.textContent=resetLabel(); } },4000); return; }
+      boxes().forEach(b=>b.disabled=true); if(aSel)aSel.disabled=true; if(aAll)aAll.disabled=true;
+      for(let i=0;i<uids.length;i++){ btn.textContent="מאשר "+(i+1)+"/"+uids.length+"…"; await post({action:"approve", uid:uids[i]}); }
+      load();
+    };
+  };
+  armApprove(aSel, selectedUids, ()=>{ const n=selectedUids().length; return "✓ אשר נבחרים"+(n?(" ("+n+")"):""); });
+  armApprove(aAll, ()=>evs.map(e=>e.uid), ()=>"✓ אשר את כולם ("+evs.length+")");
+  update();
+}
+document.getElementById("search").addEventListener("input", renderList);
+document.getElementById("soonChk").addEventListener("change", renderList);
+document.getElementById("focusChk").addEventListener("change", ()=>{ FOCUS=document.getElementById("focusChk").checked; renderList(); });
+// remove a handled event from memory and show the next one instantly (no server round-trip)
+function decBadge(){ const b=$("#tc-"+FILTER); if(b){ const n=parseInt(b.textContent||"0",10); if(!isNaN(n)&&n>0) b.textContent=n-1; } }
+function afterAction(uid, el){
+  if(el) el.classList.add("gone");
+  ALL_EVS = ALL_EVS.filter(x=>x.uid!==uid);
+  decBadge();
+  setTimeout(()=>{ if(ALL_EVS.length) renderList(); else load(); }, 420);   // reload only when the queue empties
+}
+
+function card(e){
+  const d = e.uid;
+  const cleanUrl = (e.url||'').replace(/^\/+(?=https?:)/,'');
+  const hasUrl = /^https?:/.test(cleanUrl);
+  const dw = dow(e.date);
+  const repVal = e.repeat || (String(e.dates||"").trim() ? "dates" : "");   // show a saved dates-list as "כמה תאריכים"
+  return `<div class="card ${e.past?"past":""}" id="c-${esc(d)}">
+    <div class="cardtop">
+      <span class="why">${esc(e.reason)}</span>
+      ${e.repeat==="weekly"?'<span class="repflag">🔁 שבועי</span>':''}
+      ${e.past?'<span class="pastflag">⚠ תאריך עבר</span>':''}
+      ${e.dupGroup?'<span class="dupflag">👯 כפילות אפשרית · '+esc(e.dupInfo||"")+'</span>':''}
+    </div>
+    <div class="grid">
+      <label class="full">כותרת<input data-f="title" value="${esc(e.title)}"></label>
+      <label class="full">קטגוריות (לבחור אחת או יותר)
+        <div class="chipbox" data-catbox>${catList(e.category).map(catChip).join("")}<input class="catinput" list="catlist" placeholder="הוסיפו תחום…"></div>
+      </label>
+      <label>סוג (type)<select data-f="type">${opts(TYPES, e.type)}</select></label>
+      <label>מקום (venue)<input data-f="venue" list="venuelist" value="${esc(e.venue)}"></label>
+      <label>עיר<input data-f="city" value="${esc(e.city)}"></label>
+      <label>אזור<select data-f="region">${opts(REGIONS, e.region)}</select></label>
+      <label>מנחה (host)<input data-f="host" list="hostlist" value="${esc(e.host)}"></label>
+      <label>טלפון/וואטסאפ<input data-f="phone" value="${esc(e.phone)}"></label>
+      <label>משעה<input data-f="time" type="text" inputmode="numeric" dir="ltr" placeholder="22:00" maxlength="5" value="${esc(normTime(e.time))}"></label>
+      <label>עד שעה<input data-f="time_end" type="text" inputmode="numeric" dir="ltr" placeholder="23:30" maxlength="5" value="${esc(normTime(e.time_end||""))}"></label>
+      <label>תאריך<input data-f="date" type="date" value="${esc(e.date)}">${dw?`<span class="dw">יום ${dw}</span>`:""}</label>
+      <label>חזרה<select data-f="repeat" data-repeat>
+        <option value="" ${!/^(weekly|biweekly|monthly|dates)$/.test(repVal)?"selected":""}>חד-פעמי</option>
+        <option value="weekly" ${repVal==="weekly"?"selected":""}>חזרה שבועית</option>
+        <option value="biweekly" ${repVal==="biweekly"?"selected":""}>חזרה דו-שבועית</option>
+        <option value="monthly" ${repVal==="monthly"?"selected":""}>חזרה חודשית (אותו יום בחודש)</option>
+        <option value="dates" ${repVal==="dates"?"selected":""}>כמה תאריכים (לא סדיר)</option>
+      </select></label>
+      <div class="full endcourse" data-endrow style="${/^(weekly|biweekly|monthly)$/.test(repVal)?"":"display:none"}">
+        <div class="lbl">משך הקורס (לא חובה) — בחרו תאריך סיום <b>או</b> מספר מפגשים</div>
+        <div class="dualrow">
+          <label class="dualf">תאריך סיום<input data-f="date_end" type="date" value="${esc(e.date_end)}"></label>
+          <span class="orsep">או</span>
+          <label class="dualf">מספר מפגשים<input data-f="count" type="number" min="1" inputmode="numeric" placeholder="למשל 8" value="${esc(e.count||"")}"></label>
+        </div>
+      </div>
+      <label class="full" data-teachersrow style="${/^(weekly|biweekly|monthly)$/.test(repVal)?"":"display:none"}">מורה מתחלף/ת לפי תאריך (לא חובה) — לשיעורים שבועיים כמו גאגא<textarea data-f="teachers" rows="2" placeholder="1.9=יערה מוזס; 8.9=קורליה לך; 15.9=גילי תניה">${esc(e.teachers||"")}</textarea></label>
+      <label class="full">קישור (url)<input data-f="url" value="${esc(cleanUrl)}" placeholder="https://"></label>
+      <label class="full" data-datesrow style="${repVal==="dates"?"":"display:none"}">כל התאריכים (לתאריכים לא סדירים — אפשר להדביק הכל)<textarea data-f="dates" rows="2" placeholder="1.9, 15.9, 29.9  או  2026-09-01, 2026-09-15">${esc(e.dates||"")}</textarea></label>
+    </div>
+    <div class="rechint">בחרו <b>חזרה</b> (שבועית/דו-שבועית ביום של התאריך; <b>חודשית</b> = אותו יום-בחודש, למשל “שבת שלישית בכל חודש”; לקורס הוסיפו “תאריך סיום”), <b>או</b> — לתאריכים לא סדירים — פרטו את כולם בשדה “כל התאריכים”. תאריכים מרובים גוברים על ה”חזרה”.</div>
+    <div class="enrichwrap">
+      <button class="enrichtoggle" data-enrichtoggle type="button">📎 מלא פרטים ממקור (קובץ / PDF / קישור / טקסט)</button>
+      <div class="enrich" data-enrich hidden>
+        <textarea class="enrichbox" data-enrichbox placeholder="הדביקו טקסט של האירוע, קישור לעמוד, או צילום מסך (Cmd/Ctrl+V) — ואמלא ממנו את השדות הריקים בכרטיס"></textarea>
+        <div class="enrichrow">
+          <button class="btn small enrichpick" type="button" data-enrichpick>📎 צרפו קובץ / PDF</button>
+          <input type="file" accept="image/*,application/pdf,.pdf" data-enrichfile hidden>
+          <span class="enrichtag" data-enrichtag hidden></span>
+          <button class="btn approve small" type="button" data-enrichgo>מלא פרטים ←</button>
+          <span class="msg" data-enrichmsg></span>
+        </div>
+      </div>
+    </div>
+    <div class="cardfoot">
+      <div class="linkrow">${hasUrl?`<a class="openlink" href="${encodeURI(cleanUrl)}" target="_blank" rel="noopener">פתח את דף האירוע לבדיקה ↖</a>`:'<span class="nolink">אין קישור — הביקורת לפי הטקסט/התמונה</span>'}</div>
+      <hr class="footdiv">
+      <div class="actions">
+        ${(FILTER==="all"?e._status:FILTER)==="duplicates"
+          ? `<button class="btn reject" data-act="reject">הסר (כפילות) ✕</button>
+             <button class="btn unreview" data-act="unreview">↩ השאר</button>
+             <button class="btn verify" data-act="verify" title="חקור באינטרנט אם האירוע אקטואלי ומצא פרטים">🔍 חקור</button>`
+          : ((FILTER==="all"?e._status:FILTER)==="pending"||(FILTER==="all"?e._status:FILTER)==="past")
+            ? `<button class="btn approve" data-act="approve">אשר ופרסם ✓</button>
+               <button class="btn reject" data-act="reject">דחה ✕</button>
+               <input class="reason" data-reason list="reasonlist" placeholder="סיבת דחייה (עוזר ל-zuzu ללמוד)">
+               <button class="btn verify" data-act="verify" title="חקור באינטרנט אם האירוע אקטואלי ומצא פרטים">🔍 חקור</button>`
+            : `<span class="statuspill ${FILTER==="all"?e._status:FILTER}">${(FILTER==="all"?e._status:FILTER)==="approved"?"✓ אושר ופורסם":"✕ נדחה"}</span>
+               <button class="btn savebtn" data-act="save" title="שמור את השינויים בלי לשלוח שוב לבדיקה">💾 שמור שינויים</button>
+               <button class="btn unreview" data-act="unreview">↩ החזר לבדיקה</button>
+               <button class="btn verify" data-act="verify" title="חקור באינטרנט אם האירוע אקטואלי ומצא פרטים">🔍 חקור</button>`}
+        <span class="msg" data-msg></span>
+      </div>
+      <div class="delrow">
+        <button class="btn del" data-act="delete" title="מחיקה לצמיתות מהגיליון — אין ביטול">מחק</button>
+      </div>
+      <div class="vbox" data-vbox hidden></div>
+    </div>
+  </div>`;
+}
+
+function wire(e){
+  const el = document.getElementById("c-"+e.uid);
+  if(!el) return;
+  const fields = () => {
+    const o = {};
+    el.querySelectorAll("[data-f]").forEach(i => { o[i.getAttribute("data-f")] = (i.value||"").trim(); });
+    o.category = Array.from(el.querySelectorAll("[data-catbox] .catchip")).map(c=>c.getAttribute("data-val")).join(", ");
+    return o;
+  };
+  // keep time fields in 24h Israeli format (normalize when the user leaves the field)
+  el.querySelectorAll('[data-f="time"],[data-f="time_end"]').forEach(inp=>{
+    inp.addEventListener("blur", ()=>{ if((inp.value||"").trim()) inp.value=normTime(inp.value); });
+  });
+  // category chips: add on select/Enter, remove on ✕
+  const catbox = el.querySelector("[data-catbox]"), catinput = el.querySelector(".catinput");
+  const addCat = (val) => {
+    val = (val||"").trim(); if(!val) return;
+    const have = Array.from(el.querySelectorAll("[data-catbox] .catchip")).map(c=>c.getAttribute("data-val"));
+    if(have.includes(val)) return;
+    catinput.insertAdjacentHTML("beforebegin", catChip(val)); catinput.value="";
+  };
+  if(catinput){
+    catinput.addEventListener("change", ()=>addCat(catinput.value));
+    catinput.addEventListener("keydown", ev=>{ if(ev.key==="Enter"){ ev.preventDefault(); addCat(catinput.value); } });
+  }
+  if(catbox) catbox.addEventListener("click", ev=>{ if(ev.target.matches("[data-rmcat]")) ev.target.closest(".catchip").remove(); });
+  // host -> auto-fill phone from directory
+  const hostInp = el.querySelector('[data-f="host"]'), phoneInp = el.querySelector('[data-f="phone"]');
+  if(hostInp) hostInp.addEventListener("change", ()=>{ const t=TEACHERS.find(x=>x.name && x.name.trim()===hostInp.value.trim()); if(t){ if(phoneInp && !phoneInp.value.trim() && t.phone) phoneInp.value=t.phone; const u=el.querySelector('[data-f="url"]'); if(u && !u.value.trim() && t.url) u.value=t.url; } });
+  // venue -> auto-fill city + region from directory
+  const venueInp = el.querySelector('[data-f="venue"]'), cityInp = el.querySelector('[data-f="city"]'), regionSel = el.querySelector('[data-f="region"]');
+  if(venueInp) venueInp.addEventListener("change", ()=>{ const v=VENUES.find(x=>x.name && x.name.trim()===venueInp.value.trim()); if(v){ if(cityInp && !cityInp.value.trim() && v.city) cityInp.value=v.city; if(regionSel && !regionSel.value.trim() && v.region) regionSel.value=v.region; } });
+  // recurrence -> end-date only for weekly/biweekly/monthly; "כל התאריכים" only for "כמה תאריכים"
+  const repSel = el.querySelector("[data-repeat]"), endRow = el.querySelector("[data-endrow]"), datesRow = el.querySelector("[data-datesrow]"), teachersRow = el.querySelector("[data-teachersrow]");
+  if(repSel) repSel.addEventListener("change", ()=>{
+    if(endRow) endRow.style.display = /^(weekly|biweekly|monthly)$/.test(repSel.value) ? "" : "none";
+    if(datesRow) datesRow.style.display = repSel.value==="dates" ? "" : "none";
+    if(teachersRow) teachersRow.style.display = /^(weekly|biweekly|monthly)$/.test(repSel.value) ? "" : "none";
+  });
+  const msg = (t,cls) => { const m=el.querySelector("[data-msg]"); m.textContent=t; m.className="msg "+(cls||""); };
+  const approveBtn = el.querySelector('[data-act="approve"]');
+  const rejectBtn  = el.querySelector('[data-act="reject"]');
+  const unrevBtn   = el.querySelector('[data-act="unreview"]');
+  const saveBtn    = el.querySelector('[data-act="save"]');
+  if(saveBtn) saveBtn.onclick = async () => {          // edit an already-approved event in place — stays live, no re-review
+    msg("שומר…","");
+    const r = await post({action:"save", uid:e.uid, fields:fields()});
+    if(r.ok){ msg("✓ נשמר","g"); const i=ALL_EVS.findIndex(x=>x.uid===e.uid); if(i>=0) Object.assign(ALL_EVS[i], fields()); }
+    else msg("שגיאה: "+(r.error||""),"r");
+  };
+  if(approveBtn) approveBtn.onclick = async () => {
+    msg("שומר…","");
+    const r = await post({action:"approve", uid:e.uid, fields:fields()});
+    if(r.ok){ msg("✓ פורסם","g"); afterAction(e.uid, el); }
+    else msg("שגיאה: "+(r.error||""),"r");
+  };
+  if(rejectBtn) rejectBtn.onclick = async () => {
+    const ri = el.querySelector("[data-reason]");
+    const reason = ri ? ri.value.trim() : "כפילות";
+    if(ri && !reason){ msg("הוסיפו סיבת דחייה","r"); ri.focus(); return; }
+    msg("שומר…","");
+    const r = await post({action:"reject", uid:e.uid, reason:reason});
+    if(r.ok){ msg("✖ נדחה","r"); afterAction(e.uid, el); }
+    else msg("שגיאה: "+(r.error||""),"r");
+  };
+  if(unrevBtn) unrevBtn.onclick = async () => {
+    msg("מחזיר…","");
+    const r = await post({action:"unreview", uid:e.uid});
+    if(r.ok){ msg("↩ הוחזר לבדיקה","g"); afterAction(e.uid, el); }
+    else msg("שגיאה: "+(r.error||""),"r");
+  };
+  const verifyBtn = el.querySelector('[data-act="verify"]');
+  if(verifyBtn) verifyBtn.onclick = async () => {
+    const vb = el.querySelector("[data-vbox]");
+    verifyBtn.disabled = true; verifyBtn.textContent = "בודק…";
+    vb.hidden = false; vb.className = "vbox uncertain"; vb.textContent = "🔍 חוקר באינטרנט… (עד ~20 שניות)";
+    const r = await post({action:"review_verify", uid:e.uid});
+    verifyBtn.disabled = false; verifyBtn.textContent = "🔍 חקור";
+    if(!r.ok){ vb.className="vbox stale"; vb.textContent = "שגיאה: "+(r.error||"נסו שוב"); return; }
+    const res = r.result || {};
+    const st = res.status==="active"?"active":(res.status==="stale"?"stale":"uncertain");
+    const emoji = st==="active"?"✅":(st==="stale"?"⛔":"❓");
+    // fill empty fields with what the research found
+    let filled=[];
+    const setF=(f,val)=>{ if(!val) return; const inp=el.querySelector('[data-f="'+f+'"]'); if(inp && !inp.value.trim()){ inp.value=val; filled.push(f); } };
+    setF("url",res.url); setF("phone",res.phone); setF("time",res.time);
+    vb.className = "vbox "+st;
+    vb.innerHTML = emoji+" "+esc(res.note||("סטטוס: "+st)) + (filled.length?('<br><b>מולא אוטומטית:</b> '+filled.map(f=>({url:"קישור",phone:"טלפון",time:"שעה"}[f]||f)).join(", ")):"");
+  };
+  // delete: two-step (arms on first click, deletes on second) so nothing vanishes by accident
+  const delBtn = el.querySelector('[data-act="delete"]');
+  if(delBtn) delBtn.onclick = async () => {
+    if(delBtn.dataset.armed!=="1"){
+      delBtn.dataset.armed="1"; delBtn.classList.add("armed"); delBtn.textContent="בטוח? מחק לצמיתות";
+      setTimeout(()=>{ if(delBtn){ delBtn.dataset.armed=""; delBtn.classList.remove("armed"); delBtn.textContent="מחק"; } },4000);
+      return;
+    }
+    msg("מוחק…","");
+    const r = await post({action:"delete", uid:e.uid});
+    if(r.ok){ msg("🗑 נמחק לצמיתות","r"); afterAction(e.uid, el); }
+    else msg("שגיאה: "+(r.error||""),"r");
+  };
+  // ---- enrich: attach a source (file/PDF/link/text) and fill this card's empty fields ----
+  const etoggle=el.querySelector("[data-enrichtoggle]"), epanel=el.querySelector("[data-enrich]");
+  const ebox=el.querySelector("[data-enrichbox]"), efile=el.querySelector("[data-enrichfile]");
+  const epick=el.querySelector("[data-enrichpick]"), ego=el.querySelector("[data-enrichgo]"), etag=el.querySelector("[data-enrichtag]");
+  let enrichImg="", enrichMime="";
+  const emsg=(t,c)=>{ const m=el.querySelector("[data-enrichmsg]"); if(m){ m.textContent=t; m.className="msg "+(c||""); } };
+  if(etoggle&&epanel) etoggle.onclick=()=>{ epanel.hidden=!epanel.hidden; if(!epanel.hidden && ebox) ebox.focus(); };
+  const FLAB={title:"כותרת",host:"מנחה",venue:"מקום",city:"עיר",region:"אזור",phone:"טלפון",time:"שעה",time_end:"עד שעה",date:"תאריך",date_end:"תאריך סיום",price:"מחיר",url:"קישור",category:"קטגוריה",type:"סוג",repeat:"חזרה",dates:"תאריכים"};
+  function loadEnrichFile(f){
+    const isPdf=/pdf/i.test(f.type||"")||/\.pdf$/i.test(f.name||""), isImg=(f.type||"").indexOf("image")===0;
+    if(!isPdf&&!isImg){ emsg("אפשר תמונה או PDF בלבד","r"); return; }
+    const cap=isPdf?10:8; if(f.size>cap*1024*1024){ emsg("הקובץ גדול מדי (מקס' "+cap+"MB)","r"); return; }
+    readFileAsDataURL(f).then(d=>{ enrichImg=d; enrichMime=f.type||(isPdf?"application/pdf":"image/png");
+      if(etag){ etag.hidden=false; etag.textContent=(isPdf?"📄 ":"🖼 ")+(f.name||"קובץ"); } emsg(""); }).catch(()=>emsg("שגיאה בקריאת הקובץ","r"));
+  }
+  if(epick&&efile){ epick.onclick=()=>efile.click(); efile.onchange=()=>{ const f=efile.files&&efile.files[0]; if(f) loadEnrichFile(f); efile.value=""; }; }
+  if(ebox) ebox.addEventListener("paste", ev=>{ const items=(ev.clipboardData&&ev.clipboardData.items)||[]; for(const it of items){ if(it.type&&it.type.indexOf("image")===0){ const f=it.getAsFile(); if(f){ ev.preventDefault(); loadEnrichFile(f); } return; } } });
+  function fillCard(ev){
+    if(!ev) return [];
+    const filled=[];
+    const setF=(f,val)=>{ if(val==null||val==="") return; const inp=el.querySelector('[data-f="'+f+'"]'); if(inp && !inp.value.trim()){ inp.value=(f==="time"||f==="time_end")?normTime(val):val; filled.push(f); } };
+    ["title","host","venue","city","url","phone","date","date_end","dates"].forEach(f=>setF(f,ev[f]));
+    setF("time",ev.time); setF("time_end",ev.time_end);
+    const df=el.querySelector('[data-f="dates"]');   // if a dates-list was filled, switch to "כמה תאריכים" and show it
+    if(df && df.value.trim()){ if(repSel && !/^(weekly|biweekly|monthly|dates)$/.test(repSel.value)){ repSel.value="dates"; } if(datesRow) datesRow.style.display=""; }
+    ["type","region"].forEach(f=>{ const sel=el.querySelector('[data-f="'+f+'"]'); if(sel && !sel.value && ev[f]){ const o=Array.from(sel.options).find(x=>x.value===ev[f]||x.text===ev[f]); if(o){ sel.value=o.value; filled.push(f); } } });
+    const have=Array.from(el.querySelectorAll("[data-catbox] .catchip"));
+    if(!have.length && ev.category && catinput){ String(ev.category).split(",").map(s=>s.trim()).filter(Boolean).forEach(v=>catinput.insertAdjacentHTML("beforebegin", catChip(v))); filled.push("category"); }
+    if(ev.repeat){ const rs=el.querySelector("[data-repeat]"); if(rs && !rs.value){ const o=Array.from(rs.options).find(x=>x.value===ev.repeat); if(o){ rs.value=ev.repeat; if(endRow) endRow.style.display=(/^(weekly|biweekly|monthly)$/.test(ev.repeat))?"":"none"; filled.push("repeat"); } } }
+    return filled;
+  }
+  if(ego) ego.onclick=async()=>{
+    const v=(ebox?ebox.value:"").trim(), isUrl=/^https?:\/\/\S+$/i.test(v);
+    if(!v && !enrichImg){ emsg("הדביקו טקסט/קישור או צרפו קובץ","r"); return; }
+    ego.disabled=true; emsg("קורא וממלא… (עד ~20 שניות)","");
+    const body={action:"review_enrich"};
+    if(isUrl) body.url=v; else { body.text=v; body.image=enrichImg; body.mime=enrichMime; }
+    const r=await post(body);
+    ego.disabled=false;
+    if(!r.ok){ emsg("שגיאה: "+(r.error||"נסו שוב"),"r"); return; }
+    if(!r.event){ emsg("לא נמצאו פרטים במקור","r"); return; }
+    const filled=fillCard(r.event);
+    emsg(filled.length?("✓ מולא: "+filled.map(f=>FLAB[f]||f).join(", ")):"אין שדות ריקים למלא (הכל כבר מלא)", filled.length?"g":"r");
+  };
+}
+function fade(el){ return () => { el.style.transition="opacity .3s,height .3s"; el.style.height="0"; el.style.overflow="hidden"; el.style.margin="0"; el.style.padding="0"; recount(); }; }
+function recount(){
+  const left = document.querySelectorAll(".card:not(.gone)").length;
+  $("#count").textContent = left ? (left + " אירועים · " + (LABEL[FILTER]||"")) : "הכל טופל 🎉";
+  const badge = $("#tc-"+FILTER);
+  if(badge){ const n=parseInt(badge.textContent||"0",10); if(!isNaN(n)&&n>0) badge.textContent=n-1; }
+}
+
+// text/plain body avoids a CORS preflight against the Apps Script endpoint
+async function post(body){
+  body.token = TOKEN;
+  try{ return await fetch(ZUZU_API, {method:"POST", body:JSON.stringify(body)}).then(r=>r.json()); }
+  catch(err){ return {ok:false, error:"network"}; }
+}
+</script>
+</body>
+</html>
