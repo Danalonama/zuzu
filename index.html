@@ -752,7 +752,7 @@ function cardHtml(e){
   const t=e.time.replace(/^0/,"");
   const dd=dateOf(e);
   const dateStr=`${HEB_DAYS[dd.getDay()]} ${dd.getDate()}.${dd.getMonth()+1}`;
-  const loc=e.city?`${e.venue}, ${e.city}`:e.venue;
+  const loc=!e.venue?(e.city||""):(e.city&&!e.venue.includes(e.city)?`${e.venue}, ${e.city}`:e.venue);   // skip the city when the venue name already has it
   const link=regLink(e);
   const href=link?link.href:"";
   const moreInner=link
