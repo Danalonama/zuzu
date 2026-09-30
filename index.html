@@ -942,12 +942,13 @@ function render(){
 }
 
 /* ---------- timeline (day ruler) view ---------- */
+const RULER_DAYS=90;   // the day ruler shows at most this many days ahead; later events are in search + calendar
 function timelineDays(){
   let maxIso=iso(TODAY);
   for(const e of EVENTS){ if(e.date>maxIso) maxIso=e.date; }
   const end=dateOf({date:maxIso});
   const days=[]; const d=new Date(TODAY); let guard=0;
-  while(d<=end && guard++<400){ days.push(new Date(d)); d.setDate(d.getDate()+1); }
+  while(d<=end && guard++<RULER_DAYS){ days.push(new Date(d)); d.setDate(d.getDate()+1); }
   return days;
 }
 function dayCount(key){ let n=0; for(const e of EVENTS){ if(e.date===key && passFilters(e)) n++; } return n; }
@@ -1044,7 +1045,9 @@ function renderTimeline(){
     const nextKey=isoDays.find(k=>k>state.selDate && dayCount(k)>0);
     list.innerHTML=nextKey
       ? `<button class="tlNext" data-next="${nextKey}">לקפוץ ליום הקרוב עם אירועים →</button>`
-      : `<div class="tlEmpty">אין עוד אירועים בהמשך הלוח.</div>`;
+      : (EVENTS.some(e=>e.date>isoDays[isoDays.length-1]&&passFilters(e))
+          ? `<div class="tlEmpty">אירועים רחוקים יותר — בתצוגת החודש או בחיפוש.</div>`
+          : `<div class="tlEmpty">אין עוד אירועים בהמשך הלוח.</div>`);
     const nb=list.querySelector(".tlNext"); if(nb) nb.onclick=()=>selectDay(nb.dataset.next);
   }
   reveal(list,".card",60,380);
