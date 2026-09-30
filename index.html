@@ -1236,7 +1236,6 @@ function sbGet(path){
 function safeTxt(s){ return s==null?"":String(s).replace(/[<>"]/g,""); }   // data goes into innerHTML
 function parseIso(s){ const [y,m,d]=String(s).slice(0,10).split("-").map(Number); return new Date(y,m-1,d); }
 function hhmm(t){ return t?String(t).slice(0,5):""; }
-function exceptionDate(x){ return String(x.date||x.on_date||x.exception_date||x.occurs_on||"").slice(0,10); }
 function occurrenceDates(ev){
   const out=[], start=parseIso(ev.date_start);
   const horizon=new Date(TODAY); horizon.setDate(horizon.getDate()+400);
@@ -1273,7 +1272,7 @@ function mapEvent(ev,hostNames){
   const url=/^https?:\/\//i.test(ev.link||"")?ev.link:"";
   const base={
     id:ev.id, title:safeTxt(ev.title), host:safeTxt(hosts.join(", "))||null,
-    venue:safeTxt(venue.name), city:safeTxt(city.name), region:safeTxt(region.name_he),
+    venue:safeTxt(venue.name)||(ev.location_on_registration?"המיקום יימסר בהרשמה":""), city:safeTxt(city.name), region:safeTxt(region.name_he),
     discipline:safeTxt(discs.join(", ")), tags:(ev.audience||[]).map(a=>AUDIENCE_LABELS[a]).filter(Boolean),
     format:safeTxt(fmts[0]||"שיעור"), _fmts:fmts.map(safeTxt), _fams:fams,
     time:hhmm(ev.time_start), timeEnd:hhmm(ev.time_end),
@@ -1282,7 +1281,7 @@ function mapEvent(ev,hostNames){
   };
   const skip=new Set(), override={};
   (ev.event_exceptions||[]).forEach(x=>{
-    const d=exceptionDate(x); if(!d) return;
+    const d=String(x.on_date||"").slice(0,10); if(!d) return;
     if(x.kind==="skip") skip.add(d);
     else if(x.kind==="override" && x.override_host_id && hostNames[x.override_host_id]) override[d]=safeTxt(hostNames[x.override_host_id]);
   });
@@ -1294,7 +1293,7 @@ function loadEvents(){
     sbGet("regions?select=slug,name_he,sort_order&order=sort_order"),
     sbGet("disciplines?select=slug,label_he"),
     sbGet("families?select=slug,label_he,sort_order&order=sort_order"),
-    sbGet("discipline_families?select=*"),
+    sbGet("discipline_families?select=discipline,family"),
     sbGet("formats?select=slug,label_he"),
     sbGet(SB_EVENTS_Q)
   ]).then(([regions,discs,fams,dfs,fmts,events])=>{
@@ -1302,7 +1301,7 @@ function loadEvents(){
     discs.forEach(d=>LOOKUPS.discLabel[d.slug]=d.label_he);
     fmts.forEach(f=>LOOKUPS.fmtLabel[f.slug]=f.label_he);
     fams.forEach(f=>LOOKUPS.famLabel[f.slug]=f.label_he);
-    dfs.forEach(r=>{ const d=r.discipline_slug||r.discipline, f=r.family_slug||r.family; if(d&&f)(LOOKUPS.discFams[d]=LOOKUPS.discFams[d]||[]).push(f); });
+    dfs.forEach(r=>{ const d=r.discipline, f=r.family; if(d&&f)(LOOKUPS.discFams[d]=LOOKUPS.discFams[d]||[]).push(f); });
     // override hosts: names for override_host_id (hosts not embedded by the events query)
     const ids=[...new Set(events.flatMap(e=>(e.event_exceptions||[]).map(x=>x.override_host_id)).filter(Boolean))];
     const hostsP=ids.length?sbGet("hosts?select=id,name&id=in.("+ids.join(",")+")").catch(()=>[]):Promise.resolve([]);
