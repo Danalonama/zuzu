@@ -769,7 +769,7 @@ function cardHtml(e){
       <h3 class="ti">${e.title}</h3>
       ${e.host?`<div class="host">עם <b>${e.host}</b></div>`:""}
       <div class="info">
-        <div class="labels">${[...String(e.discipline||e.category||"").split(",").map(s=>s.trim()).filter(Boolean),...(e.tags||[])].map(c=>`<span>${c}</span>`).join("")}${(e._fmts||[e.format]).filter(f=>f&&f!=="שיעור").map(f=>`<span class="fmt">${f}</span>`).join("")}<span>${e.region}</span></div>
+        <div class="labels">${[...String(e.discipline||e.category||"").split(",").map(s=>s.trim()).filter(Boolean),...(e.tags||[])].map(c=>`<span>${c}</span>`).join("")}${(e._fmts||[e.format]).filter(f=>f&&f!=="שיעור").map(f=>`<span class="fmt">${f}</span>`).join("")}${e.region?`<span>${e.region}</span>`:""}</div>
         <div class="meta">${loc}</div>
       </div>
     </div>
