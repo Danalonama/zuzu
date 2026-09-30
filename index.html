@@ -1115,7 +1115,7 @@ const areaCount=v=>EVENTS.filter(e=>e.region===v).length;
 let MOVES=[], FMTS=[], AREAS=[];
 function buildFilterLists(){
   MOVES=LOOKUPS.families.map(f=>f.label_he).filter(Boolean);
-  AREAS=LOOKUPS.regions.map(r=>r.name_he).filter(Boolean);
+  AREAS=LOOKUPS.regions.map(r=>r.name_he).filter(r=>r&&areaCount(r)>0);   // hide regions with no events right now
   FMTS=[...new Set(EVENTS.flatMap(e=>e._fmts&&e._fmts.length?e._fmts:[e.format||"שיעור"]))].concat(AUDIENCE_TAGS.filter(t=>audCount(t)>0));
   FMTS.sort((a,b)=>fmtCount(b)-fmtCount(a));
 }
