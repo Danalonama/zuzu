@@ -1,5 +1,7 @@
 # zuzu v2 — decision sheet (fast pass)
 
+> **⚠ OUTDATED (written 2026-10-01 from the repo docs only).** v2 is already in progress in Supabase (see PR #1 and the task board artifact "לוח המשימות של זוזו"), and several of these questions were decided there in practice — e.g. recurring classes *without* an end date (contradicts C3 below). Don't use this as a to-do. The "Issues" section may still be worth checking against the real Supabase schema, especially issue 1 (same-title, same-venue, same-day classes at different times).
+
 *Companion to `zuzu-v2-data-model-questions.md` (2026-10-01). That doc has the reasoning; this one makes the decision session ~20 minutes. Nothing here is decided — every line is a **default you accept or strike**. When you've gone through it, copy your answers into the `Decision:` lines of the main doc.*
 
 **How to read each row**
