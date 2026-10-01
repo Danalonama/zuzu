@@ -1,4 +1,4 @@
-# Zuzu — working to-do (updated 2026-09-05, dedup + dupes hardening)
+# Zuzu — working to-do (updated 2026-10-01, hidden pages added)
 
 Site = `index.html` on GitHub → Vercel (zuzu.today). Backend = `zuzu-events.gs` (Google Apps Script) on the `zuzu-events` Google Sheet. Reviewer = `review.html` → host in the same repo as index.html so it lives at **zuzu.today/review.html** (permanent, reads the queue live).
 
@@ -45,6 +45,11 @@ Paste the whole newsletter into the reviewer's add box → AI splits into events
 2. **Smarter dedupe for host-token mismatches** — e.g. "DJ Liran" vs "Liran", spelling variants — currently keys on host first-token; consider fuzzier matching.
 3. **Fill the 18 no-link classes**; **trim 99 stale past-dated seed rows**.
 4. Manual-add form: make its type field multi (card editor already is).
+
+## Hidden pages — finish, then link (added 2026-10-01)
+Both are public at their URL but nothing on the site links to them. Kept hidden on purpose until they're ready.
+- **`styles-guide.html`** — "אילו סוגי תנועה יש בכלל?" beginner guide (per style: description, YouTube example, link to its events). First version of the "which movement is right for me?" idea. To do: the 10 style illustrations are missing (`assets/improv, ecstatic, research, biodanza, mahol, gaga, movement, nia, contact, freedance .png`) — upload them or drop the image slots; check the style list matches the site's current disciplines; then link it from `index.html`.
+- **`about.html`** — "עליי ותודות" (story + source credits). To do: finish/review the copy and the credits list (check it matches today's sources); then link it from `index.html` (top bar or footer).
 
 ## Sources — status
 - ✅ Tribe adapter (auto-publishing). ⏳ Choreographers (re-check 404). ❌ Being (image), Silo/Naim (Wix), Arbox/Gaga (token-gated). Backlog: Biodanza, Contact board, zygo/vibez, ci-events.
