@@ -339,6 +339,14 @@
         border:none;border-radius:14px;padding:16px 22px;text-decoration:none;color:var(--ink);
         transition:background .28s cubic-bezier(.16,1,.3,1),color .28s,transform .28s,box-shadow .28s}
   .card:hover{transform:translateY(-3px)}
+  /* the card is a plain container; its one real link (.cardlink) stretches over the whole card via ::after,
+     and the calendar button sits above that layer — valid HTML (no button inside a link), whole card still clickable */
+  .card{position:relative}
+  .card .cardlink{color:inherit;text-decoration:none}
+  .card .cardlink::after{content:"";position:absolute;inset:0;border-radius:inherit}
+  .card .cardlink:focus-visible{outline:none}
+  .card .cardlink:focus-visible::after{outline:2.5px solid var(--accent);outline-offset:2px}
+  .card .calbtn{position:relative;z-index:1}
   .card .thumb{flex:none;width:76px;height:76px;aspect-ratio:1;background:var(--ink);position:relative;overflow:hidden}
   .card .thumb img{position:absolute;inset:15%;width:70%;height:70%;object-fit:contain;transition:opacity .28s}
   .card .thumb .bk{opacity:0}
@@ -395,12 +403,12 @@
   body[data-cards="invert"] .card:hover .more .ar{transform:translateX(-5px)}
   /* outline hover */
   body[data-cards="outline"] .card:hover{border-color:var(--accent)}
-  body[data-cards="outline"] .card:hover .more{color:var(--accent)}
+  body[data-cards="outline"] .card:hover .more{color:color-mix(in srgb,var(--accent) 85%,#000)}
   body[data-cards="outline"] .card:hover .more .ar{transform:translateX(-5px)}
   /* minimal: no thumb */
   body[data-cards="minimal"] .card .thumb{display:none}
   body[data-cards="minimal"] .card:hover{border-color:var(--accent)}
-  body[data-cards="minimal"] .card:hover .more{color:var(--accent)}
+  body[data-cards="minimal"] .card:hover .more{color:color-mix(in srgb,var(--accent) 85%,#000)}
   body[data-cards="minimal"] .card:hover .more .ar{transform:translateX(-5px)}
   @media(max-width:680px){
     .card{flex-wrap:wrap;gap:8px 18px;padding:16px 16px}
@@ -793,9 +801,7 @@ function cardHtml(e){
         ? '<span>כתבו בוואטסאפ</span><span class="ar wa" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 1.8c2.16 0 4.19.84 5.72 2.37a8.02 8.02 0 0 1 2.37 5.72c0 4.46-3.63 8.09-8.1 8.09a8.1 8.1 0 0 1-4.12-1.13l-.3-.18-3.06.8.82-2.99-.2-.31a8.04 8.04 0 0 1-1.24-4.3c0-4.46 3.63-8.09 8.09-8.09Zm4.67 11.5c-.05-.08-.18-.13-.38-.23-.2-.1-1.2-.59-1.39-.66-.18-.07-.32-.1-.45.1-.13.2-.51.66-.63.79-.12.13-.23.15-.43.05-.2-.1-.85-.31-1.62-1a6.1 6.1 0 0 1-1.12-1.39c-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.33.07-.13.03-.25-.02-.35-.05-.1-.45-1.08-.62-1.48-.16-.39-.33-.34-.45-.34l-.38-.01a.74.74 0 0 0-.53.25c-.18.2-.7.68-.7 1.66 0 .98.72 1.93.82 2.06.1.13 1.4 2.14 3.4 3 .47.2.85.33 1.14.42.48.15.92.13 1.26.08.39-.06 1.2-.49 1.37-.96.17-.47.17-.88.12-.96Z"/></svg></span>'
         : `<span>${e.format==="הופעה/מופע"?"לפרטים ורכישה":"לפרטים והרשמה"}</span><span class="ar" aria-hidden="true">←</span>`)
     : '<span class="nolink">פרטים בקרוב</span>';
-  const tag=link?"a":"div";
-  const attrs=link?` href="${href}" target="_blank" rel="noopener"`:"";
-  return `<${tag} class="card${link&&link.wa?" wacard":""}"${attrs}>
+  return `<div class="card${link&&link.wa?" wacard":""}">
     <div class="thumb"></div>
     <div class="t"><span class="tt">${t}</span><span class="td">${dateStr}</span></div>
     <div class="main">
@@ -808,9 +814,11 @@ function cardHtml(e){
     </div>
     <div class="end">
       <button type="button" class="calbtn" data-cal data-d="${e.date}" data-tm="${e.time}" data-fmt="${encodeURIComponent(e.format||"")}" data-ti="${encodeURIComponent(e.title)}" data-loc="${encodeURIComponent(loc)}" data-url="${encodeURIComponent(e.url||"")}" data-host="${encodeURIComponent(e.host||"")}" aria-label="הוספת ${attrEsc(e.title)} ליומן גוגל"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="17" rx="2"></rect><path d="M16 2v5M8 2v5M3 9.5h18M12 14v4M10 16h4"></path></svg><span>יומן</span></button>
-      <div class="more">${moreInner}${link?'<span class="sr-only"> (נפתח בחלון חדש)</span>':""}</div>
+      ${link
+        ? `<a class="more cardlink" href="${attrEsc(href)}" target="_blank" rel="noopener">${moreInner}<span class="sr-only">: ${attrEsc(e.title)} (נפתח בחלון חדש)</span></a>`
+        : `<div class="more">${moreInner}</div>`}
     </div>
-  </${tag}>`;
+  </div>`;
 }
 
 function icsDownload(ev){
@@ -877,8 +885,8 @@ document.addEventListener("click",ev=>{
 });
 // track clicks on event cards (which listing → registration link)
 document.addEventListener("click",ev=>{
-  const card=ev.target.closest("a.card"); if(!card) return;
-  if(ev.target.closest(".calbtn")) return;
+  const a=ev.target.closest("a.cardlink"); if(!a) return;
+  const card=a.closest(".card"); if(!card) return;
   const ti=card.querySelector(".ti"), labels=card.querySelector(".labels span"), meta=card.querySelector(".meta");
   track("event_click",{
     title: ti?ti.textContent:"",
