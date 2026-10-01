@@ -6,12 +6,12 @@
 <title>zuzu · מדריך חיבור</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#eef4f7;--ink:#0a0a0a;--muted:#6f7a80;--hair:#d9e2e7;--accent:#ff3a00;--card:#fff}
+  :root{--bg:#eef4f7;--ink:#0a0a0a;--muted:#5b656b;--accent-text:#c42f03;--hair:#d9e2e7;--accent:#ff3a00;--card:#fff}
   *{box-sizing:border-box}
   body{margin:0;font-family:"Heebo","Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
   .wrap{max-width:760px;margin:0 auto;padding:40px 22px 90px}
   header.hd{margin-bottom:14px}
-  .kick{font-size:.7rem;letter-spacing:.18em;text-transform:lowercase;color:var(--accent);font-weight:700}
+  .kick{font-size:.7rem;letter-spacing:.18em;text-transform:lowercase;color:var(--accent-text);font-weight:700}
   h1{font-size:clamp(2rem,6vw,3.2rem);font-weight:900;letter-spacing:-.03em;line-height:.95;margin:.2em 0 .15em}
   .lead{color:var(--muted);font-size:1.05rem;max-width:60ch}
   .prog{position:sticky;top:0;background:var(--bg);padding:14px 0 12px;z-index:5;border-bottom:1px solid var(--hair);margin-bottom:8px}
@@ -28,7 +28,7 @@
   .step.done .chk{background:var(--accent);border-color:var(--accent);color:#fff}
   .chk::after{content:"";opacity:0}
   .step.done .chk::after{content:"✓";opacity:1}
-  .sh .n{flex:none;font-weight:900;font-size:.78rem;color:var(--accent);letter-spacing:.1em;margin-top:6px}
+  .sh .n{flex:none;font-weight:900;font-size:.78rem;color:var(--accent-text);letter-spacing:.1em;margin-top:6px}
   .sh h2{margin:0;font-size:1.18rem;font-weight:800;letter-spacing:-.01em}
   .sh .sub{font-size:.85rem;color:var(--muted);font-weight:500;margin-top:2px}
   .body{padding:4px 0 2px 43px}
@@ -36,7 +36,7 @@
   li{margin:7px 0}
   .body p{margin:9px 0}
   code,.kbd{background:#0a0a0a;color:#fff;padding:2px 8px;border-radius:6px;font-size:.84em;font-family:ui-monospace,Menlo,Consolas,monospace;direction:ltr;display:inline-block;unicode-bidi:embed}
-  .pill{display:inline-block;background:var(--accent);color:#fff;font-size:.74rem;font-weight:700;border-radius:99px;padding:2px 11px;margin-inline-start:4px}
+  .pill{display:inline-block;background:var(--accent-text);color:#fff;font-size:.74rem;font-weight:700;border-radius:99px;padding:2px 11px;margin-inline-start:4px}
   .path{background:#f4f8fa;border:1px solid var(--hair);border-radius:8px;padding:3px 9px;font-size:.86em;font-weight:600;direction:ltr;display:inline-block;unicode-bidi:embed}
   .note{background:#f4f8fa;border-inline-start:3px solid var(--accent);border-radius:0 10px 10px 0;padding:12px 15px;margin:13px 0;font-size:.9rem}
   .note b{font-weight:800}
@@ -45,7 +45,7 @@
   .kv{background:#f4f8fa;border:1px solid var(--hair);border-radius:9px;padding:9px 12px}
   .kv .k{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
   .kv .v{font-weight:700;direction:ltr;unicode-bidi:embed}
-  a{color:var(--accent);font-weight:700}
+  a{color:var(--accent-text);font-weight:700}
   .done-banner{background:var(--ink);color:#fff;border-radius:16px;padding:26px;text-align:center;margin-top:26px;display:none}
   .done-banner.show{display:block;animation:pop .4s cubic-bezier(.16,1,.3,1)}
   @keyframes pop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
@@ -53,10 +53,15 @@
   .done-banner p{margin:0;color:rgba(255,255,255,.7)}
   .reset{display:block;margin:22px auto 0;background:none;border:none;color:var(--muted);font-family:inherit;font-size:.8rem;cursor:pointer;text-decoration:underline}
   .foot{text-align:center;color:var(--muted);font-size:.78rem;margin-top:30px}
+  /* ---- accessibility ---- */
+  .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  :focus-visible{outline:2.5px solid var(--accent-text);outline-offset:2px}
+  main:focus{outline:none}
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto!important} *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important} }
 </style>
 </head>
 <body>
-<div class="wrap">
+<main class="wrap" id="main">
   <header class="hd">
     <div class="kick">zuzu · הגדרה</div>
     <h1>לחבר את הטופס למערכת אמיתית</h1>
@@ -70,7 +75,7 @@
 
   <!-- 1 -->
   <div class="step" data-step>
-    <div class="sh"><div class="chk"></div><span class="n">01</span><div><h2>יוצרים גיליון Google חדש</h2><div class="sub">פה יישבו כל האירועים שמוגשים</div></div></div>
+    <div class="sh"><div class="chk" role="checkbox" tabindex="0" aria-checked="false"></div><span class="n">01</span><div><h2>יוצרים גיליון Google חדש</h2><div class="sub">פה יישבו כל האירועים שמוגשים</div></div></div>
     <div class="body">
       <ol>
         <li>נכנסים ל-<a href="https://sheets.new" target="_blank">sheets.new</a> (עם חשבון Google שיהיה הבעלים).</li>
@@ -86,7 +91,7 @@
 
   <!-- 2 -->
   <div class="step" data-step>
-    <div class="sh"><div class="chk"></div><span class="n">02</span><div><h2>מדביקים את קוד השרת</h2><div class="sub">הקובץ zuzu-events.gs מתיקיית backend</div></div></div>
+    <div class="sh"><div class="chk" role="checkbox" tabindex="0" aria-checked="false"></div><span class="n">02</span><div><h2>מדביקים את קוד השרת</h2><div class="sub">הקובץ zuzu-events.gs מתיקיית backend</div></div></div>
     <div class="body">
       <ol>
         <li>באותו גיליון: תפריט <b>Extensions ▸ Apps Script</b>. נפתח עורך קוד בלשונית חדשה.</li>
@@ -100,7 +105,7 @@
 
   <!-- 3 -->
   <div class="step" data-step>
-    <div class="sh"><div class="chk"></div><span class="n">03</span><div><h2>מוסיפים את מפתח ה-AI <span class="pill">לסריקת צילומים</span></h2><div class="sub">רק זה מפעיל את "גררו צילום מסך"</div></div></div>
+    <div class="sh"><div class="chk" role="checkbox" tabindex="0" aria-checked="false"></div><span class="n">03</span><div><h2>מוסיפים את מפתח ה-AI <span class="pill">לסריקת צילומים</span></h2><div class="sub">רק זה מפעיל את "גררו צילום מסך"</div></div></div>
     <div class="body">
       <ol>
         <li>משיגים מפתח ב-<a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → <b>Settings ▸ API Keys ▸ Create Key</b> → מעתיקים (מתחיל ב-<span class="path">sk-ant-</span>).</li>
@@ -118,7 +123,7 @@
 
   <!-- 4 -->
   <div class="step" data-step>
-    <div class="sh"><div class="chk"></div><span class="n">04</span><div><h2>מפרסמים כ-Web App</h2><div class="sub">הופך את הקוד לכתובת אינטרנט</div></div></div>
+    <div class="sh"><div class="chk" role="checkbox" tabindex="0" aria-checked="false"></div><span class="n">04</span><div><h2>מפרסמים כ-Web App</h2><div class="sub">הופך את הקוד לכתובת אינטרנט</div></div></div>
     <div class="body">
       <ol>
         <li>למעלה-ימין: <b>Deploy ▸ New deployment</b>.</li>
@@ -138,7 +143,7 @@
 
   <!-- 5 -->
   <div class="step" data-step>
-    <div class="sh"><div class="chk"></div><span class="n">05</span><div><h2>מחברים את הכתובת לאתר</h2><div class="sub">שורה אחת ב-index.html</div></div></div>
+    <div class="sh"><div class="chk" role="checkbox" tabindex="0" aria-checked="false"></div><span class="n">05</span><div><h2>מחברים את הכתובת לאתר</h2><div class="sub">שורה אחת ב-index.html</div></div></div>
     <div class="body">
       <p>הכי קל: <b>שלחי לי את הכתובת בצ׳אט ואני אחבר תוך שנייה.</b> או לבד:</p>
       <ol>
@@ -154,7 +159,7 @@
 
   <!-- 6 -->
   <div class="step" data-step>
-    <div class="sh"><div class="chk"></div><span class="n">06</span><div><h2>בודקים שהכל עובד</h2><div class="sub">הגשה ניסיונית → אישור</div></div></div>
+    <div class="sh"><div class="chk" role="checkbox" tabindex="0" aria-checked="false"></div><span class="n">06</span><div><h2>בודקים שהכל עובד</h2><div class="sub">הגשה ניסיונית → אישור</div></div></div>
     <div class="body">
       <ol>
         <li>באתר לוחצים <b>"הוסיפו אירוע"</b>, גוררים צילום מסך של אירוע מוואטסאפ ולוחצים <b>"נתחו אירועים"</b> (או ממלאים ידנית) ושולחים.</li>
@@ -171,9 +176,9 @@
     <p>הטופס, הסריקה, והאישור פעילים. שלחי לי את כתובת ה-Web App אם עוד לא חיברנו אותה לאתר.</p>
   </div>
 
-  <button class="reset" id="resetBtn">אפס את הסימונים</button>
+  <button type="button" class="reset" id="resetBtn">אפס את הסימונים</button>
   <div class="foot">נתקעת באיזשהו שלב? כתבי לי באיזה מספר — ואלווה אותך משם.</div>
-</div>
+</main>
 
 <script>
   const KEY="zuzu_setup_progress";
@@ -185,6 +190,7 @@
     steps.forEach((s,i)=>{
       const on=!!done[i];
       s.classList.toggle("done",on);
+      const ck=s.querySelector(".chk"); ck.setAttribute("aria-checked",on); ck.setAttribute("aria-label","שלב "+(i+1)+": "+s.querySelector("h2").textContent+" — הושלם");
       if(on)c++;
     });
     const pct=Math.round(c/steps.length*100);
@@ -198,6 +204,7 @@
       localStorage.setItem(KEY,JSON.stringify(done));
       paint();
     });
+    s.querySelector(".chk").addEventListener("keydown",e=>{ if(e.key===" "||e.key==="Enter"){ e.preventDefault(); e.currentTarget.click(); } });
   });
   document.getElementById("resetBtn").onclick=()=>{done={};localStorage.setItem(KEY,"{}");paint();};
   paint();
