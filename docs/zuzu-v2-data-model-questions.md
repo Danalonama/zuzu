@@ -1,3 +1,6 @@
+> **Answered.** Dana's answers are in the Google Doc copy of this file (edited 26.9); this repo copy is the blank version.
+> The decisions are consolidated in [`v2/MODEL.md`](../v2/MODEL.md).
+
 # zuzu v2 — data model decisions
 
 *Every question below is a decision the store, the Telegram reviewer and the site all have to agree on. Each one has: why it matters (with a real example from the current sheet), the options, my recommendation, and a blank line for your decision. The recommendations are mine — the decisions are yours. Cross out anything you disagree with.*
