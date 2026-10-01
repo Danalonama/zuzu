@@ -1,0 +1,7 @@
+# Internal files — kept in git, not served on zuzu.today.
+# Remove v2/ from this list when v2/api/ functions start shipping.
+docs/
+apps-script/
+v2/
+*.md
+*.zip
