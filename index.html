@@ -1566,8 +1566,8 @@ loadEvents();
       sent=true;
     }
 
-    // legacy backend, if ever re-enabled
-    if(ZUZU_API){ fetch(ZUZU_API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(ev)}).catch(()=>{}); }
+    // (v2: no longer also posted to the Apps Script sheet; the Supabase queue above replaces it, and the
+    //  sheet would mirror it back into the same queue as a second row)
 
     // local safety copy (only meaningful if nothing else is configured)
     if(!ZUZU_FORMSPREE && !ZUZU_FORM_KEY && !ZUZU_EMAIL && !ZUZU_API){ const p=g(PEND);p.push(ev);s(PEND,p);badge(); }
