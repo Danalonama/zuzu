@@ -12,8 +12,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#EEF4F7; --ink:#0a0a0a; --muted:#8a8a8a; --hair:#dbe4e8;
+    --bg:#EEF4F7; --ink:#0a0a0a; --muted:#6b6b6b; /* a11y: was #8a8a8a (3.1:1) → 4.8:1 */ --hair:#dbe4e8;
     --accent:#ff3a00; --card:#ffffff;
+    --accent-text:#c42f03; /* a11y: brand orange is 3.2:1 — use this for small orange text (5:1) */
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:"Heebo","Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink);
@@ -28,7 +29,7 @@
   .topbar .back::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
 
   .head{padding:46px 0 8px}
-  .kick{font-size:.7rem;letter-spacing:.2em;text-transform:lowercase;color:var(--accent);font-weight:700;margin-bottom:16px}
+  .kick{font-size:.7rem;letter-spacing:.2em;text-transform:lowercase;color:var(--accent-text);font-weight:700;margin-bottom:16px}
   h1{margin:0;font-size:clamp(2rem,6vw,3.2rem);font-weight:900;letter-spacing:-.03em;line-height:1.03;text-wrap:pretty}
   h1 .o{color:var(--accent)}
   .story{font-size:1.05rem;font-weight:400;line-height:1.6;max-width:56ch;margin:16px 0 0;color:#42484b;text-wrap:pretty}
@@ -49,6 +50,7 @@
   .opts{display:flex;flex-direction:column;gap:12px}
   .opt{position:relative;display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:14px;
        border:1.5px solid var(--hair);cursor:pointer;transition:.15s;background:#fff}
+  button.opt{width:100%;font:inherit;color:inherit;text-align:start}
   .opt:hover{border-color:#c7d3d8}
   .opt.sel{border-color:var(--ink);background:#fafcfc}
   .opt .dot{flex:0 0 auto;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--hair);
@@ -88,7 +90,7 @@
   .match h3{margin:0 0 8px;font-size:1.25rem;font-weight:800;letter-spacing:-.01em}
   .match p{margin:0 0 14px;font-size:.93rem;color:#42484b;line-height:1.55}
   .match .why{display:inline-block;font-size:.78rem;color:var(--muted);background:#f2f5f6;border-radius:8px;padding:5px 10px;margin:0 0 14px}
-  .matchlink{display:inline-flex;align-items:center;gap:8px;color:var(--accent);font-weight:800;text-decoration:none;font-size:.9rem}
+  .matchlink{display:inline-flex;align-items:center;gap:8px;color:var(--accent-text);font-weight:800;text-decoration:none;font-size:.9rem}
   .matchlink .ar{display:inline-block;transition:.18s}
   .matchlink:hover .ar{transform:translateX(-4px)}
 
@@ -107,15 +109,25 @@
     .quizcard{padding:28px 22px}
     .match{flex-direction:column}
   }
+  /* ---- accessibility ---- */
+  .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .skipLink{position:absolute;inset-inline-start:12px;top:-60px;z-index:9999;background:var(--ink);color:var(--bg);
+    padding:10px 16px;border-radius:999px;font-weight:700;text-decoration:none;transition:top .15s}
+  .skipLink:focus{top:12px}
+  :focus-visible{outline:2.5px solid var(--accent-text);outline-offset:2px}
+  main:focus{outline:none}
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto!important} *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important} }
 </style>
 </head>
 <body>
+<a class="skipLink" href="#main">דלגו לתוכן הראשי</a>
 <div class="wrap">
-  <div class="topbar">
-    <a href="index.html"><span class="tmark" style="font-size:28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">.zuzu<sup style="font-size:.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span></a>
+  <nav class="topbar" aria-label="ניווט ראשי">
+    <a href="index.html" aria-label="zuzu — ללוח האירועים"><span class="tmark" style="font-size:28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">.zuzu<sup style="font-size:.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span></a>
     <a href="index.html" class="back">חזרה ללוח</a>
-  </div>
+  </nav>
 
+  <main id="main" tabindex="-1">
   <header class="head">
     <div class="kick">שאלון קצר</div>
     <h1>איזה סגנון <span class="o">תנועה</span><br>מתאים לי?</h1>
@@ -123,22 +135,23 @@
   </header>
 
   <div class="progwrap">
-    <div class="progtrack"><div class="progbar" id="progbar"></div></div>
-    <div class="progtxt" id="progtxt">שאלה 1 מתוך 7</div>
+    <div class="progtrack" role="progressbar" id="progtrack" aria-label="התקדמות בשאלון" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0"><div class="progbar" id="progbar"></div></div>
+    <div class="progtxt" id="progtxt" aria-hidden="true">שאלה 1 מתוך 7</div>
   </div>
 
   <div id="quizArea"></div>
 
-  <section class="results" id="results">
+  <section class="results" id="results" aria-labelledby="resultsTitle">
     <div class="resulthead">
       <div class="kick">ההמלצות שלכם</div>
-      <h2>נראה שאלה יתאימו לכם 💫</h2>
+      <h2 id="resultsTitle" tabindex="-1">נראה שאלה יתאימו לכם 💫</h2>
       <p>בהתאם למה שסיפרתם לנו — אלו הסגנונות שהכי קרובים למה שאתם מחפשים.</p>
     </div>
     <div class="matches" id="matches"></div>
-    <div class="restart"><button id="restartBtn">למלא שוב מהתחלה</button></div>
+    <div class="restart"><button type="button" id="restartBtn">למלא שוב מהתחלה</button></div>
   </section>
 
+  </main>
 </div>
 
 <footer><div class="wrap">
@@ -283,6 +296,8 @@ function renderQuestion(){
   const q = QUESTIONS[cur];
   progbar.style.width = (cur/QUESTIONS.length*100)+"%";
   progtxt.textContent = "שאלה "+(cur+1)+" מתוך "+QUESTIONS.length;
+  const pt=document.getElementById("progtrack"); pt.setAttribute("aria-valuemax",QUESTIONS.length); pt.setAttribute("aria-valuenow",cur); pt.setAttribute("aria-valuetext","שאלה "+(cur+1)+" מתוך "+QUESTIONS.length);
+  const focusAfter = renderQuestion._focus; renderQuestion._focus = null;
 
   const selected = answers[q.id];
   const isMulti = !!q.multi;
@@ -292,23 +307,24 @@ function renderQuestion(){
     let isSel;
     if(isMulti) isSel = selArr && selArr.includes(o.v);
     else isSel = selected===o.v;
-    return '<div class="opt'+(isSel?' sel':'')+'" data-idx="'+idx+'">'
-      + '<span class="dot"></span>'
-      + '<span class="otxt">'+o.label+(o.sub?'<div class="osub">'+o.sub+'</div>':'')+'</span>'
-      + '</div>';
+    return '<button type="button" class="opt'+(isSel?' sel':'')+'" data-idx="'+idx+'" role="'+(isMulti?'checkbox':'radio')+'" aria-checked="'+(isSel?'true':'false')+'"'
+      + (!isMulti ? ' tabindex="'+((isSel || (selected===undefined && idx===0))?'0':'-1')+'"' : '') + '>'
+      + '<span class="dot" aria-hidden="true"></span>'
+      + '<span class="otxt">'+o.label+(o.sub?'<span class="osub" style="display:block">'+o.sub+'</span>':'')+'</span>'
+      + '</button>';
   }).join("");
 
   quizArea.innerHTML =
     '<div class="quizcard">'
-    + '<div class="qlabel">שאלה '+(cur+1)+'</div>'
-    + '<h2 class="qtext">'+q.text+'</h2>'
-    + (q.sub?'<p class="qsub">'+q.sub+'</p>':'<div style="height:10px"></div>')
-    + '<div class="opts'+(isMulti?' multi':'')+'">'+optsHtml+'</div>'
+    + '<div class="qlabel">שאלה '+(cur+1)+'<span class="sr-only"> מתוך '+QUESTIONS.length+'</span></div>'
+    + '<h2 class="qtext" id="qtext" tabindex="-1">'+q.text+'</h2>'
+    + (q.sub?'<p class="qsub" id="qsub">'+q.sub+'</p>':'<div style="height:10px"></div>')
+    + '<div class="opts'+(isMulti?' multi':'')+'" role="'+(isMulti?'group':'radiogroup')+'" aria-labelledby="qtext"'+(q.sub?' aria-describedby="qsub'+(isMulti?' qhint':'')+'"':(isMulti?' aria-describedby="qhint"':''))+'>'+optsHtml+'</div>'
     + '<div class="navrow">'
-    +   (cur>0 ? '<button class="btn btn-ghost" id="backBtn">← חזרה</button>' : '<span></span>')
-    +   '<span style="display:flex;gap:10px"><button class="btn btn-ghost" id="skipBtn">דלג</button><button class="btn btn-primary" id="nextBtn" '+(canProceed(q)?'':'disabled')+'>'+(cur===QUESTIONS.length-1?'לראות תוצאות':'הבא')+'</button></span>'
+    +   (cur>0 ? '<button type="button" class="btn btn-ghost" id="backBtn">← חזרה</button>' : '<span></span>')
+    +   '<span style="display:flex;gap:10px"><button type="button" class="btn btn-ghost" id="skipBtn">דלג</button><button type="button" class="btn btn-primary" id="nextBtn" '+(canProceed(q)?'':'disabled')+'>'+(cur===QUESTIONS.length-1?'לראות תוצאות':'הבא')+'</button></span>'
     + '</div>'
-    + (isMulti?'<div class="hint">אפשר לבחור עד '+q.max+'</div>':'')
+    + (isMulti?'<div class="hint" id="qhint">אפשר לבחור עד '+q.max+'</div>':'')
     + '</div>';
 
   quizArea.querySelectorAll(".opt").forEach(el=>{
@@ -324,18 +340,31 @@ function renderQuestion(){
       } else {
         answers[q.id] = val;
       }
+      renderQuestion._focus = idx;
       renderQuestion();
     });
   });
+  // radio group: arrow keys move + select (standard radiogroup keyboard pattern)
+  if(!isMulti){
+    const opts=[...quizArea.querySelectorAll(".opt")];
+    opts.forEach((el,i)=>el.addEventListener("keydown",e=>{
+      const k=e.key; let n=null;
+      if(k==="ArrowDown"||k==="ArrowLeft") n=(i+1)%opts.length;
+      else if(k==="ArrowUp"||k==="ArrowRight") n=(i-1+opts.length)%opts.length;
+      if(n===null) return; e.preventDefault(); opts[n].click();
+    }));
+  }
+  if(focusAfter!==null && focusAfter!==undefined){ const el=quizArea.querySelector('.opt[data-idx="'+focusAfter+'"]'); if(el) el.focus(); }
+  else if(renderQuestion._moved){ renderQuestion._moved=false; const h=document.getElementById("qtext"); if(h) h.focus(); }
 
   const backBtn = document.getElementById("backBtn");
-  if(backBtn) backBtn.addEventListener("click", ()=>{ cur--; renderQuestion(); });
+  if(backBtn) backBtn.addEventListener("click", ()=>{ cur--; renderQuestion._moved=true; renderQuestion(); });
 
   const skipBtn = document.getElementById("skipBtn");
   skipBtn.addEventListener("click", ()=>{
     trackEvent("quiz_skip",{question:q.id});
     if(cur===QUESTIONS.length-1){ showResults(); }
-    else { cur++; renderQuestion(); }
+    else { cur++; renderQuestion._moved=true; renderQuestion(); }
   });
 
   const nextBtn = document.getElementById("nextBtn");
@@ -343,7 +372,7 @@ function renderQuestion(){
     if(!canProceed(q)) return;
     trackEvent("quiz_answer",{question:q.id,value:JSON.stringify(answers[q.id])});
     if(cur===QUESTIONS.length-1){ showResults(); }
-    else { cur++; renderQuestion(); }
+    else { cur++; renderQuestion._moved=true; renderQuestion(); }
   });
 }
 
@@ -400,13 +429,13 @@ function showResults(){
   matchesEl.innerHTML = ranked.map((r,i)=>{
     const s = r.style;
     return '<div class="match">'
-      + '<div class="rank">'+(i+1)+'</div>'
+      + '<div class="rank" aria-hidden="true">'+(i+1)+'</div>'
       + '<div class="mtxt">'
-      +   '<div class="eng">'+s.eng+'</div>'
-      +   '<h3>'+s.cat+'</h3>'
+      +   '<div class="eng" lang="en" dir="ltr">'+s.eng+'</div>'
+      +   '<h3><span class="sr-only">המלצה '+(i+1)+': </span>'+s.cat+'</h3>'
       +   '<p>'+s.blurb+'</p>'
       +   '<div class="why">✓ '+whyText(s)+'</div><br>'
-      +   '<a class="matchlink" href="index.html?cat='+encodeURIComponent(s.cat)+'">לאירועי '+s.cat+' בלוח <span class="ar">←</span></a>'
+      +   '<a class="matchlink" href="index.html?cat='+encodeURIComponent(s.cat)+'">לאירועי '+s.cat+' בלוח <span class="ar" aria-hidden="true">←</span></a>'
       + '</div>'
       + '</div>';
   }).join("");
@@ -414,6 +443,7 @@ function showResults(){
   document.querySelector(".progwrap").style.display="none";
   resultsEl.classList.add("show");
   window.scrollTo({top:0, behavior:"smooth"});
+  document.getElementById("resultsTitle").focus({preventScroll:true});
 }
 
 document.getElementById("restartBtn").addEventListener("click", ()=>{
@@ -422,6 +452,7 @@ document.getElementById("restartBtn").addEventListener("click", ()=>{
   resultsEl.classList.remove("show");
   quizArea.style.display = "";
   document.querySelector(".progwrap").style.display="";
+  renderQuestion._moved=true;
   renderQuestion();
   window.scrollTo({top:0, behavior:"smooth"});
 });
