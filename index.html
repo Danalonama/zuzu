@@ -1526,6 +1526,15 @@ loadEvents();
     if(submitBtn){submitBtn.disabled=true;submitBtn.textContent="שולח…";}
     let sent=false;
 
+    // v2: queue the submission in Supabase (event_submissions: anon may insert, never read) for review
+    try{
+      const r=await fetch(SB_URL+"/rest/v1/event_submissions",{method:"POST",
+        headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json",Prefer:"return=minimal"},
+        body:JSON.stringify({payload:Object.assign({},ev,{tags:catTags,host:_h||null,dates:pairs,page:location.href})})});
+      sent=r.ok;
+      if(!r.ok) console.warn("zuzu: submission queue failed",r.status);
+    }catch(err){ console.warn("zuzu: submission queue failed",err); }
+
     // Formspree (emails you; same service as your other site)
     if(ZUZU_FORMSPREE){
       try{
@@ -1534,7 +1543,7 @@ loadEvents();
         const r=await fetch(ZUZU_FORMSPREE,{method:"POST",
           headers:{"Content-Type":"application/json",Accept:"application/json"},
           body:JSON.stringify(payload)});
-        sent=r.ok;
+        sent=r.ok||sent;
       }catch(_){}
     }
 
