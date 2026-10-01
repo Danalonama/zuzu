@@ -44,7 +44,7 @@
 
   /* hero */
   .head{position:relative;padding:50px 0 12px;display:flex;align-items:center;gap:30px;flex-wrap:wrap}
-  .heroIll{width:clamp(320px,46vw,520px);height:auto;flex:none;order:2}
+  .heroIll{width:clamp(320px,46vw,520px);max-width:100%;height:auto;flex:none;order:2} /* a11y: no sideways scroll at 320px (WCAG 1.4.10) */
   .htext{min-width:240px;flex:1;order:1}
   .kick{font-size:.7rem;letter-spacing:.2em;text-transform:lowercase;color:var(--accent-text);font-weight:700;margin-bottom:14px}
   h1{margin:0;font-size:clamp(2.1rem,6vw,3.4rem);font-weight:900;letter-spacing:-.04em;line-height:.98}
