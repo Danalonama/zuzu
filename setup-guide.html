@@ -190,7 +190,7 @@
     steps.forEach((s,i)=>{
       const on=!!done[i];
       s.classList.toggle("done",on);
-      const ck=s.querySelector(".chk"); ck.setAttribute("aria-checked",on); ck.setAttribute("aria-label","שלב "+(i+1)+": "+s.querySelector("h2").textContent+" — הושלם");
+      const ck=s.querySelector(".chk"); ck.setAttribute("aria-checked",on); ck.setAttribute("aria-label","שלב "+(i+1)+": "+s.querySelector("h2").textContent);
       if(on)c++;
     });
     const pct=Math.round(c/steps.length*100);
