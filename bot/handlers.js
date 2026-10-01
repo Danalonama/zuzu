@@ -7,7 +7,7 @@ import { approveItem, ApproveError } from "./write.js";
 import { createDraft, loadDraft, saveDraft } from "./drafts.js";
 import { todayIL } from "./normalize.js";
 
-const HELP = `שלום! העבירו לכאן הודעה (וואטסאפ, ניוזלטר, פוסט) עם אירועים.
+const HELP = `שלום! העבירו לכאן הודעה (וואטסאפ, ניוזלטר, פוסט) עם אירועים — טקסט או צילום מסך.
 אחזיר כרטיס לכל אירוע: ✅ אשר · ✏️ תקן · ❌ דחה.
 ✏️ תקן — עונים להודעה שאשלח במילים חופשיות ("השעה 19:30, כל יום שני").
 שום דבר לא נשמר באתר בלי ✅.`;
@@ -24,6 +24,29 @@ export function messageText(msg) {
   const o = msg.forward_origin;
   const from = o?.chat?.title || o?.sender_user?.first_name && [o.sender_user.first_name, o.sender_user.last_name].filter(Boolean).join(" ") || o?.sender_user_name || msg.forward_sender_name;
   return from ? `[הועבר מ: ${from}]\n${text}` : text;
+}
+
+const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // Claude API per-image limit
+
+/** Image attached to the message (photo, or an image sent "as file"), as { file_id, media_type, size }. */
+export function messageImages(msg) {
+  if (msg.photo?.length) {
+    const p = msg.photo[msg.photo.length - 1]; // Telegram lists sizes small → large
+    return [{ file_id: p.file_id, media_type: "image/jpeg", size: p.file_size || null }];
+  }
+  const d = msg.document;
+  if (d && IMAGE_TYPES.includes(d.mime_type)) return [{ file_id: d.file_id, media_type: d.mime_type, size: d.file_size || null }];
+  return [];
+}
+
+async function downloadImages(tg, refs) {
+  const out = [];
+  for (const r of refs) {
+    if (r.size && r.size > MAX_IMAGE_BYTES) throw new Error("התמונה גדולה מ-5MB — שלחו אותה כתמונה רגילה (לא כקובץ)");
+    out.push({ media_type: r.media_type, data: await tg.fileBase64(r.file_id) });
+  }
+  return out;
 }
 
 export async function handleUpdate(update, deps) {
@@ -44,23 +67,28 @@ async function handleMessage(update, m, deps) {
   const { tg } = deps;
   const chat = m.chat.id;
   const text = messageText(m).trim();
-  if (!text || /^\/(start|help)\b/.test(text)) return tg.send(chat, HELP);
+  const images = messageImages(m);
+  if (m.document && !images.length) return tg.send(chat, "אני קוראת רק טקסט ותמונות (JPG/PNG), לא קבצים אחרים.");
+  if ((!text && !images.length) || /^\/(start|help)\b/.test(text)) return tg.send(chat, HELP);
   if (text === "/id") return tg.send(chat, `user id: <code>${m.from.id}</code>`);
   const fix = m.reply_to_message && (m.reply_to_message.text || "").match(FIX_RE);
   if (fix) return handleFix(chat, Number(fix[1]), Number(fix[2]) - 1, text, deps);
-  return handleIntake(update, m, text, deps);
+  return handleIntake(update, m, text, images, deps);
 }
 
-async function handleIntake(update, m, text, deps) {
+async function handleIntake(update, m, text, imageRefs, deps) {
   const { sb, tg } = deps;
   const today = deps.today || todayIL();
   const chat = m.chat.id;
-  const draft = await createDraft(sb, { update_id: update.update_id, chat_id: chat, message_id: m.message_id, raw_text: text });
+  const draft = await createDraft(sb, {
+    update_id: update.update_id, chat_id: chat, message_id: m.message_id,
+    raw_text: text, images: imageRefs.length ? imageRefs : null,
+  });
   if (!draft) return; // duplicate delivery
-  const status = await tg.send(chat, "⏳ קוראת את ההודעה…", { reply_parameters: { message_id: m.message_id } });
+  const status = await tg.send(chat, imageRefs.length ? "⏳ קוראת את התמונה…" : "⏳ קוראת את ההודעה…", { reply_parameters: { message_id: m.message_id } });
   try {
-    const [lk, world] = await Promise.all([loadLookups(sb), loadWorld(sb, today)]);
-    const ex = await (deps.extract || extractEvents)({ text, lookups: lk, today });
+    const [lk, world, images] = await Promise.all([loadLookups(sb), loadWorld(sb, today), downloadImages(tg, imageRefs)]);
+    const ex = await (deps.extract || extractEvents)({ text, images, lookups: lk, today });
     draft.extraction = ex.data;
     draft.model = ex.model;
     draft.usage = ex.usage;
@@ -176,8 +204,8 @@ async function handleFix(chat, draftId, idx, instruction, deps) {
   if (item.state !== "pending") return tg.send(chat, "האירוע כבר טופל");
   await tg.typing(chat).catch(() => {});
   try {
-    const [lk, world] = await Promise.all([loadLookups(sb), loadWorld(sb, today)]);
-    const ex = await (deps.extract || extractEvents)({ text: draft.raw_text, lookups: lk, today, revision: { current: item.ext, instruction } });
+    const [lk, world, images] = await Promise.all([loadLookups(sb), loadWorld(sb, today), downloadImages(tg, draft.images || [])]);
+    const ex = await (deps.extract || extractEvents)({ text: draft.raw_text, images, lookups: lk, today, revision: { current: item.ext, instruction } });
     const revised = ex.data.events?.[0];
     if (!revised) return tg.send(chat, "לא הבנתי את התיקון — נסו שוב במילים אחרות");
     const next = buildItem(revised, idx, world, lk, today);

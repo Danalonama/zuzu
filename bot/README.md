@@ -1,6 +1,7 @@
 # zuzu intake bot (Telegram → Claude → review card → Supabase)
 
-Forward any text with events (a studio's WhatsApp message, a newsletter, a Facebook post) to the bot.
+Send the bot any text with events (a studio's WhatsApp message, a newsletter, a Facebook post) — or just a
+**screenshot / poster image** of it.
 It extracts the events with Claude, matches them against Supabase, and sends back one review card
 per event. **Nothing is written to Supabase until you press ✅.**
 
@@ -59,7 +60,7 @@ hosts are never changed. New hosts and skip dates are added.
 ## Setup
 
 ### 1. Supabase
-Run `v2/db/2026-09-30-intake-bot.sql` in the SQL editor. It adds `venues.aliases`, the
+Run `v2/db/2026-09-30-intake-bot.sql` in the SQL editor (safe to run again if you already ran an older version). It adds `venues.aliases`, the
 `intake_drafts` table (service_role only), and `intake_column_enum()` (lets the bot read the real
 enum labels for price_kind / price_unit / host kind / venue kind instead of hard-coding them).
 
@@ -120,7 +121,10 @@ real one — replace it with the real text when you have it, and adjust `extract
   tokens on `claude-opus-5-5` ($4 / $20 per M) ≈ $0.10–0.20; a fix ≈ $0.05.
 - Telegram splits messages over 4096 characters; a long newsletter arrives as 2+ messages and is
   handled as 2+ separate drafts.
-- Only text/captions are read — not images or PDFs.
+- Text, captions and images (photos, or JPG/PNG/WebP sent as a file, up to 5 MB) are read. PDFs are not.
+- Several photos sent together (an album) arrive as separate messages: each photo becomes its own draft.
+- An image costs a little more than text: up to ~4,800 input tokens per image (≈ 2 cents on `claude-opus-5-5`).
+  Accuracy on real screenshots hasn't been measured yet — check dates and times on the card.
 - The function is set to `maxDuration: 300` s. If your Vercel plan's limit is lower, the deploy will
   say so; lower it in `api/telegram.js`.
 - Writes are several REST calls, not one transaction. If a step after the event insert fails, the bot

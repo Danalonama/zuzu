@@ -1,9 +1,9 @@
 // intake_drafts: one row per forwarded message. Keeps the raw text and Claude's output untouched (decision E4)
 // and the proposals with their review state. See v2/db/2026-09-30-intake-bot.sql.
 
-export async function createDraft(sb, { update_id, chat_id, message_id, raw_text }) {
+export async function createDraft(sb, { update_id, chat_id, message_id, raw_text, images = null }) {
   try {
-    const [row] = await sb.insert("intake_drafts", [{ telegram_update_id: update_id, chat_id, source_message_id: message_id, raw_text }]);
+    const [row] = await sb.insert("intake_drafts", [{ telegram_update_id: update_id, chat_id, source_message_id: message_id, raw_text, images }]);
     return row;
   } catch (e) {
     if (e.code === "23505") return null; // Telegram re-delivered this update: already handled

@@ -79,6 +79,8 @@ export function fakeTelegram() {
     async answer(id, text) { answers.push({ id, text }); },
     async call(method, p) { if (method === "answerCallbackQuery") answers.push({ id: p.callback_query_id, text: p.text, alert: p.show_alert }); },
     async typing() {},
+    files: [],
+    async fileBase64(file_id) { this.files.push(file_id); return Buffer.from("img:" + file_id).toString("base64"); },
     /** Latest keyboard for a card message. */
     buttons(message_id) {
       const e = [...edits].reverse().find((x) => x.message_id === message_id);

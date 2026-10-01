@@ -122,3 +122,27 @@ test("reject, and ✏️ fix re-extracts one event from the reply", async () => 
   assert.equal(extractCalls.at(-1).revision.instruction, "השעה 19:00");
   assert.equal(sb.db.intake_drafts[0].items[6].row.time_start, "19:00");
 });
+
+test("screenshot: largest photo size is downloaded and sent to Claude; kept for ✏️ fixes", async () => {
+  const { sb, tg, msg, extractCalls } = setup();
+  await msg(undefined, { photo: [{ file_id: "small", file_size: 1000 }, { file_id: "big", file_size: 90000 }], caption: "מה יש בתנע" });
+  assert.deepEqual(tg.files, ["big"]);
+  assert.equal(extractCalls[0].images.length, 1);
+  assert.equal(extractCalls[0].images[0].media_type, "image/jpeg");
+  assert.equal(extractCalls[0].text, "מה יש בתנע");
+  assert.match(tg.sent[0].text, /קוראת את התמונה/);
+  assert.deepEqual(sb.db.intake_drafts[0].images, [{ file_id: "big", media_type: "image/jpeg", size: 90000 }]);
+  assert.equal(sb.db.intake_drafts[0].items.length, 7);
+});
+
+test("photo with no caption works; non-image files and >5MB images are refused", async () => {
+  const { sb, tg, msg, extractCalls } = setup();
+  await msg(undefined, { photo: [{ file_id: "p1" }] });
+  assert.equal(extractCalls.length, 1);
+  await msg(undefined, { document: { file_id: "d1", mime_type: "application/pdf" } });
+  assert.match(tg.sent.at(-1).text, /רק טקסט ותמונות/);
+  await msg(undefined, { document: { file_id: "d2", mime_type: "image/png", file_size: 9e6 } });
+  assert.equal(extractCalls.length, 1);
+  assert.equal(sb.db.intake_drafts.at(-1).status, "failed");
+  assert.match(tg.edits.at(-1).text, /5MB/);
+});

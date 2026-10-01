@@ -25,6 +25,8 @@ create table if not exists public.intake_drafts (
   error               text,
   version             integer not null default 0          -- optimistic lock for concurrent button presses
 );
+-- Screenshots: Telegram file references ({file_id, media_type, size}); the bot re-downloads them for ✏️ fixes.
+alter table public.intake_drafts add column if not exists images jsonb;
 alter table public.intake_drafts enable row level security;
 revoke all on public.intake_drafts from anon, authenticated;
 

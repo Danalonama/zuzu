@@ -30,6 +30,15 @@ test("request: structured output schema, fallback, today in the prompt", async (
   assert.equal(r.data.message_notes, "אין אירועים");
 });
 
+test("images go first as base64 blocks, with a note telling Claude to read them", async () => {
+  const client = fakeClient({ events: [], message_notes: null });
+  await extractEvents({ text: "", images: [{ media_type: "image/png", data: "QUJD" }], lookups, today: TODAY, client });
+  const content = client.seen[0].messages[0].content;
+  assert.deepEqual(content[0], { type: "image", source: { type: "base64", media_type: "image/png", data: "QUJD" } });
+  assert.equal(content[1].type, "text");
+  assert.match(content[1].text, /attached image/);
+});
+
 test("refusal and truncation surface as errors", async () => {
   await assert.rejects(extractEvents({ text: "x", lookups, today: TODAY, client: fakeClient({}, "refusal") }), /declined/);
   await assert.rejects(extractEvents({ text: "x", lookups, today: TODAY, client: fakeClient({}, "max_tokens") }), /cut off/);

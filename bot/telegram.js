@@ -21,5 +21,12 @@ export function createTelegram({ token = process.env.TELEGRAM_BOT_TOKEN, fetchIm
       call("editMessageText", { chat_id, message_id, text, parse_mode: "HTML", link_preview_options: { is_disabled: true }, ...extra }),
     answer: (callback_query_id, text) => call("answerCallbackQuery", { callback_query_id, text }),
     typing: (chat_id) => call("sendChatAction", { chat_id, action: "typing" }),
+    /** Bytes of a file the user sent (photo / document), as base64. Bot API limit: 20 MB. */
+    async fileBase64(file_id) {
+      const f = await call("getFile", { file_id });
+      const r = await fetchImpl(`https://api.telegram.org/file/bot${token}/${f.file_path}`);
+      if (!r.ok) throw new Error(`telegram file ${r.status}`);
+      return Buffer.from(await r.arrayBuffer()).toString("base64");
+    },
   };
 }

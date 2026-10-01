@@ -82,7 +82,7 @@ export function buildSchema(lk) {
 
 export function buildSystemPrompt(lk, today) {
   const discs = lk.disciplines.map((d) => `${d.slug} = ${d.label_he}`).join("\n");
-  return `You extract movement & dance events in Israel from forwarded text (WhatsApp messages, newsletters, Facebook posts) for zuzu.today, a curated calendar. A human reviews every event you return before it is published, so flag doubt in "notes" instead of guessing silently.
+  return `You extract movement & dance events in Israel from forwarded text or screenshots (WhatsApp messages, newsletters, Facebook posts, posters) for zuzu.today, a curated calendar. A human reviews every event you return before it is published, so flag doubt in "notes" instead of guessing silently.
 
 Today is ${today} (Asia/Jerusalem). Dates without a year are the next occurrence on or after today. Hebrew weekday names: ראשון=0 שני=1 שלישי=2 רביעי=3 חמישי=4 שישי=5 שבת=6.
 
@@ -110,19 +110,24 @@ ${discs}`;
  * Call Claude. Returns { data, model, usage, stop_reason }.
  * `revision` = { current, instruction } asks Claude to fix one previously extracted event.
  */
-export async function extractEvents({ text, lookups, today, client, model, revision }) {
+export async function extractEvents({ text, images = [], lookups, today, client, model, revision }) {
   client = client || new Anthropic();
   model = model || process.env.CLAUDE_MODEL || DEFAULT_MODEL;
   const schema = buildSchema(lookups);
+  const imageNote = images.length ? `(The source is ${images.length === 1 ? "the attached image" : `the ${images.length} attached images`} — a screenshot or poster; read the events from it. Any text below is the sender's caption.)\n` : "";
   const user = revision
-    ? `Original forwarded text:\n<source>\n${text}\n</source>\n\nYou previously extracted this event:\n<event>\n${JSON.stringify(revision.current, null, 1)}\n</event>\n\nThe reviewer's correction (Hebrew, may be terse):\n<correction>\n${revision.instruction}\n</correction>\n\nReturn events: [the corrected event] — exactly one entry, all other fields unchanged unless the correction implies them.`
-    : `<source>\n${text}\n</source>`;
+    ? `${imageNote}Original forwarded text:\n<source>\n${text}\n</source>\n\nYou previously extracted this event:\n<event>\n${JSON.stringify(revision.current, null, 1)}\n</event>\n\nThe reviewer's correction (Hebrew, may be terse):\n<correction>\n${revision.instruction}\n</correction>\n\nReturn events: [the corrected event] — exactly one entry, all other fields unchanged unless the correction implies them.`
+    : `${imageNote}<source>\n${text}\n</source>`;
+  const content = [
+    ...images.map((im) => ({ type: "image", source: { type: "base64", media_type: im.media_type, data: im.data } })),
+    { type: "text", text: user },
+  ];
 
   const params = {
     model,
     max_tokens: 32000,
     system: buildSystemPrompt(lookups, today),
-    messages: [{ role: "user", content: user }],
+    messages: [{ role: "user", content }],
     output_config: { effort: process.env.CLAUDE_EFFORT || "medium", format: { type: "json_schema", schema } },
     // Server-side fallback if the model declines; routed by refusal category.
     betas: ["server-side-fallback-2026-07-01"],
