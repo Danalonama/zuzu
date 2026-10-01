@@ -127,3 +127,137 @@ function _probeOne(u) {
 
   return [u, code, platform, tribe, wpTypes, rss, ical.join(' | '), ld || '', widgets.join(', '), verdict];
 }
+
+/* ============================================================
+ *  DEEP PROBE — second pass on the candidates probeSources() flagged.
+ *  Run probeDeep(); results go to a 'probe-deep' tab. Read-only.
+ *   A) Wix Events sites: find individual event pages in the HTML and check
+ *      whether they carry schema.org Event data (JSON-LD) with a startDate.
+ *   B) WordPress sites with event/course post types: fetch 2 items per type and
+ *      check whether real event dates sit in structured fields, only in the
+ *      text, or in JSON-LD on the item's own page.
+ * ============================================================ */
+var DEEP_WIX = [   // [home, extra listing paths to scan for event links]
+  ['https://www.studiotena.org/', ['event', 'class']],
+  ['https://www.siloculture.com/', ['silocalender', 'events']],
+  ['https://move-ment.co.il/', ['events']],
+  ['https://www.irisnais.com/', ['events']],
+  ['https://www.zuzima.net/', ['events']],
+  ['https://wildwomenisrael.com/', ['events']],
+  ['https://www.beingspace.co.il/', ['events']],
+  ['https://www.bethlehemfoodforest.com/', ['events']],
+  ['https://www.daliastudio.com/', ['events']]
+];
+var DEEP_WP = ['https://movementfreaks.com', 'https://pantarhei-studio.co.il', 'https://teo.org.il',
+  'https://deepcontact.org', 'https://love-soul.co.il', 'https://yogoda.co.il'];
+var DEEP_SKIP_FIELDS = ['date', 'date_gmt', 'modified', 'modified_gmt', 'content', 'excerpt', 'guid', '_links',
+  'yoast_head', 'yoast_head_json', 'title', 'link', 'slug'];   // publish/edit dates are NOT event dates
+
+function probeDeep() {
+  var rows = [['site', 'kind', 'checked', 'items', 'sample title', 'dates in fields', 'dates in text', 'JSON-LD on item page', 'sample start', 'verdict']];
+  DEEP_WIX.forEach(function (w) {
+    try { rows.push(_deepWix(w[0], w[1])); }
+    catch (e) { rows.push([w[0], 'wix', '', '', '', '', '', '', '', 'ERR ' + String(e).slice(0, 120)]); }
+  });
+  DEEP_WP.forEach(function (o) {
+    try { _deepWp(o).forEach(function (r) { rows.push(r); }); }
+    catch (e) { rows.push([o, 'wp', '', '', '', '', '', '', '', 'ERR ' + String(e).slice(0, 120)]); }
+  });
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName('probe-deep') || ss.insertSheet('probe-deep');
+  sh.clearContents();
+  sh.getRange(1, 1, rows.length, rows[0].length).setValues(rows);
+  sh.setFrozenRows(1);
+  var msg = 'probeDeep: ' + (rows.length - 1) + ' rows → see the "probe-deep" tab';
+  Logger.log(msg); return msg;
+}
+
+function _deepFetchAll(urls) {
+  if (!urls.length) return [];
+  var opts = function (u) { return { url: u, muteHttpExceptions: true, followRedirects: true, headers: PROBE_UA }; };
+  try { return UrlFetchApp.fetchAll(urls.map(opts)); }
+  catch (e) {   // one DNS failure kills the whole batch → retry one by one
+    return urls.map(function (u) { try { var o = opts(u); delete o.url; return UrlFetchApp.fetch(u, o); } catch (x) { return null; } });
+  }
+}
+function _deepText(r) { return (r && r.getResponseCode() < 400) ? r.getContentText() : ''; }
+function _deepStrip(s) { return String(s || '').replace(/<[^>]+>/g, ' ').replace(/&[#\w]+;/g, ' ').replace(/\s+/g, ' ').trim(); }
+
+/** schema.org Event/Course objects in a page's JSON-LD → [{name, start}] */
+function _deepLdEvents(html) {
+  var out = [], re = /<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi, m;
+  function walk(o) {
+    if (!o || typeof o !== 'object') return;
+    if (Array.isArray(o)) { o.forEach(walk); return; }
+    if (/Event|Course/.test([].concat(o['@type'] || []).join(','))) out.push({ name: _deepStrip(o.name), start: o.startDate || '' });
+    if (o['@graph']) walk(o['@graph']);
+    if (o.hasCourseInstance) walk(o.hasCourseInstance);
+  }
+  while ((m = re.exec(html))) { try { walk(JSON.parse(m[1].trim())); } catch (e) {} }
+  return out;
+}
+
+function _deepWix(home, paths) {
+  var base = home.replace(/\/$/, '');
+  var pages = _deepFetchAll([home].concat(paths.map(function (p) { return base + '/' + p; })));
+  var links = {};
+  pages.forEach(function (r) {
+    var h = _deepText(r), re = /href="((?:https?:\/\/[^"\/]+)?\/(?:event-details|event-info|events)\/[^"?#\/]+)/gi, m;
+    while ((m = re.exec(h))) { var u = m[1].charAt(0) === '/' ? base + m[1] : m[1]; if (u.indexOf(base.replace(/^https?:\/\/(www\.)?/, '')) >= 0) links[u] = 1; }
+  });
+  var list = Object.keys(links);
+  if (!list.length) {
+    var warm = pages.some(function (r) { return /"startDate"\s*:\s*"20\d\d-/.test(_deepText(r)); });
+    return [home, 'wix', paths.join(', '), 0, '', warm ? 'startDate in embedded page JSON' : '', '', '', '',
+      warm ? 'NO EVENT LINKS, but dates in Wix embedded JSON — possible, fragile'
+           : 'NO EVENT LINKS in HTML (JS-rendered or no events) — Claude scrape only'];
+  }
+  var ld = [], warmD = false, title = '';
+  _deepFetchAll(list.slice(0, 2)).forEach(function (r) {
+    var h = _deepText(r);
+    ld = ld.concat(_deepLdEvents(h));
+    if (/"startDate"\s*:\s*"20\d\d-/.test(h)) warmD = true;
+    if (!title) { var t = h.match(/<title>([^<]*)/i); if (t) title = _deepStrip(t[1]); }
+  });
+  var dated = ld.filter(function (e) { return e.start; });
+  var verdict = dated.length ? 'STRUCTURED — JSON-LD Event with dates on event pages → Wix adapter, no Claude needed'
+    : warmD ? 'SEMI — no JSON-LD, but startDate in Wix embedded JSON (fragile)'
+    : 'LINKS ONLY — event pages exist but no machine-readable date → Claude per page';
+  return [home, 'wix', list[0], list.length, (ld[0] && ld[0].name) || title, warmD ? 'startDate in embedded JSON' : '', '',
+    ld.length ? ld.length + ' (' + dated.length + ' with startDate)' : 'none', dated.length ? dated[0].start : '', verdict];
+}
+
+function _deepWp(origin) {
+  var types; try { types = JSON.parse(_deepText(_deepFetchAll([origin + '/wp-json/wp/v2/types'])[0]) || '{}'); } catch (e) { types = {}; }
+  var cands = Object.keys(types).filter(function (k) {
+    return !PROBE_BUILTIN_TYPES.test(k) && PROBE_EVENTISH.test(k + ' ' + (types[k].name || ''));
+  });
+  if (!cands.length) return [[origin, 'wp', '/wp-json/wp/v2/types', 0, '', '', '', '', '', 'no events-like post type exposed']];
+  var urls = cands.map(function (k) { return origin + '/wp-json/wp/v2/' + (types[k].rest_base || k) + '?per_page=2'; });
+  var lists = _deepFetchAll(urls);
+  return cands.map(function (k, i) {
+    var r = lists[i], items = null;
+    try { items = JSON.parse(_deepText(r)); } catch (e) {}
+    if (!Array.isArray(items)) return [origin, 'wp:' + k, urls[i], '', '', '', '', '', '', 'REST refused (HTTP ' + (r ? r.getResponseCode() : 'ERR') + ')'];
+    var h = r.getHeaders(), total = h['X-WP-Total'] || h['x-wp-total'] || items.length;
+    if (!items.length) return [origin, 'wp:' + k, urls[i], 0, '', '', '', '', '', 'EMPTY — type exists but has no items'];
+    var it = items[0], title = _deepStrip(it.title && it.title.rendered);
+    var text = _deepStrip(((it.content && it.content.rendered) || '') + ' ' + ((it.excerpt && it.excerpt.rendered) || ''));
+    // structured fields: drop WP's own publish/edit dates, then look for date-ish keys or values
+    var copy = JSON.parse(JSON.stringify(it)); DEEP_SKIP_FIELDS.forEach(function (f) { delete copy[f]; });
+    var flat = JSON.stringify(copy), hits = [], m;
+    var reF = /"([\w-]*(?:date|start|_time|day)[\w-]*)"\s*:\s*"?([^",}\]]{4,30})/gi;
+    while ((m = reF.exec(flat)) && hits.length < 4) { if (/\d/.test(m[2])) hits.push(m[1] + '=' + m[2]); }
+    var reV = /"([\w-]+)"\s*:\s*"(20\d\d-\d\d-\d\d[^"]{0,9}|\d{1,2}[\/.]\d{1,2}[\/.](?:20)?\d\d)"/g;
+    while ((m = reV.exec(flat)) && hits.length < 4) { var kv = m[1] + '=' + m[2]; if (hits.indexOf(kv) < 0) hits.push(kv); }
+    var textDate = /\b\d{1,2}[.\/]\d{1,2}(?:[.\/](?:20)?\d{2})?\b|ינואר|פברואר|מרץ|אפריל|מאי|יוני|יולי|אוגוסט|ספטמבר|אוקטובר|נובמבר|דצמבר|יום [אבגדהו]['׳]/.test(title + ' ' + text);
+    var ld = it.link ? _deepLdEvents(_deepText(_deepFetchAll([it.link])[0])) : [];
+    var dated = ld.filter(function (e) { return e.start; });
+    var verdict = dated.length ? 'STRUCTURED — JSON-LD with dates on item pages'
+      : hits.length ? 'STRUCTURED — dates in REST fields → adapter, no Claude needed'
+      : textDate ? 'SEMI — items via REST, dates only in text → Claude reads each item'
+      : 'NO DATES visible — likely evergreen course/info pages, not dated events';
+    return [origin, 'wp:' + k, it.link || urls[i], total, title, hits.join(' ; '), textDate ? 'yes' : '',
+      ld.length ? ld.length + ' (' + dated.length + ' with startDate)' : 'none', dated.length ? dated[0].start : '', verdict];
+  });
+}
