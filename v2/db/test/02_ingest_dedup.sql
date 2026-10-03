@@ -11,11 +11,11 @@ create temp table r (name text primary key, res jsonb);
 
 -- ---- D1: bodyways sends one class once per discipline → one event, disciplines unioned
 insert into r select 'bw1', ingest('bodyways', 'bw-31893-a', null, null,
-  '{"title":"ביודנסה ריקוד החיים עם נאווה","date_start":"2026-11-16","time_start":"20:00",
-    "hosts":["נאוה סופר"],"venue":{"name":"סעדיה גאון","city":"תל אביב-יפו"},"disciplines":["ביודנסה"],"price_text":"350"}');
+  '{"title":"ביודנסה ריקוד החיים עם מיכל","date_start":"2026-11-16","time_start":"20:00",
+    "hosts":["מיכל לוי"],"venue":{"name":"סעדיה גאון","city":"תל אביב-יפו"},"disciplines":["ביודנסה"],"price_text":"350"}');
 insert into r select 'bw2', ingest('bodyways', 'bw-31893-b', null, null,
-  '{"title":"ביודנסה ריקוד החיים עם נאווה","date_start":"2026-11-16","time_start":"20:00",
-    "hosts":["נאוה סופר"],"venue":{"name":"סעדיה גאון","city":"תל אביב-יפו"},"disciplines":["מובמנט"]}');
+  '{"title":"ביודנסה ריקוד החיים עם מיכל","date_start":"2026-11-16","time_start":"20:00",
+    "hosts":["מיכל לוי"],"venue":{"name":"סעדיה גאון","city":"תל אביב-יפו"},"disciplines":["מובמנט"]}');
 select pg_temp.eq((select res->>'outcome' from r where name='bw1'), 'created', 'bw1 created');
 select pg_temp.eq((select res->>'outcome' from r where name='bw2'), 'filled', 'bw2 folds into bw1');
 select pg_temp.eq((select disciplines from events where id = (select (res->>'event_id')::bigint from r where name='bw1')),
@@ -26,52 +26,52 @@ select pg_temp.eq((select region_code from cities where name = 'תל אביב-י
 
 -- ---- G2: the same item again → seen_again, nothing new
 insert into r select 'bw1again', ingest('bodyways', 'bw-31893-a', null, null,
-  '{"title":"ביודנסה ריקוד החיים עם נאווה","date_start":"2026-11-16","time_start":"20:00",
-    "hosts":["נאוה סופר"],"venue":{"name":"סעדיה גאון","city":"תל אביב-יפו"},"disciplines":["ביודנסה"],"price_text":"350"}');
+  '{"title":"ביודנסה ריקוד החיים עם מיכל","date_start":"2026-11-16","time_start":"20:00",
+    "hosts":["מיכל לוי"],"venue":{"name":"סעדיה גאון","city":"תל אביב-יפו"},"disciplines":["ביודנסה"],"price_text":"350"}');
 select pg_temp.eq((select res->>'outcome' from r where name='bw1again'), 'seen_again', 'identical re-arrival');
 select pg_temp.eq((select times_seen from source_records where external_id = 'bw-31893-a'), 2, 'counted');
 
--- ---- F2 "ask": קורס Play-Fight — same date, time, host; one copy has no venue → asks, never auto
-insert into r select 'pf1', ingest('newsletter', 'nl-1', 'קורס Play-Fight עם איל בנר…', null,
-  '{"title":"קורס Play-Fight","date_start":"2026-11-02","time_start":"19:00","hosts":"איל בנר",
-    "venue":{"name":"סטודיו תנע עין-שמר","city":"עין-שמר"}}');
+-- ---- F2 "ask": קורס Floor-Work — same date, time, host; one copy has no venue → asks, never auto
+insert into r select 'pf1', ingest('newsletter', 'nl-1', 'קורס Floor-Work עם יואב כהן…', null,
+  '{"title":"קורס Floor-Work","date_start":"2026-11-02","time_start":"19:00","hosts":"יואב כהן",
+    "venue":{"name":"סטודיו גפן עין-שמר","city":"עין-שמר"}}');
 insert into r select 'pf2', ingest('manual', null, 'pasted', null,
-  '{"title":"קורס PLAY-FIGHT","date_start":"2026-11-02","time_start":"19:00","hosts":"איל בנר"}');
+  '{"title":"קורס FLOOR-WORK","date_start":"2026-11-02","time_start":"19:00","hosts":"יואב כהן"}');
 select pg_temp.eq((select res->>'outcome' from r where name='pf2'), 'created', 'pf2 is a new draft');
 select pg_temp.eq((select res->'candidates'->0->>'reason' from r where name='pf2'), 'same date, time and host', 'pf2 asks');
 select pg_temp.eq((select count(*) from open_duplicates), 1::bigint, 'one open question');
 
--- ---- E3 follow-up: "never איל בגר, always איל בנר"
-select learn_host_alias('איל בגר', (select host_id from host_aliases where alias_norm = norm_text('איל בנר')));
+-- ---- E3 follow-up: "never יואב כחן, always יואב כהן"
+select learn_host_alias('יואב כחן', (select host_id from host_aliases where alias_norm = norm_text('יואב כהן')));
 insert into r select 'typo', ingest('manual', null, null, null,
-  '{"title":"Play-Fight jam","date_start":"2026-12-01","hosts":"איל בגר"}');
+  '{"title":"Floor-Work jam","date_start":"2026-12-01","hosts":"יואב כחן"}');
 select pg_temp.eq((select array_agg(h.name) from event_hosts eh join hosts h on h.id = eh.host_id
                    where eh.event_id = (select (res->>'event_id')::bigint from r where name='typo')),
-                  array['איל בנר'], 'typo resolves to the right host');
+                  array['יואב כהן'], 'typo resolves to the right host');
 
--- ---- F2 "auto": יום פתוח — זמן גוף, two wordings, two host spellings, same venue
+-- ---- F2 "auto": יום פתוח — גוף בתנועה, two wordings, two host spellings, same venue
 insert into r select 'zg1', ingest('manual', null, null, null,
-  '{"title":"יום פתוח - זמן גוף תכנית תנועה שנתית","date_start":"2026-09-24","time_start":"10:00",
-    "hosts":"שירי / מעין","venue":{"name":"סטודיו תנע עין שמר","city":"עין-שמר"}}');
+  '{"title":"יום פתוח - גוף בתנועה תכנית תנועה שנתית","date_start":"2026-09-24","time_start":"10:00",
+    "hosts":"רותם / ענבל","venue":{"name":"סטודיו גפן עין שמר","city":"עין-שמר"}}');
 insert into r select 'zg2', ingest('newsletter', 'nl-2', null, null,
-  '{"title":"יום פתוח — זמן גוף","date_start":"2026-09-24","time_start":"10:00",
-    "hosts":"שירי לוקש, מעין חורש","venue":{"name":"סטודיו תנע עין-שמר"}}');
+  '{"title":"יום פתוח — גוף בתנועה","date_start":"2026-09-24","time_start":"10:00",
+    "hosts":"רותם שגב, ענבל דור","venue":{"name":"סטודיו גפן עין-שמר"}}');
 -- venue spellings already match after normalization; host spellings don't yet → ask, not auto
 select pg_temp.eq((select res->'candidates'->0->>'reason' from r where name='zg2'), 'same date, time and venue', 'zg2 asks');
--- you answer once: "שירי" is שירי לוקש. Next time it merges by itself.
-select merge_hosts((select host_id from host_aliases where alias_norm = norm_text('שירי לוקש')),
-                   (select host_id from host_aliases where alias_norm = norm_text('שירי')));
+-- you answer once: "רותם" is רותם שגב. Next time it merges by itself.
+select merge_hosts((select host_id from host_aliases where alias_norm = norm_text('רותם שגב')),
+                   (select host_id from host_aliases where alias_norm = norm_text('רותם')));
 insert into r select 'zg3', ingest('newsletter', 'nl-3', null, null,
-  '{"title":"יום פתוח בזמן גוף","date_start":"2026-09-24","time_start":"10:00",
-    "hosts":"שירי","venue":{"name":"סטודיו תנע עין שמר"},"link":"https://www.studiotena.org/zman-guf"}');
+  '{"title":"יום פתוח בגוף בתנועה","date_start":"2026-09-24","time_start":"10:00",
+    "hosts":"רותם","venue":{"name":"סטודיו גפן עין שמר"},"link":"https://example.org/open-day"}');
 select pg_temp.eq((select res->>'outcome' from r where name='zg3'), 'merged', 'zg3 auto-merged');
 select pg_temp.eq((select link from events where id = (select (res->>'event_id')::bigint from r where name='zg3')),
-                  'https://www.studiotena.org/zman-guf', 'merge filled the missing link');
+                  'https://example.org/open-day', 'merge filled the missing link');
 
 -- ---- F3: preview shows the result and changes nothing; merge does it
 select pg_temp.eq((merge_preview((select (res->>'event_id')::bigint from r where name='pf1'),
                                  (select (res->>'event_id')::bigint from r where name='pf2'))->>'title'),
-                  'קורס Play-Fight', 'preview');
+                  'קורס Floor-Work', 'preview');
 select pg_temp.eq((select status::text from events where id = (select (res->>'event_id')::bigint from r where name='pf2')),
                   'draft', 'preview rolled back');
 select merge_events((select (res->>'event_id')::bigint from r where name='pf1'),
@@ -82,7 +82,7 @@ select pg_temp.eq((select count(*) from open_duplicates where event_b = (select 
                   0::bigint, 'question closed');
 -- the merged copy's key still resolves to the survivor
 insert into r select 'pf2again', ingest('manual', null, 'pasted again', null,
-  '{"title":"קורס PLAY-FIGHT","date_start":"2026-11-02","time_start":"19:00","hosts":"איל בנר"}');
+  '{"title":"קורס FLOOR-WORK","date_start":"2026-11-02","time_start":"19:00","hosts":"יואב כהן"}');
 select pg_temp.eq((select (res->>'event_id')::bigint from r where name='pf2again'),
                   (select (res->>'event_id')::bigint from r where name='pf1'), 'merged key follows to survivor');
 
@@ -90,7 +90,7 @@ select pg_temp.eq((select (res->>'event_id')::bigint from r where name='pf2again
 update events set status = 'rejected', reject_reason = 'לא בישראל'
   where id = (select (res->>'event_id')::bigint from r where name='typo');
 insert into r select 'rej', ingest('newsletter', 'nl-9', null, null,
-  '{"title":"Play-Fight jam","date_start":"2026-12-01","hosts":"איל בנר"}');
+  '{"title":"Floor-Work jam","date_start":"2026-12-01","hosts":"יואב כהן"}');
 select pg_temp.eq((select res->>'outcome' from r where name='rej'), 'skipped_rejected', 'rejected key skipped');
 select pg_temp.eq((select arrivals from rejected_rearrivals), 1::bigint, 'weekly digest counts it');
 
@@ -98,7 +98,7 @@ select pg_temp.eq((select arrivals from rejected_rearrivals), 1::bigint, 'weekly
 update events set title = 'ביודנסה – ריקוד החיים'
   where id = (select (res->>'event_id')::bigint from r where name='bw1');
 insert into r select 'bw3', ingest('bodyways', 'bw-31893-c', null, null,
-  '{"title":"ביודנסה ריקוד החיים עם נאווה","date_start":"2026-11-16","time_start":"20:00",
+  '{"title":"ביודנסה ריקוד החיים עם מיכל","date_start":"2026-11-16","time_start":"20:00",
     "venue":{"name":"סעדיה גאון"},"price_text":"300 ש\"ח"}');
 select pg_temp.eq((select (res->>'event_id')::bigint from r where name='bw3'),
                   (select (res->>'event_id')::bigint from r where name='bw1'), 'old key still finds the event');
@@ -124,7 +124,7 @@ insert into r select 'tr1', ingest('tribe:gagapeople', 'g-1', null, null,
 select pg_temp.eq((select status::text from events where id = (select (res->>'event_id')::bigint from r where name='tr1')),
                   'draft', 'auto source + possible dupe → draft');
 insert into r select 'tr2', ingest('tribe:gagapeople', 'g-2', null, null,
-  '{"title":"GagaEden","date_start":"2026-10-07","time_start":"10:00","venue":{"name":"Eden studio","city":"תל אביב"}}');
+  '{"title":"Morning Gaga","date_start":"2026-10-07","time_start":"10:00","venue":{"name":"Eden studio","city":"תל אביב"}}');
 select pg_temp.eq((select status::text from events where id = (select (res->>'event_id')::bigint from r where name='tr2')),
                   'live', 'auto source, nothing similar → live');
 
@@ -134,7 +134,7 @@ insert into r select 'zoom', ingest('newsletter', 'nl-z', null, null,
 select pg_temp.eq((select v.kind::text from events e join venues v on v.id = e.venue_id
                    where e.id = (select (res->>'event_id')::bigint from r where name='zoom')), 'online', 'online venue');
 insert into r select 'paros', ingest('newsletter', 'nl-p', null, null,
-  '{"title":"Paros retreat","date_start":"2026-09-14","venue":{"name":"Paros","region":"חו״ל","country":"Greece"}}');
+  '{"title":"Island retreat","date_start":"2026-09-14","venue":{"name":"Crete","region":"חו״ל","country":"Greece"}}');
 select pg_temp.eq((select v.kind::text from events e join venues v on v.id = e.venue_id
                    where e.id = (select (res->>'event_id')::bigint from r where name='paros')), 'abroad', 'abroad venue');
 

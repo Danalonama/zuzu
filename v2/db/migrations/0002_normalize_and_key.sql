@@ -69,7 +69,7 @@ begin
 end $$;
 
 -- D8: phone → 05X-XXXXXXX (mobile) or 0X-XXXXXXX (landline), else null.
--- 526827887 (sheet dropped the leading 0) and +972 forms are recovered.
+-- 501234567 (sheet dropped the leading 0) and +972 forms are recovered.
 create function norm_phone(s text) returns text
 language plpgsql immutable parallel safe as $$
 declare d text := regexp_replace(coalesce(s, ''), '\D', '', 'g');

@@ -10,7 +10,7 @@ The repo copy `docs/zuzu-v2-data-model-questions.md` is the unanswered version, 
 |---|---|---|
 | Event | `events` | One mechanism for everything (decided 1.10, replaces the separate "Series" in the Google Doc's C2): a date range, an optional weekly rule, optional children. |
 | Host | `hosts` + `host_aliases` | Directory entry, person or org (B1). Several per event, or none (B3). A person can belong to an org. |
-| Venue | `venues` + `venue_aliases` | Directory entry, kind ∈ studio / outdoor / online / disclosed_later / abroad (D4). |
+| Venue | `venues` + `venue_aliases` | Directory entry, kind ∈ studio / outdoor / online / disclosed_later / abroad (D4). A venue whose city is unknown may still carry a region. |
 | City → region | `cities`, `regions` | Region is derived from the venue's city, never entered (D5). |
 | Source | `sources` | Per-source auto-publish flag (E2). New source = review-only. |
 | Source record | `source_records` | Raw text + LLM extraction of every arrival, forever (E4). |
@@ -18,7 +18,7 @@ The repo copy `docs/zuzu-v2-data-model-questions.md` is the unanswered version, 
 
 ## Event rules
 
-- **Range / rule / children (C1+C2).** No rule + no children → shows every day of the range. `weekdays` restricts to those days. A child (class in a retreat, open session of a course) replaces the parent's card on its day. Skipped dates (חגים) = `skip_dates` on the parent.
+- **Range / rule / children (C1+C2).** No rule + no children → shows every day of the range. `weekdays` restricts to those days. `occurrence_dates` (added 3.10 for v1's biweekly, monthly and date-list rows) means "exactly these dates"; an event has one or the other, never both. A child (class in a retreat, open session of a course) replaces the parent's card on its day. Skipped dates (חגים) = `skip_dates` on the parent.
 - **Open-ended weekly classes (C3).** Get a 3-month horizon automatically (`open_ended = true`); the bot asks "still running?" 2 weeks before (`expiring_rules` view).
 - **Special session in a series (C4).** A normal event.
 - **Fields (D).** disciplines = set (D1) · formats = set (D2) · audience ⊂ {women_only, men_only, beginners, parents_kids, 60_plus} (D3; kids-only classes are out of scope, parents-with-kids are in) · time = real time, nullable (D6) · price = free text + optional min/max for stats (D7) · link must be a real URL, phone normalized to 05X-XXXXXXX (D8) · titles stored as written, `lang` he/en, no translation (D9) · events can be live with missing fields, flagged (D10).
@@ -35,6 +35,7 @@ The repo copy `docs/zuzu-v2-data-model-questions.md` is the unanswered version, 
 | Ask | same date + same start time + (same venue **or** a shared host) | Bot asks "same event?" |
 | Ask | same date + (same venue **or** a shared host) + similar title, unless both start times are known and differ | Bot asks |
 
+- **Series get their own key** (3.10): a weekly / date-list / multi-day event's key ends in `|series`, so it never collides with a one-day class on its first day. A one-day class that matches a day of a series is asked about, never merged automatically.
 - **Start time is in the key** (my change, 1.10). Without it, Suzanne Dellal's Gaga 08:30 and Gaga 19:00 (same name, venue, day) would collide. A copy without a time is caught by the "ask" checks instead.
 - **"Same date"** also includes a day that a weekly or range event runs on. Those matches are only ever asked about, never merged automatically.
 - **Venue and host are compared by directory id.** Different spellings only match once the directory knows the alias. In v1's live data the auto rule finds 0 of the visible duplicates *by spelling*, because hosts and venues were spelled differently. The directory is what makes it work: answer once ("שירי" = שירי לוקש) and it merges by itself from then on.
@@ -48,9 +49,14 @@ The repo copy `docs/zuzu-v2-data-model-questions.md` is the unanswered version, 
 Kids: only parents/adults with kids · Abroad: in, from Israeli hosts, tagged, filter default "Israel only" · Ballroom / studio schools / Zumba: out for now · Online: in if Israeli and movement-related · Year-long programs: in if people can join mid-way.
 These are review rules. The schema holds them (venue kinds, audience); the bot applies them.
 
+## Decided 3.10
+
+- **D5 regions.** v1's 7: תל אביב, שרון, פרדס חנה והסביבה, מרכז, ירושלים, צפון, דרום. Online and abroad are venue kinds, not regions. The 14 towns v1 left without a region are mapped in `db/seed/0002_towns_2026-10.sql`.
+- **D10 reminders.** On Telegram: incomplete events, weekly classes about to expire, events unverified for 60 days, rejected events that came back.
+- **E5 source order.** Tribe/iCal → zuzu-inbox newsletters/posters → bodyways (rebuilt) → ecstatic.
+- **Review tool.** Both: a Telegram bot for daily approvals, and a web page (successor of `review.html`) for bulk editing.
+- **v1 bugs found by the import.** Left as they are in the Sheet; v2 already shows those events correctly.
+
 ## Still open
 
-- **D5 region list.** Seeded with v1's 7 regions (tel_aviv, sharon, pardes_hana, center, jerusalem, north, south). Confirm or edit.
-- **D10 channel.** How Zuzu nags you about incomplete / expiring / stale events: Telegram (planned) or an email digest.
-- **E5 source order.** Proposed: Tribe/iCal → zuzu-inbox newsletters → bodyways (rebuilt) → ecstatic.
-- **Vocabulary.** Discipline and format values are still v1's Hebrew words; English code names for them aren't decided (A1 only named the columns).
+- **Vocabulary.** English code names for styles and formats, proposed 3.10 and waiting for approval. Until then the stored values are v1's Hebrew words.

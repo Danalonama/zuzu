@@ -10,9 +10,9 @@ end $$;
 truncate events, event_hosts, event_keys, source_records, duplicate_candidates,
          hosts, host_aliases, venues, venue_aliases restart identity cascade;
 
-insert into hosts (name, kind, phone) values ('Deep Contact', 'org', '052-1111111');
-insert into hosts (name, kind, org_id) values ('Ruth Aharoni', 'person', 1);
-insert into venues (name, city) values ('סטודיו תנע', 'עין שמר');
+insert into hosts (name, kind, phone) values ('Example Collective', 'org', '052-1111111');
+insert into hosts (name, kind, org_id) values ('Example Teacher', 'person', 1);
+insert into venues (name, city) values ('סטודיו גפן', 'עין שמר');
 
 -- weekend retreat, no children → every day of the range
 insert into events (title, date_start, date_end, status, canonical_key, venue_id, time_start, link)
