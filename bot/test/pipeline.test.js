@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { buildItem, questions, answer, finalPlan, blockers } from "../proposal.js";
 import { renderCard, keyboard } from "../card.js";
 import { validateRow } from "../map.js";
-import { buildSchema } from "../extract.js";
+import { buildSchema, fromWire } from "../extract.js";
 import { lookups, world, TODAY } from "./fixtures/world.js";
 import { tenaExtraction, ecstaticExtraction } from "./fixtures/extractions.js";
 
@@ -145,4 +145,38 @@ test("schema uses only supported JSON-schema features", () => {
     }
   };
   walk(buildSchema(lookups));
+  // API limit: ≤ 16 union-typed parameters per schema. We use none.
+  assert.ok(!s.includes('"anyOf"'), "anyOf in schema");
+  assert.ok(!/"type":\[/.test(s), "type array in schema");
+});
+
+test("fromWire turns \"\" / -1 / 0 back into null, and keeps real values", () => {
+  const wire = {
+    message_notes: "",
+    events: [{
+      title: "x", language: "he", description: "", disciplines: ["gaga"], formats: [], audience: [],
+      venue_name: "תנע", city: "", location_on_registration: false, hosts: [{ name: "נועם", kind: "" }],
+      schedule: { kind: "weekly", date_start: "2026-11-02", date_end: "", weekdays: [1], interval_weeks: 1, sessions_count: 0, valid_until: "", time_start: "18:00", time_end: "", skip_dates: [] },
+      price: { raw: "", kind: "", min: -1, max: 0, unit: "" },
+      link: "", phones: [], parent_index: -1, notes: "", source_quote: "",
+    }],
+  };
+  const d = fromWire(wire);
+  const e = d.events[0];
+  assert.equal(d.message_notes, null);
+  assert.equal(e.description, null);
+  assert.equal(e.city, null);
+  assert.equal(e.venue_name, "תנע");
+  assert.equal(e.hosts[0].kind, null);
+  assert.equal(e.schedule.date_end, null);
+  assert.equal(e.schedule.sessions_count, null);
+  assert.equal(e.schedule.interval_weeks, 1);
+  assert.equal(e.schedule.time_start, "18:00");
+  assert.equal(e.price.min, null);
+  assert.equal(e.price.max, 0); // free
+  assert.equal(e.parent_index, null);
+  assert.equal(e.link, null);
+  const item = buildItem(e, 0, world(), lookups, TODAY);
+  assert.equal(item.row.valid_until, null);
+  assert.equal(item.venue.chosen, "v-tena");
 });
