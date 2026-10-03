@@ -1,6 +1,6 @@
 # zuzu v2
 
-Status: not started. Data-model decisions live in `../docs/zuzu-v2-data-model-questions.md`.
+Status: Telegram intake bot built (`../bot/`, `../api/telegram.js`, `db/2026-09-30-intake-bot.sql`) — see `../bot/README.md`. Data-model decisions live in `../docs/zuzu-v2-data-model-questions.md`.
 
 Planned layout (filled in as each step lands):
 - `db/` — Supabase schema (SQL migrations) + the canonical-key function (one implementation, used everywhere).
