@@ -13,8 +13,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#EEF4F7; --ink:#0a0a0a; --muted:#8a8a8a; --hair:#dbe4e8;
+    --bg:#EEF4F7; --ink:#0a0a0a; --muted:#6b6b6b; /* a11y: was #8a8a8a (3.1:1) → 4.8:1 */ --hair:#dbe4e8;
     --accent:#ff3a00; --card:#ffffff;
+    --accent-text:#c42f03; /* a11y: brand orange is 3.2:1 — use this for small orange text (5:1) */
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -32,7 +33,7 @@
 
   /* hero */
   .head{position:relative;padding:54px 0 30px}
-  .kick{font-size:.7rem;letter-spacing:.2em;text-transform:lowercase;color:var(--accent);font-weight:700;margin-bottom:18px}
+  .kick{font-size:.7rem;letter-spacing:.2em;text-transform:lowercase;color:var(--accent-text);font-weight:700;margin-bottom:18px}
   h1{margin:0;font-size:clamp(2.6rem,8vw,5rem);font-weight:900;letter-spacing:-.04em;line-height:.92}
   h1 .o{color:var(--accent)}
   .blob{position:absolute;inset-inline-start:-30px;top:8px;width:clamp(90px,14vw,160px);z-index:0;opacity:.9;
@@ -53,11 +54,11 @@
   .credits .glab{font-size:.66rem;letter-spacing:.16em;text-transform:lowercase;color:var(--muted);font-weight:700;margin-bottom:8px}
   .credits h2{margin:0 0 10px;font-size:clamp(1.7rem,4vw,2.6rem);font-weight:900;letter-spacing:-.03em}
   .credits .lead{color:#42484b;max-width:54ch;margin:0 0 34px;font-size:1.02rem}
-  .credits .lead a{color:var(--accent);font-weight:700;text-decoration:none}
+  .credits .lead a{color:var(--accent-text);font-weight:700;text-decoration:none}
 
   .subhead{font-size:.66rem;letter-spacing:.16em;text-transform:lowercase;color:var(--muted);font-weight:700;margin:0 0 14px}
   .teachers{font-size:clamp(1.05rem,2vw,1.25rem);line-height:1.75;max-width:60ch;margin:0 0 8px;text-wrap:pretty}
-  .teachers a{color:var(--accent);font-weight:800;text-decoration:none;transition:.15s;white-space:nowrap}
+  .teachers a{color:var(--accent-text);font-weight:800;text-decoration:none;transition:.15s;white-space:nowrap}
   .teachers a:hover{text-decoration:underline}
   .teachers b{font-weight:800;white-space:nowrap}
   .teachersWrap{padding-bottom:40px;margin-bottom:8px;border-bottom:1.5px solid var(--ink)}
@@ -73,22 +74,32 @@
   .src .ds{color:var(--muted);font-size:.86rem;margin-top:3px;line-height:1.45}
 
   .closing{margin:46px 0 0;font-size:1.05rem;color:#42484b;max-width:52ch;line-height:1.6}
-  .closing a{color:var(--accent);font-weight:700;text-decoration:none}
+  .closing a{color:var(--accent-text);font-weight:700;text-decoration:none}
 
   footer{border-top:1px solid var(--ink);margin-top:58px}
   footer .wrap{padding:34px 22px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
   footer .fmark{font-size:.7rem;color:var(--muted);letter-spacing:.08em}
   footer .home{font-size:.8rem;font-weight:700;text-decoration:none}
   footer .home:hover{color:var(--accent)}
+  /* ---- accessibility ---- */
+  .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .skipLink{position:absolute;inset-inline-start:12px;top:-60px;z-index:9999;background:var(--ink);color:var(--bg);
+    padding:10px 16px;border-radius:999px;font-weight:700;text-decoration:none;transition:top .15s}
+  .skipLink:focus{top:12px}
+  :focus-visible{outline:2.5px solid var(--accent-text);outline-offset:2px}
+  main:focus{outline:none}
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto!important} *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important} }
 </style>
 </head>
 <body>
+<a class="skipLink" href="#main">דלגו לתוכן הראשי</a>
 <div class="wrap">
-  <div class="topbar">
-    <a href="index.html"><span class="tmark" style="font-size:28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">.zuzu<sup style="font-size:.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span></a>
+  <nav class="topbar" aria-label="ניווט ראשי">
+    <a href="index.html" aria-label="zuzu — ללוח האירועים"><span class="tmark" style="font-size:28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">.zuzu<sup style="font-size:.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span></a>
     <a href="index.html" class="back">חזרה ללוח</a>
-  </div>
+  </nav>
 
+  <main id="main" tabindex="-1">
   <header class="head">
     <div class="kick">עליי</div>
     <h1>אני אוהבת<br>פשוט <span class="o">לזוז.</span></h1>
@@ -109,65 +120,65 @@
       <a class="src" href="https://www.gagapeople.com/" target="_blank" rel="noopener">
         <span class="nm">Gaga People<span class="ar">↗</span></span>
         <span class="ds">שפת התנועה שפיתח אוהד נהרין — הקשבה לגוף, הנאה ותחושה. שיעורי גאגא/אנשים וגאגא/רקדנים בכל הארץ ובעולם.</span>
-      </a>
+      <span class="sr-only"> (נפתח בחלון חדש)</span></a>
       <a class="src" href="https://www.bodyways.org/" target="_blank" rel="noopener">
         <span class="nm">Bodyways<span class="ar">↗</span></span>
         <span class="ds">קהילה חיה המחברת בין א.נשים דרך גישות מיטיבות של קשב, ביטוי, עבודת-גוף ותנועה. פלטפורמה ותיקה לגילוי סדנאות, שיעורים, פסטיבלים וטיפולים מכל הארץ.</span>
-      </a>
+      <span class="sr-only"> (נפתח בחלון חדש)</span></a>
       <a class="src" href="https://biodanza.org.il/" target="_blank" rel="noopener">
         <span class="nm">ביודנסה ישראל<span class="ar">↗</span></span>
         <span class="ds">"ריקוד החיים" — שיטה שפיתח רולנדו טורו המשלבת תנועה, רגש וחיבור אנושי בקבוצה. מפגשים שבועיים בכל הארץ.</span>
-      </a>
+      <span class="sr-only"> (נפתח בחלון חדש)</span></a>
       <a class="src" href="https://ci-events.org/" target="_blank" rel="noopener">
         <span class="nm">CI-Events<span class="ar">↗</span></span>
         <span class="ds">הלוח הקהילתי של עולם הקונטקט אימפרוביזציה בישראל — ג'אמים, סדנאות וכנסים, מתעדכן בידי הקהילה.</span>
-      </a>
+      <span class="sr-only"> (נפתח בחלון חדש)</span></a>
       <a class="src" href="https://www.hakvutza.org.il/" target="_blank" rel="noopener">
         <span class="nm">הקבוצה<span class="ar">↗</span></span>
         <span class="ds">בית לקונטקט אימפרוביזציה, אקסטטיק וחקר תנועה בתל אביב — ג'אמים שבועיים ומרחב פתוח לתנועה חופשית.</span>
-      </a>
+      <span class="sr-only"> (נפתח בחלון חדש)</span></a>
       <a class="src" href="https://www.siloculture.com/" target="_blank" rel="noopener">
         <span class="nm">סילו תרבות<span class="ar">↗</span></span>
         <span class="ds">מרחב לתרבות, אמנות וקהילה בהוד השרון — בית למפגש אנושי, התרחשות והעמקה: אקסטטיק דאנס, מובמנט, מופעים וסדנאות תנועה.</span>
-      </a>
+      <span class="sr-only"> (נפתח בחלון חדש)</span></a>
       <a class="src" href="https://www.studiotamara.co.il/" target="_blank" rel="noopener">
         <span class="nm">סטודיו תמרה<span class="ar">↗</span></span>
         <span class="ds">סטודיו ביתי ברחובות — מחול, תנועה ויוגה לכל הרמות, עם טובי המורים בארץ.</span>
-      </a>
+      <span class="sr-only"> (נפתח בחלון חדש)</span></a>
       <a class="src" href="https://www.studiotena.org/" target="_blank" rel="noopener">
         <span class="nm">סטודיו תנע<span class="ar">↗</span></span>
         <span class="ds">סטודיו מקסים ונעים לאמנויות הגוף והתנועה בקיבוץ עין שמר, שאני אוהבת לרקוד בו. תכניות שנתיות, שיעורים וסדנאות בריקוד, קונטקט, אימפרוביזציה ותנועה מודעת.</span>
-      </a>
+      <span class="sr-only"> (נפתח בחלון חדש)</span></a>
       <a class="src" href="https://pantarhei-studio.co.il/" target="_blank" rel="noopener">
         <span class="nm">פנטה ריי<span class="ar">↗</span></span>
         <span class="ds">סטודיו לחקר תנועה בקיבוץ גניגר — לאבאן-ברטנייף (LBMS), אנליזת תנועה והכשרות מקצועיות.</span>
-      </a>
+      <span class="sr-only"> (נפתח בחלון חדש)</span></a>
       <a class="src" href="https://teo.org.il/" target="_blank" rel="noopener">
         <span class="nm">מרכז תאו<span class="ar">↗</span></span>
         <span class="ds">מרכז מחול וריקוד בהרצליה — גאגא, ניה, Life Dance ומגוון רחב של שיעורי תנועה.</span>
-      </a>
+      <span class="sr-only"> (נפתח בחלון חדש)</span></a>
       <a class="src" href="https://www.bonadance.com/" target="_blank" rel="noopener">
         <span class="nm">Bona Dance<span class="ar">↗</span></span>
         <span class="ds">מרחב לקונטקט אימפרוביזציה וג'אמים פתוחים — לימוד, חקר ומפגש בתנועה.</span>
-      </a>
+      <span class="sr-only"> (נפתח בחלון חדש)</span></a>
       <a class="src" href="https://eutony.co.il/" target="_blank" rel="noopener">
         <span class="nm">יוטוני · Eutony<span class="ar">↗</span></span>
         <span class="ds">שיטת אאוטוני (Gerda Alexander) — הקשבה עדינה לגוף, ויסות טונוס ונוכחות בתנועה.</span>
-      </a>
+      <span class="sr-only"> (נפתח בחלון חדש)</span></a>
       <a class="src" href="https://www.vertigo.org.il/" target="_blank" rel="noopener">
         <span class="nm">ורטיגו<span class="ar">↗</span></span>
         <span class="ds">להקת מחול ומרכז אמנויות — מופעים, סדנאות ושיעורי מחול עכשווי לכל הגילים.</span>
-      </a>
+      <span class="sr-only"> (נפתח בחלון חדש)</span></a>
       <a class="src" href="https://www.zuzima.net/" target="_blank" rel="noopener">
         <span class="nm">מרכז זוזימה<span class="ar">↗</span></span>
         <span class="ds">מרחב תנועה וקהילה — ריטריטים, סדנאות ומפגשי ריקוד.</span>
-      </a>
+      <span class="sr-only"> (נפתח בחלון חדש)</span></a>
       </div>
     </div>
 
     <div class="teachersWrap" style="border-bottom:none;padding-top:40px;padding-bottom:0;margin-bottom:0">
       <div class="subhead">המורים שלי</div>
-      <p class="teachers" style="font-size: 15px">ותודה ענקית למורות ולמורים שלמדתי אצלם לאורך השנים - כל אחת ואחד נתנו לי משהו אחר על מה זה לזוז: <a href="https://www.shlomit.dance/" target="_blank" rel="noopener">שלומית פנדמינסקי</a> (אימפרוביזציה, במסגרת השנתי של הקבוצה), כוריאוגרפית ומורה מעולה — הראשונה שהצליחה לגרום לי לאלתר בתנועה; <a href="https://www.facebook.com/y.l.smn.2025" target="_blank" rel="noopener">יעל אשמן</a> קוסמת האימפרוביזציה, שרואה פנימה ומזיזה ; <a href="https://www.instagram.com/play_4_dance/" target="_blank" rel="noopener">אילנית תדמור</a>, שנתנה לי כלים לאלתר ולמצוא עוגן לתנועה בכל רגע, וגם הקורס מורים המקיף והגאוני שלה; <a href="https://www.studiotena.org/conscious-body" target="_blank" rel="noopener">מיכאל שחרור ונועם כרמלי</a> - השתתפות בקורס שלהם "הגוף המודע והנגלה" היה אחד השנים הטובות שלי בתנועה. איזון בין שני מורים מופלאים, כל אחד בסגנונו. <b>איילת יקותיאל</b> המהממת, אצלה הייתי בקורס שנתי מגוון ב"תוך כדי תנועה" ביער המאכל בית לחם הגלילית, שכלל חקר תנועה מכל הסוגים: אקסיס סילבוס, אימפרו, מודרני ו-BMC; <a href="https://deepcontact.org/" target="_blank" rel="noopener">סשה וסער</a> המדהימים מ-Deep contact, שיצרו קהילה של אנשים מקסימים בלב פתוח, ואיתם אני עושה קונטקט כבר כמה שנים; <b>מנדי מיכאלי</b>, שאני הלפרית שלה בקורס קונטקט יסודות מבית Deep Contact , וזוכה לראות את הקסם שלה להניע אנשים שמתחילים לזוז לראשונה, וגם מזיזה את הקונטקט באזור השרון; <a href="https://www.dinamania.com/" target="_blank" rel="noopener">דינה לבינגר</a>, מורה לניה מלאת אופי שמביאה סגנון מגניב משלה; <a href="https://pantarhei-studio.co.il/courses/contemporary-dance/" target="_blank" rel="noopener">נפתלי בר יוסף</a>, שאני לומדת אצלו השנה — מביא מקסימות ואהבה אמיתית לתנועה ומשלב בין כל הדרכים שמעניין לזוז בהן; ו<a href="https://instagram.com/yaron.palchik" target="_blank" rel="noopener">ירון פלצ'יק</a>, שמלמד מובמנט, אוסף סביבו צעירים וצעירות סקרני תנועה, יוצר קהילה מקסימה ומביא את הקונטקט לשרון. תודה שאתם נותנים לי מקום לזוז. 🤍</p>
+      <p class="teachers" style="font-size: 15px">ותודה ענקית למורות ולמורים שלמדתי אצלם לאורך השנים - כל אחת ואחד נתנו לי משהו אחר על מה זה לזוז: <a href="https://www.shlomit.dance/" target="_blank" rel="noopener">שלומית פנדמינסקי<span class="sr-only"> (נפתח בחלון חדש)</span></a> (אימפרוביזציה, במסגרת השנתי של הקבוצה), כוריאוגרפית ומורה מעולה — הראשונה שהצליחה לגרום לי לאלתר בתנועה; <a href="https://www.facebook.com/y.l.smn.2025" target="_blank" rel="noopener">יעל אשמן<span class="sr-only"> (נפתח בחלון חדש)</span></a> קוסמת האימפרוביזציה, שרואה פנימה ומזיזה ; <a href="https://www.instagram.com/play_4_dance/" target="_blank" rel="noopener">אילנית תדמור<span class="sr-only"> (נפתח בחלון חדש)</span></a>, שנתנה לי כלים לאלתר ולמצוא עוגן לתנועה בכל רגע, וגם הקורס מורים המקיף והגאוני שלה; <a href="https://www.studiotena.org/conscious-body" target="_blank" rel="noopener">מיכאל שחרור ונועם כרמלי<span class="sr-only"> (נפתח בחלון חדש)</span></a> - השתתפות בקורס שלהם "הגוף המודע והנגלה" היה אחד השנים הטובות שלי בתנועה. איזון בין שני מורים מופלאים, כל אחד בסגנונו. <b>איילת יקותיאל</b> המהממת, אצלה הייתי בקורס שנתי מגוון ב"תוך כדי תנועה" ביער המאכל בית לחם הגלילית, שכלל חקר תנועה מכל הסוגים: אקסיס סילבוס, אימפרו, מודרני ו-BMC; <a href="https://deepcontact.org/" target="_blank" rel="noopener">סשה וסער<span class="sr-only"> (נפתח בחלון חדש)</span></a> המדהימים מ-Deep contact, שיצרו קהילה של אנשים מקסימים בלב פתוח, ואיתם אני עושה קונטקט כבר כמה שנים; <b>מנדי מיכאלי</b>, שאני הלפרית שלה בקורס קונטקט יסודות מבית Deep Contact , וזוכה לראות את הקסם שלה להניע אנשים שמתחילים לזוז לראשונה, וגם מזיזה את הקונטקט באזור השרון; <a href="https://www.dinamania.com/" target="_blank" rel="noopener">דינה לבינגר<span class="sr-only"> (נפתח בחלון חדש)</span></a>, מורה לניה מלאת אופי שמביאה סגנון מגניב משלה; <a href="https://pantarhei-studio.co.il/courses/contemporary-dance/" target="_blank" rel="noopener">נפתלי בר יוסף<span class="sr-only"> (נפתח בחלון חדש)</span></a>, שאני לומדת אצלו השנה — מביא מקסימות ואהבה אמיתית לתנועה ומשלב בין כל הדרכים שמעניין לזוז בהן; ו<a href="https://instagram.com/yaron.palchik" target="_blank" rel="noopener">ירון פלצ'יק<span class="sr-only"> (נפתח בחלון חדש)</span></a>, שמלמד מובמנט, אוסף סביבו צעירים וצעירות סקרני תנועה, יוצר קהילה מקסימה ומביא את הקונטקט לשרון. תודה שאתם נותנים לי מקום לזוז. 🤍</p>
     </div>
 
     <p class="closing" style="font-size: 15px">
@@ -175,6 +186,7 @@
       <a href="index.html">הוסיפו אותו ללוח</a> — אשמח לכל תוספת. 🌿
     </p>
   </section>
+  </main>
 </div>
 
 <footer><div class="wrap">

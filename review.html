@@ -6,7 +6,7 @@
 <title>zuzu · אישור אירועים</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48cmVjdCB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcgcng9JzIyJyBmaWxsPScjMTQxMjEwJy8+PHBhdGggZD0nTTMyIDM1IEg2OCBMMzYgNjUgSDcwJyBmaWxsPSdub25lJyBzdHJva2U9JyNlODYwMmMnIHN0cm9rZS13aWR0aD0nMTEnIHN0cm9rZS1saW5lY2FwPSdyb3VuZCcgc3Ryb2tlLWxpbmVqb2luPSdyb3VuZCcvPjwvc3ZnPg==">
 <style>
-  :root{--bg:#f2f1ef;--card:#fff;--ink:#232830;--muted:#7a828e;--line:#e7e7e4;--accent:#e8602c;
+  :root{--bg:#f2f1ef;--card:#fff;--ink:#232830;--muted:#5c636d;--accent-text:#a8461f;--line:#e7e7e4;--accent:#e8602c;
     --ok:#1f7a5a;--okbg:#e6f4ee;--no:#c0392b;--nobg:#fdecea;--warn:#b9770e;--warnbg:#fdf3e2;--chip:#f0f0ee;
     --btnok:#26b268;--btnokh:#1f9d59;--btnno:#ef4d45;--btnnoh:#e13a32;
     --purple:#7c5cda;--purplebg:#efeafe;--yellowbg:#fbf3cf;--yellowink:#7c6a12;--field:#e4e4e1;}
@@ -15,7 +15,7 @@
     font:16px/1.5 "Assistant","Heebo",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;padding:0 0 80px}
   .wrap{max-width:680px;margin:0 auto;padding:0 14px}
   header{padding:26px 0 10px;text-align:center}
-  .brand{font-weight:800;color:var(--accent);font-size:15px;text-decoration:none}
+  .brand{font-weight:800;color:var(--accent-text);font-size:15px;text-decoration:none}
   h1{font-size:24px;margin:8px 0 2px;letter-spacing:-.02em}
   .sub{color:var(--muted);font-size:14px;margin:0}
   .ver{display:inline-block;margin-top:8px;font-size:11.5px;font-weight:700;color:var(--ok);background:var(--okbg);border-radius:999px;padding:3px 12px}
@@ -29,7 +29,7 @@
   .tab .tc{font-size:12px;font-weight:800;background:rgba(0,0,0,.08);border-radius:999px;padding:1px 8px;min-width:20px;text-align:center}
   .tab.on .tc{background:rgba(255,255,255,.22)}
   #addbar{margin:10px 0 6px;text-align:center}
-  .addbtn{font:inherit;font-weight:800;border:1px dashed var(--accent);background:var(--chip);color:var(--accent);
+  .addbtn{font:inherit;font-weight:800;border:1px dashed var(--accent);background:var(--chip);color:var(--accent-text);
     border-radius:12px;padding:9px 18px;cursor:pointer}
   .addbtn:hover{background:var(--accent);color:#fff}
   .addpanel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0 0;text-align:start}
@@ -49,12 +49,12 @@
   .dropzone textarea:focus{outline:none}
   .dzbtns{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
   .chipadd{font:inherit;font-weight:700;font-size:13px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:7px 12px;cursor:pointer}
-  .chipadd:hover{border-color:var(--accent);color:var(--accent)}
+  .chipadd:hover{border-color:var(--accent-text);color:var(--accent)}
   .dznote{font-size:11.5px;color:var(--muted);flex:1;min-width:150px}
   .queuetags{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
   .qtag{display:inline-flex;align-items:center;gap:7px;background:var(--chip);border:1px solid #f0d8c8;border-radius:10px;padding:5px 8px 5px 10px;max-width:240px}
   .qtag img{height:34px;width:34px;object-fit:cover;border-radius:6px}
-  .qtag .qk{font-size:10px;font-weight:800;color:var(--accent);letter-spacing:.03em;white-space:nowrap}
+  .qtag .qk{font-size:10px;font-weight:800;color:var(--accent-text);letter-spacing:.03em;white-space:nowrap}
   .qtag .qt{font-size:12.5px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px}
   .qtag .qx{background:none;border:none;color:var(--no);cursor:pointer;font-size:13px;padding:0;line-height:1;opacity:.6}
   .qtag .qx:hover{opacity:1}
@@ -169,7 +169,12 @@
   .err{color:var(--no)}
   .gone{opacity:.45;pointer-events:none}
   footer{text-align:center;margin-top:26px;color:var(--muted);font-size:12.5px}
-  footer a{color:var(--accent);text-decoration:none}
+  footer a{color:var(--accent-text);text-decoration:underline}
+  /* ---- accessibility ---- */
+  .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  :focus-visible{outline:2.5px solid var(--accent-text);outline-offset:2px}
+  main:focus{outline:none}
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto!important} *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important} }
 </style>
 </head>
 <body>
@@ -180,25 +185,26 @@
     <p class="sub">האירועים שממתינים לבדיקה — אשרו, תקנו, או דחו עם סיבה</p>
     <div class="ver">🟢 v3.7 — חיפוש בכל האירועים (טאב "הכל") · הקוד נשמר בדפדפן · v3.6: רשימה מכווצת עם תיבות סימון · אישור מרובה (נבחרים / הכל) · לחיצה על שורה פותחת לעריכה · "מצב מיקוד" לאחד-בכל-פעם</div>
   </header>
+  <main id="main">
 
   <div id="tokenBar">
-    <input id="token" type="password" placeholder="קוד גישה (REVIEW_TOKEN)" autocomplete="off">
-    <button id="load">טען</button>
+    <input id="token" type="password" placeholder="קוד גישה (REVIEW_TOKEN)" aria-label="קוד גישה" autocomplete="off">
+    <button id="load" type="button">טען</button>
   </div>
 
-  <div id="tabs" class="tabs" hidden>
-    <button class="tab" data-filter="all">הכל 🔍</button>
-    <button class="tab on" data-filter="pending">לבדיקה <span class="tc" id="tc-pending"></span></button>
-    <button class="tab" data-filter="past">עבר <span class="tc" id="tc-past"></span></button>
-    <button class="tab" data-filter="duplicates">כפילויות <span class="tc" id="tc-duplicates"></span></button>
-    <button class="tab" data-filter="approved">אושרו <span class="tc" id="tc-approved"></span></button>
-    <button class="tab" data-filter="rejected">נדחו <span class="tc" id="tc-rejected"></span></button>
+  <div id="tabs" class="tabs" role="group" aria-label="סינון לפי סטטוס" hidden>
+    <button type="button" class="tab" data-filter="all" aria-pressed="false">הכל 🔍</button>
+    <button type="button" class="tab on" data-filter="pending" aria-pressed="true">לבדיקה <span class="tc" id="tc-pending"></span></button>
+    <button type="button" class="tab" data-filter="past" aria-pressed="false">עבר <span class="tc" id="tc-past"></span></button>
+    <button type="button" class="tab" data-filter="duplicates" aria-pressed="false">כפילויות <span class="tc" id="tc-duplicates"></span></button>
+    <button type="button" class="tab" data-filter="approved" aria-pressed="false">אושרו <span class="tc" id="tc-approved"></span></button>
+    <button type="button" class="tab" data-filter="rejected" aria-pressed="false">נדחו <span class="tc" id="tc-rejected"></span></button>
   </div>
   <div id="addbar" hidden>
-    <button id="addToggle" class="addbtn" type="button">➕ הוסף אירוע חדש</button>
+    <button id="addToggle" class="addbtn" type="button" aria-expanded="false" aria-controls="addPanel">➕ הוסף אירוע חדש</button>
     <div id="addPanel" class="addpanel" hidden>
       <div id="dropzone" class="dropzone">
-        <textarea id="addBox" placeholder="📋 הדביקו צילום מסך (Cmd/Ctrl+V) · 🔗 הדביקו קישור · 📝 הקלידו או הדביקו טקסט · או גררו לכאן תמונה או PDF"></textarea>
+        <textarea id="addBox" aria-label="הוספת אירוע: טקסט, קישור או צילום מסך" placeholder="📋 הדביקו צילום מסך (Cmd/Ctrl+V) · 🔗 הדביקו קישור · 📝 הקלידו או הדביקו טקסט · או גררו לכאן תמונה או PDF"></textarea>
         <input id="addFile" type="file" accept="image/*,application/pdf,.pdf" multiple hidden>
       </div>
       <div class="dzbtns">
@@ -210,11 +216,11 @@
       <div class="addactions">
         <button id="sendQueue" class="btn approve" type="button">שלחו לבדיקה <span id="qCount" class="qc">0</span> ←</button>
         <button id="clearQueue" class="btn unreview" type="button" hidden>נקה הכל</button>
-        <span id="addMsg" class="msg"></span>
+        <span id="addMsg" class="msg" role="status"></span>
       </div>
       <div class="rechint">Claude יקרא כל פריט בנפרד, יחלץ את פרטי האירוע, וייצור שורה בלשונית "לבדיקה" לאישורכם. קישורים שדורשים התחברות (פייסבוק/אינסטגרם) לרוב לא יעבדו — עדיף צילום מסך.</div>
       <div class="manualwrap">
-        <button id="manualToggle" class="chipadd" type="button">✍️ הזנה ידנית (בלי AI, בלי קרדיט)</button>
+        <button id="manualToggle" class="chipadd" type="button" aria-expanded="false" aria-controls="manualForm">✍️ הזנה ידנית (בלי AI, בלי קרדיט)</button>
         <div id="manualForm" class="manualform" hidden>
           <div class="mgrid">
             <label class="full">כותרת*<input id="m_title"></label>
@@ -241,7 +247,7 @@
           </div>
           <div class="addactions">
             <button id="manualSave" class="btn approve" type="button">שמור אירוע ←</button>
-            <span id="manualMsg" class="msg"></span>
+            <span id="manualMsg" class="msg" role="status"></span>
           </div>
           <div class="rechint">נשמר ישר ללשונית "לבדיקה" — <b>בלי AI, בלי קרדיט</b>. אזור מתמלא אוטומטית מהעיר/מקום. אפשר להשלים פרטים אחר כך בכרטיס.</div>
         </div>
@@ -249,16 +255,17 @@
     </div>
   </div>
   <div id="controls" class="controls" hidden>
-    <input id="search" type="search" placeholder="🔍 חיפוש חכם (כותרת, מנחה, מקום, עיר, אזור, תחום)…">
+    <input id="search" type="search" aria-label="חיפוש אירועים" placeholder="🔍 חיפוש חכם (כותרת, מנחה, מקום, עיר, אזור, תחום)…">
     <label class="soon"><input id="focusChk" type="checkbox"> מצב מיקוד (אחד בכל פעם)</label>
     <label class="soon"><input id="soonChk" type="checkbox"> רק השבוע הקרוב</label>
   </div>
-  <div id="count" class="count"></div>
+  <div id="count" class="count" role="status"></div>
   <div id="list"></div>
   <datalist id="catlist"></datalist>
   <datalist id="hostlist"></datalist>
   <datalist id="venuelist"></datalist>
   <datalist id="reasonlist"></datalist>
+  </main>
   <footer>שינויים נשמרים ישר ל-Sheet · דחייה + סיבה עוזרת ל-zuzu ללמוד · <a href="https://zuzu.today">חזרה לאתר</a></footer>
 </div>
 
@@ -291,13 +298,13 @@ const $ = s => document.querySelector(s);
 document.querySelectorAll(".tab").forEach(t => t.onclick = () => {
   FILTER = t.getAttribute("data-filter");
   NEW_UIDS = null;   // leaving the just-added view
-  document.querySelectorAll(".tab").forEach(x => x.classList.toggle("on", x===t));
+  document.querySelectorAll(".tab").forEach(x => { x.classList.toggle("on", x===t); x.setAttribute("aria-pressed", x===t); });
   if (TOKEN) load();
 });
 
 // ====== unified upload queue ======
 document.getElementById("addToggle").onclick = () => {
-  const p = document.getElementById("addPanel"); p.hidden = !p.hidden;
+  const p = document.getElementById("addPanel"); p.hidden = !p.hidden; document.getElementById("addToggle").setAttribute("aria-expanded", !p.hidden);
 };
 function readFileAsDataURL(file){
   return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file); });
@@ -552,7 +559,7 @@ function renderList(){
   if(FOCUS && (FILTER==="pending"||FILTER==="past")){
     const cur = evs[0];
     $("#count").textContent = "נותרו " + evs.length + " " + (LABEL[FILTER]||"") + " · מציג אחד בכל פעם (הקרוב ביותר)";
-    $("#list").innerHTML = banner + bulkbar + card(cur) + '<div class="focusnav"><button class="btn skip" id="skipBtn">דלג לאירוע הבא ←</button></div>';
+    $("#list").innerHTML = banner + bulkbar + card(cur) + '<div class="focusnav"><button type="button" class="btn skip" id="skipBtn">דלג לאירוע הבא ←</button></div>';
     wireBanner(); wireBulk(); wire(cur);
     const sb = document.getElementById("skipBtn");
     if(sb) sb.onclick = ()=>{ const i=ALL_EVS.indexOf(cur); if(i>=0){ ALL_EVS.push(ALL_EVS.splice(i,1)[0]); } renderList(); };
@@ -570,9 +577,9 @@ function compactRow(e){
   const selectable = (FILTER==="pending"||FILTER==="past");
   const flags = (e.repeat==="weekly"?'<span class="repflag">🔁</span>':'') + (e.past?'<span class="pastflag">⚠ עבר</span>':'') + (e.dupGroup?'<span class="dupflag">👯 כפילות</span>':'');
   return '<div class="crow '+(e.past?"past":"")+'" data-crow="'+esc(e.uid)+'">'
-    + (selectable?'<input type="checkbox" class="csel" data-sel="'+esc(e.uid)+'">':'')
+    + (selectable?'<input type="checkbox" class="csel" data-sel="'+esc(e.uid)+'" aria-label="בחירת '+esc(e.title||"אירוע")+'">':'')
     + '<div class="cmain" data-expandhead><div class="ctitle">'+esc(e.title||"(ללא כותרת)")+' '+flags+'</div><div class="cmeta">'+esc(meta)+'</div></div>'
-    + '<button class="cexp" data-expand type="button">ערוך ▾</button>'
+    + '<button class="cexp" data-expand type="button" aria-expanded="false" aria-label="עריכת '+esc(e.title||"אירוע")+'">ערוך ▾</button>'
     + '<div class="cbody" data-cbody hidden></div>'
     + '</div>';
 }
@@ -597,7 +604,7 @@ function renderCompact(evs){
       const opening = body.hidden;
       if(opening && !built){ body.innerHTML=card(e); wire(e); built=true; }
       body.hidden=!opening; row.classList.toggle("expanded", opening);
-      if(btn) btn.textContent = opening ? "כווץ ▴" : "ערוך ▾";
+      if(btn){ btn.textContent = opening ? "כווץ ▴" : "ערוך ▾"; btn.setAttribute("aria-expanded", opening); }
     };
     if(btn) btn.onclick=toggle;
     if(head) head.onclick=toggle;
