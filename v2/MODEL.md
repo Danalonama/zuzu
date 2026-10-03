@@ -57,6 +57,11 @@ These are review rules. The schema holds them (venue kinds, audience); the bot a
 - **Review tool.** Both: a Telegram bot for daily approvals, and a web page (successor of `review.html`) for bulk editing.
 - **v1 bugs found by the import.** Left as they are in the Sheet; v2 already shows those events correctly.
 
+- **Vocabulary (A1).** Styles and formats are stored as English codes; the site shows the Hebrew label (`vocab` table, migration 0006).
+  Styles: dance מחול · contact_improv קונטקט · free_dance ריקוד חופשי · ecstatic_dance אקסטטיק · improvisation אימפרוביזציה · movement_research חקר תנועה · gaga גאגא · biodanza ביודנסה · movement מובמנט · nia ניה · womens_circle מעגל נשים · belly_dance ריקודי בטן · acro אקרו · other אחר.
+  Formats: class שיעור · workshop סדנה · course קורס · party מסיבה · event אירוע · jam ג'אם · retreat ריטריט · performance מופע · intensive אינטנסיב · journey מסע · gathering מפגש · program תוכנית.
+  Variants map to the same code (חקר התנועה, מסיבה/ריקוד, הופעה). A word nobody mapped yet is kept as a pending entry for the bot to approve or fold in; it is never dropped.
+
 ## Still open
 
-- **Vocabulary.** English code names for styles and formats, proposed 3.10 and waiting for approval. Until then the stored values are v1's Hebrew words.
+Nothing in the data model. Next: Supabase project (exists?), then the Telegram bot + review page.

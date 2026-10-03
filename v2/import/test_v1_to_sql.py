@@ -45,8 +45,8 @@ check(meta["rotation"], [{"date": "2026-09-01", "host": "נוגה בר"}, {"date
       "rotation, placeholder dropped")
 
 meta, x = V.convert({**base, "category": "מחול, נשים בלבד, חקר התנועה", "type": "שיעור", "price": 90.0})
-check((x["disciplines"], x["audience"], x["formats"]), (["מחול", "חקר תנועה"], ["women_only"], ["שיעור"]),
-      "audience split out, spelling unified")
+check((x["disciplines"], x["audience"], x["formats"]), (["מחול", "חקר התנועה"], ["women_only"], ["שיעור"]),
+      "audience split out (spellings are unified by the database's vocabulary)")
 check((x["price_text"], x["price_min"]), ("90", "90"), "price")
 
 check(V.convert({**base, "approved": False, "review": "rejected"})[0]["status"], "rejected", "rejected")

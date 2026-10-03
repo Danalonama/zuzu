@@ -31,7 +31,6 @@ OPEN_HORIZON_DAYS = 90        # v1: open-ended repeats show ~90 days ahead
 MONTHLY_HORIZON_DAYS = 120    # v1: open-ended monthly shows ~120 days ahead
 
 AUDIENCE = {"נשים בלבד": "women_only", "גברים בלבד": "men_only", "לגברים בלבד": "men_only"}
-SPELLING = {"חקר התנועה": "חקר תנועה"}
 PLACEHOLDER_HOSTS = {"המורה יתעדכן"}
 # "Moncalvo, Italy" in the city cell → an abroad venue, not an Israeli town
 COUNTRIES = {"italy", "greece", "spain", "portugal", "france", "germany", "india", "netherlands", "uk", "usa"}
@@ -153,7 +152,7 @@ def convert(r):
 
     disciplines, formats, audience = [], [], []
     for v in split(r.get("category")):
-        (audience.append(AUDIENCE[v]) if v in AUDIENCE else disciplines.append(SPELLING.get(v, v)))
+        (audience.append(AUDIENCE[v]) if v in AUDIENCE else disciplines.append(v))
     for v in split(r.get("type")):
         (audience.append(AUDIENCE[v]) if v in AUDIENCE else formats.append(v))
 

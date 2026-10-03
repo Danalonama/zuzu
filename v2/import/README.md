@@ -5,7 +5,7 @@ first real test of the v2 duplicate rules.
 
 ## Run it
 
-1. **Database ready:** migrations `0001`–`0005` + both `seed/` files applied (see `../db/README.md`).
+1. **Database ready:** migrations `0001`–`0006` + both `seed/` files applied (see `../db/README.md`).
 2. **Load the import functions:** run `v1_import.sql` once (Supabase SQL Editor, or psql).
 3. **Download the sheet:** Google Sheets → *zuzu-events* → File → Download → Microsoft Excel (.xlsx).
 4. **Convert it** (needs Python 3 and `pip install openpyxl`):
@@ -34,7 +34,7 @@ tables and run it again; it is not built to be layered on top of an earlier impo
 | `repeat` weekly (+ `count` / `date_end`) | weekly rule; no end → open-ended with a 3-month horizon |
 | `repeat` biweekly / monthly, `dates` column | explicit dates (`occurrence_dates`) |
 | `teachers` "1.9=name; 8.9=name" | one child event per dated teacher |
-| `category` / `type` | disciplines / formats; "נשים בלבד" / "גברים בלבד" → audience |
+| `category` / `type` | style / format codes (e.g. קונטקט → contact_improv); "נשים בלבד" / "גברים בלבד" → audience |
 | `host`, `venue`/`city`/`region` | directory entries (hosts, venues, city → region) |
 | *venues* tab | venues with their city; unknown cities learn their region |
 | *teachers* tab | host phones (a bodyways listing URL is not kept as the teacher's link) |

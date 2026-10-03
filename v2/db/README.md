@@ -10,6 +10,7 @@ duplicate detection and ingest are database functions, so there is one implement
 | `migrations/0003_dedup.sql` | `event_for_key`, `find_duplicate_candidates`, `merge_events`, `merge_preview`, `dismiss_duplicate` |
 | `migrations/0004_ingest_and_read.sql` | `ingest` (every source calls it), `site_events` (the site's only public call), `daily_maintenance`, the bot's views |
 | `migrations/0005_occurrence_dates.sql` | Explicit date lists, series-aware key and duplicate checks, bad end dates dropped with a note |
+| `migrations/0006_vocabulary.sql` | Styles and formats as codes with Hebrew labels; `vocab_codes`, `vocab_merge`; `site_events` returns the labels |
 | `seed/0001_seed.sql` | Regions, city → region map (from v1), sources with v1's publish policy |
 | `seed/0002_towns_2026-10.sql` | Regions for the 14 towns v1 left unmapped (approved 3.10) |
 | `test/` | `sh test/run.sh` builds a throwaway DB and runs the tests (real cases from the v1 sheet) |
@@ -19,8 +20,8 @@ The v1 import lives in `../import/`.
 ## Apply to Supabase
 
 1. Supabase dashboard → your project → **SQL Editor**.
-2. Paste and run, in this order: `0001`, `0002`, `0003`, `0004`, `0005`, then `seed/0001_seed.sql` and `seed/0002_towns_2026-10.sql`.
-   (Already ran 0001–0004? Just run `0005`; it works on a database that has data.)
+2. Paste and run, in this order: `0001` … `0006` in order, then `seed/0001_seed.sql` and `seed/0002_towns_2026-10.sql`.
+   (Already ran some of them? Run the rest in order; 0005 and 0006 work on a database that has data.)
 3. Check: `select * from site_events(current_date, current_date + 7);` returns no error (and no rows yet).
 4. Daily housekeeping: enable the `pg_cron` extension (Database → Extensions), then run
    `select cron.schedule('zuzu-daily', '5 0 * * *', 'select daily_maintenance()');`

@@ -19,7 +19,7 @@ insert into r select 'bw2', ingest('bodyways', 'bw-31893-b', null, null,
 select pg_temp.eq((select res->>'outcome' from r where name='bw1'), 'created', 'bw1 created');
 select pg_temp.eq((select res->>'outcome' from r where name='bw2'), 'filled', 'bw2 folds into bw1');
 select pg_temp.eq((select disciplines from events where id = (select (res->>'event_id')::bigint from r where name='bw1')),
-                  array['ביודנסה','מובמנט'], 'disciplines unioned');
+                  array['biodanza','movement'], 'disciplines unioned, as codes');
 select pg_temp.eq((select status::text from events where id = (select (res->>'event_id')::bigint from r where name='bw1')),
                   'draft', 'bodyways is review-only (E2)');
 select pg_temp.eq((select region_code from cities where name = 'תל אביב-יפו'), 'tel_aviv', 'region from city');
