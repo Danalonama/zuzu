@@ -10,7 +10,10 @@ export class SupabaseError extends Error {
 export function createSupabase({ url = process.env.SUPABASE_URL, key = process.env.SUPABASE_SERVICE_ROLE_KEY, fetchImpl = fetch } = {}) {
   if (!url || !key) throw new Error("SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY missing");
   const base = url.replace(/\/$/, "") + "/rest/v1/";
-  const headers = { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json" };
+  // Legacy service_role keys are JWTs ("eyJ…") and also go in Authorization. The newer secret keys
+  // ("sb_secret_…") are not JWTs and are sent only as apikey.
+  const headers = { apikey: key, "Content-Type": "application/json" };
+  if (key.startsWith("eyJ")) headers.Authorization = `Bearer ${key}`;
 
   async function req(method, path, { body, prefer, range } = {}) {
     const h = { ...headers };

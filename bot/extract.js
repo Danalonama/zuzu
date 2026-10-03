@@ -4,79 +4,88 @@ import Anthropic from "@anthropic-ai/sdk";
 
 export const DEFAULT_MODEL = "claude-opus-5-5";
 
-const nullable = (schema) => ({ anyOf: [schema, { type: "null" }] });
-const str = { type: "string" };
-const enumOrNull = (values) => (values && values.length ? nullable({ type: "string", enum: values }) : nullable(str));
-const enumArray = (values) => ({ type: "array", items: values && values.length ? { type: "string", enum: values } : str });
+// No nullable/union types: the API allows at most 16 union-typed fields per schema, and each one adds
+// compile cost. "Unknown" is sent as "" (strings) or -1 (numbers) and turned back into null by fromWire().
+const str = (description) => (description ? { type: "string", description } : { type: "string" });
+const num = (description) => ({ type: "number", description });
+const int = (description) => ({ type: "integer", description });
+const enumOrEmpty = (values, description) =>
+  values && values.length ? { type: "string", enum: ["", ...values], description } : str(description);
+const enumArray = (values) => ({ type: "array", items: values && values.length ? { type: "string", enum: values } : str() });
+const obj = (properties, description) => ({
+  type: "object", additionalProperties: false, required: Object.keys(properties), properties, ...(description ? { description } : {}),
+});
+const DATE = "YYYY-MM-DD, or \"\" if not stated";
 
 /** JSON schema for one extraction. Enums come from the live DB so the model can't invent slugs. */
 export function buildSchema(lk) {
-  const event = {
-    type: "object",
-    additionalProperties: false,
-    required: [
-      "title", "language", "description", "disciplines", "formats", "audience",
-      "venue_name", "city", "location_on_registration", "hosts",
-      "schedule", "price", "link", "phones", "parent_index", "notes", "source_quote",
-    ],
-    properties: {
-      title: { type: "string", description: "Event title as the organizer would name it, without date/venue. Keep the source language." },
-      language: { type: "string", enum: ["he", "en"] },
-      description: nullable({ type: "string", description: "1–2 sentences from the text, or null." }),
-      disciplines: enumArray(lk.disciplines.map((d) => d.slug)),
-      formats: enumArray(lk.formats),
-      audience: enumArray(lk.audience),
-      venue_name: nullable({ type: "string", description: "Venue exactly as written (studio / place / address). null if not stated." }),
-      city: nullable({ type: "string", description: "Town/city as written, or null." }),
-      location_on_registration: { type: "boolean", description: "true only if the text says the location is given after registering." },
-      hosts: {
-        type: "array",
-        description: "People or organizations leading it (e.g. after 'בהנחיית', 'עם', 'מנחה').",
-        items: {
-          type: "object", additionalProperties: false, required: ["name", "kind"],
-          properties: { name: str, kind: enumOrNull(lk.hostKinds) },
-        },
-      },
-      schedule: {
-        type: "object", additionalProperties: false,
-        required: ["kind", "date_start", "date_end", "weekdays", "interval_weeks", "sessions_count", "valid_until", "time_start", "time_end", "skip_dates"],
-        properties: {
-          kind: { type: "string", enum: ["once", "range", "weekly"], description: "once = single date; range = consecutive days (weekend/retreat/festival); weekly = repeats on weekdays (classes, courses)." },
-          date_start: nullable({ type: "string", format: "date", description: "YYYY-MM-DD. For weekly: first meeting date if stated." }),
-          date_end: nullable({ type: "string", format: "date", description: "Only for kind=range: last day." }),
-          weekdays: { type: "array", items: { type: "integer" }, description: "For weekly: 0=Sunday … 6=Saturday. Several days at the same time = one event with several weekdays." },
-          interval_weeks: nullable({ type: "integer", description: "1 = every week, 2 = every other week. Weekly only." }),
-          sessions_count: nullable({ type: "integer", description: "Number of meetings if the text says so (e.g. '14 מפגשים')." }),
-          valid_until: nullable({ type: "string", format: "date", description: "Last meeting date if explicitly stated. Leave null for ongoing classes." }),
-          time_start: nullable({ type: "string", description: "HH:MM 24h" }),
-          time_end: nullable({ type: "string", description: "HH:MM 24h" }),
-          skip_dates: { type: "array", items: { type: "string", format: "date" }, description: "Dates the text says there is no meeting." },
-        },
-      },
-      price: {
-        type: "object", additionalProperties: false,
-        required: ["raw", "kind", "min", "max", "unit"],
-        properties: {
-          raw: nullable({ type: "string", description: "Price text verbatim, all tiers (e.g. '80 ₪ / 70 ₪ מוקדם / כרטיסייה 600')." }),
-          kind: enumOrNull(lk.priceKinds),
-          min: nullable({ type: "number" }),
-          max: nullable({ type: "number" }),
-          unit: enumOrNull(lk.priceUnits),
-        },
-      },
-      link: nullable({ type: "string", description: "Registration/info URL for THIS event, exactly as written." }),
-      phones: { type: "array", items: str, description: "Contact phones for THIS event, as written, most relevant first." },
-      parent_index: nullable({ type: "integer", description: "If this is a class inside a retreat/festival that is also listed, the 0-based index of that parent in events[]." }),
-      notes: nullable({ type: "string", description: "Hebrew. Anything uncertain the reviewer should check (ambiguous date, guessed year, missing time)." }),
-      source_quote: { type: "string", description: "The lines of the source text this event came from (max ~300 chars)." },
+  const event = obj({
+    title: str("Event title as the organizer would name it, without date/venue. Keep the source language."),
+    language: { type: "string", enum: ["he", "en"] },
+    description: str("1–2 sentences from the text, or \"\"."),
+    disciplines: enumArray(lk.disciplines.map((d) => d.slug)),
+    formats: enumArray(lk.formats),
+    audience: enumArray(lk.audience),
+    venue_name: str("Venue exactly as written (studio / place / address), or \"\" if not stated."),
+    city: str("Town/city as written, or \"\"."),
+    location_on_registration: { type: "boolean", description: "true only if the text says the location is given after registering." },
+    hosts: {
+      type: "array",
+      description: "People or organizations leading it (e.g. after 'בהנחיית', 'עם', 'מנחה').",
+      items: obj({ name: str(), kind: enumOrEmpty(lk.hostKinds, "\"\" if unsure") }),
     },
-  };
+    schedule: obj({
+      kind: { type: "string", enum: ["once", "range", "weekly"], description: "once = single date; range = consecutive days (weekend/retreat/festival); weekly = repeats on weekdays (classes, courses)." },
+      date_start: str(`${DATE}. For weekly: first meeting date if stated.`),
+      date_end: str(`${DATE}. Only for kind=range: last day.`),
+      weekdays: { type: "array", items: { type: "integer" }, description: "For weekly: 0=Sunday … 6=Saturday. Several days at the same time = one event with several weekdays." },
+      interval_weeks: int("Weekly only: 1 = every week, 2 = every other week. 1 if not weekly."),
+      sessions_count: int("Number of meetings if the text says so (e.g. '14 מפגשים'), else 0."),
+      valid_until: str(`${DATE}. Last meeting date only if explicitly stated; "" for ongoing classes.`),
+      time_start: str("HH:MM 24h, or \"\""),
+      time_end: str("HH:MM 24h, or \"\""),
+      skip_dates: { type: "array", items: str("YYYY-MM-DD"), description: "Dates the text says there is no meeting." },
+    }),
+    price: obj({
+      raw: str("Price text verbatim, all tiers (e.g. '80 ₪ / 70 ₪ מוקדם / כרטיסייה 600'), or \"\"."),
+      kind: enumOrEmpty(lk.priceKinds, "\"\" if unsure"),
+      min: num("Lowest per-person price, -1 if unknown, 0 if free."),
+      max: num("Highest per-person price, -1 if unknown, 0 if free."),
+      unit: enumOrEmpty(lk.priceUnits, "\"\" if unsure"),
+    }),
+    link: str("Registration/info URL for THIS event, exactly as written, or \"\"."),
+    phones: { type: "array", items: str(), description: "Contact phones for THIS event, as written, most relevant first." },
+    parent_index: int("If this is a class inside a retreat/festival that is also listed, the 0-based index of that parent in events[]; else -1."),
+    notes: str("Hebrew. Anything uncertain the reviewer should check (ambiguous date, guessed year, missing time), or \"\"."),
+    source_quote: str("The lines of the source text this event came from (max ~300 chars)."),
+  });
+  return obj({
+    events: { type: "array", items: event },
+    message_notes: str("Hebrew. Anything about the whole message (e.g. 'no events found', 'shared phone for all'), or \"\"."),
+  });
+}
+
+/** Wire format ("" / -1 / 0 for unknown) → the internal shape the mapper expects (null for unknown). */
+export function fromWire(data) {
+  const s = (v) => (typeof v === "string" && v.trim() !== "" ? v : null);
+  const n = (v) => (typeof v === "number" && v >= 0 ? v : null);
   return {
-    type: "object", additionalProperties: false, required: ["events", "message_notes"],
-    properties: {
-      events: { type: "array", items: event },
-      message_notes: nullable({ type: "string", description: "Hebrew. Anything about the whole message (e.g. 'no events found', 'shared phone for all')." }),
-    },
+    message_notes: s(data.message_notes),
+    events: (data.events || []).map((e) => ({
+      ...e,
+      description: s(e.description), venue_name: s(e.venue_name), city: s(e.city),
+      link: s(e.link), notes: s(e.notes),
+      hosts: (e.hosts || []).map((h) => ({ name: h.name, kind: s(h.kind) })),
+      parent_index: Number.isInteger(e.parent_index) && e.parent_index >= 0 ? e.parent_index : null,
+      schedule: {
+        ...e.schedule,
+        date_start: s(e.schedule?.date_start), date_end: s(e.schedule?.date_end), valid_until: s(e.schedule?.valid_until),
+        time_start: s(e.schedule?.time_start), time_end: s(e.schedule?.time_end),
+        interval_weeks: n(e.schedule?.interval_weeks) || null,
+        sessions_count: n(e.schedule?.sessions_count) || null,
+      },
+      price: { raw: s(e.price?.raw), kind: s(e.price?.kind), min: n(e.price?.min), max: n(e.price?.max), unit: s(e.price?.unit) },
+    })),
   };
 }
 
@@ -141,6 +150,6 @@ export async function extractEvents({ text, images = [], lookups, today, client,
   const textBlock = msg.content.find((b) => b.type === "text");
   if (!textBlock) throw new Error("Claude returned no text block");
   let data;
-  try { data = JSON.parse(textBlock.text); } catch { throw new Error("Claude returned invalid JSON"); }
+  try { data = fromWire(JSON.parse(textBlock.text)); } catch { throw new Error("Claude returned invalid JSON"); }
   return { data, model: msg.model, usage: msg.usage, stop_reason: msg.stop_reason };
 }

@@ -60,3 +60,14 @@ test("nth meeting skips holidays", () => {
   assert.equal(nthMeeting("2026-10-19", [1], 1, 8), "2026-12-07");
   assert.equal(weekday("2026-11-02"), 1);
 });
+
+test("supabase client: JWT keys also go in Authorization, sb_secret keys only in apikey", async () => {
+  const { createSupabase } = await import("../supabase.js");
+  const seen = [];
+  const fetchImpl = async (url, init) => { seen.push(init.headers); return { ok: true, text: async () => "[]" }; };
+  await createSupabase({ url: "https://x.supabase.co", key: "eyJabc", fetchImpl }).get("venues");
+  await createSupabase({ url: "https://x.supabase.co", key: "sb_secret_abc", fetchImpl }).get("venues");
+  assert.equal(seen[0].Authorization, "Bearer eyJabc");
+  assert.equal(seen[1].apikey, "sb_secret_abc");
+  assert.ok(!("Authorization" in seen[1]));
+});
