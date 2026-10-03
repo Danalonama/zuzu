@@ -49,7 +49,7 @@ At the end, "same event?" questions where either side is past or rejected are cl
 |---|---|
 | rows | 627 → 609 events created, 1 auto-merged, 2 unchanged, 9 matched a rejected copy, 6 invalid (no date) |
 | events | 162 live, 14 draft, 229 past, 204 rejected, + 40 teacher-rotation children |
-| directory | 343 hosts, 227 venues, 14 cities with no region yet |
+| directory | 343 hosts, 227 venues, every city mapped to a region (after `seed/0002_towns_2026-10.sql`) |
 | "same event?" questions | 33 open (114 more were about past/rejected events and were closed) |
 | next 60 days vs v1 | every one of v1's 699 day-cards is in v2; v2 adds 7 that v1 loses to bugs (below), plus the extra days of multi-day events (C1) |
 
