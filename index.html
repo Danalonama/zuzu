@@ -45,7 +45,7 @@
 </script>
 <style>
   :root{
-    --bg:#ECF2F5; --ink:#0a0a0a; --muted:#8a8a8a; --line:#0a0a0a; --hair:#e7e7e7;
+    --bg:#ECF2F5; --ink:#0a0a0a; --muted:#6b6b6b; /* a11y: was #8a8a8a (3.1:1) → 4.7:1 on --bg, WCAG AA */ --line:#0a0a0a; --hair:#e7e7e7;
     --accent:#E73804; --card:#ffffff;
   }
   body[data-accent="ember"]{--accent:#ff5c1a}
@@ -53,6 +53,15 @@
   body[data-accent="blue"]{--accent:#1f3cff}
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+  /* ---- accessibility helpers ---- */
+  .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .skipLink{position:absolute;inset-inline-start:12px;top:-60px;z-index:9999;background:var(--ink);color:var(--bg);
+    padding:10px 16px;border-radius:999px;font-weight:700;text-decoration:none;transition:top .15s}
+  .skipLink:focus{top:12px}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+  #searchInput:focus-visible,#addForm :focus-visible,#contactForm :focus-visible{outline:2.5px solid var(--accent);outline-offset:1px}
+  [role="button"]{cursor:pointer}
   body{margin:0;font-family:"Heebo","Noto Sans Hebrew","Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink);
        -webkit-font-smoothing:antialiased;line-height:1.35}
   a{color:inherit}
@@ -303,7 +312,7 @@
   .tick.today .stem{background:var(--accent)}
   .tick.sel .dnum{color:var(--accent);font-weight:800}
   .tick.sel .stem{background:var(--accent)}
-  .tick:focus,.tick:focus-visible{outline:none}
+  .tick:focus:not(:focus-visible){outline:none}
   @media(max-width:560px){ .tick{width:84px} .tick .dnum{font-size:1.05rem} }
 
   /* selected-day hero */
@@ -330,6 +339,14 @@
         border:none;border-radius:14px;padding:16px 22px;text-decoration:none;color:var(--ink);
         transition:background .28s cubic-bezier(.16,1,.3,1),color .28s,transform .28s,box-shadow .28s}
   .card:hover{transform:translateY(-3px)}
+  /* the card is a plain container; its one real link (.cardlink) stretches over the whole card via ::after,
+     and the calendar button sits above that layer — valid HTML (no button inside a link), whole card still clickable */
+  .card{position:relative}
+  .card .cardlink{color:inherit;text-decoration:none}
+  .card .cardlink::after{content:"";position:absolute;inset:0;border-radius:inherit}
+  .card .cardlink:focus-visible{outline:none}
+  .card .cardlink:focus-visible::after{outline:2.5px solid var(--accent);outline-offset:2px}
+  .card .calbtn{position:relative;z-index:1}
   .card .thumb{flex:none;width:76px;height:76px;aspect-ratio:1;background:var(--ink);position:relative;overflow:hidden}
   .card .thumb img{position:absolute;inset:15%;width:70%;height:70%;object-fit:contain;transition:opacity .28s}
   .card .thumb .bk{opacity:0}
@@ -386,12 +403,12 @@
   body[data-cards="invert"] .card:hover .more .ar{transform:translateX(-5px)}
   /* outline hover */
   body[data-cards="outline"] .card:hover{border-color:var(--accent)}
-  body[data-cards="outline"] .card:hover .more{color:var(--accent)}
+  body[data-cards="outline"] .card:hover .more{color:color-mix(in srgb,var(--accent) 85%,#000)}
   body[data-cards="outline"] .card:hover .more .ar{transform:translateX(-5px)}
   /* minimal: no thumb */
   body[data-cards="minimal"] .card .thumb{display:none}
   body[data-cards="minimal"] .card:hover{border-color:var(--accent)}
-  body[data-cards="minimal"] .card:hover .more{color:var(--accent)}
+  body[data-cards="minimal"] .card:hover .more{color:color-mix(in srgb,var(--accent) 85%,#000)}
   body[data-cards="minimal"] .card:hover .more .ar{transform:translateX(-5px)}
   @media(max-width:680px){
     .card{flex-wrap:wrap;gap:8px 18px;padding:16px 16px}
@@ -441,14 +458,14 @@
         min-height:112px;padding:7px 8px;cursor:pointer;overflow:hidden;transition:background .12s}
   .cell:nth-child(7n+1){border-inline-start:none}
   .cell:hover{background:#fafafa}
-  .cell.out .dn{color:#cfcfcf}
+  .cell.out .dn{color:#767676} /* a11y: was #cfcfcf (1.6:1) → 4.5:1 */
   .cell.sel{box-shadow:inset 0 0 0 2px var(--accent)}
   .cell .dn{font-size:.8rem;color:var(--ink);font-weight:700;margin-bottom:5px;line-height:22px}
   .cell.today .dn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
                   border-radius:50%;background:var(--accent);color:#fff}
   .chipE{display:block;font-size:.68rem;line-height:1.6;margin-bottom:1px;white-space:nowrap;overflow:hidden;
          text-overflow:ellipsis;font-weight:500;color:var(--ink)}
-  .chipE .h{color:var(--accent);font-weight:700}
+  .chipE .h{color:color-mix(in srgb,var(--accent) 85%,#000);font-weight:700} /* a11y: small text needs 4.5:1; brand orange alone is 4.2:1 */
   .moreE{display:block;font-size:.66rem;color:var(--accent);font-weight:700;margin-top:2px}
   .dayDetail{margin-top:30px}
   @media(max-width:560px){
@@ -510,50 +527,51 @@
 </style>
 </head>
 <body>
+<a class="skipLink" href="#main">דלגו לתוכן הראשי</a>
 <template id="__bundler_thumbnail">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
   <rect width="400" height="400" fill="#eef4f7"/>
   <text x="200" y="225" font-family="Heebo, Arial, sans-serif" font-size="92" font-weight="900" letter-spacing="-4" text-anchor="middle" fill="#0a0a0a">zuzu<tspan fill="#ff3a00">.</tspan></text>
 </svg>
 </template>
-<div class="wrap">
+<header class="wrap">
   <div class="topbar">
     <div class="tbrand">
-      <span class="tmark" id="homeLink" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">.zuzu<sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
+      <span class="tmark" id="homeLink" role="button" tabindex="0" aria-label="zuzu — חזרה לעמוד הבית" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">.zuzu<sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
       <span class="ttag">איפה רוקדים היום?</span>
     </div>
     <div class="tright">
       <a class="tinstall quizlink" href="quiz.html" style="font-weight:700"><img src="assets/question-icon.svg" alt="" style="width:16px;height:16px;flex:none"><span>מאיפה מתחילים?</span></a>
-      <a class="tinstall" href="install.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"></rect><line x1="10.5" y1="18.5" x2="13.5" y2="18.5"></line></svg><span>שמרו כאפליקציה</span></a>
+      <a class="tinstall" href="install.html"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"></rect><line x1="10.5" y1="18.5" x2="13.5" y2="18.5"></line></svg><span>שמרו כאפליקציה</span></a>
     </div>
   </div>
 
-</div>
+</header>
 
-<div class="bar">
+<div class="bar" role="region" aria-label="חיפוש וסינון">
   <div class="wrap">
     <div class="barRow">
-      <button class="filterBtn" id="filterBtn" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="5" x2="6" y2="19"/><circle cx="6" cy="9" r="2.4" fill="var(--bg)"/><line x1="14" y1="5" x2="14" y2="19"/><circle cx="14" cy="15" r="2.4" fill="var(--bg)"/></svg>
-        <span>סינון</span><span class="fbCount" id="fbCount" hidden>0</span>
+      <button class="filterBtn" id="filterBtn" type="button" aria-expanded="false" aria-controls="filterSheet">
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="5" x2="6" y2="19"/><circle cx="6" cy="9" r="2.4" fill="var(--bg)"/><line x1="14" y1="5" x2="14" y2="19"/><circle cx="14" cy="15" r="2.4" fill="var(--bg)"/></svg>
+        <span>סינון</span><span class="fbCount" id="fbCount" hidden>0</span><span class="sr-only" id="fbCountSr"></span>
       </button>
       <div class="searchWrap">
-        <input type="search" id="searchInput" placeholder="חיפוש מורה, שיעור או מקום…" autocomplete="off">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+        <input type="search" id="searchInput" placeholder="חיפוש מורה, שיעור או מקום…" aria-label="חיפוש מורה, שיעור או מקום" autocomplete="off">
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
         <button class="searchClear" id="searchClear" type="button" aria-label="נקה חיפוש">×</button>
       </div>
-      <div class="viewToggle" id="viewToggle">
-        <button class="vt" data-view="list" aria-label="תצוגת רשימה" title="רשימה">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="8" y1="18" x2="20" y2="18"/><line x1="3.5" y1="6" x2="3.6" y2="6"/><line x1="3.5" y1="12" x2="3.6" y2="12"/><line x1="3.5" y1="18" x2="3.6" y2="18"/></svg>
+      <div class="viewToggle" id="viewToggle" role="group" aria-label="תצוגה">
+        <button class="vt" type="button" data-view="list" aria-label="תצוגת רשימה" aria-pressed="true" title="רשימה">
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="8" y1="18" x2="20" y2="18"/><line x1="3.5" y1="6" x2="3.6" y2="6"/><line x1="3.5" y1="12" x2="3.6" y2="12"/><line x1="3.5" y1="18" x2="3.6" y2="18"/></svg>
         </button>
-        <button class="vt" data-view="cal" aria-label="תצוגת לוח" title="לוח חודשי">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2.5" x2="8" y2="6"/><line x1="16" y1="2.5" x2="16" y2="6"/></svg>
+        <button class="vt" type="button" data-view="cal" aria-label="תצוגת לוח חודשי" aria-pressed="false" title="לוח חודשי">
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="2.5" x2="8" y2="6"/><line x1="16" y1="2.5" x2="16" y2="6"/></svg>
         </button>
       </div>
     </div>
-    <div class="chipRow" id="chipRow"></div>
+    <div class="chipRow" id="chipRow" role="group" aria-label="סינונים פעילים"></div>
     <div id="rulerWrap" class="rulerWrap">
-      <div class="ruler" id="ruler"></div>
+      <div class="ruler" id="ruler" role="group" aria-label="בחירת יום (אפשר גם עם החיצים במקלדת)"></div>
       <button class="rulerNav" id="rulerNext" type="button" aria-label="ימים הבאים">←</button>
     </div>
   </div>
@@ -561,8 +579,8 @@
 
 <div class="filterSheet" id="filterSheet">
   <div class="fsBack" id="fsBack"></div>
-  <div class="fsCard">
-    <div class="fsHead"><b>סינון אירועים</b><button class="fsX" id="fsX" aria-label="סגור">×</button></div>
+  <div class="fsCard" role="dialog" aria-modal="true" aria-labelledby="fsTitle">
+    <div class="fsHead"><b id="fsTitle">סינון אירועים</b><button class="fsX" id="fsX" type="button" aria-label="סגירת הסינון">×</button></div>
     <div class="fsBody" id="fsBody"></div>
     <div class="fsFoot">
       <button class="fsClear" id="fsClear" type="button">נקה הכל</button>
@@ -572,25 +590,26 @@
 </div>
 
 <div class="wrap">
-  <main>
-    <div id="tlHero" class="tlHero"></div>
-    <div id="list"></div>
+  <main id="main" tabindex="-1">
+    <h1 class="sr-only">zuzu — לוח אירועי תנועה וריקוד בישראל</h1>
+    <div id="tlHero" class="tlHero" aria-live="polite"></div>
+    <div id="list" aria-busy="false"></div>
     <div id="calendar" style="display:none">
       <div class="calbar">
-        <button id="nextM">‹</button>
-        <h2 id="mname"></h2>
-        <button id="prevM">›</button>
+        <button id="nextM" type="button" aria-label="החודש הקודם">‹</button>
+        <h2 id="mname" aria-live="polite"></h2>
+        <button id="prevM" type="button" aria-label="החודש הבא">›</button>
       </div>
-      <div class="calgrid" id="calgrid"></div>
-      <div class="dayDetail" id="dayDetail"></div>
+      <div class="calgrid" id="calgrid" role="group" aria-label="ימי החודש"></div>
+      <div class="dayDetail" id="dayDetail" aria-live="polite"></div>
     </div>
   </main>
 </div>
 
 <div id="addModal" class="modal" hidden>
-  <div class="modal-card">
-    <button class="modal-x" data-close>×</button>
-    <h2>הוסיפו אירוע</h2>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="addTitle">
+    <button class="modal-x" type="button" data-close aria-label="סגירה">×</button>
+    <h2 id="addTitle">הוסיפו אירוע</h2>
     <p class="sub">האירוע יישלח לאישור לפני שיופיע בלוח.</p>
     <form id="addForm">
       <label>שם האירוע<input name="title" required maxlength="120"></label>
@@ -601,11 +620,12 @@
         </div>
       </div>
       <button type="button" id="addDate" class="addDateBtn">+ הוסיפו תאריך נוסף</button>
-      <label>סוג תנועה (אפשר כמה)<div class="taginput" id="catTags"><input type="text" id="catInput" list="catOpts" placeholder="הקלידו והוסיפו…" autocomplete="off"></div></label>
+      <label>סוג תנועה (אפשר כמה)<div class="taginput" id="catTags"><input type="text" id="catInput" aria-describedby="catHelp" list="catOpts" placeholder="הקלידו והוסיפו…" autocomplete="off"></div></label>
       <div class="frow">
         <label>עיר / יישוב<input name="city" list="cityOpts" required placeholder="התחילו להקליד…" autocomplete="off"></label>
         <label>סוג אירוע<select name="format" id="fmtSel"></select></label>
       </div>
+      <span class="sr-only" id="catHelp">הקלידו סוג תנועה ולחצו Enter כדי להוסיף. אפשר להוסיף כמה.</span>
       <datalist id="catOpts"></datalist>
       <datalist id="cityOpts"></datalist>
       <div class="frow">
@@ -618,7 +638,7 @@
       </div>
       <button type="submit" class="fsubmit">שליחה לאישור</button>
     </form>
-    <div id="addOk" class="fok" hidden>
+    <div id="addOk" class="fok" role="status" hidden>
       <div class="big">תודה!</div>
       <p>האירוע נשלח לאישור — יופיע בלוח ברגע שיאושר.</p>
       <button class="fsubmit" data-close style="margin-top:16px">סגירה</button>
@@ -627,9 +647,9 @@
 </div>
 
 <div id="contactModal" class="modal" hidden>
-  <div class="modal-card">
-    <button class="modal-x" data-close>×</button>
-    <h2>צרו קשר</h2>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+    <button class="modal-x" type="button" data-close aria-label="סגירה">×</button>
+    <h2 id="contactTitle">צרו קשר</h2>
     <p class="sub">שאלה, הצעה, תיקון או סתם לומר שלום — נשמח לשמוע.</p>
     <form id="contactForm">
       <label>שם<input name="name" required maxlength="80"></label>
@@ -640,7 +660,7 @@
       <label>הודעה<textarea name="message" required rows="4"></textarea></label>
       <button type="submit" class="fsubmit">שליחה</button>
     </form>
-    <div id="contactOk" class="fok" hidden>
+    <div id="contactOk" class="fok" role="status" hidden>
       <div class="big">תודה!</div>
       <p>ההודעה נשלחה — נחזור אליכם בהקדם.</p>
       <button class="fsubmit" data-close style="margin-top:16px">סגירה</button>
@@ -649,20 +669,47 @@
 </div>
 
 <div id="adminModal" class="modal" hidden>
-  <div class="modal-card">
-    <button class="modal-x" data-close>×</button>
-    <h2>אישור אירועים</h2>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+    <button class="modal-x" type="button" data-close aria-label="סגירה">×</button>
+    <h2 id="adminTitle">אישור אירועים</h2>
     <p class="sub">אירועים שממתינים לאישור (נשמרים בדפדפן זה).</p>
     <div id="pendList"></div>
   </div>
 </div>
 
 <footer><div class="wrap">
-  <span class="fmark flist"><span>zuzu © 2026</span><span>·</span><a href="install.html" class="footlink" style="text-decoration:none">הוספה למסך הבית</a><span>·</span><a href="quiz.html" class="footlink" style="text-decoration:none">איזה סגנון מתאים לי?</a><span>·</span><span class="footlink" id="addEventLink">הוסיפו אירוע</span><span>·</span><span class="footlink" id="contactLink">דברו אתי</span><span>·</span><span class="footlink" id="adminLink" hidden>ניהול<span class="badge" id="pendBadge" hidden>0</span></span></span>
+  <span class="fmark flist"><span>zuzu © 2026</span><span>·</span><a href="install.html" class="footlink" style="text-decoration:none">הוספה למסך הבית</a><span>·</span><a href="quiz.html" class="footlink" style="text-decoration:none">איזה סגנון מתאים לי?</a><span>·</span><span class="footlink" id="addEventLink" role="button" tabindex="0">הוסיפו אירוע</span><span>·</span><span class="footlink" id="contactLink" role="button" tabindex="0">דברו אתי</span><span>·</span><span class="footlink" id="adminLink" role="button" tabindex="0" hidden>ניהול<span class="badge" id="pendBadge" hidden>0</span></span></span>
   <span class="fmark">Created with ❤️ by Dana Shimoni</span>
 </div></footer>
 
 <script>
+/* ---- accessibility helpers: dialog focus trap/restore + keyboard for role="button" ---- */
+window.zuzuA11y=(function(){
+  const FOC='a[href],button:not([disabled]),input:not([disabled]):not([type="hidden"]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+  let box=null, back=null;
+  function items(){ return box?[...box.querySelectorAll(FOC)].filter(el=>el.offsetParent!==null||el===document.activeElement):[]; }
+  document.addEventListener("keydown",e=>{
+    if(e.key!=="Tab"||!box) return;
+    const f=items(); if(!f.length) return;
+    const first=f[0], last=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey&&document.activeElement===last){ e.preventDefault(); first.focus(); }
+    else if(!box.contains(document.activeElement)){ e.preventDefault(); first.focus(); }
+  });
+  // Enter / Space activate non-native buttons (spans/divs with role="button")
+  document.addEventListener("keydown",e=>{
+    const t=e.target;
+    if(!(t instanceof Element)||t.getAttribute("role")!=="button"||/^(BUTTON|A|INPUT)$/.test(t.tagName)) return;
+    if(e.key==="Enter"||e.key===" "){ e.preventDefault(); t.click(); }
+  });
+  return {
+    trap(el,returnTo){
+      back=returnTo||(document.activeElement instanceof HTMLElement?document.activeElement:null); box=el;
+      setTimeout(()=>{ const f=items(); const first=f.find(x=>!x.matches(".modal-x,.fsX"))||f[0]; if(first) first.focus(); },30);
+    },
+    release(){ box=null; const b=back; back=null; if(b&&document.contains(b)) b.focus(); }
+  };
+})();
 const EVENTS = [{"date":"2026-08-13","time":"06:45","title":"Movement · עם Tuti","host":"Tuti","venue":"Tzukei Yam","city":"צוקי ים","region":"שרון","category":"מובמנט","discipline":"מובמנט","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-13","time":"08:15","title":"אימפרוביזציה ויצירה","host":"מתן כרמל","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-13","time":"08:30","title":"Movement Fundamentals · יסודות המובמנט (עד 10:00)","host":"ירון פלצ'יק","category":"מובמנט","venue":"FlowMotion · הרימון 1","city":"אודים","region":"שרון","url":"https://flowmo.co.il/services/movement/","price":null,"image":null,"recurring":true,"discipline":"מובמנט","format":"שיעור"},{"date":"2026-08-13","time":"09:30","title":"מובמנט","host":null,"category":"מובמנט","discipline":"מובמנט","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-13","time":"09:30","title":"אומנות התנועה · מחול-ריפוי-חיים","host":"שרון הללי","venue":"סטודיו טל הדר","city":"כפר מונש","region":"שרון","url":"https://www.sharonhilleli.com/summer-1","price":"810 ₪ (סדרה) / 150 ₪ (מפגש בודד)","image":null,"recurring":false,"category":"חקר תנועה","discipline":"חקר תנועה","format":"סדנה"},{"date":"2026-08-13","time":"17:30","title":"היפ הופ לנשים","host":"אסתר באשר","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["היפ הופ"]},{"image":null,"recurring":true,"price":null,"time":"18:00","title":"אקרובטיקה רכה ועבודת רצפה בחוף","host":"עילי","discipline":"אקרו","category":"אקרו","format":"שיעור","venue":"חוף מכמורת","city":"מכמורת","region":"שרון","url":"#","phone":"052-956-9889","date":"2026-08-13"},{"date":"2026-08-13","time":"18:00","title":"קורס מחול לגברים (עד 20:00)","host":"גלבוע אגר","category":"מחול","discipline":"מחול","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס","tags":["לגברים בלבד"]},{"date":"2026-08-13","time":"18:00","title":"רצפי תנועה מודרכים","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו רוניס, דוד אלעזר 7 (קניון ערים)","city":"כפר סבא","region":"שרון","format":"שיעור","price":null,"host":"נועה קדמן","recurring":true,"image":null,"url":"https://www.noakadman.com/"},{"date":"2026-08-13","time":"19:00","title":"מחול מודרני רליס","host":"מורן זילברברג","category":"אימפרוביזציה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"אימפרוביזציה","format":"שיעור","tags":["מחול"]},{"date":"2026-08-13","time":"19:00","title":"כלים לג'אם + ג'אם · הדר גבע","host":"הדר גבע","category":"קונטקט","discipline":"קונטקט","venue":"קהילת ניו יורק 17, תל אביב","city":"תל אביב","region":"תל אביב","url":"#","price":"50 ₪ (כרטיסייה 450)","image":null,"recurring":true,"format":"ג'אם"},{"date":"2026-08-13","time":"19:00","title":"היפ הופ נשים · עם אדל (Faya Fam)","host":"אדל","category":"מחול","discipline":"מחול","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"image":null,"recurring":true,"price":null,"discipline":"מובמנט","category":"מובמנט","format":"שיעור","venue":"בית הספר הדמוקרטי","city":"הוד השרון","region":"שרון","url":"https://movementfreaks.com/","title":"מובמנט · Movement Freaks","time":"19:15","date":"2026-08-13","host":"סטס קזנוביץ'"},{"date":"2026-08-13","time":"19:30","title":"אימפרוביזציה בתנועה","host":"Ida Maria","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-13","time":"19:30","title":"קונטקתנע – שיעור קונטקט 19:30 + תנע ג'אם פתוח 20:30–22:30","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://www.studiotena.org/contactena","price":null,"image":null,"recurring":true,"format":"ג'אם"},{"date":"2026-08-13","time":"20:00","title":"Silo Dance Celebration","category":"אקסטטיק","venue":"סילו תרבות","city":"הוד השרון","region":"שרון","recurring":true,"image":null,"url":"https://www.siloculture.com/thursday-raves","price":null,"discipline":"אקסטטיק","format":"מסיבת ריקוד"},{"date":"2026-08-13","time":"20:15","title":"קורס יסודות בקונטקט אימפרוביזציה (עד 21:45)","host":"גלבוע אגר","category":"קונטקט","discipline":"קונטקט","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס"},{"date":"2026-08-13","time":"20:30","title":"מקצבי הלב · מסע ריקוד חופשי (עד 22:30)","host":"מיכל חלפן, ליטל כסיף","discipline":"אקסטטיק","category":"אקסטטיק","format":"שיעור","venue":"יורט בעדנים","city":"עדנים","region":"שרון","url":"#","phone":"054-7523399","price":null,"image":null,"recurring":true},{"date":"2026-08-13","time":"20:30","title":"מחול אימפרוביזציה וג'אם","host":"מורן זילברברג","category":"אימפרוביזציה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"אימפרוביזציה","format":"שיעור","tags":["מחול"]},{"date":"2026-08-13","time":"20:30","title":"בלט למתחילים · עם ירין","host":"ירין","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"category":"מחול","discipline":"מחול","format":"שיעור"},{"date":"2026-08-13","time":"20:30","title":"ריקוד חופשי · מפגש שבועי","host":"עמרי קליינברגר","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו בשדות ים (ליד הים ומחלף קיסריה)","city":"שדות ים","region":"פרדס חנה והסביבה","url":"https://www.facebook.com/share/p/16PaAw7yA7/","price":null,"image":null,"recurring":true,"format":"ג'אם"},{"date":"2026-08-14","time":"08:00","title":"ניה NIA לנשים","host":"טל אבן-חן","category":"ניה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"ניה","format":"שיעור"},{"date":"2026-08-14","time":"09:00","title":"מיוזיקל","host":"דליה שמריהו","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["מיוזיקל"]},{"date":"2026-08-14","time":"09:00","title":"רצפי תנועה מודרכים","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו פאבליק, התחייה 2","city":"כפר סבא","region":"שרון","format":"שיעור","price":null,"host":"נועה קדמן","recurring":true,"image":null,"url":"https://www.noakadman.com/"},{"date":"2026-08-14","time":"09:45","title":"ריקוד חופשי מונחה","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו פאבליק, התחייה 2","city":"כפר סבא","region":"שרון","format":"מסיבת ריקוד","price":null,"host":"נועה קדמן","recurring":true,"image":null,"url":"https://www.noakadman.com/","tags":["ריקוד חופשי"]},{"image":null,"recurring":true,"price":null,"time":"10:00","title":"שיעור אקרו · ממשיכים","host":"ברוך פויכטונגר","discipline":"אקרו","category":"אקרו","format":"שיעור","venue":"סטודיו בית הצוק","city":"חבצלת השרון","region":"שרון","url":"#","phone":"054-797-3361","date":"2026-08-14"},{"date":"2026-08-14","time":"10:15","title":"Movement & Mobility · מובמנט וניידות (עד 11:45)","host":"ירון פלצ'יק","category":"מובמנט","venue":"FlowMotion · הרימון 1","city":"אודים","region":"שרון","url":"https://flowmo.co.il/services/movement/","price":null,"image":null,"recurring":true,"discipline":"מובמנט","format":"שיעור"},{"date":"2026-08-14","time":"10:30","title":"גאגא/אנשים · בוקר","category":"גאגא","discipline":"גאגא","host":"גאגא/אנשים — מורה מתחלף","venue":"מרכז תאו, וינגייט 168","city":"הרצליה","region":"שרון","url":"https://teo.org.il/dance/גאגא-אנשים-הרצליה/","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-14","time":"10:40","title":"מובמנט","host":"עמית אלימלך","category":"מובמנט","discipline":"מובמנט","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-14","time":"11:00","title":"נטו קונטקט — סוף״ש בתנע","category":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","recurring":false,"url":"https://www.studiotena.org/neto-contact","price":"סופ״ש מלא 600 ₪","image":null,"discipline":"קונטקט","format":"סדנה"},{"date":"2026-08-14","time":"11:00","title":"גאגא/אנשים","category":"גאגא","discipline":"גאגא","venue":"סטודיו לנואה, פרדס חנה","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.gagapeople.com/gaga-pardes-hanna/","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-14","time":"11:00","title":"שיעור שישי · Faya Fam (עד 13:00)","host":null,"category":"מחול","discipline":"מחול","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-14","time":"11:15","title":"היפ הופ אולדסקול","host":"ורד שליו","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["היפ הופ"]},{"date":"2026-08-14","time":"12:15","title":"Ecstatic Dance","host":null,"category":"אקסטטיק","discipline":"אקסטטיק","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"image":null,"recurring":true,"price":null,"discipline":"מובמנט","category":"מובמנט","format":"שיעור","venue":"בית הספר הדמוקרטי","city":"הוד השרון","region":"שרון","url":"https://movementfreaks.com/","title":"מובמנט · Movement Freaks","time":"15:00","date":"2026-08-14","host":"סטס קזנוביץ'"},{"date":"2026-08-14","time":"15:00","title":"Mindfulness & Free Dance · מיינדפולנס וריקוד חופשי","venue":"סטודיו נעים, אבן גבירול 108","city":"תל אביב","region":"תל אביב","url":"#","price":"60 ₪ (הרשמה מראש) / 80 ₪ (במקום)","image":null,"recurring":true,"category":"אקסטטיק","discipline":"אקסטטיק","format":"מסיבת ריקוד","host":"עמית עזז","tags":["ריקוד חופשי"]},{"date":"2026-08-15","time":"10:00","title":"שיעור בר · עם דניאלה (Faya Fam)","host":"דניאלה","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"category":"מחול","discipline":"מחול","format":"שיעור"},{"date":"2026-08-15","time":"19:00","title":"ג'אם ב'קבוצה' · חימום עם רועי שקד","host":"רועי שקד","city":"תל אביב","region":"תל אביב","image":null,"recurring":true,"discipline":"קונטקט","category":"קונטקט","venue":"קהילת ניו יורק 17","url":"#","price":"50 ₪ (כרטיסייה 450)","format":"ג'אם"},{"date":"2026-08-15","time":"19:00","title":"שיעור אימפרוביזציה · עם שי (Faya Fam)","host":"שי","category":"מחול","discipline":"מחול","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-16","time":"","title":"סדנת מבוא · Deep Contact","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"קרית טבעון","region":"צפון","format":"סדנה"},{"city":"תל אביב","region":"תל אביב","venue":"הקבוצה · קהילת ניו יורק 17, יפו","image":null,"recurring":false,"price":null,"date":"2026-08-16","time":"10:00","format":"סדנה","discipline":"מחול","category":"מחול","title":"סדנת קיץ למחול · מתחילים (5 ימים, 16–20.8, 10:00–15:30)","url":"https://www.hakvutza.org.il/en/summer-dance-workshop/"},{"date":"2026-08-16","time":"10:00","title":"סדנת קיץ למחול למתחילים (5 ימים, א׳–ה׳)","host":"צוות הקבוצה","category":"מחול","venue":"הקבוצה · קהילת ניו יורק 17","city":"תל אביב","region":"תל אביב","price":null,"image":null,"recurring":false,"url":"https://www.hakvutza.org.il/סדנת-קיץ-למחול/","discipline":"מחול","format":"סדנה"},{"date":"2026-08-16","time":"10:15","title":"Movement · עם Tuti","host":"Tuti","venue":"Kfar Vitkin","city":"כפר ויתקין","region":"שרון","category":"מובמנט","discipline":"מובמנט","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-16","time":"16:30","title":"קונטקידס · סשן קיץ עם שירי (הורה וילד, גילאי 2-4.5)","host":"שירי","category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://links.payboxapp.com/mELNqDdCzVb","price":"350 ₪ (5 מפגשים) · 320 ₪ בהרשמה מוקדמת עד 26.7","image":null,"recurring":true,"format":"קורס","tags":["עם הילדים"]},{"date":"2026-08-16","time":"16:45","title":"קונטקידס · הורה וילד (קורס קיץ)","host":"אברהם חזין","category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תמרה, רחובות","city":"רחובות","region":"מרכז","url":"https://studiotamara.ravpage.co.il/contakids","price":null,"image":null,"recurring":true,"format":"קורס","tags":["עם הילדים"]},{"date":"2026-08-16","time":"17:45","title":"יסודות הבלט","host":"אדוה גולדשמיט","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["בלט"]},{"date":"2026-08-16","time":"18:00","title":"קורס קיץ במחול לגברים בלבד","host":"אברהם חזין","category":"מחול","discipline":"מחול","venue":"סטודיו תמרה, רחובות","city":"רחובות","region":"מרכז","url":"https://studiotamara.ravpage.co.il/mens","price":null,"image":null,"recurring":true,"format":"קורס","tags":["לגברים בלבד"]},{"date":"2026-08-16","time":"19:00","title":"מודרני בסיס לנשים","host":"עדי גלובן","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["מחול מודרני"]},{"date":"2026-08-16","time":"19:00","title":"רצפי תנועה מודרכים","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו רוניס, דוד אלעזר 7 (קניון ערים)","city":"כפר סבא","region":"שרון","format":"שיעור","price":null,"host":"נועה קדמן","recurring":true,"image":null,"url":"https://www.noakadman.com/"},{"date":"2026-08-16","time":"19:20","title":"AfroGroove","host":"רוני שחר","category":"מחול","discipline":"מחול","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור","tags":["אפריקאי"]},{"date":"2026-08-16","time":"19:30","title":"ריליס ושכלול תנועתי · עם ענבר קובי","host":"ענבר קובי","category":"חקר תנועה","discipline":"חקר תנועה","format":"שיעור","price":null,"venue":"מרכז מחול הכרמל, מושב מגדים, חוף הכרמל 85","city":"מגדים","region":"צפון","url":"https://www.facebook.com/ShinoaDanceWorkshop/","image":null,"recurring":true,"tags":["ריליס"]},{"date":"2026-08-16","time":"19:45","title":"שיעור פתוח · עם הדר גבע (עד 21:30)","host":"הדר גבע","category":"קונטקט","discipline":"קונטקט","venue":"הקבוצה · קהילת ניו יורק 17","city":"תל אביב","region":"תל אביב","url":"#","price":"70 ₪","image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-16","time":"20:00","title":"בלט למתחילים · עם ירין","host":"ירין","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"category":"מחול","discipline":"מחול","format":"שיעור"},{"date":"2026-08-16","time":"20:30","title":"קונטקט אימפרוביזציה","host":"אברהם חזין","category":"קונטקט","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"קונטקט","format":"שיעור"},{"date":"2026-08-16","time":"20:30","title":"Movement by Yaniv Tzadick · אקסטטיק דאנס בחושך","host":"יניב צדיק","category":"אקסטטיק","venue":"סילו תרבות","city":"הוד השרון","region":"שרון","recurring":true,"image":null,"url":"https://www.move-ment.co.il/","price":null,"discipline":"אקסטטיק","format":"מסיבת ריקוד"},{"date":"2026-08-16","time":"20:30","title":"מקצבי הלב · ריקוד חופשי (ראשון בת״א)","category":"אקסטטיק","venue":"האחים מסלאוויטה 7, קומה 1","city":"תל אביב","region":"תל אביב","url":"https://www.facebook.com/profile.php?id=61568110438321","price":null,"image":null,"recurring":true,"tags":["ריקוד חופשי"],"discipline":"אקסטטיק","format":"שיעור","host":"אמיר / נורית / ליטל (מתחלף)"},{"date":"2026-08-16","time":"20:40","title":"קונטקט","host":"איל בנר","category":"קונטקט","discipline":"קונטקט","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"06:45","title":"Movement · עם Tuti","host":"Tuti","venue":"Shoshana","city":"הוד השרון","region":"שרון","category":"מובמנט","discipline":"מובמנט","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"09:30","title":"העונג הסומטי · BMC, המרחבים הנוזליים וקונטקט (קורס קיץ)","host":"מיכאל שחרור","discipline":"חקר תנועה","category":"חקר תנועה","tags":["קונטקט"],"format":"קורס","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://www.michael-shachrur.com/classes/summercourse","price":"1180–1360 ₪","image":null,"recurring":true},{"date":"2026-08-17","time":"09:45","title":"מובמנט","host":"עמית אלימלך","category":"מובמנט","discipline":"מובמנט","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"10:15","title":"Yoga · עם Tuti","host":"Tuti","venue":"Shoshana","city":"הוד השרון","region":"שרון","category":"חקר תנועה","discipline":"חקר תנועה","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"11:15","title":"אימפרוביזציה בתנועה · עידו צדר","host":"עידו צדר","category":"אימפרוביזציה","discipline":"אימפרוביזציה","city":"תל אביב","region":"תל אביב","venue":"סטודיו נעים · סלמה 39","url":"https://www.naim.org.il/class/improvisation","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"16:45","title":"Global Beatz","host":"מעיה נווה","category":"מחול","discipline":"מחול","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור","tags":["מחול מודרני"]},{"date":"2026-08-17","time":"18:00","title":"ניה NIA לנשים","host":"טל אבן-חן","category":"ניה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"ניה","format":"שיעור"},{"date":"2026-08-17","time":"19:00","title":"Strength & Handstands · כוח ועמידות ידיים (עד 20:30)","host":"ירון פלצ'יק","category":"מובמנט","venue":"FlowMotion · הרימון 1","city":"אודים","region":"שרון","url":"https://flowmo.co.il/services/movement/","price":null,"image":null,"recurring":true,"discipline":"מובמנט","format":"שיעור"},{"date":"2026-08-17","time":"19:00","title":"מחול מודרני","host":"ספיר שלו","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["מחול מודרני"]},{"date":"2026-08-17","time":"20:15","title":"אקסטטיק דאנס השרון","category":"אקסטטיק","venue":"סילו תרבות","city":"הוד השרון","region":"שרון","recurring":true,"image":null,"url":"https://www.siloculture.com","price":null,"discipline":"אקסטטיק","format":"שיעור"},{"date":"2026-08-17","time":"20:15","title":"Ecstatic Dance","host":null,"category":"אקסטטיק","discipline":"אקסטטיק","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"20:30","title":"היפ הופ","host":"עופרי שחר","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["היפ הופ"]},{"date":"2026-08-17","time":"20:30","title":"שיעור קונטקט שבועי · רועי שקד (דגש סומטי וטכני)","host":"רועי שקד","city":"תל אביב","region":"תל אביב","image":null,"recurring":true,"discipline":"קונטקט","category":"קונטקט","venue":"סטודיו נעים · סלמה 39","url":"https://www.naim.org.il/contact-impro","price":null,"format":"שיעור"},{"date":"2026-08-18","time":"08:45","title":"Acrobatics · עם Shizi","host":"Shizi","venue":"Shoshana","city":"הוד השרון","region":"שרון","category":"אקרו","discipline":"אקרו","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"09:00","title":"בלט קלאסי לנשים · עם רבקה נתן","host":"רבקה נתן","category":"מחול","discipline":"מחול","format":"שיעור","price":null,"venue":"מרכז מחול הכרמל, מושב מגדים, חוף הכרמל 85","city":"מגדים","region":"צפון","url":"https://www.facebook.com/ShinoaDanceWorkshop/","image":null,"recurring":true,"tags":["בלט"]},{"date":"2026-08-18","time":"09:00","title":"רצפי תנועה מודרכים","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו פאבליק, התחייה 2","city":"כפר סבא","region":"שרון","format":"שיעור","price":null,"host":"נועה קדמן","recurring":true,"image":null,"url":"https://www.noakadman.com/"},{"date":"2026-08-18","time":"11:30","title":"Movement · עם Tuti","host":"Tuti","venue":"Rishpon","city":"רשפון","region":"שרון","category":"מובמנט","discipline":"מובמנט","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"12:15","title":"מובמנט אינטגרציה","host":"דנה שביב","category":"מובמנט","discipline":"מובמנט","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"16:45","title":"פלדנקרייז","host":"ינון זלצמן","category":"חקר תנועה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"חקר תנועה","format":"שיעור","tags":["פלדנקרייז"]},{"date":"2026-08-18","time":"17:15","title":"מחול מודרני","host":"אסתר באשר","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["מחול מודרני"]},{"date":"2026-08-18","time":"18:00","title":"Movement · עם Tuti","host":"Tuti","venue":"Shoshana","city":"הוד השרון","region":"שרון","category":"מובמנט","discipline":"מובמנט","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"18:30","title":"היפ הופ","host":"אסתר באשר","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["היפ הופ"]},{"date":"2026-08-18","time":"19:00","title":"קיץ של אימפרוביזציה בשפת ה־PLAY","host":"אילנית תדמור","discipline":"אימפרוביזציה","category":"אימפרוביזציה","format":"שיעור","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://www.instagram.com/play_4_dance/","price":"280 ₪ (למפגש)","image":null,"recurring":true},{"date":"2026-08-18","time":"19:00","title":"גאגא/אנשים","category":"גאגא","discipline":"גאגא","host":"גאגא/אנשים — מורה מתחלף","venue":"מרכז תאו, וינגייט 168","city":"הרצליה","region":"שרון","url":"https://teo.org.il/dance/גאגא-אנשים-הרצליה/","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"19:30","title":"גאגא/אנשים","category":"גאגא","discipline":"גאגא","venue":"סטודיו לנואה, פרדס חנה","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.gagapeople.com/gaga-pardes-hanna/","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"19:30","title":"מודרני לנשים · עם אתי טובי צדיק","host":"אתי טובי צדיק","category":"מחול","discipline":"מחול","format":"שיעור","price":"280 ₪ לחודש","venue":"מרכז מחול הכרמל, מושב מגדים, חוף הכרמל 85","city":"מגדים","region":"צפון","url":"https://www.facebook.com/ShinoaDanceWorkshop/","image":null,"recurring":true,"tags":["מחול מודרני"]},{"date":"2026-08-18","time":"19:40","title":"גאגא/אנשים","host":"מורה מתחלף","category":"גאגא","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"גאגא","format":"שיעור"},{"date":"2026-08-18","time":"20:40","title":"מחול אימפרוביזציה","host":"ענבל אושמן","category":"אימפרוביזציה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"אימפרוביזציה","format":"שיעור","tags":["מחול"]},{"date":"2026-08-19","time":"10:00","title":"קורס העמקה טכנית בקונטקט · PRACTICE INA (עד 14:00)","host":"שרון פרידמן","category":"קונטקט","discipline":"קונטקט","venue":"תמרה | בית הספר למחול, רחובות","city":"רחובות","region":"מרכז","url":"https://studiotamara.ravpage.co.il","price":null,"image":null,"recurring":true,"format":"קורס"},{"date":"2026-08-20","time":"09:30","title":"אומנות התנועה · מחול-ריפוי-חיים","host":"שרון הללי","venue":"סטודיו טל הדר","city":"כפר מונש","region":"שרון","url":"https://www.sharonhilleli.com/summer-1","price":"810 ₪ (סדרה) / 150 ₪ (מפגש בודד)","image":null,"recurring":false,"category":"חקר תנועה","discipline":"חקר תנועה","format":"סדנה"},{"date":"2026-08-20","time":"18:00","title":"קורס מחול לגברים (עד 20:00)","host":"גלבוע אגר","category":"מחול","discipline":"מחול","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס","tags":["לגברים בלבד"]},{"date":"2026-08-20","time":"19:30","title":"קונטקתנע – שיעור קונטקט 19:30 + תנע ג'אם פתוח 20:30–22:30","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://www.studiotena.org/contactena","price":null,"image":null,"recurring":true,"format":"ג'אם"},{"date":"2026-08-20","time":"20:15","title":"קורס יסודות בקונטקט אימפרוביזציה (עד 21:45)","host":"גלבוע אגר","category":"קונטקט","discipline":"קונטקט","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס"},{"date":"2026-08-21","time":"18:00","title":"Tribe Night · Tribe Vibe (21–22.8, עד 13:00)","host":null,"category":"אקסטטיק","discipline":"אקסטטיק","venue":"סטודיו פנטהריי","city":"גניגר","region":"צפון","url":"https://web.vibez.io/events/TRIBENIGHT","price":null,"image":null,"recurring":false,"format":"ריטריט"},{"date":"2026-08-23","time":"16:30","title":"קונטקידס · סשן קיץ עם שירי (הורה וילד, גילאי 2-4.5)","host":"שירי","category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://links.payboxapp.com/mELNqDdCzVb","price":"350 ₪ (5 מפגשים) · 320 ₪ בהרשמה מוקדמת עד 26.7","image":null,"recurring":true,"format":"קורס","tags":["עם הילדים"]},{"date":"2026-08-24","time":"16:30","title":"שמ-ים · סדרת החוף הקייצית (עד 20:30)","host":"איריס נייס","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"חוף מכמורת","city":"מכמורת","region":"שרון","url":"#","price":null,"image":null,"recurring":true,"format":"סדנה","tags":["תנועה מחוץ לסטודיו"]},{"date":"2026-08-26","time":"10:00","title":"קורס העמקה טכנית בקונטקט · PRACTICE INA (עד 14:00)","host":"שרון פרידמן","category":"קונטקט","discipline":"קונטקט","venue":"תמרה | בית הספר למחול, רחובות","city":"רחובות","region":"מרכז","url":"https://studiotamara.ravpage.co.il","price":null,"image":null,"recurring":true,"format":"קורס"},{"date":"2026-08-27","time":"09:30","title":"אומנות התנועה · מחול-ריפוי-חיים","host":"שרון הללי","venue":"סטודיו טל הדר","city":"כפר מונש","region":"שרון","url":"https://www.sharonhilleli.com/summer-1","price":"810 ₪ (סדרה) / 150 ₪ (מפגש בודד)","image":null,"recurring":false,"category":"חקר תנועה","discipline":"חקר תנועה","format":"סדנה"},{"date":"2026-08-27","time":"18:00","title":"קורס מחול לגברים (עד 20:00)","host":"גלבוע אגר","category":"מחול","discipline":"מחול","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס","tags":["לגברים בלבד"]},{"date":"2026-08-27","time":"19:30","title":"קונטקתנע – שיעור קונטקט 19:30 + תנע ג'אם פתוח 20:30–22:30","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://www.studiotena.org/contactena","price":null,"image":null,"recurring":true,"format":"ג'אם"},{"date":"2026-08-27","time":"20:15","title":"קורס יסודות בקונטקט אימפרוביזציה (עד 21:45)","host":"גלבוע אגר","category":"קונטקט","discipline":"קונטקט","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס"},{"date":"2026-08-28","time":"10:30","title":"הגנה על החיים · סדנה (נרקוד, נכתוב, נשתף — עד 16:30)","host":"דינא עוואד ועדי ארגוב","discipline":"ריקוד חופשי","category":"ריקוד חופשי","tags":["כתיבה"],"format":"סדנה","venue":"מרכז יוטוני · האשלג 22","city":"חיפה","region":"צפון","url":"#","phone":"054-455-8813","price":null,"image":null,"recurring":false},{"date":"2026-08-30","time":"16:30","title":"קונטקידס · סשן קיץ עם שירי (הורה וילד, גילאי 2-4.5)","host":"שירי","category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://links.payboxapp.com/mELNqDdCzVb","price":"350 ₪ (5 מפגשים) · 320 ₪ בהרשמה מוקדמת עד 26.7","image":null,"recurring":true,"format":"קורס","tags":["עם הילדים"]},{"date":"2026-08-31","time":"16:30","title":"שמ-ים · סדרת החוף הקייצית (עד 20:30)","host":"איריס נייס","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"חוף מכמורת","city":"מכמורת","region":"שרון","url":"#","price":null,"image":null,"recurring":true,"format":"סדנה","tags":["תנועה מחוץ לסטודיו"]},{"date":"2026-09-01","time":"09:30","title":"Inside Out · קורס קיץ בתנועת הגוף והקול (עד 14:00)","host":"דפנה המנדינגר, דנה לוי","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו בת דור","city":"באר שבע","region":"דרום","url":"https://www.dafna-hemmendinger.com/about-4","price":"2350 ₪ (הרשמה מוקדמת) · 2550 ₪ (מאוחרת)","image":null,"recurring":true,"format":"קורס"},{"host":"סער אוסטרייכר","category":"קונטקט","discipline":"קונטקט","format":"קורס","price":null,"image":null,"recurring":false,"venue":"Deep Contact","date":"2026-09-01","time":"17:30","title":"Deep Contact · תכנית שנתית למתקדמים — ימי שלישי (קונטקט, עד 19:45)","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://deepcontact.org/mitkadmim/mitkadmimpardes"},{"date":"2026-09-01","time":"17:30","title":"קורס מתקדמים שנתי · Deep Contact","host":null,"url":"https://deepcontact.org/mitkadmim/mitkadmimpardes/","price":null,"format":"קורס","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","image":null,"recurring":false,"category":"קונטקט","discipline":"קונטקט"},{"date":"2026-09-01","time":"20:00","title":"סדנת ביי לריצוי · Deep Contact","host":null,"url":"https://deepcontact.org/mavopardeslp/","price":null,"format":"סדנה","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","image":null,"recurring":false,"category":"קונטקט","discipline":"קונטקט"},{"date":"2026-09-07","time":"10:00","title":"הגוף המודע והנגלה · יום פתוח (יום התנסות)","host":"נעם כרמלי, מיכאל שחרור","category":"אימפרוביזציה","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","recurring":false,"url":"https://www.studiotena.org/conscious-body","price":"50 ₪","image":"https://static.wixstatic.com/media/f45e80_1416f1a13d7e40dcaed4f3b1e7e9bf82~mv2.jpg/v1/fill/w_640,h_440,al_c/photo.jpg","discipline":"אימפרוביזציה","format":"סדנה"},{"host":"סער אוסטרייכר","category":"קונטקט","discipline":"קונטקט","format":"קורס","price":null,"image":null,"recurring":false,"venue":"Deep Contact","date":"2026-09-07","time":"17:15","title":"Deep Contact · תכנית שנתית למנוסים — ימי שני (קונטקט, עד 19:15)","city":"תל אביב","region":"תל אביב","url":"https://deepcontact.org/product/menusimtlv25"},{"host":"סשה צ'רניבסקי וסער אוסטרייכר","category":"קונטקט","discipline":"קונטקט","format":"קורס","price":null,"image":null,"recurring":false,"venue":"Deep Contact","date":"2026-09-07","time":"19:30","title":"Deep Contact · תכנית שנתית למתקדמים — ימי שני (קונטקט, עד 21:45)","city":"תל אביב","region":"תל אביב","url":"https://deepcontact.org/mitkadmim/tlv25"},{"date":"2026-09-07","time":"19:30","title":"Deep Contact · תכנית שנתית מתקדמים — ימי שני (לבעלי ניסיון של שנתיים ומעלה, עד 21:45)","host":"סער אוסטרייכר, וסשה","category":"קונטקט","discipline":"קונטקט","venue":"תל אביב","city":"תל אביב","region":"תל אביב","url":"https://deepcontact.org/mitkadmim/tlv25/","price":null,"image":null,"recurring":false,"format":"קורס"},{"date":"2026-09-08","time":"09:30","title":"Inside Out · קורס קיץ בתנועת הגוף והקול (עד 14:00)","host":"דפנה המנדינגר, דנה לוי","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו בת דור","city":"באר שבע","region":"דרום","url":"https://www.dafna-hemmendinger.com/about-4","price":"2350 ₪ (הרשמה מוקדמת) · 2550 ₪ (מאוחרת)","image":null,"recurring":true,"format":"קורס"},{"date":"2026-09-12","time":"","title":"סדנת מבוא · Deep Contact","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"קרית טבעון","region":"צפון","format":"סדנה"},{"date":"2026-09-14","time":"00:00","title":"ריטריט אימפרוביזציה בתנועה · פארוס, יוון (אילנית תדמור ולירון מיארה)","host":"אילנית תדמור, לירון מיארה","category":"אימפרוביזציה","venue":"מרכז טאוס, פארוס","city":"פארוס","region":"חו״ל","url":"https://studiotamara.ravpage.co.il/ritritparos","price":null,"image":null,"recurring":false,"discipline":"אימפרוביזציה","format":"ריטריט"},{"date":"2026-09-14","time":"09:00","title":"מחול ותודעה בתנועה · הקורס השנתי לנשים 2026/27","host":"סיגל זיו","category":"נשים בלבד","discipline":"נשים בלבד","venue":"תל אביב","city":"תל אביב","region":"תל אביב","url":"https://tribalfusion.ravpage.co.il/todaa","price":null,"image":null,"recurring":false,"format":"קורס"},{"date":"2026-09-15","time":"","title":"קורס יסודות קונטקט · Deep Contact (14 מפגשים)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"תל אביב","region":"תל אביב","format":"קורס"},{"date":"2026-09-15","time":"09:30","title":"Inside Out · קורס קיץ בתנועת הגוף והקול (עד 14:00)","host":"דפנה המנדינגר, דנה לוי","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו בת דור","city":"באר שבע","region":"דרום","url":"https://www.dafna-hemmendinger.com/about-4","price":"2350 ₪ (הרשמה מוקדמת) · 2550 ₪ (מאוחרת)","image":null,"recurring":true,"format":"קורס"},{"date":"2026-09-17","time":"","title":"ריטריט קונטקט · Deep Contact (17–19.9)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"יער המאכל · בית לחם הגלילית","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"בית לחם הגלילית","region":"צפון","format":"ריטריט"},{"date":"2026-09-18","time":"11:00","title":"נטו אימפרוביזציה — סוף״ש בתנע","category":"אימפרוביזציה","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","recurring":false,"url":"https://www.studiotena.org/neto-contact","price":"סופ״ש מלא 600 ₪","image":null,"discipline":"אימפרוביזציה","format":"סדנה"},{"date":"2026-09-22","time":"09:30","title":"Inside Out · קורס קיץ בתנועת הגוף והקול (עד 14:00)","host":"דפנה המנדינגר, דנה לוי","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו בת דור","city":"באר שבע","region":"דרום","url":"https://www.dafna-hemmendinger.com/about-4","price":"2350 ₪ (הרשמה מוקדמת) · 2550 ₪ (מאוחרת)","image":null,"recurring":true,"format":"קורס"},{"date":"2026-10-04","time":"09:30","title":"המסלול הדו-שנתי ללימודי מחול (מחזור 25-27) · אוק׳ 26–יוני 27","host":null,"category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.ravpage.co.il/magal2527","price":null,"image":null,"recurring":false,"discipline":"מחול","format":"קורס","tags":["מחול"]},{"date":"2026-10-04","time":"10:00","title":"ריקוד לגוף הנשי · פורטל האגן, יוגה נשית ו-BMC (10:00–12:30, קורס 30 מפגשים)","host":"ליאת טופז","venue":"סטודיו ירוק עז, אילניה","city":"אילניה","region":"צפון","url":"https://bmcliattopaz.ravpage.co.il/dance","price":null,"image":null,"recurring":true,"category":"חקר תנועה","discipline":"חקר תנועה","format":"קורס"},{"date":"2026-10-04","time":"10:00","title":"יום לימודים מלא ריקוד וקונסטלציה משפחתית · עם ליאת טופז","host":"ליאת טופז","venue":"סטודיו ירוק עז, אילניה","city":"אילניה","region":"צפון","url":"https://bmcliattopaz.ravpage.co.il/dance","price":null,"image":null,"recurring":false,"category":"חקר תנועה","discipline":"חקר תנועה","format":"סדנה"},{"date":"2026-10-08","time":"","title":"הניצוץ שבתוכי · ריטריט לנשים במצפה רמון (8–10.10, 3 ימים)","host":"אור בגים, מירי בלנק","category":"נשים בלבד","discipline":"נשים בלבד","venue":"מצפה רמון","city":"מצפה רמון","region":"דרום","url":"https://www.miriblank.co.il/innerbalance-reatret-in-mitzpe-ramon/","price":null,"image":null,"recurring":false,"format":"ריטריט"},{"date":"2026-10-10","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-10-13","time":"20:00","title":"קורס יסודות · Deep Contact (14 מפגשים)","host":null,"url":"https://deepcontact.org/yesodot/yesodot_einshemer/","price":null,"format":"קורס","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","image":null,"recurring":false,"category":"קונטקט","discipline":"קונטקט"},{"date":"2026-10-16","time":"","title":"ריטריט קונטקט · Deep Contact (16–17.10)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"יער המאכל · בית לחם הגלילית","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"בית לחם הגלילית","region":"צפון","format":"ריטריט"},{"date":"2026-10-21","time":"10:00","title":"קורס הכשרת מורים לאימפרוביזציה (אילנית תדמור) · ימי ד׳ 21.10.26–3.7.27","host":"אילנית תדמור","category":"אימפרוביזציה","venue":"תמרה — מרכז הכרמל, מרגלית 4","city":"חיפה","region":"צפון","url":"https://studiotamara.ravpage.co.il/ilanithaifa","price":null,"image":null,"recurring":false,"discipline":"אימפרוביזציה","format":"קורס"},{"date":"2026-10-21","time":"10:00","title":"קורס אנטומיה חווייתית · השלד, השרירים ודפוסים אמבריולוגיים (BMC, 12 מפגשים)","host":"תמר ארקין","category":"חקר תנועה","discipline":"חקר תנועה","venue":"סטודיו ה\"חללון\", קרית טבעון","city":"קרית טבעון","region":"צפון","url":"https://www.tamararkin.com/body-mind-centering-course-tivon","price":null,"image":null,"recurring":false,"format":"קורס","tags":[]},{"date":"2026-10-25","time":"","title":"קורס יסודות קונטקט · Deep Contact (14 מפגשים)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"קרית טבעון","region":"צפון","format":"קורס"},{"date":"2026-10-26","time":"09:30","title":"הגוף המודע והנגלה · מחזור 15 — תכנית שנתית (ימי שני)","host":"נעם כרמלי, מיכאל שחרור","category":"אימפרוביזציה","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","recurring":false,"url":"https://www.studiotena.org/conscious-body","price":"6,600 ₪ (מוקדם)","image":"https://static.wixstatic.com/media/f45e80_1416f1a13d7e40dcaed4f3b1e7e9bf82~mv2.jpg/v1/fill/w_640,h_440,al_c/photo.jpg","discipline":"אימפרוביזציה","format":"קורס"},{"date":"2026-10-30","time":"11:00","title":"נטו קונטקט — סוף״ש בתנע","category":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","recurring":false,"url":"https://www.studiotena.org/neto-contact","price":"סופ״ש מלא 600 ₪","image":null,"discipline":"קונטקט","format":"סדנה"},{"date":"2026-10-31","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-11-08","time":"","title":"קורס יסודות קונטקט · Deep Contact (14 מפגשים)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"תל אביב","region":"תל אביב","format":"קורס"},{"date":"2026-11-13","time":"","title":"קורס יסודות קונטקט · Deep Contact (14 מפגשים)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"חיפה","region":"צפון","format":"קורס"},{"date":"2026-11-25","time":"","title":"הכשרת מנחי קבוצות · Deep Contact (11 מפגשים)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"עין שמר","region":"פרדס חנה והסביבה","format":"קורס"},{"date":"2026-11-28","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-12-26","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-01-16","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-02-13","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-03-13","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-04-10","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-05-08","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-06-26","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-07-03","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"}];
 const TODAY = new Date(); TODAY.setHours(0,0,0,0);
 try{(JSON.parse(localStorage.getItem("zuzu_approved_events")||"[]")).forEach(e=>EVENTS.push(e));}catch(_e){}
@@ -741,6 +788,7 @@ function regLink(e){
   if(d) return {href:"https://wa.me/"+d+"?text="+encodeURIComponent('היי, ראיתי את "'+(e.title||"")+'" בזוזו ואשמח לפרטים 🙏'), wa:true};
   return null;
 }
+const attrEsc=t=>String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function cardHtml(e){
   const t=e.time.replace(/^0/,"");
   const dd=dateOf(e);
@@ -750,12 +798,10 @@ function cardHtml(e){
   const href=link?link.href:"";
   const moreInner=link
     ? (link.wa
-        ? '<span>כתבו בוואטסאפ</span><span class="ar wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 1.8c2.16 0 4.19.84 5.72 2.37a8.02 8.02 0 0 1 2.37 5.72c0 4.46-3.63 8.09-8.1 8.09a8.1 8.1 0 0 1-4.12-1.13l-.3-.18-3.06.8.82-2.99-.2-.31a8.04 8.04 0 0 1-1.24-4.3c0-4.46 3.63-8.09 8.09-8.09Zm4.67 11.5c-.05-.08-.18-.13-.38-.23-.2-.1-1.2-.59-1.39-.66-.18-.07-.32-.1-.45.1-.13.2-.51.66-.63.79-.12.13-.23.15-.43.05-.2-.1-.85-.31-1.62-1a6.1 6.1 0 0 1-1.12-1.39c-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.33.07-.13.03-.25-.02-.35-.05-.1-.45-1.08-.62-1.48-.16-.39-.33-.34-.45-.34l-.38-.01a.74.74 0 0 0-.53.25c-.18.2-.7.68-.7 1.66 0 .98.72 1.93.82 2.06.1.13 1.4 2.14 3.4 3 .47.2.85.33 1.14.42.48.15.92.13 1.26.08.39-.06 1.2-.49 1.37-.96.17-.47.17-.88.12-.96Z"/></svg></span>'
-        : `<span>${e.format==="הופעה/מופע"?"לפרטים ורכישה":"לפרטים והרשמה"}</span><span class="ar">←</span>`)
+        ? '<span>כתבו בוואטסאפ</span><span class="ar wa" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 1.8c2.16 0 4.19.84 5.72 2.37a8.02 8.02 0 0 1 2.37 5.72c0 4.46-3.63 8.09-8.1 8.09a8.1 8.1 0 0 1-4.12-1.13l-.3-.18-3.06.8.82-2.99-.2-.31a8.04 8.04 0 0 1-1.24-4.3c0-4.46 3.63-8.09 8.09-8.09Zm4.67 11.5c-.05-.08-.18-.13-.38-.23-.2-.1-1.2-.59-1.39-.66-.18-.07-.32-.1-.45.1-.13.2-.51.66-.63.79-.12.13-.23.15-.43.05-.2-.1-.85-.31-1.62-1a6.1 6.1 0 0 1-1.12-1.39c-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.33.07-.13.03-.25-.02-.35-.05-.1-.45-1.08-.62-1.48-.16-.39-.33-.34-.45-.34l-.38-.01a.74.74 0 0 0-.53.25c-.18.2-.7.68-.7 1.66 0 .98.72 1.93.82 2.06.1.13 1.4 2.14 3.4 3 .47.2.85.33 1.14.42.48.15.92.13 1.26.08.39-.06 1.2-.49 1.37-.96.17-.47.17-.88.12-.96Z"/></svg></span>'
+        : `<span>${e.format==="הופעה/מופע"?"לפרטים ורכישה":"לפרטים והרשמה"}</span><span class="ar" aria-hidden="true">←</span>`)
     : '<span class="nolink">פרטים בקרוב</span>';
-  const tag=link?"a":"div";
-  const attrs=link?` href="${href}" target="_blank"`:"";
-  return `<${tag} class="card${link&&link.wa?" wacard":""}"${attrs}>
+  return `<div class="card${link&&link.wa?" wacard":""}">
     <div class="thumb"></div>
     <div class="t"><span class="tt">${t}</span><span class="td">${dateStr}</span></div>
     <div class="main">
@@ -767,10 +813,12 @@ function cardHtml(e){
       </div>
     </div>
     <div class="end">
-      <button type="button" class="calbtn" data-cal data-d="${e.date}" data-tm="${e.time}" data-fmt="${encodeURIComponent(e.format||"")}" data-ti="${encodeURIComponent(e.title)}" data-loc="${encodeURIComponent(loc)}" data-url="${encodeURIComponent(e.url||"")}" data-host="${encodeURIComponent(e.host||"")}" aria-label="הוסף ליומן"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="17" rx="2"></rect><path d="M16 2v5M8 2v5M3 9.5h18M12 14v4M10 16h4"></path></svg><span>יומן</span></button>
-      <div class="more">${moreInner}</div>
+      <button type="button" class="calbtn" data-cal data-d="${e.date}" data-tm="${e.time}" data-fmt="${encodeURIComponent(e.format||"")}" data-ti="${encodeURIComponent(e.title)}" data-loc="${encodeURIComponent(loc)}" data-url="${encodeURIComponent(e.url||"")}" data-host="${encodeURIComponent(e.host||"")}" aria-label="הוספת ${attrEsc(e.title)} ליומן גוגל"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="17" rx="2"></rect><path d="M16 2v5M8 2v5M3 9.5h18M12 14v4M10 16h4"></path></svg><span>יומן</span></button>
+      ${link
+        ? `<a class="more cardlink" href="${attrEsc(href)}" target="_blank" rel="noopener">${moreInner}<span class="sr-only">: ${attrEsc(e.title)} (נפתח בחלון חדש)</span></a>`
+        : `<div class="more">${moreInner}</div>`}
     </div>
-  </${tag}>`;
+  </div>`;
 }
 
 function icsDownload(ev){
@@ -837,8 +885,8 @@ document.addEventListener("click",ev=>{
 });
 // track clicks on event cards (which listing → registration link)
 document.addEventListener("click",ev=>{
-  const card=ev.target.closest("a.card"); if(!card) return;
-  if(ev.target.closest(".calbtn")) return;
+  const a=ev.target.closest("a.cardlink"); if(!a) return;
+  const card=a.closest(".card"); if(!card) return;
   const ti=card.querySelector(".ti"), labels=card.querySelector(".labels span"), meta=card.querySelector(".meta");
   track("event_click",{
     title: ti?ti.textContent:"",
@@ -882,7 +930,7 @@ function renderCalendar(){
   f.forEach(e=>{ (byDay[e.date]=byDay[e.date]||[]).push(e); });
   setCount(f.filter(e=>{const d=dateOf(e);return d.getFullYear()===calY&&d.getMonth()===calM;}).length);
   const first=new Date(calY,calM,1); const start=new Date(first); start.setDate(1-first.getDay());
-  let html=HEB_DAYS.map(d=>`<div class="dow">${d}</div>`).join("");
+  let html=HEB_DAYS.map(d=>`<div class="dow" aria-hidden="true">${d}</div>`).join("");
   const cur=new Date(start);
   for(let i=0;i<42;i++){
     const key=iso(cur);
@@ -894,13 +942,14 @@ function renderCalendar(){
     const chips=evs.slice(0,3).map(e=>`<span class="chipE"><span class="h">${e.time}</span> ${e.title}</span>`).join("");
     const more=evs.length>3?`<span class="moreE">+${evs.length-3} נוספים</span>`:"";
     const dots=`<span class="dotrow">${evs.slice(0,5).map(()=>'<span class="dot"></span>').join("")}</span>`;
-    html+=`<div class="${cls.join(" ")}" data-day="${key}"><div class="dn">${cur.getDate()}</div>${chips}${more}${dots}</div>`;
+    const cellLbl=`${HEB_DAYS[cur.getDay()]} ${cur.getDate()} ב${HEB_MONTHS[cur.getMonth()]}, ${evs.length?evs.length+" אירועים":"אין אירועים"}`;
+    html+=`<div class="${cls.join(" ")}" data-day="${key}" role="button" tabindex="0" aria-pressed="${state.selDay===key}" aria-label="${cellLbl}"${+cur===+TODAY?' aria-current="date"':""}><div class="dn" aria-hidden="true">${cur.getDate()}</div><span aria-hidden="true">${chips}${more}${dots}</span></div>`;
     cur.setDate(cur.getDate()+1);
     if(i>=34 && cur.getMonth()!==calM && cur.getDay()===0) break;
   }
   document.getElementById("calgrid").innerHTML=html;
   reveal(document.getElementById("calgrid"),".cell",14,360);
-  document.querySelectorAll(".cell").forEach(c=>c.onclick=()=>{ state.selDay=c.dataset.day; renderCalendar(); });
+  document.querySelectorAll(".cell").forEach(c=>c.onclick=()=>{ state.selDay=c.dataset.day; renderCalendar(); const s=document.querySelector(`.cell[data-day="${c.dataset.day}"]`); if(s) s.focus(); });
   const box=document.getElementById("dayDetail");
   if(state.selDay){
     const evs=(byDay[state.selDay]||[]).slice().sort((a,b)=>a.time<b.time?-1:1);
@@ -916,10 +965,10 @@ function loadingHtml(n){
   n = n || 3;
   var cards = "";
   for(var i=0;i<n;i++) cards += '<div class="zskel"><div class="zskel-t"></div><div class="zskel-s"></div></div>';
-  return '<div class="zloading"><span class="zspin"></span>טוען אירועים…</div>'+cards;
+  return '<div class="zloading" role="status"><span class="zspin" aria-hidden="true"></span>טוען אירועים…</div>'+cards.replace(/class="zskel"/g,'class="zskel" aria-hidden="true"');
 }
 function errorHtml(){
-  return '<div class="empty zerr">לא הצלחנו לטעון את האירועים כרגע. '+
+  return '<div class="empty zerr" role="alert">לא הצלחנו לטעון את האירועים כרגע. '+
          '<button type="button" id="zRetry" class="tlNext">נסו שוב →</button></div>';
 }
 function render(){
@@ -928,7 +977,8 @@ function render(){
   document.getElementById("list").style.display=cal?"none":"flex";
   document.getElementById("rulerWrap").style.display=cal?"none":"";
   document.getElementById("tlHero").style.display=cal?"none":"";
-  document.querySelectorAll(".vt").forEach(b=>b.classList.toggle("on",b.dataset.view===state.view));
+  document.querySelectorAll(".vt").forEach(b=>{ const on=b.dataset.view===state.view; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
+  const lst=document.getElementById("list"); if(lst) lst.setAttribute("aria-busy",window.ZUZU_LOADING?"true":"false");
   cal?renderCalendar():renderTimeline();
 }
 
@@ -1005,10 +1055,11 @@ function renderTimeline(){
     const cls=["tick"]; if(c>0)cls.push("has"); if(today)cls.push("today"); if(sel)cls.push("sel");
     const top=d.getDate(), topCls="dnum";
     const dowLabel = today ? "היום" : (diff===1 ? "מחר" : HEB_DAYS[d.getDay()]);
-    rh+=`<button class="${cls.join(" ")}" data-day="${key}" title="${c} אירועים">`+
-        `<span class="${topCls}">${top}</span>`+
-        `<span class="dow">${dowLabel}</span>`+
-        `<span class="stem"></span>`+
+    const tickLbl=`${dowLabel==="היום"||dowLabel==="מחר"?dowLabel+", ":""}יום ${HEB_DAYS[d.getDay()]} ${d.getDate()} ב${HEB_MONTHS[d.getMonth()]}, ${c?c+" אירועים":"אין אירועים"}`;
+    rh+=`<button type="button" class="${cls.join(" ")}" data-day="${key}" title="${c} אירועים" aria-label="${tickLbl}" aria-pressed="${sel}"${today?' aria-current="date"':""}>`+
+        `<span class="${topCls}" aria-hidden="true">${top}</span>`+
+        `<span class="dow" aria-hidden="true">${dowLabel}</span>`+
+        `<span class="stem" aria-hidden="true"></span>`+
         `</button>`;
   });
   ruler.innerHTML=rh;
@@ -1041,7 +1092,8 @@ function renderTimeline(){
   reveal(list,".card",60,380);
   centerSelected(false);
 }
-function selectDay(key){ state.when="all"; state.selDate=key; try{track("select_day",{value:key});}catch(_e){} renderTimeline(); centerSelected(true); }
+function selectDay(key){ const kb=document.activeElement&&document.activeElement.classList.contains("tick"); state.when="all"; state.selDate=key; try{track("select_day",{value:key});}catch(_e){} renderTimeline(); centerSelected(true);
+  if(kb){ const t=document.querySelector("#ruler .tick.sel"); if(t) t.focus({preventScroll:true}); } }
 function stepDay(delta){
   const days=timelineDays().map(iso); const i=days.indexOf(state.selDate);
   const ni=Math.min(days.length-1,Math.max(0,(i<0?0:i)+delta));
@@ -1118,7 +1170,7 @@ function renderChips(){
   const row=document.getElementById("chipRow"); row.innerHTML="";
   const add=(label,onRemove)=>{
     const b=document.createElement("button"); b.className="chip"; b.type="button";
-    b.innerHTML=`<span class="x">×</span>${label}`;
+    b.innerHTML=`<span class="x" aria-hidden="true">×</span>${label}`; b.setAttribute("aria-label","הסרת הסינון "+label);
     b.onclick=()=>{ onRemove(); refreshAll(); render(); };
     row.appendChild(b);
   };
@@ -1128,17 +1180,18 @@ function renderChips(){
   [...state.regs].forEach(v=>add(v,()=>state.regs.delete(v)));
   if(tagCount()>0){
     const c=document.createElement("button"); c.className="chipClear"; c.type="button"; c.textContent="נקה הכל";
-    c.onclick=()=>{ clearAll(); refreshAll(); render(); };
+    c.onclick=()=>{ clearAll(); refreshAll(); render(); document.getElementById("filterBtn").focus(); };
     row.appendChild(c);
   }
 }
 function renderSheet(){
   const body=document.getElementById("fsBody");
-  const grp=(lab,inner)=>`<div class="fgroup"><div class="glab">${lab}</div><div class="pills">${inner}</div></div>`;
-  const wp=WHENS.map(([v,l])=>`<button class="pill2 ${state.when===v?'on':''}" data-axis="when" data-v="${v}">${l}</button>`).join("");
-  const mp=MOVES.map(v=>`<button class="pill2 ${state.cats.has(v)?'on':''}" data-axis="cats" data-v="${v}">${v}<span class="cnt">${moveCount(v)}</span></button>`).join("");
-  const fp=FMTS.map(v=>`<button class="pill2 ${state.fmts.has(v)?'on':''}" data-axis="fmts" data-v="${v}">${v}<span class="cnt">${fmtCount(v)}</span></button>`).join("");
-  const ap=AREAS.map(v=>`<button class="pill2 ${state.regs.has(v)?'on':''}" data-axis="regs" data-v="${v}">${v}<span class="cnt">${areaCount(v)}</span></button>`).join("");
+  let gi=0;
+  const grp=(lab,inner)=>{ gi++; return `<div class="fgroup" role="group" aria-labelledby="fg${gi}"><div class="glab" id="fg${gi}">${lab}</div><div class="pills">${inner}</div></div>`; };
+  const wp=WHENS.map(([v,l])=>`<button type="button" class="pill2 ${state.when===v?'on':''}" aria-pressed="${state.when===v}" data-axis="when" data-v="${v}">${l}</button>`).join("");
+  const mp=MOVES.map(v=>`<button type="button" class="pill2 ${state.cats.has(v)?'on':''}" aria-pressed="${state.cats.has(v)}" data-axis="cats" data-v="${v}">${v}<span class="cnt"><span class="sr-only">, </span>${moveCount(v)}<span class="sr-only"> אירועים</span></span></button>`).join("");
+  const fp=FMTS.map(v=>`<button type="button" class="pill2 ${state.fmts.has(v)?'on':''}" aria-pressed="${state.fmts.has(v)}" data-axis="fmts" data-v="${v}">${v}<span class="cnt"><span class="sr-only">, </span>${fmtCount(v)}<span class="sr-only"> אירועים</span></span></button>`).join("");
+  const ap=AREAS.map(v=>`<button type="button" class="pill2 ${state.regs.has(v)?'on':''}" aria-pressed="${state.regs.has(v)}" data-axis="regs" data-v="${v}">${v}<span class="cnt"><span class="sr-only">, </span>${areaCount(v)}<span class="sr-only"> אירועים</span></span></button>`).join("");
   body.innerHTML=grp("מתי",wp)+grp("אזור",ap)+grp("סוג תנועה",mp)+grp("סוג אירוע",fp);
   body.querySelectorAll(".pill2").forEach(p=>p.onclick=()=>{
     const ax=p.dataset.axis, v=p.dataset.v;
@@ -1149,17 +1202,23 @@ function renderSheet(){
     else if(ax==="fmts" && state.fmts.has(v)) track("filter_format",{value:v});
     else if(ax==="regs" && state.regs.has(v)) track("filter_region",{value:v});
     renderSheet(); renderChips(); updateFbCount(); render();
+    const again=body.querySelector(`.pill2[data-axis="${ax}"][data-v="${CSS.escape(v)}"]`); if(again) again.focus();
   });
 }
 function updateFbCount(){
   const n=tagCount(), el=document.getElementById("fbCount");
   el.textContent=n; el.hidden=(n===0);
+  const sr=document.getElementById("fbCountSr"); if(sr) sr.textContent=n?`, ${n} סינונים פעילים`:"";
 }
 function refreshAll(){ renderChips(); updateFbCount(); if(sheetOpen) renderSheet(); }
 function clearAll(){ state.when="all"; state.cats.clear(); state.fmts.clear(); state.regs.clear(); }
 
-function openSheet(){ sheetOpen=true; renderSheet(); sheet.classList.add("open"); }
-function closeSheet(){ sheetOpen=false; sheet.classList.remove("open"); }
+function openSheet(){ sheetOpen=true; renderSheet(); sheet.classList.add("open");
+  document.getElementById("filterBtn").setAttribute("aria-expanded","true");
+  zuzuA11y.trap(sheet.querySelector(".fsCard"), document.getElementById("filterBtn")); }
+function closeSheet(){ sheetOpen=false; sheet.classList.remove("open");
+  document.getElementById("filterBtn").setAttribute("aria-expanded","false");
+  zuzuA11y.release(); }
 document.getElementById("filterBtn").onclick=()=>sheetOpen?closeSheet():openSheet();
 document.getElementById("fsX").onclick=closeSheet;
 document.getElementById("fsBack").onclick=closeSheet;
@@ -1330,9 +1389,9 @@ render();
     catInput.addEventListener("blur",()=>{ if(catInput.value) addCatTag(catInput.value); });
   }
   function resetCatTags(){ catTags=[]; if(catInput) catInput.value=""; renderCatTags(); }
-  function openAdd(){form.hidden=false;ok.hidden=true;form.reset();resetDateRows();resetCatTags();resetScan();addM.hidden=false;}
-  function openContact(){cnForm.hidden=false;cnOk.hidden=true;cnForm.reset();cnM.hidden=false;}
-  function closeAll(){addM.hidden=true;admM.hidden=true;cnM.hidden=true;}
+  function openAdd(){form.hidden=false;ok.hidden=true;form.reset();resetDateRows();resetCatTags();resetScan();addM.hidden=false;zuzuA11y.trap(addM.querySelector(".modal-card"));}
+  function openContact(){cnForm.hidden=false;cnOk.hidden=true;cnForm.reset();cnM.hidden=false;zuzuA11y.trap(cnM.querySelector(".modal-card"));}
+  function closeAll(){const wasOpen=!addM.hidden||!admM.hidden||!cnM.hidden;addM.hidden=true;admM.hidden=true;cnM.hidden=true;if(wasOpen)zuzuA11y.release();}
   document.getElementById("addEventLink").onclick=openAdd;
   document.getElementById("contactLink").onclick=openContact;
   document.querySelectorAll("[data-close]").forEach(b=>b.onclick=closeAll);
@@ -1541,7 +1600,7 @@ render();
   }
   function approve(i){const p=g(PEND);const ev=p.splice(i,1)[0];if(!ev)return;delete ev._at;s(PEND,p);const a=g(APR);a.push(ev);s(APR,a);EVENTS.push(ev);if(typeof render==="function")render();badge();renderAdmin();}
   function reject(i){const p=g(PEND);p.splice(i,1);s(PEND,p);badge();renderAdmin();}
-  document.getElementById("adminLink").onclick=()=>{renderAdmin();admM.hidden=false;};
+  document.getElementById("adminLink").onclick=()=>{renderAdmin();admM.hidden=false;zuzuA11y.trap(admM.querySelector(".modal-card"));};
   (function(){
     const ADMIN_KEY="zuzu_is_admin";
     const params=new URLSearchParams(location.search);

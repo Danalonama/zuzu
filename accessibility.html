@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zuzu — הצהרת נגישות</title>
+<meta name="description" content="הצהרת הנגישות של zuzu — מה הונגש באתר, איך נבדק, מה עוד לא, ואיך פונים אלינו בנושא נגישות.">
+<link rel="canonical" href="https://zuzu.today/accessibility.html">
+<!-- DRAFT: remove noindex once the placeholders below are filled in and the page is linked from the footer -->
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" href="favicon-180.png">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EEF4F7; --ink:#0a0a0a; --muted:#6b6b6b; --hair:#dbe4e8;
+    --accent:#ff3a00; --card:#ffffff;
+    --accent-text:#c42f03; /* small orange text — 5:1 on --bg */
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Heebo","Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink);
+       -webkit-font-smoothing:antialiased;line-height:1.6}
+  a{color:inherit}
+  .wrap{max-width:880px;margin:0 auto;padding:0 22px}
+
+  /* top bar — mirrors about */
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 0 0;font-size:.8rem}
+  .topbar a{text-decoration:none}
+  .topbar .tmark{font-weight:800;letter-spacing:-.01em}
+  .topbar .back{display:inline-flex;align-items:center;gap:9px;font-weight:600}
+  .topbar .back::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
+
+  .head{padding:54px 0 26px}
+  .kick{font-size:.7rem;letter-spacing:.2em;text-transform:lowercase;color:var(--accent-text);font-weight:700;margin-bottom:18px}
+  h1{margin:0;font-size:clamp(2.4rem,7vw,4.4rem);font-weight:900;letter-spacing:-.04em;line-height:.95}
+  h1 .o{color:var(--accent)}
+  .lead{font-size:clamp(1.05rem,2.2vw,1.25rem);max-width:56ch;margin:22px 0 0;text-wrap:pretty}
+  .updated{margin-top:14px;font-size:.9rem;color:var(--muted)}
+
+  section{padding:34px 0 6px;border-top:1.5px solid var(--ink);margin-top:34px}
+  h2{margin:0 0 14px;font-size:clamp(1.4rem,3.2vw,2rem);font-weight:900;letter-spacing:-.02em}
+  p,li{max-width:64ch;text-wrap:pretty}
+  ul{padding-inline-start:1.2em;margin:0 0 14px}
+  li{margin-bottom:6px}
+  .card{background:var(--card);border-radius:16px;padding:22px 24px;margin:16px 0}
+  .card dl{margin:0;display:grid;grid-template-columns:max-content 1fr;gap:8px 18px}
+  .card dt{font-weight:700}
+  .card dd{margin:0}
+  section a{color:var(--accent-text);font-weight:700}
+
+  /* draft placeholders — must all be gone before publishing */
+  .todo{background:#fff2a8;color:#5c4a00;border-radius:6px;padding:1px 6px;font-weight:700}
+  .draftBanner{background:#fff2a8;color:#3d3200;border-radius:12px;padding:12px 16px;margin-top:22px;font-size:.92rem}
+
+  footer{border-top:1px solid var(--ink);margin-top:58px}
+  footer .wrap{padding:34px 22px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  footer .fmark{font-size:.7rem;color:var(--muted);letter-spacing:.08em}
+  footer .home{font-size:.8rem;font-weight:700;text-decoration:none}
+  footer .home:hover{color:var(--accent-text)}
+
+  /* ---- accessibility ---- */
+  .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .skipLink{position:absolute;inset-inline-start:12px;top:-60px;z-index:9999;background:var(--ink);color:var(--bg);
+    padding:10px 16px;border-radius:999px;font-weight:700;text-decoration:none;transition:top .15s}
+  .skipLink:focus{top:12px}
+  :focus-visible{outline:2.5px solid var(--accent-text);outline-offset:2px}
+  main:focus{outline:none}
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto!important} *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important} }
+  @media(max-width:560px){ .card dl{grid-template-columns:1fr;gap:2px} .card dd{margin-bottom:10px} }
+</style>
+</head>
+<body>
+<a class="skipLink" href="#main">דלגו לתוכן הראשי</a>
+<div class="wrap">
+  <nav class="topbar" aria-label="ניווט ראשי">
+    <a href="index.html" aria-label="zuzu — ללוח האירועים"><span class="tmark" style="font-size:28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">.zuzu</span></a>
+    <a href="index.html" class="back">חזרה ללוח</a>
+  </nav>
+
+  <main id="main" tabindex="-1">
+  <header class="head">
+    <div class="kick">נגישות</div>
+    <h1>הצהרת <span class="o">נגישות</span></h1>
+    <p class="lead">zuzu הוא לוח אירועי תנועה וריקוד בישראל. חשוב לנו שכל מי שרוצה לזוז יוכל/תוכל למצוא אירוע — גם מי שגולש/ת עם קורא מסך, רק עם מקלדת, עם הגדלת טקסט או עם כל טכנולוגיה מסייעת אחרת.</p>
+    <p class="updated">תאריך עדכון ההצהרה: <span class="todo">להשלים: תאריך הפרסום</span> · הבדיקות שמתוארות כאן נעשו ב־1 באוקטובר 2026.</p>
+    <div class="draftBanner" role="note"><b>טיוטה —</b> הסימונים הצהובים הם פרטים שעוד צריך להשלים. יש למחוק את ההודעה הזו ואת כל הסימונים לפני פרסום.</div>
+  </header>
+
+  <section aria-labelledby="h-std">
+    <h2 id="h-std">על מה ההצהרה מבוססת</h2>
+    <p>ההצהרה נכתבה לפי תקנה 35 לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע"ג־2013, והתקן הישראלי ת"י 5568, שמבוסס על הנחיות הנגישות הבינלאומיות לתוכן אינטרנט (WCAG) ברמה AA.</p>
+    <p>אנחנו פועלים להתאים את האתר לרמה AA. עשינו את רוב העבודה ובדקנו אותה, אבל עוד לא סיימנו את כל הבדיקות. מה שלא נבדק מפורט בהמשך, תחת "מה עוד לא מושלם".</p>
+  </section>
+
+  <section aria-labelledby="h-done">
+    <h2 id="h-done">מה הונגש באתר</h2>
+    <ul>
+      <li><b>ניווט במקלדת:</b> אפשר להגיע לכל הפעולות המרכזיות באתר עם Tab, Enter ורווח — כרטיסי האירועים, הסינון, התצוגה החודשית, טופס הוספת אירוע, טופס יצירת קשר והשאלון "איזה סגנון מתאים לי". בבחירת יום אפשר לעבור בין הימים עם החיצים.</li>
+      <li><b>סימון פוקוס:</b> מסגרת ברורה מסמנת איפה נמצא הפוקוס של המקלדת.</li>
+      <li><b>קישור "דלגו לתוכן הראשי"</b> בתחילת כל עמוד.</li>
+      <li><b>חלונות קופצים</b> (סינון, הוספת אירוע, יצירת קשר): הפוקוס נשאר בתוך החלון כשהוא פתוח, אפשר לסגור אותו עם Esc, ובסגירה הפוקוס חוזר למקום שממנו נפתח.</li>
+      <li><b>קוראי מסך:</b>
+        <ul>
+          <li>לכל הכפתורים ושדות הטופס יש תוויות.</li>
+          <li>כל יום בלוח מוקרא עם התאריך המלא ומספר האירועים בו.</li>
+          <li>כל כפתור "יומן" וכל קישור הרשמה מוקראים יחד עם שם האירוע.</li>
+          <li>מצב הכפתורים (נבחר / לא נבחר / פתוח) מוקרא.</li>
+          <li>שינויים בתוצאות מוכרזים.</li>
+          <li>קישורים שנפתחים בחלון חדש מסומנים ככאלה.</li>
+        </ul>
+      </li>
+      <li><b>מבנה:</b> כותרות ואזורים מסומנים (ניווט, תוכן ראשי, כותרת תחתונה), כך שאפשר לדלג ביניהם עם קורא מסך.</li>
+      <li><b>ניגודיות צבעים:</b> הטקסט באתר עומד ביחס ניגודיות של 4.5:1 לפחות. כותרות גדולות עומדות ביחס של 3:1 לפחות.</li>
+      <li><b>הגדלה:</b> אפשר להגדיל את התצוגה בדפדפן. גם ברוחב מסך של 320 פיקסלים (שווה ערך להגדלה של פי 4) התוכן נשאר בעמודה אחת ולא צריך לגלול הצידה.</li>
+      <li><b>תנועה:</b> מי שהגדיר/ה במכשיר "הפחתת תנועה" יקבל/תקבל את האתר בלי אנימציות ובלי גלילה חלקה.</li>
+      <li><b>שפה וכיוון:</b> העמודים מוגדרים בעברית ומימין לשמאל. שמות סגנונות באנגלית מסומנים כאנגלית.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-how">
+    <h2 id="h-how">איך זה נבדק</h2>
+    <ul>
+      <li>בדיקה אוטומטית עם <span lang="en" dir="ltr">axe-core</span> מול כללי WCAG 2.1 ברמות A ו־AA. בכל עמודי האתר הציבוריים לא נמצאו הפרות.</li>
+      <li>בדיקה של כל המסלולים המרכזיים עם מקלדת בלבד: חיפוש, סינון, בחירת יום, תצוגה חודשית, פתיחת אירוע, הוספה ליומן, טפסים והשאלון.</li>
+      <li>הבדיקות נעשו בדפדפן כרום במחשב. <span class="todo">להשלים: לאחר בדיקה ידנית — קוראי מסך (למשל NVDA / VoiceOver), דפדפנים ומכשירים שנבדקו</span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-gaps">
+    <h2 id="h-gaps">מה עוד לא מושלם</h2>
+    <p>אנחנו ממשיכים לשפר. אלה המגבלות שאנחנו מכירים כרגע:</p>
+    <ul>
+      <li><b>עוד לא נבדק ידנית עם קורא מסך</b> ועל מכשירים ניידים אמיתיים. בדיקה אוטומטית לא מוצאת את כל הבעיות, ולכן ייתכנו מקומות שנפספסו.</li>
+      <li><b>תוכן של מארגנים:</b> פרטי האירועים (שם, תיאור, מקום) מגיעים מהמארגנים ומאתרים חיצוניים. ייתכן שחלקם לא מנוסחים בצורה נגישה, למשל אימוג'ים או קיצורים.</li>
+      <li><b>אתרים חיצוניים:</b> קישורי ההרשמה מובילים לאתרי המארגנים, לוואטסאפ, ליוטיוב או ליומן גוגל. הנגישות שלהם לא באחריותנו.</li>
+    </ul>
+    <p>נתקלתם בבעיה שלא מופיעה כאן? נשמח לדעת — הפרטים בהמשך.</p>
+  </section>
+
+  <section aria-labelledby="h-physical">
+    <h2 id="h-physical">נגישות האירועים עצמם</h2>
+    <p>zuzu הוא שירות מקוון בלבד, בלי מקום פיזי לקבלת קהל. האירועים שבלוח מתקיימים בסטודיואים ובמרחבים של המארגנים, וכל מארגן/ת אחראי/ת לנגישות המקום שלו/ה. לפני שמגיעים, כדאי לפנות למארגן/ת דרך קישור ההרשמה ולשאול על נגישות המקום — למשל גישה בלי מדרגות, שירותים נגישים או חניה.</p>
+  </section>
+
+  <section aria-labelledby="h-contact">
+    <h2 id="h-contact">פנייה בנושא נגישות</h2>
+    <p>אם משהו באתר לא נגיש לכם, או שיש לכם הצעה לשיפור, אפשר לפנות לרכז/ת הנגישות. כדאי לתאר את הבעיה, את העמוד שבו נתקלתם בה, ואת הדפדפן והטכנולוגיה המסייעת שבהם השתמשתם.</p>
+    <div class="card">
+      <dl>
+        <dt>רכז/ת נגישות</dt><dd><span class="todo">להשלים: שם</span></dd>
+        <dt>טלפון</dt><dd><span class="todo">להשלים: טלפון</span></dd>
+        <dt>דוא"ל</dt><dd><span class="todo">להשלים: כתובת דוא"ל</span></dd>
+        <dt>טופס</dt><dd>טופס "דברו אתי" בתחתית <a href="index.html">לוח האירועים</a></dd>
+      </dl>
+    </div>
+    <p>נשתדל לחזור אליכם תוך <span class="todo">להשלים: זמן מענה, למשל 7 ימים</span>.</p>
+  </section>
+  </main>
+</div>
+
+<footer><div class="wrap">
+  <span class="fmark">zuzu © 2026 · תנועה</span>
+  <a class="home" href="index.html">← חזרה ללוח</a>
+</div></footer>
+<!-- Vercel Web Analytics + Speed Insights (load only on the live site) -->
+<script>
+(function(){
+  var h=location.hostname;
+  if(h==="localhost"||h==="127.0.0.1"||!/(zuzu\.today|vercel\.app)$/.test(h)) return;
+  window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};
+  window.si=window.si||function(){(window.siq=window.siq||[]).push(arguments);};
+  function add(src){var s=document.createElement("script");s.defer=true;s.src=src;document.head.appendChild(s);}
+  add("/_vercel/insights/script.js");
+  add("/_vercel/speed-insights/script.js");
+})();
+</script>
+</body>
+</html>
