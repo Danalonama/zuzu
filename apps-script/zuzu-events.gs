@@ -1758,6 +1758,7 @@ function _submitEvent(data, approved, source) {
     }
     if (lvCol !== undefined) { cur[lvCol] = _now; changed = true; }   // seen again today = still live
     if (changed) sh.getRange(existing, 1, 1, cur.length).setValues([cur]);
+    _mirrorToSupabase(incoming, approved, source, cur[uidCol]);
     return { status: 'merged', row: existing, uid: cur[uidCol] };
   }
 
@@ -1771,7 +1772,49 @@ function _submitEvent(data, approved, source) {
   row[srcCol] = source || 'submit';
   row[lvCol] = _now;
   sh.appendRow(row);
+  _mirrorToSupabase(incoming, approved, source, newUid);
   return { status: 'inserted', row: sh.getLastRow(), uid: newUid };
+}
+
+/* ============================================================
+ *  SUPABASE MIRROR (zuzu v2)
+ *  Every event that reaches the sheet (Tribe, ecstatic, bodyways, newsletters,
+ *  the site form, screenshots...) is also queued in Supabase table
+ *  event_submissions, so nothing is lost after the site switches to Supabase.
+ *  It is a REVIEW QUEUE: nothing goes live from here automatically.
+ *  - Uses the public anon key (insert-only on that table; it cannot read or publish).
+ *  - One queue row per sheet uid: a repeat send is rejected by a unique index.
+ *  - Never breaks the sheet flow: errors are only logged.
+ *  Turn off with SUPABASE_MIRROR = false.
+ * ============================================================ */
+var SUPABASE_MIRROR = true;
+var SUPABASE_URL = 'https://eiseowpkwexktqrtoeaq.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpc2Vvd3Brd2V4a3RxcnRvZWFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA0MTQwMjEsImV4cCI6MjEwNTk5MDAyMX0.sVsFmBZUWwfvRL_pt3SMgkggy_GNCRKrWGdzHpg0qHg'; // public by design
+
+function _mirrorToSupabase(incoming, approved, source, uid) {
+  if (!SUPABASE_MIRROR || !uid) return;
+  try {
+    var payload = {};
+    Object.keys(incoming).forEach(function (k) { payload[k] = incoming[k]; });
+    payload.uid = String(uid);
+    payload.source = source || 'submit';
+    payload.approved_in_sheet = approved === true;
+    payload.mirrored_at = new Date().toISOString();
+    var resp = UrlFetchApp.fetch(SUPABASE_URL + '/rest/v1/event_submissions', {
+      method: 'post', contentType: 'application/json',
+      headers: { apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + SUPABASE_ANON_KEY, Prefer: 'return=minimal' },
+      payload: JSON.stringify({ payload: payload }),
+      muteHttpExceptions: true
+    });
+    var code = resp.getResponseCode();
+    if (code >= 300 && code !== 409) Logger.log('supabase mirror ' + code + ': ' + resp.getContentText().slice(0, 200));
+  } catch (e) { Logger.log('supabase mirror error: ' + e); }
+}
+
+/* Run once from the editor after deploying: sends one test row, then check it in Supabase. */
+function testSupabaseMirror() {
+  _mirrorToSupabase({ title: 'בדיקת חיבור — אפשר למחוק', date: '' }, false, 'test', 'test-' + Date.now());
+  return 'sent — check event_submissions in Supabase (source = test)';
 }
 
 /** Screenshot → events, using Claude vision. */

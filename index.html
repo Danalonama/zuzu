@@ -369,6 +369,7 @@
   .card .labels span.fmt{color:var(--muted)}
   .card .labels span.fmt::before{content:"◇";color:var(--muted);font-weight:400}
   .card .meta{font-size:.77rem;color:var(--muted);line-height:1.5;white-space:nowrap}
+  .card .price{font-size:.77rem;color:var(--muted);line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .card .end{flex:none;display:flex;flex-direction:row;align-items:center;gap:16px}
   .card .more{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:700;white-space:nowrap}
   .card .calbtn{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:.72rem;font-weight:700;
@@ -398,7 +399,7 @@
   body[data-cards="invert"] .card:hover .thumb{background:var(--bg)}
   body[data-cards="invert"] .card:hover .thumb .bw{opacity:0}
   body[data-cards="invert"] .card:hover .thumb .bk{opacity:1}
-  body[data-cards="invert"] .card:hover .meta{color:rgba(255,255,255,.55)}
+  body[data-cards="invert"] .card:hover .meta,body[data-cards="invert"] .card:hover .price{color:rgba(255,255,255,.55)}
   body[data-cards="invert"] .card:hover .labels{color:var(--bg)}
   body[data-cards="invert"] .card:hover .more .ar{transform:translateX(-5px)}
   /* outline hover */
@@ -710,7 +711,15 @@ window.zuzuA11y=(function(){
     release(){ box=null; const b=back; back=null; if(b&&document.contains(b)) b.focus(); }
   };
 })();
-const EVENTS = [{"date":"2026-08-13","time":"06:45","title":"Movement · עם Tuti","host":"Tuti","venue":"Tzukei Yam","city":"צוקי ים","region":"שרון","category":"מובמנט","discipline":"מובמנט","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-13","time":"08:15","title":"אימפרוביזציה ויצירה","host":"מתן כרמל","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-13","time":"08:30","title":"Movement Fundamentals · יסודות המובמנט (עד 10:00)","host":"ירון פלצ'יק","category":"מובמנט","venue":"FlowMotion · הרימון 1","city":"אודים","region":"שרון","url":"https://flowmo.co.il/services/movement/","price":null,"image":null,"recurring":true,"discipline":"מובמנט","format":"שיעור"},{"date":"2026-08-13","time":"09:30","title":"מובמנט","host":null,"category":"מובמנט","discipline":"מובמנט","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-13","time":"09:30","title":"אומנות התנועה · מחול-ריפוי-חיים","host":"שרון הללי","venue":"סטודיו טל הדר","city":"כפר מונש","region":"שרון","url":"https://www.sharonhilleli.com/summer-1","price":"810 ₪ (סדרה) / 150 ₪ (מפגש בודד)","image":null,"recurring":false,"category":"חקר תנועה","discipline":"חקר תנועה","format":"סדנה"},{"date":"2026-08-13","time":"17:30","title":"היפ הופ לנשים","host":"אסתר באשר","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["היפ הופ"]},{"image":null,"recurring":true,"price":null,"time":"18:00","title":"אקרובטיקה רכה ועבודת רצפה בחוף","host":"עילי","discipline":"אקרו","category":"אקרו","format":"שיעור","venue":"חוף מכמורת","city":"מכמורת","region":"שרון","url":"#","phone":"052-956-9889","date":"2026-08-13"},{"date":"2026-08-13","time":"18:00","title":"קורס מחול לגברים (עד 20:00)","host":"גלבוע אגר","category":"מחול","discipline":"מחול","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס","tags":["לגברים בלבד"]},{"date":"2026-08-13","time":"18:00","title":"רצפי תנועה מודרכים","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו רוניס, דוד אלעזר 7 (קניון ערים)","city":"כפר סבא","region":"שרון","format":"שיעור","price":null,"host":"נועה קדמן","recurring":true,"image":null,"url":"https://www.noakadman.com/"},{"date":"2026-08-13","time":"19:00","title":"מחול מודרני רליס","host":"מורן זילברברג","category":"אימפרוביזציה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"אימפרוביזציה","format":"שיעור","tags":["מחול"]},{"date":"2026-08-13","time":"19:00","title":"כלים לג'אם + ג'אם · הדר גבע","host":"הדר גבע","category":"קונטקט","discipline":"קונטקט","venue":"קהילת ניו יורק 17, תל אביב","city":"תל אביב","region":"תל אביב","url":"#","price":"50 ₪ (כרטיסייה 450)","image":null,"recurring":true,"format":"ג'אם"},{"date":"2026-08-13","time":"19:00","title":"היפ הופ נשים · עם אדל (Faya Fam)","host":"אדל","category":"מחול","discipline":"מחול","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"image":null,"recurring":true,"price":null,"discipline":"מובמנט","category":"מובמנט","format":"שיעור","venue":"בית הספר הדמוקרטי","city":"הוד השרון","region":"שרון","url":"https://movementfreaks.com/","title":"מובמנט · Movement Freaks","time":"19:15","date":"2026-08-13","host":"סטס קזנוביץ'"},{"date":"2026-08-13","time":"19:30","title":"אימפרוביזציה בתנועה","host":"Ida Maria","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-13","time":"19:30","title":"קונטקתנע – שיעור קונטקט 19:30 + תנע ג'אם פתוח 20:30–22:30","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://www.studiotena.org/contactena","price":null,"image":null,"recurring":true,"format":"ג'אם"},{"date":"2026-08-13","time":"20:00","title":"Silo Dance Celebration","category":"אקסטטיק","venue":"סילו תרבות","city":"הוד השרון","region":"שרון","recurring":true,"image":null,"url":"https://www.siloculture.com/thursday-raves","price":null,"discipline":"אקסטטיק","format":"מסיבת ריקוד"},{"date":"2026-08-13","time":"20:15","title":"קורס יסודות בקונטקט אימפרוביזציה (עד 21:45)","host":"גלבוע אגר","category":"קונטקט","discipline":"קונטקט","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס"},{"date":"2026-08-13","time":"20:30","title":"מקצבי הלב · מסע ריקוד חופשי (עד 22:30)","host":"מיכל חלפן, ליטל כסיף","discipline":"אקסטטיק","category":"אקסטטיק","format":"שיעור","venue":"יורט בעדנים","city":"עדנים","region":"שרון","url":"#","phone":"054-7523399","price":null,"image":null,"recurring":true},{"date":"2026-08-13","time":"20:30","title":"מחול אימפרוביזציה וג'אם","host":"מורן זילברברג","category":"אימפרוביזציה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"אימפרוביזציה","format":"שיעור","tags":["מחול"]},{"date":"2026-08-13","time":"20:30","title":"בלט למתחילים · עם ירין","host":"ירין","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"category":"מחול","discipline":"מחול","format":"שיעור"},{"date":"2026-08-13","time":"20:30","title":"ריקוד חופשי · מפגש שבועי","host":"עמרי קליינברגר","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו בשדות ים (ליד הים ומחלף קיסריה)","city":"שדות ים","region":"פרדס חנה והסביבה","url":"https://www.facebook.com/share/p/16PaAw7yA7/","price":null,"image":null,"recurring":true,"format":"ג'אם"},{"date":"2026-08-14","time":"08:00","title":"ניה NIA לנשים","host":"טל אבן-חן","category":"ניה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"ניה","format":"שיעור"},{"date":"2026-08-14","time":"09:00","title":"מיוזיקל","host":"דליה שמריהו","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["מיוזיקל"]},{"date":"2026-08-14","time":"09:00","title":"רצפי תנועה מודרכים","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו פאבליק, התחייה 2","city":"כפר סבא","region":"שרון","format":"שיעור","price":null,"host":"נועה קדמן","recurring":true,"image":null,"url":"https://www.noakadman.com/"},{"date":"2026-08-14","time":"09:45","title":"ריקוד חופשי מונחה","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו פאבליק, התחייה 2","city":"כפר סבא","region":"שרון","format":"מסיבת ריקוד","price":null,"host":"נועה קדמן","recurring":true,"image":null,"url":"https://www.noakadman.com/","tags":["ריקוד חופשי"]},{"image":null,"recurring":true,"price":null,"time":"10:00","title":"שיעור אקרו · ממשיכים","host":"ברוך פויכטונגר","discipline":"אקרו","category":"אקרו","format":"שיעור","venue":"סטודיו בית הצוק","city":"חבצלת השרון","region":"שרון","url":"#","phone":"054-797-3361","date":"2026-08-14"},{"date":"2026-08-14","time":"10:15","title":"Movement & Mobility · מובמנט וניידות (עד 11:45)","host":"ירון פלצ'יק","category":"מובמנט","venue":"FlowMotion · הרימון 1","city":"אודים","region":"שרון","url":"https://flowmo.co.il/services/movement/","price":null,"image":null,"recurring":true,"discipline":"מובמנט","format":"שיעור"},{"date":"2026-08-14","time":"10:30","title":"גאגא/אנשים · בוקר","category":"גאגא","discipline":"גאגא","host":"גאגא/אנשים — מורה מתחלף","venue":"מרכז תאו, וינגייט 168","city":"הרצליה","region":"שרון","url":"https://teo.org.il/dance/גאגא-אנשים-הרצליה/","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-14","time":"10:40","title":"מובמנט","host":"עמית אלימלך","category":"מובמנט","discipline":"מובמנט","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-14","time":"11:00","title":"נטו קונטקט — סוף״ש בתנע","category":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","recurring":false,"url":"https://www.studiotena.org/neto-contact","price":"סופ״ש מלא 600 ₪","image":null,"discipline":"קונטקט","format":"סדנה"},{"date":"2026-08-14","time":"11:00","title":"גאגא/אנשים","category":"גאגא","discipline":"גאגא","venue":"סטודיו לנואה, פרדס חנה","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.gagapeople.com/gaga-pardes-hanna/","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-14","time":"11:00","title":"שיעור שישי · Faya Fam (עד 13:00)","host":null,"category":"מחול","discipline":"מחול","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-14","time":"11:15","title":"היפ הופ אולדסקול","host":"ורד שליו","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["היפ הופ"]},{"date":"2026-08-14","time":"12:15","title":"Ecstatic Dance","host":null,"category":"אקסטטיק","discipline":"אקסטטיק","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"image":null,"recurring":true,"price":null,"discipline":"מובמנט","category":"מובמנט","format":"שיעור","venue":"בית הספר הדמוקרטי","city":"הוד השרון","region":"שרון","url":"https://movementfreaks.com/","title":"מובמנט · Movement Freaks","time":"15:00","date":"2026-08-14","host":"סטס קזנוביץ'"},{"date":"2026-08-14","time":"15:00","title":"Mindfulness & Free Dance · מיינדפולנס וריקוד חופשי","venue":"סטודיו נעים, אבן גבירול 108","city":"תל אביב","region":"תל אביב","url":"#","price":"60 ₪ (הרשמה מראש) / 80 ₪ (במקום)","image":null,"recurring":true,"category":"אקסטטיק","discipline":"אקסטטיק","format":"מסיבת ריקוד","host":"עמית עזז","tags":["ריקוד חופשי"]},{"date":"2026-08-15","time":"10:00","title":"שיעור בר · עם דניאלה (Faya Fam)","host":"דניאלה","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"category":"מחול","discipline":"מחול","format":"שיעור"},{"date":"2026-08-15","time":"19:00","title":"ג'אם ב'קבוצה' · חימום עם רועי שקד","host":"רועי שקד","city":"תל אביב","region":"תל אביב","image":null,"recurring":true,"discipline":"קונטקט","category":"קונטקט","venue":"קהילת ניו יורק 17","url":"#","price":"50 ₪ (כרטיסייה 450)","format":"ג'אם"},{"date":"2026-08-15","time":"19:00","title":"שיעור אימפרוביזציה · עם שי (Faya Fam)","host":"שי","category":"מחול","discipline":"מחול","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-16","time":"","title":"סדנת מבוא · Deep Contact","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"קרית טבעון","region":"צפון","format":"סדנה"},{"city":"תל אביב","region":"תל אביב","venue":"הקבוצה · קהילת ניו יורק 17, יפו","image":null,"recurring":false,"price":null,"date":"2026-08-16","time":"10:00","format":"סדנה","discipline":"מחול","category":"מחול","title":"סדנת קיץ למחול · מתחילים (5 ימים, 16–20.8, 10:00–15:30)","url":"https://www.hakvutza.org.il/en/summer-dance-workshop/"},{"date":"2026-08-16","time":"10:00","title":"סדנת קיץ למחול למתחילים (5 ימים, א׳–ה׳)","host":"צוות הקבוצה","category":"מחול","venue":"הקבוצה · קהילת ניו יורק 17","city":"תל אביב","region":"תל אביב","price":null,"image":null,"recurring":false,"url":"https://www.hakvutza.org.il/סדנת-קיץ-למחול/","discipline":"מחול","format":"סדנה"},{"date":"2026-08-16","time":"10:15","title":"Movement · עם Tuti","host":"Tuti","venue":"Kfar Vitkin","city":"כפר ויתקין","region":"שרון","category":"מובמנט","discipline":"מובמנט","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-16","time":"16:30","title":"קונטקידס · סשן קיץ עם שירי (הורה וילד, גילאי 2-4.5)","host":"שירי","category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://links.payboxapp.com/mELNqDdCzVb","price":"350 ₪ (5 מפגשים) · 320 ₪ בהרשמה מוקדמת עד 26.7","image":null,"recurring":true,"format":"קורס","tags":["עם הילדים"]},{"date":"2026-08-16","time":"16:45","title":"קונטקידס · הורה וילד (קורס קיץ)","host":"אברהם חזין","category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תמרה, רחובות","city":"רחובות","region":"מרכז","url":"https://studiotamara.ravpage.co.il/contakids","price":null,"image":null,"recurring":true,"format":"קורס","tags":["עם הילדים"]},{"date":"2026-08-16","time":"17:45","title":"יסודות הבלט","host":"אדוה גולדשמיט","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["בלט"]},{"date":"2026-08-16","time":"18:00","title":"קורס קיץ במחול לגברים בלבד","host":"אברהם חזין","category":"מחול","discipline":"מחול","venue":"סטודיו תמרה, רחובות","city":"רחובות","region":"מרכז","url":"https://studiotamara.ravpage.co.il/mens","price":null,"image":null,"recurring":true,"format":"קורס","tags":["לגברים בלבד"]},{"date":"2026-08-16","time":"19:00","title":"מודרני בסיס לנשים","host":"עדי גלובן","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["מחול מודרני"]},{"date":"2026-08-16","time":"19:00","title":"רצפי תנועה מודרכים","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו רוניס, דוד אלעזר 7 (קניון ערים)","city":"כפר סבא","region":"שרון","format":"שיעור","price":null,"host":"נועה קדמן","recurring":true,"image":null,"url":"https://www.noakadman.com/"},{"date":"2026-08-16","time":"19:20","title":"AfroGroove","host":"רוני שחר","category":"מחול","discipline":"מחול","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור","tags":["אפריקאי"]},{"date":"2026-08-16","time":"19:30","title":"ריליס ושכלול תנועתי · עם ענבר קובי","host":"ענבר קובי","category":"חקר תנועה","discipline":"חקר תנועה","format":"שיעור","price":null,"venue":"מרכז מחול הכרמל, מושב מגדים, חוף הכרמל 85","city":"מגדים","region":"צפון","url":"https://www.facebook.com/ShinoaDanceWorkshop/","image":null,"recurring":true,"tags":["ריליס"]},{"date":"2026-08-16","time":"19:45","title":"שיעור פתוח · עם הדר גבע (עד 21:30)","host":"הדר גבע","category":"קונטקט","discipline":"קונטקט","venue":"הקבוצה · קהילת ניו יורק 17","city":"תל אביב","region":"תל אביב","url":"#","price":"70 ₪","image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-16","time":"20:00","title":"בלט למתחילים · עם ירין","host":"ירין","venue":"סטודיו בוא'נה, שתולים 47","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"category":"מחול","discipline":"מחול","format":"שיעור"},{"date":"2026-08-16","time":"20:30","title":"קונטקט אימפרוביזציה","host":"אברהם חזין","category":"קונטקט","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"קונטקט","format":"שיעור"},{"date":"2026-08-16","time":"20:30","title":"Movement by Yaniv Tzadick · אקסטטיק דאנס בחושך","host":"יניב צדיק","category":"אקסטטיק","venue":"סילו תרבות","city":"הוד השרון","region":"שרון","recurring":true,"image":null,"url":"https://www.move-ment.co.il/","price":null,"discipline":"אקסטטיק","format":"מסיבת ריקוד"},{"date":"2026-08-16","time":"20:30","title":"מקצבי הלב · ריקוד חופשי (ראשון בת״א)","category":"אקסטטיק","venue":"האחים מסלאוויטה 7, קומה 1","city":"תל אביב","region":"תל אביב","url":"https://www.facebook.com/profile.php?id=61568110438321","price":null,"image":null,"recurring":true,"tags":["ריקוד חופשי"],"discipline":"אקסטטיק","format":"שיעור","host":"אמיר / נורית / ליטל (מתחלף)"},{"date":"2026-08-16","time":"20:40","title":"קונטקט","host":"איל בנר","category":"קונטקט","discipline":"קונטקט","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"06:45","title":"Movement · עם Tuti","host":"Tuti","venue":"Shoshana","city":"הוד השרון","region":"שרון","category":"מובמנט","discipline":"מובמנט","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"09:30","title":"העונג הסומטי · BMC, המרחבים הנוזליים וקונטקט (קורס קיץ)","host":"מיכאל שחרור","discipline":"חקר תנועה","category":"חקר תנועה","tags":["קונטקט"],"format":"קורס","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://www.michael-shachrur.com/classes/summercourse","price":"1180–1360 ₪","image":null,"recurring":true},{"date":"2026-08-17","time":"09:45","title":"מובמנט","host":"עמית אלימלך","category":"מובמנט","discipline":"מובמנט","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"10:15","title":"Yoga · עם Tuti","host":"Tuti","venue":"Shoshana","city":"הוד השרון","region":"שרון","category":"חקר תנועה","discipline":"חקר תנועה","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"11:15","title":"אימפרוביזציה בתנועה · עידו צדר","host":"עידו צדר","category":"אימפרוביזציה","discipline":"אימפרוביזציה","city":"תל אביב","region":"תל אביב","venue":"סטודיו נעים · סלמה 39","url":"https://www.naim.org.il/class/improvisation","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"16:45","title":"Global Beatz","host":"מעיה נווה","category":"מחול","discipline":"מחול","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור","tags":["מחול מודרני"]},{"date":"2026-08-17","time":"18:00","title":"ניה NIA לנשים","host":"טל אבן-חן","category":"ניה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"ניה","format":"שיעור"},{"date":"2026-08-17","time":"19:00","title":"Strength & Handstands · כוח ועמידות ידיים (עד 20:30)","host":"ירון פלצ'יק","category":"מובמנט","venue":"FlowMotion · הרימון 1","city":"אודים","region":"שרון","url":"https://flowmo.co.il/services/movement/","price":null,"image":null,"recurring":true,"discipline":"מובמנט","format":"שיעור"},{"date":"2026-08-17","time":"19:00","title":"מחול מודרני","host":"ספיר שלו","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["מחול מודרני"]},{"date":"2026-08-17","time":"20:15","title":"אקסטטיק דאנס השרון","category":"אקסטטיק","venue":"סילו תרבות","city":"הוד השרון","region":"שרון","recurring":true,"image":null,"url":"https://www.siloculture.com","price":null,"discipline":"אקסטטיק","format":"שיעור"},{"date":"2026-08-17","time":"20:15","title":"Ecstatic Dance","host":null,"category":"אקסטטיק","discipline":"אקסטטיק","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-17","time":"20:30","title":"היפ הופ","host":"עופרי שחר","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["היפ הופ"]},{"date":"2026-08-17","time":"20:30","title":"שיעור קונטקט שבועי · רועי שקד (דגש סומטי וטכני)","host":"רועי שקד","city":"תל אביב","region":"תל אביב","image":null,"recurring":true,"discipline":"קונטקט","category":"קונטקט","venue":"סטודיו נעים · סלמה 39","url":"https://www.naim.org.il/contact-impro","price":null,"format":"שיעור"},{"date":"2026-08-18","time":"08:45","title":"Acrobatics · עם Shizi","host":"Shizi","venue":"Shoshana","city":"הוד השרון","region":"שרון","category":"אקרו","discipline":"אקרו","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"09:00","title":"בלט קלאסי לנשים · עם רבקה נתן","host":"רבקה נתן","category":"מחול","discipline":"מחול","format":"שיעור","price":null,"venue":"מרכז מחול הכרמל, מושב מגדים, חוף הכרמל 85","city":"מגדים","region":"צפון","url":"https://www.facebook.com/ShinoaDanceWorkshop/","image":null,"recurring":true,"tags":["בלט"]},{"date":"2026-08-18","time":"09:00","title":"רצפי תנועה מודרכים","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"סטודיו פאבליק, התחייה 2","city":"כפר סבא","region":"שרון","format":"שיעור","price":null,"host":"נועה קדמן","recurring":true,"image":null,"url":"https://www.noakadman.com/"},{"date":"2026-08-18","time":"11:30","title":"Movement · עם Tuti","host":"Tuti","venue":"Rishpon","city":"רשפון","region":"שרון","category":"מובמנט","discipline":"מובמנט","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"12:15","title":"מובמנט אינטגרציה","host":"דנה שביב","category":"מובמנט","discipline":"מובמנט","venue":"סטודיו being, פרדס חנה-כרכור","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.beingspace.co.il/class","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"16:45","title":"פלדנקרייז","host":"ינון זלצמן","category":"חקר תנועה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"חקר תנועה","format":"שיעור","tags":["פלדנקרייז"]},{"date":"2026-08-18","time":"17:15","title":"מחול מודרני","host":"אסתר באשר","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["מחול מודרני"]},{"date":"2026-08-18","time":"18:00","title":"Movement · עם Tuti","host":"Tuti","venue":"Shoshana","city":"הוד השרון","region":"שרון","category":"מובמנט","discipline":"מובמנט","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"18:30","title":"היפ הופ","host":"אסתר באשר","category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"מחול","format":"שיעור","tags":["היפ הופ"]},{"date":"2026-08-18","time":"19:00","title":"קיץ של אימפרוביזציה בשפת ה־PLAY","host":"אילנית תדמור","discipline":"אימפרוביזציה","category":"אימפרוביזציה","format":"שיעור","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://www.instagram.com/play_4_dance/","price":"280 ₪ (למפגש)","image":null,"recurring":true},{"date":"2026-08-18","time":"19:00","title":"גאגא/אנשים","category":"גאגא","discipline":"גאגא","host":"גאגא/אנשים — מורה מתחלף","venue":"מרכז תאו, וינגייט 168","city":"הרצליה","region":"שרון","url":"https://teo.org.il/dance/גאגא-אנשים-הרצליה/","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"19:30","title":"גאגא/אנשים","category":"גאגא","discipline":"גאגא","venue":"סטודיו לנואה, פרדס חנה","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://www.gagapeople.com/gaga-pardes-hanna/","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-08-18","time":"19:30","title":"מודרני לנשים · עם אתי טובי צדיק","host":"אתי טובי צדיק","category":"מחול","discipline":"מחול","format":"שיעור","price":"280 ₪ לחודש","venue":"מרכז מחול הכרמל, מושב מגדים, חוף הכרמל 85","city":"מגדים","region":"צפון","url":"https://www.facebook.com/ShinoaDanceWorkshop/","image":null,"recurring":true,"tags":["מחול מודרני"]},{"date":"2026-08-18","time":"19:40","title":"גאגא/אנשים","host":"מורה מתחלף","category":"גאגא","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"גאגא","format":"שיעור"},{"date":"2026-08-18","time":"20:40","title":"מחול אימפרוביזציה","host":"ענבל אושמן","category":"אימפרוביזציה","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.co.il/","price":null,"image":null,"recurring":true,"discipline":"אימפרוביזציה","format":"שיעור","tags":["מחול"]},{"date":"2026-08-19","time":"10:00","title":"קורס העמקה טכנית בקונטקט · PRACTICE INA (עד 14:00)","host":"שרון פרידמן","category":"קונטקט","discipline":"קונטקט","venue":"תמרה | בית הספר למחול, רחובות","city":"רחובות","region":"מרכז","url":"https://studiotamara.ravpage.co.il","price":null,"image":null,"recurring":true,"format":"קורס"},{"date":"2026-08-20","time":"09:30","title":"אומנות התנועה · מחול-ריפוי-חיים","host":"שרון הללי","venue":"סטודיו טל הדר","city":"כפר מונש","region":"שרון","url":"https://www.sharonhilleli.com/summer-1","price":"810 ₪ (סדרה) / 150 ₪ (מפגש בודד)","image":null,"recurring":false,"category":"חקר תנועה","discipline":"חקר תנועה","format":"סדנה"},{"date":"2026-08-20","time":"18:00","title":"קורס מחול לגברים (עד 20:00)","host":"גלבוע אגר","category":"מחול","discipline":"מחול","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס","tags":["לגברים בלבד"]},{"date":"2026-08-20","time":"19:30","title":"קונטקתנע – שיעור קונטקט 19:30 + תנע ג'אם פתוח 20:30–22:30","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://www.studiotena.org/contactena","price":null,"image":null,"recurring":true,"format":"ג'אם"},{"date":"2026-08-20","time":"20:15","title":"קורס יסודות בקונטקט אימפרוביזציה (עד 21:45)","host":"גלבוע אגר","category":"קונטקט","discipline":"קונטקט","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס"},{"date":"2026-08-21","time":"18:00","title":"Tribe Night · Tribe Vibe (21–22.8, עד 13:00)","host":null,"category":"אקסטטיק","discipline":"אקסטטיק","venue":"סטודיו פנטהריי","city":"גניגר","region":"צפון","url":"https://web.vibez.io/events/TRIBENIGHT","price":null,"image":null,"recurring":false,"format":"ריטריט"},{"date":"2026-08-23","time":"16:30","title":"קונטקידס · סשן קיץ עם שירי (הורה וילד, גילאי 2-4.5)","host":"שירי","category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://links.payboxapp.com/mELNqDdCzVb","price":"350 ₪ (5 מפגשים) · 320 ₪ בהרשמה מוקדמת עד 26.7","image":null,"recurring":true,"format":"קורס","tags":["עם הילדים"]},{"date":"2026-08-24","time":"16:30","title":"שמ-ים · סדרת החוף הקייצית (עד 20:30)","host":"איריס נייס","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"חוף מכמורת","city":"מכמורת","region":"שרון","url":"#","price":null,"image":null,"recurring":true,"format":"סדנה","tags":["תנועה מחוץ לסטודיו"]},{"date":"2026-08-26","time":"10:00","title":"קורס העמקה טכנית בקונטקט · PRACTICE INA (עד 14:00)","host":"שרון פרידמן","category":"קונטקט","discipline":"קונטקט","venue":"תמרה | בית הספר למחול, רחובות","city":"רחובות","region":"מרכז","url":"https://studiotamara.ravpage.co.il","price":null,"image":null,"recurring":true,"format":"קורס"},{"date":"2026-08-27","time":"09:30","title":"אומנות התנועה · מחול-ריפוי-חיים","host":"שרון הללי","venue":"סטודיו טל הדר","city":"כפר מונש","region":"שרון","url":"https://www.sharonhilleli.com/summer-1","price":"810 ₪ (סדרה) / 150 ₪ (מפגש בודד)","image":null,"recurring":false,"category":"חקר תנועה","discipline":"חקר תנועה","format":"סדנה"},{"date":"2026-08-27","time":"18:00","title":"קורס מחול לגברים (עד 20:00)","host":"גלבוע אגר","category":"מחול","discipline":"מחול","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס","tags":["לגברים בלבד"]},{"date":"2026-08-27","time":"19:30","title":"קונטקתנע – שיעור קונטקט 19:30 + תנע ג'אם פתוח 20:30–22:30","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://www.studiotena.org/contactena","price":null,"image":null,"recurring":true,"format":"ג'אם"},{"date":"2026-08-27","time":"20:15","title":"קורס יסודות בקונטקט אימפרוביזציה (עד 21:45)","host":"גלבוע אגר","category":"קונטקט","discipline":"קונטקט","venue":"תמרה חיפה","city":"חיפה","region":"צפון","url":"#","price":null,"image":null,"recurring":true,"format":"קורס"},{"date":"2026-08-28","time":"10:30","title":"הגנה על החיים · סדנה (נרקוד, נכתוב, נשתף — עד 16:30)","host":"דינא עוואד ועדי ארגוב","discipline":"ריקוד חופשי","category":"ריקוד חופשי","tags":["כתיבה"],"format":"סדנה","venue":"מרכז יוטוני · האשלג 22","city":"חיפה","region":"צפון","url":"#","phone":"054-455-8813","price":null,"image":null,"recurring":false},{"date":"2026-08-30","time":"16:30","title":"קונטקידס · סשן קיץ עם שירי (הורה וילד, גילאי 2-4.5)","host":"שירי","category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","url":"https://links.payboxapp.com/mELNqDdCzVb","price":"350 ₪ (5 מפגשים) · 320 ₪ בהרשמה מוקדמת עד 26.7","image":null,"recurring":true,"format":"קורס","tags":["עם הילדים"]},{"date":"2026-08-31","time":"16:30","title":"שמ-ים · סדרת החוף הקייצית (עד 20:30)","host":"איריס נייס","category":"ריקוד חופשי","discipline":"ריקוד חופשי","venue":"חוף מכמורת","city":"מכמורת","region":"שרון","url":"#","price":null,"image":null,"recurring":true,"format":"סדנה","tags":["תנועה מחוץ לסטודיו"]},{"date":"2026-09-01","time":"09:30","title":"Inside Out · קורס קיץ בתנועת הגוף והקול (עד 14:00)","host":"דפנה המנדינגר, דנה לוי","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו בת דור","city":"באר שבע","region":"דרום","url":"https://www.dafna-hemmendinger.com/about-4","price":"2350 ₪ (הרשמה מוקדמת) · 2550 ₪ (מאוחרת)","image":null,"recurring":true,"format":"קורס"},{"host":"סער אוסטרייכר","category":"קונטקט","discipline":"קונטקט","format":"קורס","price":null,"image":null,"recurring":false,"venue":"Deep Contact","date":"2026-09-01","time":"17:30","title":"Deep Contact · תכנית שנתית למתקדמים — ימי שלישי (קונטקט, עד 19:45)","city":"פרדס חנה","region":"פרדס חנה והסביבה","url":"https://deepcontact.org/mitkadmim/mitkadmimpardes"},{"date":"2026-09-01","time":"17:30","title":"קורס מתקדמים שנתי · Deep Contact","host":null,"url":"https://deepcontact.org/mitkadmim/mitkadmimpardes/","price":null,"format":"קורס","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","image":null,"recurring":false,"category":"קונטקט","discipline":"קונטקט"},{"date":"2026-09-01","time":"20:00","title":"סדנת ביי לריצוי · Deep Contact","host":null,"url":"https://deepcontact.org/mavopardeslp/","price":null,"format":"סדנה","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","image":null,"recurring":false,"category":"קונטקט","discipline":"קונטקט"},{"date":"2026-09-07","time":"10:00","title":"הגוף המודע והנגלה · יום פתוח (יום התנסות)","host":"נעם כרמלי, מיכאל שחרור","category":"אימפרוביזציה","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","recurring":false,"url":"https://www.studiotena.org/conscious-body","price":"50 ₪","image":"https://static.wixstatic.com/media/f45e80_1416f1a13d7e40dcaed4f3b1e7e9bf82~mv2.jpg/v1/fill/w_640,h_440,al_c/photo.jpg","discipline":"אימפרוביזציה","format":"סדנה"},{"host":"סער אוסטרייכר","category":"קונטקט","discipline":"קונטקט","format":"קורס","price":null,"image":null,"recurring":false,"venue":"Deep Contact","date":"2026-09-07","time":"17:15","title":"Deep Contact · תכנית שנתית למנוסים — ימי שני (קונטקט, עד 19:15)","city":"תל אביב","region":"תל אביב","url":"https://deepcontact.org/product/menusimtlv25"},{"host":"סשה צ'רניבסקי וסער אוסטרייכר","category":"קונטקט","discipline":"קונטקט","format":"קורס","price":null,"image":null,"recurring":false,"venue":"Deep Contact","date":"2026-09-07","time":"19:30","title":"Deep Contact · תכנית שנתית למתקדמים — ימי שני (קונטקט, עד 21:45)","city":"תל אביב","region":"תל אביב","url":"https://deepcontact.org/mitkadmim/tlv25"},{"date":"2026-09-07","time":"19:30","title":"Deep Contact · תכנית שנתית מתקדמים — ימי שני (לבעלי ניסיון של שנתיים ומעלה, עד 21:45)","host":"סער אוסטרייכר, וסשה","category":"קונטקט","discipline":"קונטקט","venue":"תל אביב","city":"תל אביב","region":"תל אביב","url":"https://deepcontact.org/mitkadmim/tlv25/","price":null,"image":null,"recurring":false,"format":"קורס"},{"date":"2026-09-08","time":"09:30","title":"Inside Out · קורס קיץ בתנועת הגוף והקול (עד 14:00)","host":"דפנה המנדינגר, דנה לוי","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו בת דור","city":"באר שבע","region":"דרום","url":"https://www.dafna-hemmendinger.com/about-4","price":"2350 ₪ (הרשמה מוקדמת) · 2550 ₪ (מאוחרת)","image":null,"recurring":true,"format":"קורס"},{"date":"2026-09-12","time":"","title":"סדנת מבוא · Deep Contact","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"קרית טבעון","region":"צפון","format":"סדנה"},{"date":"2026-09-14","time":"00:00","title":"ריטריט אימפרוביזציה בתנועה · פארוס, יוון (אילנית תדמור ולירון מיארה)","host":"אילנית תדמור, לירון מיארה","category":"אימפרוביזציה","venue":"מרכז טאוס, פארוס","city":"פארוס","region":"חו״ל","url":"https://studiotamara.ravpage.co.il/ritritparos","price":null,"image":null,"recurring":false,"discipline":"אימפרוביזציה","format":"ריטריט"},{"date":"2026-09-14","time":"09:00","title":"מחול ותודעה בתנועה · הקורס השנתי לנשים 2026/27","host":"סיגל זיו","category":"נשים בלבד","discipline":"נשים בלבד","venue":"תל אביב","city":"תל אביב","region":"תל אביב","url":"https://tribalfusion.ravpage.co.il/todaa","price":null,"image":null,"recurring":false,"format":"קורס"},{"date":"2026-09-15","time":"","title":"קורס יסודות קונטקט · Deep Contact (14 מפגשים)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"תל אביב","region":"תל אביב","format":"קורס"},{"date":"2026-09-15","time":"09:30","title":"Inside Out · קורס קיץ בתנועת הגוף והקול (עד 14:00)","host":"דפנה המנדינגר, דנה לוי","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו בת דור","city":"באר שבע","region":"דרום","url":"https://www.dafna-hemmendinger.com/about-4","price":"2350 ₪ (הרשמה מוקדמת) · 2550 ₪ (מאוחרת)","image":null,"recurring":true,"format":"קורס"},{"date":"2026-09-17","time":"","title":"ריטריט קונטקט · Deep Contact (17–19.9)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"יער המאכל · בית לחם הגלילית","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"בית לחם הגלילית","region":"צפון","format":"ריטריט"},{"date":"2026-09-18","time":"11:00","title":"נטו אימפרוביזציה — סוף״ש בתנע","category":"אימפרוביזציה","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","recurring":false,"url":"https://www.studiotena.org/neto-contact","price":"סופ״ש מלא 600 ₪","image":null,"discipline":"אימפרוביזציה","format":"סדנה"},{"date":"2026-09-22","time":"09:30","title":"Inside Out · קורס קיץ בתנועת הגוף והקול (עד 14:00)","host":"דפנה המנדינגר, דנה לוי","category":"אימפרוביזציה","discipline":"אימפרוביזציה","venue":"סטודיו בת דור","city":"באר שבע","region":"דרום","url":"https://www.dafna-hemmendinger.com/about-4","price":"2350 ₪ (הרשמה מוקדמת) · 2550 ₪ (מאוחרת)","image":null,"recurring":true,"format":"קורס"},{"date":"2026-10-04","time":"09:30","title":"המסלול הדו-שנתי ללימודי מחול (מחזור 25-27) · אוק׳ 26–יוני 27","host":null,"category":"מחול","venue":"סטודיו תמרה","city":"רחובות","region":"מרכז","url":"https://studiotamara.ravpage.co.il/magal2527","price":null,"image":null,"recurring":false,"discipline":"מחול","format":"קורס","tags":["מחול"]},{"date":"2026-10-04","time":"10:00","title":"ריקוד לגוף הנשי · פורטל האגן, יוגה נשית ו-BMC (10:00–12:30, קורס 30 מפגשים)","host":"ליאת טופז","venue":"סטודיו ירוק עז, אילניה","city":"אילניה","region":"צפון","url":"https://bmcliattopaz.ravpage.co.il/dance","price":null,"image":null,"recurring":true,"category":"חקר תנועה","discipline":"חקר תנועה","format":"קורס"},{"date":"2026-10-04","time":"10:00","title":"יום לימודים מלא ריקוד וקונסטלציה משפחתית · עם ליאת טופז","host":"ליאת טופז","venue":"סטודיו ירוק עז, אילניה","city":"אילניה","region":"צפון","url":"https://bmcliattopaz.ravpage.co.il/dance","price":null,"image":null,"recurring":false,"category":"חקר תנועה","discipline":"חקר תנועה","format":"סדנה"},{"date":"2026-10-08","time":"","title":"הניצוץ שבתוכי · ריטריט לנשים במצפה רמון (8–10.10, 3 ימים)","host":"אור בגים, מירי בלנק","category":"נשים בלבד","discipline":"נשים בלבד","venue":"מצפה רמון","city":"מצפה רמון","region":"דרום","url":"https://www.miriblank.co.il/innerbalance-reatret-in-mitzpe-ramon/","price":null,"image":null,"recurring":false,"format":"ריטריט"},{"date":"2026-10-10","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-10-13","time":"20:00","title":"קורס יסודות · Deep Contact (14 מפגשים)","host":null,"url":"https://deepcontact.org/yesodot/yesodot_einshemer/","price":null,"format":"קורס","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","image":null,"recurring":false,"category":"קונטקט","discipline":"קונטקט"},{"date":"2026-10-16","time":"","title":"ריטריט קונטקט · Deep Contact (16–17.10)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"יער המאכל · בית לחם הגלילית","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"בית לחם הגלילית","region":"צפון","format":"ריטריט"},{"date":"2026-10-21","time":"10:00","title":"קורס הכשרת מורים לאימפרוביזציה (אילנית תדמור) · ימי ד׳ 21.10.26–3.7.27","host":"אילנית תדמור","category":"אימפרוביזציה","venue":"תמרה — מרכז הכרמל, מרגלית 4","city":"חיפה","region":"צפון","url":"https://studiotamara.ravpage.co.il/ilanithaifa","price":null,"image":null,"recurring":false,"discipline":"אימפרוביזציה","format":"קורס"},{"date":"2026-10-21","time":"10:00","title":"קורס אנטומיה חווייתית · השלד, השרירים ודפוסים אמבריולוגיים (BMC, 12 מפגשים)","host":"תמר ארקין","category":"חקר תנועה","discipline":"חקר תנועה","venue":"סטודיו ה\"חללון\", קרית טבעון","city":"קרית טבעון","region":"צפון","url":"https://www.tamararkin.com/body-mind-centering-course-tivon","price":null,"image":null,"recurring":false,"format":"קורס","tags":[]},{"date":"2026-10-25","time":"","title":"קורס יסודות קונטקט · Deep Contact (14 מפגשים)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"קרית טבעון","region":"צפון","format":"קורס"},{"date":"2026-10-26","time":"09:30","title":"הגוף המודע והנגלה · מחזור 15 — תכנית שנתית (ימי שני)","host":"נעם כרמלי, מיכאל שחרור","category":"אימפרוביזציה","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","recurring":false,"url":"https://www.studiotena.org/conscious-body","price":"6,600 ₪ (מוקדם)","image":"https://static.wixstatic.com/media/f45e80_1416f1a13d7e40dcaed4f3b1e7e9bf82~mv2.jpg/v1/fill/w_640,h_440,al_c/photo.jpg","discipline":"אימפרוביזציה","format":"קורס"},{"date":"2026-10-30","time":"11:00","title":"נטו קונטקט — סוף״ש בתנע","category":"קונטקט","venue":"סטודיו תנע","city":"עין שמר","region":"פרדס חנה והסביבה","recurring":false,"url":"https://www.studiotena.org/neto-contact","price":"סופ״ש מלא 600 ₪","image":null,"discipline":"קונטקט","format":"סדנה"},{"date":"2026-10-31","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-11-08","time":"","title":"קורס יסודות קונטקט · Deep Contact (14 מפגשים)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"תל אביב","region":"תל אביב","format":"קורס"},{"date":"2026-11-13","time":"","title":"קורס יסודות קונטקט · Deep Contact (14 מפגשים)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"Deep Contact","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"חיפה","region":"צפון","format":"קורס"},{"date":"2026-11-25","time":"","title":"הכשרת מנחי קבוצות · Deep Contact (11 מפגשים)","host":null,"category":"קונטקט","discipline":"קונטקט","venue":"סטודיו תנע","url":"https://deepcontact.org/courses_workshops/","price":null,"image":null,"recurring":false,"city":"עין שמר","region":"פרדס חנה והסביבה","format":"קורס"},{"date":"2026-11-28","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2026-12-26","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-01-16","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-02-13","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-03-13","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-04-10","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-05-08","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-06-26","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"},{"date":"2027-07-03","time":"10:00","title":"שיעורי אזול · חמשת המקצבים","host":"עדי","category":"אפריקאי","discipline":"אפריקאי","venue":"האחים מסלאוויטה 7","city":"תל אביב","region":"תל אביב","url":"#","price":null,"image":null,"recurring":true,"format":"שיעור"}];
+const EVENTS = [];   // filled from Supabase by loadEvents()
+/* ---- v2 data source: Supabase REST (replaces the baked seed + Apps Script feed) ---- */
+const SB_URL = "https://eiseowpkwexktqrtoeaq.supabase.co";
+const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpc2Vvd3Brd2V4a3RxcnRvZWFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA0MTQwMjEsImV4cCI6MjEwNTk5MDAyMX0.sVsFmBZUWwfvRL_pt3SMgkggy_GNCRKrWGdzHpg0qHg"; // anon key — public by design
+const SB_EVENTS_Q = "events?status=eq.live&select=*,venue:venues(name,kind,city:cities(name,region:regions(slug,name_he,sort_order))),event_hosts(host:hosts(name)),event_exceptions(*)";
+const AUDIENCE_LABELS = {women_only:"נשים בלבד",men_only:"גברים בלבד",beginners_welcome:"מתאים למתחילים",
+                         parents_with_kids:"הורים וילדים",sixty_plus:"60+",partner_needed:"בזוגות"};
+const OPEN_RULE_DAYS = 90;   // weekly rule with no valid_until/date_end → show this many days ahead
+const LOOKUPS = {regions:[], families:[], discLabel:{}, fmtLabel:{}, famLabel:{}, discFams:{}};
 const TODAY = new Date(); TODAY.setHours(0,0,0,0);
 try{(JSON.parse(localStorage.getItem("zuzu_approved_events")||"[]")).forEach(e=>EVENTS.push(e));}catch(_e){}
 const HEB_DAYS = ["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
@@ -728,22 +737,21 @@ function fmtDay(dt){
   if(diff===1) return "מחר · "+base;
   return base;
 }
-const REGION_INCLUDES = {"מרכז":["מרכז","תל אביב","שרון"]};
 function passFilters(e){
   if(state.q){
     const hay=[e.title,e.host,e.venue,e.city,e.region,e.discipline||e.category,...(e.tags||[]),e.format].filter(Boolean).join(" ").toLowerCase();
     if(!state.q.split(/\s+/).every(w=>hay.includes(w))) return false;
   }
   const cats=[...String(e.discipline||e.category||"").split(",").map(s=>s.trim()).filter(Boolean),...(e.tags||[])];
-  if(state.cats.size && !cats.some(c=>state.cats.has(c))) return false;
+  if(state.cats.size && !(e._fams||cats).some(c=>state.cats.has(c))) return false;
   if(state.fmts.size){
-    const fmtOk=state.fmts.has(e.format||"שיעור");
+    const fmtOk=(e._fmts&&e._fmts.length?e._fmts:[e.format||"שיעור"]).some(f=>state.fmts.has(f));
     const audOk=[...state.fmts].some(v=>AUDIENCE_TAGS.includes(v)&&cats.includes(v));
     if(!fmtOk && !audOk) return false;
   }
   if(state.regs.size){
     let ok=false;
-    for(const sel of state.regs){ if((REGION_INCLUDES[sel]||[sel]).includes(e.region)){ ok=true; break; } }
+    for(const sel of state.regs){ if(sel===e.region){ ok=true; break; } }
     if(!ok) return false;
   }
   return true;
@@ -773,13 +781,13 @@ const CAT_COLOR={
   "סדנה":"#0284c7","אחר":"#6b7280"};
 function catColor(c){ return "#fb4d1e"; }
 // Normalize an Israeli/international phone to wa.me digits (972…)
+// v2: only Israeli mobiles (05X…) get a WhatsApp button
 function waDigits(p){
   if(!p) return "";
-  let d=(""+p).replace(/[^\d+]/g,"");
-  if(d[0]==="+") d=d.slice(1);
-  else if(d[0]==="0") d="972"+d.slice(1);
-  else if(d.slice(0,3)!=="972") d="972"+d;
-  return d;
+  let d=(""+p).replace(/\D/g,"");
+  if(d.startsWith("972")) d="0"+d.slice(3);
+  if(!/^05\d{8}$/.test(d)) return "";
+  return "972"+d.slice(1);
 }
 // Decide the card's "register" link: real URL, else a WhatsApp chat from phone, else none
 function regLink(e){
@@ -793,7 +801,7 @@ function cardHtml(e){
   const t=e.time.replace(/^0/,"");
   const dd=dateOf(e);
   const dateStr=`${HEB_DAYS[dd.getDay()]} ${dd.getDate()}.${dd.getMonth()+1}`;
-  const loc=e.city?`${e.venue}, ${e.city}`:e.venue;
+  const loc=!e.venue?(e.city||""):(e.city&&!e.venue.includes(e.city)?`${e.venue}, ${e.city}`:e.venue);   // skip the city when the venue name already has it
   const link=regLink(e);
   const href=link?link.href:"";
   const moreInner=link
@@ -808,12 +816,13 @@ function cardHtml(e){
       <h3 class="ti">${e.title}</h3>
       ${e.host?`<div class="host">עם <b>${e.host}</b></div>`:""}
       <div class="info">
-        <div class="labels">${[...String(e.discipline||e.category||"").split(",").map(s=>s.trim()).filter(Boolean),...(e.tags||[])].map(c=>`<span>${c}</span>`).join("")}${e.format&&e.format!=="שיעור"?`<span class="fmt">${e.format}</span>`:""}<span>${e.region}</span></div>
+        <div class="labels">${[...String(e.discipline||e.category||"").split(",").map(s=>s.trim()).filter(Boolean),...(e.tags||[])].map(c=>`<span>${c}</span>`).join("")}${(e._fmts||[e.format]).filter(f=>f&&f!=="שיעור").map(f=>`<span class="fmt">${f}</span>`).join("")}${e.region?`<span>${e.region}</span>`:""}</div>
         <div class="meta">${loc}</div>
+        ${e.price?`<div class="price">${e.price}</div>`:""}
       </div>
     </div>
     <div class="end">
-      <button type="button" class="calbtn" data-cal data-d="${e.date}" data-tm="${e.time}" data-fmt="${encodeURIComponent(e.format||"")}" data-ti="${encodeURIComponent(e.title)}" data-loc="${encodeURIComponent(loc)}" data-url="${encodeURIComponent(e.url||"")}" data-host="${encodeURIComponent(e.host||"")}" aria-label="הוספת ${attrEsc(e.title)} ליומן גוגל"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="17" rx="2"></rect><path d="M16 2v5M8 2v5M3 9.5h18M12 14v4M10 16h4"></path></svg><span>יומן</span></button>
+      <button type="button" class="calbtn" data-cal data-d="${e.date}" data-tm="${e.time}" data-te="${e.timeEnd||""}" data-fmt="${encodeURIComponent(e.format||"")}" data-ti="${encodeURIComponent(e.title)}" data-loc="${encodeURIComponent(loc)}" data-url="${encodeURIComponent(e.url||"")}" data-host="${encodeURIComponent(e.host||"")}" aria-label="הוספת ${attrEsc(e.title)} ליומן גוגל"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="17" rx="2"></rect><path d="M16 2v5M8 2v5M3 9.5h18M12 14v4M10 16h4"></path></svg><span>יומן</span></button>
       ${link
         ? `<a class="more cardlink" href="${attrEsc(href)}" target="_blank" rel="noopener">${moreInner}<span class="sr-only">: ${attrEsc(e.title)} (נפתח בחלון חדש)</span></a>`
         : `<div class="more">${moreInner}</div>`}
@@ -826,7 +835,8 @@ function icsDownload(ev){
   const start=new Date(ev.date+"T"+((ev.time||"00:00")));
   // multi-session formats (course/workshop/retreat) default to longer blocks
   const longFmt=["קורס","סדנה","ריטריט"].includes(ev.format);
-  const end=new Date(start.getTime()+(longFmt?120:90)*60000);
+  let end=new Date(start.getTime()+(longFmt?120:90)*60000);
+  if(ev.timeEnd){ const te=new Date(ev.date+"T"+ev.timeEnd); if(te>start) end=te; }
   const fmt=d=>d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+"T"+pad(d.getHours())+pad(d.getMinutes())+"00";
   const esc=s=>(s||"").replace(/([,;\\])/g,"\\$1").replace(/\r?\n/g,"\\n");
   const desc=[ev.host?"עם "+ev.host:"",ev.url].filter(Boolean).join("\n");
@@ -854,7 +864,8 @@ function gcalUrl(ev){
   const pad=n=>String(n).padStart(2,"0");
   const start=new Date(ev.date+"T"+((ev.time||"00:00")));
   const longFmt=["קורס","סדנה","ריטריט"].includes(ev.format);
-  const end=new Date(start.getTime()+(longFmt?120:90)*60000);
+  let end=new Date(start.getTime()+(longFmt?120:90)*60000);
+  if(ev.timeEnd){ const te=new Date(ev.date+"T"+ev.timeEnd); if(te>start) end=te; }
   const fmt=d=>d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate())+"T"+pad(d.getHours())+pad(d.getMinutes())+"00";
   const desc=[ev.host?"עם "+ev.host:"",ev.url].filter(Boolean).join("\n");
   const p=new URLSearchParams({action:"TEMPLATE",text:ev.title||"",dates:fmt(start)+"/"+fmt(end),ctz:"Asia/Jerusalem"});
@@ -879,7 +890,7 @@ document.addEventListener("click",ev=>{
   const b=ev.target.closest(".calbtn"); if(!b) return;
   ev.preventDefault(); ev.stopPropagation();
   const d=b.dataset, dec=s=>s?decodeURIComponent(s):"";
-  const data={date:d.d,time:d.tm,format:dec(d.fmt),title:dec(d.ti),loc:dec(d.loc),url:dec(d.url),host:dec(d.host)};
+  const data={date:d.d,time:d.tm,timeEnd:d.te,format:dec(d.fmt),title:dec(d.ti),loc:dec(d.loc),url:dec(d.url),host:dec(d.host)};
   track("add_to_calendar",{title:data.title,format:data.format});
   window.open(gcalUrl(data),"_blank","noopener");
 });
@@ -983,12 +994,13 @@ function render(){
 }
 
 /* ---------- timeline (day ruler) view ---------- */
+const RULER_DAYS=90;   // the day ruler shows at most this many days ahead; later events are in search + calendar
 function timelineDays(){
   let maxIso=iso(TODAY);
   for(const e of EVENTS){ if(e.date>maxIso) maxIso=e.date; }
   const end=dateOf({date:maxIso});
   const days=[]; const d=new Date(TODAY); let guard=0;
-  while(d<=end && guard++<400){ days.push(new Date(d)); d.setDate(d.getDate()+1); }
+  while(d<=end && guard++<RULER_DAYS){ days.push(new Date(d)); d.setDate(d.getDate()+1); }
   return days;
 }
 function dayCount(key){ let n=0; for(const e of EVENTS){ if(e.date===key && passFilters(e)) n++; } return n; }
@@ -1086,7 +1098,9 @@ function renderTimeline(){
     const nextKey=isoDays.find(k=>k>state.selDate && dayCount(k)>0);
     list.innerHTML=nextKey
       ? `<button class="tlNext" data-next="${nextKey}">לקפוץ ליום הקרוב עם אירועים →</button>`
-      : `<div class="tlEmpty">אין עוד אירועים בהמשך הלוח.</div>`;
+      : (EVENTS.some(e=>e.date>isoDays[isoDays.length-1]&&passFilters(e))
+          ? `<div class="tlEmpty">אירועים רחוקים יותר — בתצוגת החודש או בחיפוש.</div>`
+          : `<div class="tlEmpty">אין עוד אירועים בהמשך הלוח.</div>`);
     const nb=list.querySelector(".tlNext"); if(nb) nb.onclick=()=>selectDay(nb.dataset.next);
   }
   reveal(list,".card",60,380);
@@ -1149,16 +1163,19 @@ function centerSelected(smooth){
 /* ---- filter system: view toggle + filter sheet + active chips ---- */
 const EVENT_FORMATS=["שיעור","ג'אם","סדנה","קורס","ריטריט","מסיבת ריקוד","הופעה/מופע"];
 const WHENS=[["tonight","היום"],["tomorrow","מחר"],["week","השבוע"],["all","הכל"]];
-const moveCount=v=>EVENTS.filter(e=>[e.discipline||e.category,...(e.tags||[])].includes(v)).length;
-const AUDIENCE_TAGS=["נשים בלבד","לגברים בלבד"];
-const fmtCount=v=>AUDIENCE_TAGS.includes(v)?moveCount(v):EVENTS.filter(e=>(e.format||"שיעור")===v).length;
-const MOVES=[...new Set(EVENTS.flatMap(e=>[e.discipline||e.category,...(e.tags||[])]))].filter(c=>c&&!EVENT_FORMATS.includes(c)&&!AUDIENCE_TAGS.includes(c)&&!["סטודיו","אחר","כתיבה יוצרת","למתחילים","דאנסהול","כנס המרחב החי","מופע רחוב"].includes(c)&&moveCount(c)>1);
-const FMTS=[...new Set(EVENTS.map(e=>e.format||"שיעור"))].concat(AUDIENCE_TAGS.filter(t=>moveCount(t)>0));
-const AREAS=[...new Set(EVENTS.map(e=>e.region))].filter(r=>r&&!/לא צוין|חו.?ל/.test(r));
+// v2: movement = the 8 families, area = the regions table (both by sort_order), built after loadEvents()
+const moveCount=v=>EVENTS.filter(e=>(e._fams||[]).includes(v)).length;
+const AUDIENCE_TAGS=Object.values(AUDIENCE_LABELS);
+const audCount=v=>EVENTS.filter(e=>(e.tags||[]).includes(v)).length;
+const fmtCount=v=>AUDIENCE_TAGS.includes(v)?audCount(v):EVENTS.filter(e=>(e._fmts&&e._fmts.length?e._fmts:[e.format||"שיעור"]).includes(v)).length;
 const areaCount=v=>EVENTS.filter(e=>e.region===v).length;
-MOVES.sort((a,b)=>moveCount(b)-moveCount(a));
-FMTS.sort((a,b)=>fmtCount(b)-fmtCount(a));
-AREAS.sort((a,b)=>areaCount(b)-areaCount(a));
+let MOVES=[], FMTS=[], AREAS=[];
+function buildFilterLists(){
+  MOVES=LOOKUPS.families.map(f=>f.label_he).filter(Boolean);
+  AREAS=LOOKUPS.regions.map(r=>r.name_he).filter(r=>r&&areaCount(r)>0);   // hide regions with no events right now
+  FMTS=[...new Set(EVENTS.flatMap(e=>e._fmts&&e._fmts.length?e._fmts:[e.format||"שיעור"]))].concat(AUDIENCE_TAGS.filter(t=>audCount(t)>0));
+  FMTS.sort((a,b)=>fmtCount(b)-fmtCount(a));
+}
 
 document.querySelectorAll(".vt").forEach(b=>b.onclick=()=>{ state.view=b.dataset.view; render(); });
 
@@ -1270,13 +1287,110 @@ reveal(document.querySelector("footer"),".sl",0,0);
   clr.addEventListener("click",()=>{ inp.value=""; apply(); inp.focus(); });
 })();
 
-(function(){
-  const params = new URLSearchParams(location.search);
-  const cat = params.get("cat");
-  if(cat && MOVES.includes(cat)){ state.cats.add(cat); state.view="list"; }
-})();
+function applyUrlCat(){
+  const cat = new URLSearchParams(location.search).get("cat");
+  const lab = cat && (MOVES.includes(cat) ? cat : LOOKUPS.famLabel[cat]);
+  if(lab){ state.cats.add(lab); state.view="list"; }
+}
+/* ---- v2 loader: fetch lookups + events from Supabase, expand to one entry per day ---- */
+function sbGet(path){
+  return fetch(SB_URL+"/rest/v1/"+path,{headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY}})
+    .then(r=>{ if(!r.ok) throw new Error("supabase "+r.status+" "+path); return r.json(); });
+}
+function safeTxt(s){ return s==null?"":String(s).replace(/[<>"]/g,""); }   // data goes into innerHTML
+function parseIso(s){ const [y,m,d]=String(s).slice(0,10).split("-").map(Number); return new Date(y,m-1,d); }
+function hhmm(t){ return t?String(t).slice(0,5):""; }
+function priceTxt(p){ const t=safeTxt(p).trim(); return /^\d+([.,]\d+)?$/.test(t)?t+" ₪":t; }   // bare numbers ("70") get a ₪
+function occurrenceDates(ev){
+  const out=[], start=parseIso(ev.date_start);
+  const horizon=new Date(TODAY); horizon.setDate(horizon.getDate()+400);
+  const wds=Array.isArray(ev.rule_weekdays)?ev.rule_weekdays.map(Number):[];
+  if(wds.length){
+    // weekly: rule_weekdays (0=Sunday) every rule_interval_weeks weeks from date_start
+    const step=Math.max(1,Number(ev.rule_interval_weeks)||1);
+    const ends=[ev.valid_until,ev.date_end].filter(Boolean).map(parseIso);
+    let end=ends.length?new Date(Math.min(...ends)):new Date(TODAY.getTime()+OPEN_RULE_DAYS*864e5);
+    if(end>horizon) end=horizon;
+    const wk0=new Date(start); wk0.setDate(wk0.getDate()-wk0.getDay());
+    const d=new Date(start), monthStart=new Date(TODAY.getFullYear(),TODAY.getMonth(),1);
+    if(d<monthStart) d.setTime(monthStart.getTime());   // calendar view only needs this month onward
+    for(;d<=end;d.setDate(d.getDate()+1)){
+      if(!wds.includes(d.getDay())) continue;
+      const wk=new Date(d); wk.setDate(wk.getDate()-wk.getDay());
+      if(Math.round((wk-wk0)/(7*864e5))%step!==0) continue;
+      out.push(iso(d));
+    }
+  }else{
+    // single or multi-day: every day from date_start to date_end
+    let end=ev.date_end?parseIso(ev.date_end):start;
+    if(end>horizon) end=horizon;
+    for(const d=new Date(start);d<=end;d.setDate(d.getDate()+1)) out.push(iso(d));
+  }
+  return out;
+}
+function mapEvent(ev,hostNames){
+  const venue=ev.venue||{}, city=venue.city||{}, region=city.region||{};
+  const discs=(ev.disciplines||[]).map(s=>LOOKUPS.discLabel[s]||s);
+  const fams=[...new Set((ev.disciplines||[]).flatMap(s=>LOOKUPS.discFams[s]||[]))].map(f=>LOOKUPS.famLabel[f]).filter(Boolean);
+  const fmts=(ev.formats||[]).map(s=>LOOKUPS.fmtLabel[s]||s);
+  const hosts=(ev.event_hosts||[]).map(h=>h&&h.host&&h.host.name).filter(Boolean);
+  const url=/^https?:\/\//i.test(ev.link||"")?ev.link:"";
+  const base={
+    id:ev.id, title:safeTxt(ev.title), host:safeTxt(hosts.join(", "))||null,
+    venue:safeTxt(venue.name)||(ev.location_on_registration?"המיקום יימסר בהרשמה":""), city:safeTxt(city.name), region:safeTxt(region.name_he),
+    discipline:safeTxt(discs.join(", ")), tags:(ev.audience||[]).map(a=>AUDIENCE_LABELS[a]).filter(Boolean),
+    format:safeTxt(fmts[0]||"שיעור"), _fmts:fmts.map(safeTxt), _fams:fams,
+    time:hhmm(ev.time_start), timeEnd:hhmm(ev.time_end),
+    url, phone:ev.phone||"", price:priceTxt(ev.price_raw)||null,
+    recurring:!!(ev.rule_weekdays&&ev.rule_weekdays.length)
+  };
+  const skip=new Set(), override={};
+  (ev.event_exceptions||[]).forEach(x=>{
+    const d=String(x.on_date||"").slice(0,10); if(!d) return;
+    if(x.kind==="skip") skip.add(d);
+    else if(x.kind==="override" && x.override_host_id && hostNames[x.override_host_id]) override[d]=safeTxt(hostNames[x.override_host_id]);
+  });
+  return occurrenceDates(ev).filter(d=>!skip.has(d)).map(d=>Object.assign({},base,{date:d},override[d]?{host:override[d]}:{}));
+}
+function loadEvents(){
+  window.ZUZU_LOADING=true; render();   // paint the skeleton immediately
+  Promise.all([
+    sbGet("regions?select=slug,name_he,sort_order&order=sort_order"),
+    sbGet("disciplines?select=slug,label_he"),
+    sbGet("families?select=slug,label_he,sort_order&order=sort_order"),
+    sbGet("discipline_families?select=discipline,family"),
+    sbGet("formats?select=slug,label_he"),
+    sbGet(SB_EVENTS_Q)
+  ]).then(([regions,discs,fams,dfs,fmts,events])=>{
+    LOOKUPS.regions=regions; LOOKUPS.families=fams;
+    discs.forEach(d=>LOOKUPS.discLabel[d.slug]=d.label_he);
+    fmts.forEach(f=>LOOKUPS.fmtLabel[f.slug]=f.label_he);
+    fams.forEach(f=>LOOKUPS.famLabel[f.slug]=f.label_he);
+    dfs.forEach(r=>{ const d=r.discipline, f=r.family; if(d&&f)(LOOKUPS.discFams[d]=LOOKUPS.discFams[d]||[]).push(f); });
+    // override hosts: names for override_host_id (hosts not embedded by the events query)
+    const ids=[...new Set(events.flatMap(e=>(e.event_exceptions||[]).map(x=>x.override_host_id)).filter(Boolean))];
+    const hostsP=ids.length?sbGet("hosts?select=id,name&id=in.("+ids.join(",")+")").catch(()=>[]):Promise.resolve([]);
+    return hostsP.then(hs=>{
+      const hostNames={}; hs.forEach(h=>hostNames[h.id]=h.name);
+      events.forEach(ev=>{ try{ mapEvent(ev,hostNames).forEach(e=>EVENTS.push(e)); }catch(err){ console.warn("zuzu: skipped event",ev&&ev.id,err); } });
+      window.ZUZU_LOADING=false;
+      buildFilterLists(); applyUrlCat(); refreshAll(); render();
+      const co=document.getElementById("catOpts");
+      if(co) co.innerHTML=Object.values(LOOKUPS.discLabel).sort((a,b)=>a.localeCompare(b,"he")).map(c=>`<option value="${c}"></option>`).join("");
+    });
+  }).catch(err=>{
+    console.error("zuzu: load failed",err);
+    window.ZUZU_LOADING=false;
+    render();
+    const list=document.getElementById("list");
+    if(list && !list.querySelector(".card")){
+      list.innerHTML=errorHtml();
+      const rb=document.getElementById("zRetry"); if(rb) rb.onclick=loadEvents;
+    }
+  });
+}
 refreshAll();
-render();
+loadEvents();
 </script>
 
 <script>
@@ -1325,27 +1439,7 @@ render();
   const cityOpts=document.getElementById("cityOpts"); if(cityOpts) cityOpts.innerHTML=cityList.map(c=>`<option value="${c}"></option>`).join("");
   const FORMATS=["שיעור","ג'אם","סדנה","קורס","ריטריט","מסיבת ריקוד","הופעה/מופע"];
   const fmtSel=document.getElementById("fmtSel"); if(fmtSel) fmtSel.innerHTML=FORMATS.map(x=>`<option>${x}</option>`).join("");
-  // pull approved events from the live backend (if configured) and merge
-  function loadApproved(){
-    if(!ZUZU_API){ window.ZUZU_LOADING=false; if(typeof render==="function")render(); return; }
-    window.ZUZU_LOADING=true;
-    if(typeof render==="function")render();   // paint the skeleton immediately
-    fetch(ZUZU_API+"?action=approved").then(r=>r.json()).then(arr=>{
-      window.ZUZU_LOADING=false;
-      if(Array.isArray(arr)&&arr.length){arr.forEach(e=>EVENTS.push(e));}
-      if(typeof render==="function")render();
-    }).catch(()=>{
-      window.ZUZU_LOADING=false;
-      if(typeof render==="function")render();
-      // still nothing on screen? surface a retry instead of a silent empty day
-      const list=document.getElementById("list");
-      if(list && !list.querySelector(".card")){
-        list.innerHTML=errorHtml();
-        const rb=document.getElementById("zRetry"); if(rb) rb.onclick=loadApproved;
-      }
-    });
-  }
-  loadApproved();
+  // v2: events now load from Supabase (loadEvents() in the main script); ZUZU_API is still used for track + scan
   const addM=document.getElementById("addModal"), admM=document.getElementById("adminModal"), cnM=document.getElementById("contactModal");
   const form=document.getElementById("addForm"), ok=document.getElementById("addOk");
   const cnForm=document.getElementById("contactForm"), cnOk=document.getElementById("contactOk");
@@ -1491,6 +1585,15 @@ render();
     if(submitBtn){submitBtn.disabled=true;submitBtn.textContent="שולח…";}
     let sent=false;
 
+    // v2: queue the submission in Supabase (event_submissions: anon may insert, never read) for review
+    try{
+      const r=await fetch(SB_URL+"/rest/v1/event_submissions",{method:"POST",
+        headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json",Prefer:"return=minimal"},
+        body:JSON.stringify({payload:Object.assign({},ev,{tags:catTags,host:_h||null,dates:pairs,page:location.href})})});
+      sent=r.ok;
+      if(!r.ok) console.warn("zuzu: submission queue failed",r.status);
+    }catch(err){ console.warn("zuzu: submission queue failed",err); }
+
     // Formspree (emails you; same service as your other site)
     if(ZUZU_FORMSPREE){
       try{
@@ -1499,7 +1602,7 @@ render();
         const r=await fetch(ZUZU_FORMSPREE,{method:"POST",
           headers:{"Content-Type":"application/json",Accept:"application/json"},
           body:JSON.stringify(payload)});
-        sent=r.ok;
+        sent=r.ok||sent;
       }catch(_){}
     }
 
@@ -1522,8 +1625,8 @@ render();
       sent=true;
     }
 
-    // legacy backend, if ever re-enabled
-    if(ZUZU_API){ fetch(ZUZU_API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(ev)}).catch(()=>{}); }
+    // (v2: no longer also posted to the Apps Script sheet; the Supabase queue above replaces it, and the
+    //  sheet would mirror it back into the same queue as a second row)
 
     // local safety copy (only meaningful if nothing else is configured)
     if(!ZUZU_FORMSPREE && !ZUZU_FORM_KEY && !ZUZU_EMAIL && !ZUZU_API){ const p=g(PEND);p.push(ev);s(PEND,p);badge(); }
