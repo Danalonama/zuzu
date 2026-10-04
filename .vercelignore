@@ -2,6 +2,7 @@
 # Remove v2/ from this list when v2/api/ functions start shipping.
 docs/
 apps-script/
+bot/test/
 v2/
 *.md
 *.zip
