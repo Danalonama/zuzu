@@ -296,6 +296,7 @@
     cursor:pointer;font-size:1.5rem;line-height:1;color:var(--muted);margin-top:8px;
     display:flex;align-items:center;justify-content:center;transition:.15s;padding:0}
   .rulerNav:hover{color:var(--accent)}
+  .rulerNav.off{visibility:hidden}   /* the back arrow appears only after moving forward */
   .ruler{flex:1 1 auto;direction:rtl;display:flex;align-items:flex-start;overflow-x:auto;scrollbar-width:none;cursor:grab;touch-action:pan-y}
   .ruler.grab{cursor:grabbing}
   .ruler::-webkit-scrollbar{display:none}
@@ -572,6 +573,7 @@
     </div>
     <div class="chipRow" id="chipRow" role="group" aria-label="סינונים פעילים"></div>
     <div id="rulerWrap" class="rulerWrap">
+      <button class="rulerNav off" id="rulerPrev" type="button" aria-label="ימים קודמים" tabindex="-1" aria-hidden="true">→</button>
       <div class="ruler" id="ruler" role="group" aria-label="בחירת יום (אפשר גם עם החיצים במקלדת)"></div>
       <button class="rulerNav" id="rulerNext" type="button" aria-label="ימים הבאים">←</button>
     </div>
@@ -1105,6 +1107,17 @@ function renderTimeline(){
   }
   reveal(list,".card",60,380);
   centerSelected(false);
+  updateRulerNav();
+}
+// show the back (→) arrow only when there is somewhere to go back to:
+// a later day is selected, or the ruler was scrolled away from today
+function updateRulerNav(){
+  const p=document.getElementById("rulerPrev"), ruler=document.getElementById("ruler"); if(!p||!ruler) return;
+  const first=ruler.querySelector(".tick");
+  const atStart=(!first||first.classList.contains("sel")) && Math.abs(ruler.scrollLeft)<4;
+  p.classList.toggle("off",atStart);
+  p.tabIndex=atStart?-1:0;
+  p.setAttribute("aria-hidden",atStart?"true":"false");
 }
 function selectDay(key){ const kb=document.activeElement&&document.activeElement.classList.contains("tick"); state.when="all"; state.selDate=key; try{track("select_day",{value:key});}catch(_e){} renderTimeline(); centerSelected(true);
   if(kb){ const t=document.querySelector("#ruler .tick.sel"); if(t) t.focus({preventScroll:true}); } }
@@ -1127,6 +1140,7 @@ function centerSelected(smooth){
   // drag-to-scroll the ruler (pointer), suppressing the day-click after a real drag
   const ruler=document.getElementById("ruler");
   if(ruler){
+    ruler.addEventListener("scroll",updateRulerNav,{passive:true});
     let down=false,moved=false,startX=0,startScroll=0,pid=null;
     ruler.addEventListener("pointerdown",e=>{
       if(e.button!==undefined&&e.button!==0) return;
