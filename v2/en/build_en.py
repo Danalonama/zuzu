@@ -41,11 +41,11 @@ cut("<!-- PWA service worker -->", "</body>")
 # ---------- head ----------
 rep('<html lang="he" dir="rtl">', '<html lang="en" dir="ltr">')
 rep("<title>zuzu — איפה רוקדים היום? לוח שיעורי ריקוד, קונטקט, ג'אמים וסדנאות תנועה בישראל</title>",
-    "<title>zuzu — Where can I dance today? Dance classes, contact jams and movement workshops in Israel</title>")
+    "<title>zuzu — Where are we dancing today? Dance classes, contact jams and movement workshops in Israel</title>")
 rep('<meta name="description" content="לוח האירועים של zuzu: שיעורי ריקוד, קונטקט אימפרוביזציה, אקסטטיק דאנס, ג\'אמים, סדנאות וריטריטים ברחבי ישראל. לכל גיל ולכל רמה — כולל מי שמעולם לא רקד/ה.">',
     '<meta name="description" content="zuzu\'s calendar of dance classes, contact improvisation, ecstatic dance, jams, workshops and retreats across Israel. For every age and level, including people who have never danced.">')
 rep('<link rel="canonical" href="https://zuzu.today/">', '<link rel="canonical" href="https://zuzu.today/en">')
-rep('content="zuzu — איפה רוקדים היום?"', 'content="zuzu — Where can I dance today?"', 2)
+rep('content="zuzu — איפה רוקדים היום?"', 'content="zuzu — Where are we dancing today?"', 2)
 rep('<meta property="og:description" content="לוח האירועים של zuzu: שיעורי ריקוד, קונטקט אימפרוביזציה, אקסטטיק דאנס, ג\'אמים, סדנאות וריטריטים ברחבי ישראל.">',
     '<meta property="og:description" content="Dance classes, contact improvisation, ecstatic dance, jams, workshops and retreats across Israel.">')
 rep('<meta property="og:url" content="https://zuzu.today/">', '<meta property="og:url" content="https://zuzu.today/en">')
@@ -86,7 +86,7 @@ rep(".card .thumb .bk{opacity:0}", ".card .thumb .bk{opacity:0}\n  .card .ti,.ca
 # ---------- page text ----------
 rep('href="#main">דלגו לתוכן הראשי</a>', 'href="#main">Skip to main content</a>')
 rep('aria-label="zuzu — חזרה לעמוד הבית"', 'aria-label="zuzu — back to the home page"')
-rep('<span class="ttag">איפה רוקדים היום?</span>', '<span class="ttag">Where can I dance today?</span>')
+rep('<span class="ttag">איפה רוקדים היום?</span>', '<span class="ttag">Where are we dancing today?</span>')
 # top-right links (quiz + install are Hebrew pages) → one link back to the Hebrew site
 cut('      <a class="tinstall quizlink" href="quiz.html"', "    </div>\n  </div>\n\n</header>")
 rep("    <div class=\"tright\">\n    </div>\n  </div>\n\n</header>",
