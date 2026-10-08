@@ -248,7 +248,13 @@
   .filterBtn:hover .fbCount{background:#fff;color:var(--ink)}
   /* active chips row */
   .chipRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-  .chipRow:empty{display:none}
+  .chipRow[hidden]{display:none}
+  /* share button (first in the chip row): link to exactly what's on screen */
+  .shareBtn{display:inline-flex;align-items:center;gap:6px;background:var(--bg);color:var(--ink);border:1.5px solid var(--ink);
+      border-radius:99px;padding:5px 12px;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;transition:.15s}
+  .shareBtn svg{width:14px;height:14px;display:block;flex:none}
+  .shareBtn:hover{border-color:var(--accent);color:var(--accent)}
+  .shareBtn[hidden]{display:none}
   .chip{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:var(--bg);
       border:none;border-radius:99px;padding:6px 9px 6px 13px;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer}
   .chip .x{font-size:1.05rem;line-height:.7;opacity:.75}
@@ -574,7 +580,10 @@
         </button>
       </div>
     </div>
-    <div class="chipRow" id="chipRow" role="group" aria-label="סינונים פעילים"></div>
+    <div class="chipRow" id="chipRow" role="group" aria-label="סינונים פעילים">
+      <button class="shareBtn" id="shareBtn" type="button" hidden aria-label="שיתוף קישור לתוצאות האלה"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg><span id="shareLbl">שיתוף</span></button>
+    </div>
+    <span class="sr-only" id="shareSr" aria-live="polite"></span>
     <div id="rulerWrap" class="rulerWrap">
       <button class="rulerNav off" id="rulerPrev" type="button" aria-label="ימים קודמים" tabindex="-1" aria-hidden="true">→</button>
       <div class="ruler" id="ruler" role="group" aria-label="בחירת יום (אפשר גם עם החיצים במקלדת)"></div>
@@ -996,6 +1005,7 @@ function render(){
   document.querySelectorAll(".vt").forEach(b=>{ const on=b.dataset.view===state.view; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
   const lst=document.getElementById("list"); if(lst) lst.setAttribute("aria-busy",window.ZUZU_LOADING?"true":"false");
   cal?renderCalendar():renderTimeline();
+  syncUrl();
 }
 
 /* ---------- timeline (day ruler) view ---------- */
@@ -1122,7 +1132,7 @@ function updateRulerNav(){
   p.tabIndex=atStart?-1:0;
   p.setAttribute("aria-hidden",atStart?"true":"false");
 }
-function selectDay(key){ const kb=document.activeElement&&document.activeElement.classList.contains("tick"); state.when="all"; state.selDate=key; try{track("select_day",{value:key});}catch(_e){} renderTimeline(); centerSelected(true);
+function selectDay(key){ const kb=document.activeElement&&document.activeElement.classList.contains("tick"); state.when="all"; state.selDate=key; try{track("select_day",{value:key});}catch(_e){} renderTimeline(); syncUrl(); centerSelected(true);
   if(kb){ const t=document.querySelector("#ruler .tick.sel"); if(t) t.focus({preventScroll:true}); } }
 function stepDay(delta){
   const days=timelineDays().map(iso); const i=days.indexOf(state.selDate);
@@ -1201,7 +1211,7 @@ let sheetOpen=false;
 const sheet=document.getElementById("filterSheet");
 
 function renderChips(){
-  const row=document.getElementById("chipRow"); row.innerHTML="";
+  const row=document.getElementById("chipRow"); row.querySelectorAll(".chip,.chipClear").forEach(x=>x.remove());
   const add=(label,onRemove)=>{
     const b=document.createElement("button"); b.className="chip"; b.type="button";
     b.innerHTML=`<span class="x" aria-hidden="true">×</span>${label}`; b.setAttribute("aria-label","הסרת הסינון "+label);
@@ -1217,6 +1227,7 @@ function renderChips(){
     c.onclick=()=>{ clearAll(); refreshAll(); render(); document.getElementById("filterBtn").focus(); };
     row.appendChild(c);
   }
+  chipRowVis();
 }
 function renderSheet(){
   const body=document.getElementById("fsBody");
@@ -1302,13 +1313,95 @@ reveal(document.querySelector("footer"),".sl",0,0);
   }
   inp.addEventListener("input",()=>{ clearTimeout(t); t=setTimeout(apply,140); });
   clr.addEventListener("click",()=>{ inp.value=""; apply(); inp.focus(); });
+  const q0=(new URLSearchParams(location.search).get("q")||"").trim();
+  if(q0){ inp.value=q0; state.q=q0.toLowerCase(); clr.classList.add("show"); }
 })();
 
-function applyUrlCat(){
-  const cat = new URLSearchParams(location.search).get("cat");
-  const lab = cat && (MOVES.includes(cat) ? cat : LOOKUPS.famLabel[cat]);
-  if(lab){ state.cats.add(lab); state.view="list"; }
+/* ---- shareable link: every filter lives in the URL, in English codes (same on / and /en) ----
+   ?area=tel-aviv,north  ?style=contact  ?type=jam,beginners_welcome  ?when=today|tomorrow|week
+   ?q=free text  ?day=2026-10-12        old ?cat= links still work (read as style) */
+var urlReady=false;   // don't touch the URL until applyUrl() has read it (after the data loads)
+const URL_AXES=[["area","regs"],["style","cats"],["type","fmts"]];
+const URL_WHEN={tonight:"today",tomorrow:"tomorrow",week:"week"};
+function urlCodes(){   // per axis: code → label
+  const m={regs:{},cats:{},fmts:{}};
+  LOOKUPS.regions.forEach(r=>{ const l=r.name_he; if(r.slug&&l) m.regs[r.slug]=l; });
+  LOOKUPS.families.forEach(f=>{ const l=LOOKUPS.famLabel[f.slug]; if(f.slug&&l) m.cats[f.slug]=l; });
+  Object.keys(LOOKUPS.fmtLabel).forEach(k=>m.fmts[k]=LOOKUPS.fmtLabel[k]);
+  Object.keys(AUDIENCE_LABELS).forEach(k=>m.fmts[k]=AUDIENCE_LABELS[k]);
+  return m;
 }
+function searchText(){ const inp=document.getElementById("searchInput"); return inp?inp.value.trim():""; }
+function applyUrl(){
+  const p=new URLSearchParams(location.search), m=urlCodes();
+  const take=(ax,raw)=>String(raw||"").split(",").map(x=>x.trim()).filter(Boolean).forEach(c=>{
+    const lab=m[ax][c]||(Object.values(m[ax]).includes(c)?c:"");   // a code, or an old-style label
+    if(lab) state[ax].add(lab);
+  });
+  URL_AXES.forEach(([k,ax])=>take(ax,p.get(k)));
+  take("cats",p.get("cat"));
+  const w=Object.keys(URL_WHEN).find(k=>URL_WHEN[k]===p.get("when"));
+  if(w) state.when=w;
+  else if(/^\d{4}-\d{2}-\d{2}$/.test(p.get("day")||"")) state.selDate=p.get("day");   // a day out of range falls back to today
+  urlReady=true;
+}
+function urlQuery(){
+  const m=urlCodes(), p=new URLSearchParams();
+  const code=(ax,l)=>Object.keys(m[ax]).find(k=>m[ax][k]===l)||l;
+  URL_AXES.forEach(([k,ax])=>{ if(state[ax].size) p.set(k,[...state[ax]].map(l=>code(ax,l)).join(",")); });
+  const q=searchText();
+  if(q) p.set("q",q);   // search shows all upcoming dates, so when/day don't apply
+  else if(state.when!=="all") p.set("when",URL_WHEN[state.when]);
+  else if(state.view==="list" && state.selDate && state.selDate!==iso(TODAY)) p.set("day",state.selDate);
+  return p.toString().replace(/%2C/g,",");
+}
+function syncUrl(){
+  if(!urlReady) return;
+  const qs=urlQuery(), want=location.pathname+(qs?"?"+qs:"")+location.hash;
+  if(want!==location.pathname+location.search+location.hash){ try{ history.replaceState(history.state,"",want); }catch(_e){} }
+  const lang=document.querySelector(".langlink"); if(lang) lang.setAttribute("href","/en"+(qs?"?"+qs:""));   // switching language keeps the filters
+  const sb=document.getElementById("shareBtn"); if(sb) sb.hidden=!qs;
+  chipRowVis();
+}
+function chipRowVis(){
+  const row=document.getElementById("chipRow"), sb=document.getElementById("shareBtn");
+  row.hidden=!row.querySelector(".chip") && (!sb||sb.hidden);
+}
+function shareText(){
+  const bits=[];
+  const q=searchText(); if(q) bits.push("חיפוש: "+q);
+  else if(state.when!=="all") bits.push({tonight:"היום",tomorrow:"מחר",week:"השבוע"}[state.when]);
+  else if(state.view==="list" && state.selDate!==iso(TODAY)){ const d=parseIso(state.selDate); bits.push(d.getDate()+"."+(d.getMonth()+1)); }
+  [...state.cats,...state.fmts,...state.regs].forEach(v=>bits.push(v));
+  return "אירועי תנועה וריקוד ב-zuzu"+(bits.length?": "+bits.join(" · "):"");
+}
+(function wireShare(){
+  const btn=document.getElementById("shareBtn"), lbl=document.getElementById("shareLbl"), sr=document.getElementById("shareSr");
+  if(!btn) return;
+  let tm=null;
+  function copied(){
+    lbl.textContent="הקישור הועתק ✓"; sr.textContent="הקישור הועתק";
+    clearTimeout(tm); tm=setTimeout(()=>{ lbl.textContent="שיתוף"; sr.textContent=""; },2200);
+  }
+  function copy(url){
+    if(navigator.clipboard&&window.isSecureContext) return navigator.clipboard.writeText(url).then(copied,()=>fallback(url));
+    fallback(url);
+  }
+  function fallback(url){
+    const ta=document.createElement("textarea"); ta.value=url; ta.setAttribute("readonly",""); ta.style.position="fixed"; ta.style.opacity="0";
+    document.body.appendChild(ta); ta.select(); let ok=false; try{ ok=document.execCommand("copy"); }catch(_e){} ta.remove(); btn.focus();
+    ok?copied():window.prompt("העתיקו את הקישור:",url);
+  }
+  btn.onclick=()=>{
+    syncUrl(); const url=location.href;
+    try{ track("share",{value:location.search}); }catch(_e){}
+    // phone → the system share sheet (WhatsApp etc.); computer → copy the link
+    const phone=window.matchMedia&&matchMedia("(pointer:coarse)").matches;
+    if(phone&&navigator.share){
+      navigator.share({title:"zuzu",text:shareText(),url}).catch(e=>{ if(e&&e.name!=="AbortError") copy(url); });
+    } else copy(url);
+  };
+})();
 /* ---- v2 loader: fetch lookups + events from Supabase, expand to one entry per day ---- */
 function sbGet(path){
   return fetch(SB_URL+"/rest/v1/"+path,{headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY}})
@@ -1391,7 +1484,7 @@ function loadEvents(){
       const hostNames={}; hs.forEach(h=>hostNames[h.id]=h.name);
       events.forEach(ev=>{ try{ mapEvent(ev,hostNames).forEach(e=>EVENTS.push(e)); }catch(err){ console.warn("zuzu: skipped event",ev&&ev.id,err); } });
       window.ZUZU_LOADING=false;
-      buildFilterLists(); applyUrlCat(); refreshAll(); render();
+      buildFilterLists(); applyUrl(); refreshAll(); render();
       const co=document.getElementById("catOpts");
       if(co) co.innerHTML=Object.values(LOOKUPS.discLabel).sort((a,b)=>a.localeCompare(b,"he")).map(c=>`<option value="${c}"></option>`).join("");
     });
