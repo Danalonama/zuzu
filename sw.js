@@ -36,7 +36,9 @@ self.addEventListener('fetch', e => {
       fetch(req)
         .then(res => {
           const copy = res.clone();
-          caches.open(CACHE).then(c => c.put('./index.html', copy)).catch(() => {});
+          // only the home page is stored as the offline page; /en and others are stored under their own URL
+          const isHome = url.pathname === '/' || url.pathname.endsWith('/index.html');
+          caches.open(CACHE).then(c => c.put(isHome ? './index.html' : req, copy)).catch(() => {});
           return res;
         })
         .catch(() => caches.match(req).then(r => r || caches.match('./index.html')))
