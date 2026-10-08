@@ -1817,30 +1817,6 @@ function testSupabaseMirror() {
   return 'sent — check event_submissions in Supabase (source = test)';
 }
 
-/* Run once after deploying the _appendEvent fix: queues the upcoming iCal-feed and
- * Telegram rows that reached only the sheet before it. Safe to re-run — a uid that is
- * already queued is rejected by the unique index. */
-function backfillFeedsToSupabase() {
-  var sh = _sheet(), idx = _headerIdx(sh), n = sh.getLastRow();
-  if (n < 2) return 'sheet is empty';
-  var vals = sh.getRange(2, 1, n - 1, sh.getLastColumn()).getValues();
-  var today = _dateToIso(new Date()), sent = 0;
-  vals.forEach(function (r) {
-    var source = String(r[idx.source] || '');
-    if (source !== 'feed' && source !== 'telegram') return;
-    var date = _d(r[idx.date]);
-    if (!date || date < today) return;
-    var ev = {};
-    COLS.forEach(function (c) {
-      if (c === 'timestamp' || c === 'approved' || idx[c] === undefined) return;
-      ev[c] = (c === 'date' || c === 'date_end') ? _d(r[idx[c]]) : (c === 'time' || c === 'time_end') ? _t(r[idx[c]]) : r[idx[c]];
-    });
-    _mirrorToSupabase(ev, r[idx.approved] === true, source, r[idx.uid]);
-    sent++;
-  });
-  return 'sent ' + sent + ' upcoming feed/telegram row(s) — already-queued ones are skipped by Supabase';
-}
-
 /** Screenshot → events, using Claude vision. */
 /* DIAGNOSTIC: pings the Anthropic API with your ANTHROPIC_API_KEY and logs the exact
  * raw response, so you can see precisely what's wrong (credit / key / spend-limit).
