@@ -2239,6 +2239,7 @@ function _appendEvent(ev, approved, source, forcedUid) {
   while (row.length < width) row.push('');
   row[uidCol] = uid; row[srcCol] = source || '';
   sh.appendRow(row);
+  _mirrorToSupabase(ev, approved, source, uid);   // iCal feeds + Telegram intake reach the v2 queue too
   return uid;
 }
 function _existingUids(sh) {
