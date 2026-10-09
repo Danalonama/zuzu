@@ -753,7 +753,7 @@ function fmtDay(dt){
 }
 function passFilters(e){
   if(state.q){
-    const hay=[e.title,e.host,e.venue,e.city,e.region,e.discipline||e.category,...(e.tags||[]),e.format,...(e._discs||[]).flatMap(d=>LOOKUPS.discAll[d]||[d])].filter(Boolean).join(" ").toLowerCase();
+    const hay=[e.title,e.host,e.venue,e.city,e.region,e.discipline||e.category,...(e._slugs||[]),...(e.tags||[]),e.format,...(e._discs||[]).flatMap(d=>LOOKUPS.discAll[d]||[d])].filter(Boolean).join(" ").toLowerCase();
     if(!state.q.split(/\s+/).every(w=>hay.includes(w))) return false;
   }
   const cats=[...String(e.discipline||e.category||"").split(",").map(s=>s.trim()).filter(Boolean),...(e.tags||[])];
@@ -1505,6 +1505,7 @@ function mapEvent(ev,hostNames){
     venue:safeTxt(venue.name)||(ev.location_on_registration?"המיקום יימסר בהרשמה":""), city:safeTxt(city.name), region:safeTxt(region.name_he),
     discipline:safeTxt(discs.join(", ")), tags:(ev.audience||[]).map(a=>AUDIENCE_LABELS[a]).filter(Boolean),
     format:safeTxt(fmts[0]||"שיעור"), _fmts:fmts.map(safeTxt), _fams:fams, _discs:(ev.disciplines||[]).slice(),
+    _slugs:(ev.disciplines||[]).map(s=>safeTxt(String(s).replace(/_/g," "))),   // English codes, so "gaga"/"contact" search finds them
     time:hhmm(ev.time_start), timeEnd:hhmm(ev.time_end),
     url, phone:ev.phone||"", price:priceTxt(ev.price_raw)||null,
     recurring:!!(ev.rule_weekdays&&ev.rule_weekdays.length)
