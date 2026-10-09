@@ -20,9 +20,9 @@
 <meta name="twitter:title" content="zuzu — Where are we dancing today?">
 <meta name="twitter:description" content="Dance classes, contact, ecstatic dance, jams and movement workshops in Israel.">
 <meta name="twitter:image" content="https://zuzu.today/icon-512.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
-<link rel="apple-touch-icon" href="favicon-180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" href="/favicon-180.png">
 <meta name="theme-color" content="#EEF4F7">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -549,7 +549,7 @@
 <header class="wrap">
   <div class="topbar">
     <div class="tbrand">
-      <span class="tmark" id="homeLink" role="button" tabindex="0" aria-label="zuzu — back to the home page" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">zuzu.<sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
+      <span class="tmark" id="homeLink" role="button" tabindex="0" aria-label="zuzu — back to the home page" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="/assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">zuzu.<sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
       <span class="ttag">Where are we dancing today?</span>
     </div>
     <div class="tright">
@@ -662,7 +662,7 @@ const SB_EVENTS_Q = "events?status=eq.live&select=*,venue:venues(name,kind,city:
 const AUDIENCE_LABELS = {women_only:"Women only",men_only:"Men only",beginners_welcome:"Beginners welcome",
                          parents_with_kids:"Parents & kids",sixty_plus:"60+",partner_needed:"With a partner"};
 const OPEN_RULE_DAYS = 90;   // weekly rule with no valid_until/date_end → show this many days ahead
-const LOOKUPS = {regions:[], families:[], discLabel:{}, fmtLabel:{}, famLabel:{}, discFams:{}};
+const LOOKUPS = {regions:[], families:[], discLabel:{}, discAll:{}, fmtLabel:{}, famLabel:{}, discFams:{}};
 const TODAY = new Date(); TODAY.setHours(0,0,0,0);
 try{(JSON.parse(localStorage.getItem("zuzu_approved_events")||"[]")).forEach(e=>EVENTS.push(e));}catch(_e){}
 const HEB_DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -685,7 +685,7 @@ function fmtDay(dt){
 }
 function passFilters(e){
   if(state.q){
-    const hay=[e.title,e.host,e.venue,e.city,e.region,e.discipline||e.category,...(e.tags||[]),e.format].filter(Boolean).join(" ").toLowerCase();
+    const hay=[e.title,e.host,e.venue,e.city,e.region,e.discipline||e.category,...(e.tags||[]),e.format,...(e._discs||[]).flatMap(d=>LOOKUPS.discAll[d]||[d])].filter(Boolean).join(" ").toLowerCase();
     if(!state.q.split(/\s+/).every(w=>hay.includes(w))) return false;
   }
   const cats=[...String(e.discipline||e.category||"").split(",").map(s=>s.trim()).filter(Boolean),...(e.tags||[])];
@@ -704,7 +704,7 @@ function passFilters(e){
 }
 function inWhen(e){
   const diff=Math.round((dateOf(e)-TODAY)/864e5);
-  if(state.q) return diff>=0;            // while searching, look across all upcoming dates
+  // a search looks across all upcoming dates, unless today/tomorrow/this week is chosen
   if(state.when==="tonight") return diff===0;
   if(state.when==="tomorrow") return diff===1;
   if(state.when==="week") return diff>=0 && diff<7;
@@ -1248,12 +1248,18 @@ reveal(document.querySelector("footer"),".sl",0,0);
   if(q0){ inp.value=q0; state.q=q0.toLowerCase(); clr.classList.add("show"); }
 })();
 
-/* ---- shareable link: every filter lives in the URL, in English codes (same on / and /en) ----
-   ?area=tel-aviv,north  ?style=contact  ?type=jam,beginners_welcome  ?when=today|tomorrow|week
-   ?q=free text  ?day=2026-10-12        old ?cat= links still work (read as style) */
+/* ---- shareable link: the filters live in the URL, in English (same codes on / and /en) ----
+   Clean form, hyphen-joined:  /tel-aviv-gaga   /en/north-contact-jam   /this-week-ecstatic
+     codes: when (today, tomorrow, this-week), area (region slug), style (family slug), event type
+     (format slug / audience key), and a dance style (discipline slug, e.g. gaga), which becomes a search.
+     Any other lowercase English word in the path is a search word too.
+   Kept as ?query: ?q= for any other search (e.g. Hebrew names), ?day=2026-10-12 for a chosen day.
+   Old links still work: ?area= ?style= ?type= ?when= ?cat= */
 var urlReady=false;   // don't touch the URL until applyUrl() has read it (after the data loads)
+const PAGE_BASE="/en", OTHER_BASE="";
 const URL_AXES=[["area","regs"],["style","cats"],["type","fmts"]];
-const URL_WHEN={tonight:"today",tomorrow:"tomorrow",week:"week"};
+const URL_WHEN={tonight:"today",tomorrow:"tomorrow",week:"week"};          // old ?when= values
+const PATH_WHEN={tonight:"today",tomorrow:"tomorrow",week:"this-week"};
 function urlCodes(){   // per axis: code → label
   const m={regs:{},cats:{},fmts:{}};
   LOOKUPS.regions.forEach(r=>{ const l=r.name_en||r.name_he; if(r.slug&&l) m.regs[r.slug]=l; });
@@ -1262,36 +1268,85 @@ function urlCodes(){   // per axis: code → label
   Object.keys(AUDIENCE_LABELS).forEach(k=>m.fmts[k]=AUDIENCE_LABELS[k]);
   return m;
 }
+const toPath=c=>String(c).toLowerCase().replace(/_/g,"-");
+function pathTokens(){   // path word(s) → [axis, value]. On a clash the earlier one wins (a family beats a dance style).
+  const t={}, put=(k,v)=>{ if(k && !(k in t)) t[k]=v; }, m=urlCodes();
+  Object.keys(PATH_WHEN).forEach(w=>put(PATH_WHEN[w],["when",w]));
+  ["regs","cats","fmts"].forEach(ax=>Object.keys(m[ax]).forEach(c=>put(toPath(c),[ax,m[ax][c]])));
+  Object.keys(LOOKUPS.discLabel).forEach(s=>put(toPath(s),["disc",s]));
+  return t;
+}
+function parsePath(seg,tok){   // "tel-aviv-gaga" → [["regs","תל אביב והסביבה"],["disc","gaga"]], longest match first
+  const w=seg.toLowerCase().split("-").filter(Boolean), out=[];
+  for(let i=0;i<w.length;){
+    let j=w.length;
+    for(;j>i;j--){ const k=w.slice(i,j).join("-"); if(tok[k]){ out.push(tok[k]); break; } }
+    if(j>i) i=j; else { out.push(["word",w[i]]); i++; }
+  }
+  return out;
+}
+function pathSegment(){   // the part of the path after / or /en, if it looks like ours
+  const s=decodeURIComponent(location.pathname).replace(PAGE_BASE?/^\/en(\.html)?\/?/:/^\//,"");
+  return /^[a-z0-9][a-z0-9-]*$/i.test(s)?s:"";
+}
 function searchText(){ const inp=document.getElementById("searchInput"); return inp?inp.value.trim():""; }
+function setSearch(q){
+  const inp=document.getElementById("searchInput"), clr=document.getElementById("searchClear");
+  if(inp) inp.value=q; if(clr) clr.classList.toggle("show",q.length>0);
+  state.q=q.trim().toLowerCase();
+}
 function applyUrl(){
-  const p=new URLSearchParams(location.search), m=urlCodes();
+  const p=new URLSearchParams(location.search), m=urlCodes(), words=[];
   const take=(ax,raw)=>String(raw||"").split(",").map(x=>x.trim()).filter(Boolean).forEach(c=>{
     const lab=m[ax][c]||(Object.values(m[ax]).includes(c)?c:"");   // a code, or an old-style label
     if(lab) state[ax].add(lab);
+  });
+  parsePath(pathSegment(),pathTokens()).forEach(([ax,v])=>{
+    if(ax==="when") state.when=v;
+    else if(ax==="disc") words.push(LOOKUPS.discLabel[v]||v);
+    else if(ax==="word") words.push(v);
+    else state[ax].add(v);
   });
   URL_AXES.forEach(([k,ax])=>take(ax,p.get(k)));
   take("cats",p.get("cat"));
   const w=Object.keys(URL_WHEN).find(k=>URL_WHEN[k]===p.get("when"));
   if(w) state.when=w;
-  else if(/^\d{4}-\d{2}-\d{2}$/.test(p.get("day")||"")) state.selDate=p.get("day");   // a day out of range falls back to today
+  if(state.when==="all" && /^\d{4}-\d{2}-\d{2}$/.test(p.get("day")||"")) state.selDate=p.get("day");   // a day out of range falls back to today
+  const q=[...words,(p.get("q")||"").trim()].filter(Boolean).join(" ");
+  if(q) setSearch(q);
   urlReady=true;
 }
-function urlQuery(){
-  const m=urlCodes(), p=new URLSearchParams();
-  const code=(ax,l)=>Object.keys(m[ax]).find(k=>m[ax][k]===l)||l;
-  URL_AXES.forEach(([k,ax])=>{ if(state[ax].size) p.set(k,[...state[ax]].map(l=>code(ax,l)).join(",")); });
+function searchToPath(q,tok){   // a search that can be written as English path words, or "" if it can't
+  const n=q.toLowerCase();
+  for(const s of Object.keys(LOOKUPS.discAll)){   // the exact name of a dance style, in Hebrew or English
+    const t=toPath(s);
+    if(tok[t] && tok[t][0]==="disc" && tok[t][1]===s && LOOKUPS.discAll[s].includes(n)) return t;
+  }
+  const words=n.split(/\s+/);
+  if(words.every(x=>/^[a-z0-9]+$/.test(x)) && parsePath(words.join("-"),tok).every(([ax])=>ax==="word")) return words.join("-");
+  return "";
+}
+function urlParts(){   // → {path:"tel-aviv-gaga", qs:"day=…"}
+  const m=urlCodes(), tok=pathTokens(), parts=[], p=new URLSearchParams();
+  const code=(ax,l)=>toPath(Object.keys(m[ax]).find(k=>m[ax][k]===l)||"");
   const q=searchText();
-  if(q) p.set("q",q);   // search shows all upcoming dates, so when/day don't apply
-  else if(state.when!=="all") p.set("when",URL_WHEN[state.when]);
-  else if(state.view==="list" && state.selDate && state.selDate!==iso(TODAY)) p.set("day",state.selDate);
-  return p.toString().replace(/%2C/g,",");
+  if(state.when!=="all") parts.push(PATH_WHEN[state.when]);
+  [["regs"],["cats"],["fmts"]].forEach(([ax])=>[...state[ax]].forEach(l=>{
+    const c=code(ax,l); if(c && tok[c] && tok[c][0]===ax) parts.push(c);
+    else p.append(URL_AXES.find(a=>a[1]===ax)[0],l);   // no code for it (shouldn't happen): keep it as a query
+  }));
+  if(q){ const sp=searchToPath(q,tok); if(sp) parts.push(sp); else p.set("q",q); }
+  else if(state.when==="all" && state.view==="list" && state.selDate && state.selDate!==iso(TODAY)) p.set("day",state.selDate);
+  return {path:parts.join("-"), qs:p.toString()};
 }
 function syncUrl(){
   if(!urlReady) return;
-  const qs=urlQuery(), want=location.pathname+(qs?"?"+qs:"")+location.hash;
+  const u=urlParts(), tail=(u.qs?"?"+u.qs:"");
+  const want=(u.path?PAGE_BASE+"/"+u.path:(PAGE_BASE||"/"))+tail+location.hash;
   if(want!==location.pathname+location.search+location.hash){ try{ history.replaceState(history.state,"",want); }catch(_e){} }
-  const lang=document.querySelector(".langlink"); if(lang) lang.setAttribute("href","/"+(qs?"?"+qs:""));   // switching language keeps the filters
-  const sb=document.getElementById("shareBtn"); if(sb) sb.hidden=!qs;
+  const lang=document.querySelector(".langlink");   // switching language keeps the filters
+  if(lang) lang.setAttribute("href",(u.path?OTHER_BASE+"/"+u.path:(OTHER_BASE||"/"))+tail);
+  const sb=document.getElementById("shareBtn"); if(sb) sb.hidden=!(u.path||u.qs);
   chipRowVis();
 }
 function chipRowVis(){
@@ -1377,10 +1432,10 @@ function mapEvent(ev,hostNames){
   const hosts=(ev.event_hosts||[]).map(h=>h&&h.host&&h.host.name).filter(Boolean);
   const url=/^https?:\/\//i.test(ev.link||"")?ev.link:"";
   const base={
-    id:ev.id, title:safeTxt(ev.title), host:safeTxt(hosts.join(", "))||null,
+    id:ev.id, title:safeTxt(ev.title_en||ev.title), host:safeTxt(hosts.join(", "))||null,
     venue:safeTxt(venue.name)||(ev.location_on_registration?"Location given on sign-up":""), city:safeTxt(city.name), region:safeTxt(region.name_en||region.name_he),
     discipline:safeTxt(discs.join(", ")), tags:(ev.audience||[]).map(a=>AUDIENCE_LABELS[a]).filter(Boolean),
-    format:safeTxt(fmts[0]||"Class"), _fmts:fmts.map(safeTxt), _fams:fams,
+    format:safeTxt(fmts[0]||"Class"), _fmts:fmts.map(safeTxt), _fams:fams, _discs:(ev.disciplines||[]).slice(),
     time:hhmm(ev.time_start), timeEnd:hhmm(ev.time_end),
     url, phone:ev.phone||"", price:priceTxt(ev.price_raw)||null,
     recurring:!!(ev.rule_weekdays&&ev.rule_weekdays.length)
@@ -1404,6 +1459,7 @@ function loadEvents(){
     sbGet(SB_EVENTS_Q)
   ]).then(([regions,discs,fams,dfs,fmts,events])=>{
     LOOKUPS.regions=regions; LOOKUPS.families=fams;
+    discs.forEach(d=>LOOKUPS.discAll[d.slug]=[d.slug,d.label_he,d.label_en].filter(Boolean).map(x=>String(x).toLowerCase()));
     discs.forEach(d=>LOOKUPS.discLabel[d.slug]=d.label_en||d.label_he);
     fmts.forEach(f=>LOOKUPS.fmtLabel[f.slug]=f.label_en||f.label_he);
     fams.forEach(f=>LOOKUPS.famLabel[f.slug]=f.label_en||f.label_he);
