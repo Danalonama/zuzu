@@ -1,5 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/en/:filters([A-Za-z0-9][A-Za-z0-9-]*)",
+      "destination": "/en.html"
+    },
+    {
+      "source": "/:filters((?!(?:about|accessibility|en|index|install|quiz|review|styles-guide|api|bot|v2|docs|assets|apps-script)(?:/|$))[A-Za-z0-9][A-Za-z0-9-]*)",
+      "destination": "/index.html"
+    }
+  ]
 }
