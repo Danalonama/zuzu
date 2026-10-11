@@ -31,6 +31,7 @@ The repo misses most of the current state. Before planning anything:
 - Secrets (Supabase service key, Telegram token, Anthropic key) go in Vercel env vars or Apps Script properties. Never in this repo. The Supabase anon key in `index.html` is public by design.
 - `.vercelignore` (once merged) keeps `docs/`, `apps-script/`, `v2/` and `*.md` off the public site. Anything else in the repo root gets served publicly.
 - Pushing to `main` deploys to the live site. Work on a branch and open a PR.
+- `en.html` (zuzu.today/en) is generated from `index.html`. Never edit it by hand: change `index.html`, then run `python3 v2/en/build_en.py`. If the script stops, add the new English text to the script, then re-run it.
 
 ## Working with Dana
 - Say plainly what you could not verify. The sandbox network often blocks outside sites, including zuzu.today itself.

@@ -210,7 +210,7 @@ rep('(ev.location_on_registration?"המיקום יימסר בהרשמה":"")', '
 rep('format:safeTxt(fmts[0]||"שיעור")', 'format:safeTxt(fmts[0]||"Class")')
 rep("city:cities(name,region:regions(slug,name_he,sort_order))", "city:cities(name,region:regions(*))")
 rep('sbGet("regions?select=slug,name_he,sort_order&order=sort_order"),', 'sbGet("regions?select=*&order=sort_order"),')
-rep('sbGet("disciplines?select=slug,label_he"),', 'sbGet("disciplines?select=*"),')
+rep('sbGet("disciplines?select=slug,label_he,label_en"),', 'sbGet("disciplines?select=*"),')
 rep('sbGet("families?select=slug,label_he,sort_order&order=sort_order"),', 'sbGet("families?select=*&order=sort_order"),')
 rep('sbGet("formats?select=slug,label_he"),', 'sbGet("formats?select=*"),')
 rep("discs.forEach(d=>LOOKUPS.discLabel[d.slug]=d.label_he);", "discs.forEach(d=>LOOKUPS.discLabel[d.slug]=d.label_en||d.label_he);")
@@ -218,6 +218,29 @@ rep("fmts.forEach(f=>LOOKUPS.fmtLabel[f.slug]=f.label_he);", "fmts.forEach(f=>LO
 rep("fams.forEach(f=>LOOKUPS.famLabel[f.slug]=f.label_he);", "fams.forEach(f=>LOOKUPS.famLabel[f.slug]=f.label_en||f.label_he);")
 
 rep('`<div class="host">with <b>${e.host}</b></div>`', '`<div class="host">with <b dir="auto">${e.host}</b></div>`')
+
+# ---------- filtered links + share button (board e02/e03, added 9.10) ----------
+# /en/<filters> pages sit one folder deeper, so images need absolute paths
+rep('href="favicon-32.png"', 'href="/favicon-32.png"')
+rep('href="favicon-192.png"', 'href="/favicon-192.png"')
+rep('href="favicon-180.png"', 'href="/favicon-180.png"')
+rep('<img src="assets/zuzu-logo.svg"', '<img src="/assets/zuzu-logo.svg"')
+rep('const PAGE_BASE="", OTHER_BASE="/en";', 'const PAGE_BASE="/en", OTHER_BASE="";')
+rep('LOOKUPS.regions.forEach(r=>{ const l=r.name_he;', 'LOOKUPS.regions.forEach(r=>{ const l=r.name_en||r.name_he;')
+rep('aria-label="שיתוף קישור לתוצאות האלה"', 'aria-label="Share a link to these results"')
+rep('<span id="shareLbl">שיתוף</span>', '<span id="shareLbl">Share</span>')
+rep('if(q) bits.push("חיפוש: "+q);', 'if(q) bits.push("Search: "+q);')
+rep('bits.push({tonight:"היום",tomorrow:"מחר",week:"השבוע"}[state.when]);',
+    'bits.push({tonight:"Today",tomorrow:"Tomorrow",week:"This week"}[state.when]);')
+rep('return "אירועי תנועה וריקוד ב-zuzu"+', 'return "Movement & dance events on zuzu"+')
+rep('lbl.textContent="הקישור הועתק ✓"; sr.textContent="הקישור הועתק";', 'lbl.textContent="Link copied ✓"; sr.textContent="Link copied";')
+rep('tm=setTimeout(()=>{ lbl.textContent="שיתוף";', 'tm=setTimeout(()=>{ lbl.textContent="Share";')
+rep('window.prompt("העתיקו את הקישור:",url);', 'window.prompt("Copy the link:",url);')
+# English titles where the event has one (board d13)
+rep('title:safeTxt(ev.title),', 'title:safeTxt(ev.title_en||ev.title),')
+# search by English codes is a Hebrew-page addition; the English page already shows English names
+rep('...(e._slugs||[]),', '')
+rep('    _slugs:(ev.disciplines||[]).map(s=>safeTxt(String(s).replace(/_/g," "))),   // English codes, so "gaga"/"contact" search finds them\n', '')
 
 # ---------- check: no Hebrew left outside the allowed spots ----------
 allowed = ("lang=\"he\"", '"alternateName": "זוזו"',  # brand name
