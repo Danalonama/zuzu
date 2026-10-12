@@ -9,6 +9,7 @@ export const AUDIENCE = ["women_only", "men_only", "beginners_welcome", "parents
 export const FORMATS = ["circle", "class", "course", "event", "jam", "party", "performance", "program", "retreat", "workshop"];
 
 const uniq = (a) => [...new Set(a)];
+export const UNKNOWN_PRICE = "unknown";
 const validDate = (s) => (s && parseIso(s) ? s : null);
 
 /**
@@ -31,9 +32,10 @@ export function mapExtracted(ext, lk, today) {
     audience: uniq((ext.audience || []).filter((s) => (lk.audience || AUDIENCE).includes(s))),
     location_on_registration: !!ext.location_on_registration,
     date_start: null, date_end: null, time_start: null, time_end: null,
-    rule_weekdays: null, rule_interval_weeks: null, valid_until: null,
+    // NOT NULL in the DB: every existing row has 1 (one-offs too) and 'unknown' for an unknown price kind.
+    rule_weekdays: null, rule_interval_weeks: 1, valid_until: null,
     price_raw: ext.price?.raw?.trim() || null,
-    price_kind: lk.priceKinds?.includes(ext.price?.kind) ? ext.price.kind : null,
+    price_kind: lk.priceKinds?.includes(ext.price?.kind) ? ext.price.kind : UNKNOWN_PRICE,
     price_unit: lk.priceUnits?.includes(ext.price?.unit) ? ext.price.unit : null,
     price_min: Number.isFinite(ext.price?.min) ? ext.price.min : null,
     price_max: Number.isFinite(ext.price?.max) ? ext.price.max : null,
@@ -155,7 +157,10 @@ export function buildUpdate(existing, row) {
     const from = f.startsWith("time_") ? hhmm(existing[f]) : existing[f];
     if (!same(from, row[f])) patch[f] = row[f];
   }
-  for (const f of FILL_FIELDS) if (row[f] != null && !same(existing[f], row[f])) patch[f] = row[f];
+  for (const f of FILL_FIELDS) {
+    if (row[f] == null || (f === "price_kind" && row[f] === UNKNOWN_PRICE)) continue;
+    if (!same(existing[f], row[f])) patch[f] = row[f];
+  }
   for (const f of ["disciplines", "formats", "audience"]) {
     const u = uniq([...(existing[f] || []), ...(row[f] || [])]);
     if (u.length !== (existing[f] || []).length) patch[f] = u;

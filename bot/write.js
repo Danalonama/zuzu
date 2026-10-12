@@ -79,7 +79,9 @@ export async function approveItem(sb, draft, item, lk, today) {
   if (venue_id) row.venue_id = venue_id;
   let created;
   try {
-    [created] = await sb.insert("events", [row]);
+    // Leave out empty fields so the DB's own defaults apply to anything we don't set.
+    const payload = Object.fromEntries(Object.entries(row).filter(([, v]) => v != null));
+    [created] = await sb.insert("events", [payload]);
   } catch (e) {
     if (e.code === "23505") throw new ApproveError("כבר קיים אירוע עם אותו תאריך, כותרת ומקום (canonical_key)");
     if (e.code === "23514") throw new ApproveError(`הנתונים לא עוברים בדיקה בבסיס הנתונים: ${e.body?.message || ""}`);

@@ -29,7 +29,13 @@ export function fakeSupabase(seed) {
   const calls = [];
   const rows = (t) => (db[t] = db[t] || []);
   const withEmbeds = (t, r) => (t === "venues" ? { ...r, city: db.cities.find((c) => c.id === r.city_id) || null } : r);
+  // Like the real table: NOT NULL columns with defaults. An explicit null is an error (23502).
+  const NOT_NULL_DEFAULTS = { rule_interval_weeks: 1, price_kind: "unknown" };
   const checkEvent = (e) => {
+    for (const [col, def] of Object.entries(NOT_NULL_DEFAULTS)) {
+      if (!(col in e)) e[col] = def;
+      else if (e[col] == null) throw Object.assign(new Error("not null"), { code: "23502", body: { message: `null value in column "${col}"` } });
+    }
     if (e.status === "live" && (!e.disciplines?.length || (!e.link && !e.phone))) throw Object.assign(new Error("check"), { code: "23514", body: { message: "live check" } });
     const key = `${e.date_start}|${e.title}|${e.venue_id}`;
     if (rows("events").some((x) => x.id !== e.id && `${x.date_start}|${x.title}|${x.venue_id}` === key)) throw Object.assign(new Error("dup"), { code: "23505", body: {} });

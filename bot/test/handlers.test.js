@@ -146,3 +146,25 @@ test("photo with no caption works; non-image files and >5MB images are refused",
   assert.equal(sb.db.intake_drafts.at(-1).status, "failed");
   assert.match(tg.edits.at(-1).text, /5MB/);
 });
+
+test("one-off with no known price kind saves (NOT NULL interval/price_kind get real values)", async () => {
+  const { sb, deps, msg, press } = setup();
+  deps.extract = async () => {
+    const e = structuredClone(tenaExtraction.events[5]); // gaga, then make it a one-off with unknown price kind
+    e.title = "ג'אם חד פעמי"; e.schedule = { ...e.schedule, kind: "once", date_start: "2026-10-12", weekdays: [], interval_weeks: null };
+    e.price = { raw: null, kind: null, min: null, max: null, unit: null };
+    return { data: { events: [e], message_notes: null }, model: "test", usage: {} };
+  };
+  await msg("x");
+  await press("ok:1:0");
+  const ev = sb.db.events.find((x) => x.title === "ג'אם חד פעמי");
+  assert.ok(ev, "event inserted");
+  assert.equal(ev.rule_interval_weeks, 1);
+  assert.equal(ev.price_kind, "unknown");
+});
+
+test("update never downgrades a known price kind to 'unknown'", async () => {
+  const { buildUpdate } = await import("../map.js");
+  const { patch } = buildUpdate({ price_kind: "fixed", price_raw: "50 ₪" }, { price_kind: "unknown", price_raw: null });
+  assert.ok(!("price_kind" in patch));
+});

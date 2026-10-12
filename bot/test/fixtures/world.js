@@ -12,7 +12,7 @@ export const lookups = {
   ],
   formats: ["circle", "class", "course", "event", "jam", "party", "performance", "program", "retreat", "workshop"],
   audience: ["women_only", "men_only", "beginners_welcome", "parents_with_kids", "sixty_plus", "partner_needed"],
-  priceKinds: ["fixed", "range", "free", "donation"],
+  priceKinds: ["unknown", "fixed", "range", "free", "donation"],
   priceUnits: ["session", "course", "day", "weekend", "punch_card"],
   hostKinds: ["person", "org"],
   venueKinds: ["studio", "outdoor", "online"],
