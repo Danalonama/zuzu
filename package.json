@@ -6,7 +6,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "test": "node --test \"bot/test/*.test.js\""
+    "test": "node --test \"bot/test/*.test.js\" \"feeds/test/*.test.js\""
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.129.0",
