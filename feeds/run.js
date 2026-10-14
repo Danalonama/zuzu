@@ -8,7 +8,9 @@ import { approveItem } from "../bot/write.js";
 import { normalizeLink, todayIL, addDays, weekday } from "../bot/normalize.js";
 
 // Fields a feed may fill on an event it already published (or one added by hand), only while empty.
-const FILL_IF_EMPTY = ["time_start", "time_end", "valid_until", "price_raw", "price_kind", "price_min", "price_max", "price_unit", "phone", "description"];
+// Not valid_until: on a weekly event null means "ongoing", the owner's choice, not a blank. Filling it with
+// an estimate would end the event; a different end date is reported (COMPARE) instead.
+const FILL_IF_EMPTY = ["time_start", "time_end", "price_raw", "price_kind", "price_min", "price_max", "price_unit", "phone", "description"];
 // Compared and reported, never changed: the owner's version wins.
 const COMPARE = ["date_start", "date_end", "valid_until", "rule_weekdays", "time_start", "time_end"];
 

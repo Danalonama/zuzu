@@ -50,6 +50,11 @@ test("fillBlanks only fills empty fields and reports schedule differences", () =
   assert.deepEqual(diffs.map((d) => d.field).sort(), ["time_end", "time_start", "valid_until"]);
 });
 
+test("an ongoing weekly event (no end date) is never given one", () => {
+  const { patch } = fillBlanks({ rule_weekdays: [2], valid_until: null, time_start: "19:00:00" }, { rule_weekdays: [2], valid_until: "2027-04-06", time_start: "19:00" });
+  assert.equal("valid_until" in patch, false);
+});
+
 // ---- full run
 const DC_HOST = { id: "h-dc", name: "Deep Contact", aliases: [], kind: "org" };
 const existingTue = {
