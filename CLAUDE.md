@@ -36,3 +36,4 @@ The repo misses most of the current state. Before planning anything:
 ## Working with Dana
 - Say plainly what you could not verify. The sandbox network often blocks outside sites, including zuzu.today itself.
 - Give the good news and the bad news. Don't guess.
+- When Dana asks for a prototype, mockup or design, first ask whether Dana wants 5 versions (the `design-versions` skill) or a single version. Don't start the 5-version flow without a yes. If the skill isn't installed in the session, say so and offer to install it from https://github.com/Brain-ai-biz/design-versions.
