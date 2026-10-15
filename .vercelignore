@@ -6,3 +6,5 @@ bot/test/
 v2/
 *.md
 *.zip
+.claude/
+skills-lock.json
