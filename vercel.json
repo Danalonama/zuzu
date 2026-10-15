@@ -11,5 +11,11 @@
       "source": "/:filters((?!(?:about|accessibility|en|index|install|quiz|review|styles-guide|api|bot|v2|docs|assets|apps-script)(?:/|$))[A-Za-z0-9][A-Za-z0-9-]*)",
       "destination": "/index.html"
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/feeds/deepcontact",
+      "schedule": "10 3 * * *"
+    }
   ]
 }
