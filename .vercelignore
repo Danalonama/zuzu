@@ -3,6 +3,7 @@
 docs/
 apps-script/
 bot/test/
+.claude/
 v2/
 *.md
 *.zip
