@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>zuzu · עריכה</title>
+<link rel="icon" type="image/png" href="/favicon-32.png">
+<style>
+  :root{--bg:#f2f1ef;--card:#fff;--ink:#232830;--muted:#5c636d;--accent:#e8602c;--accent-text:#a8461f;--line:#e2e2de;
+    --field:#d9d9d5;--chip:#f0f0ee;--ok:#1f7a5a;--okbg:#e6f4ee;--no:#b3261e;--nobg:#fdecea;--warn:#8a5a00;--warnbg:#fdf3e2}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Assistant","Heebo",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;padding-bottom:80px}
+  .wrap{max-width:860px;margin:0 auto;padding:0 16px}
+  header{padding:22px 0 8px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  header a{font-weight:800;color:var(--accent-text);text-decoration:none}
+  h1{font-size:22px;margin:0}
+  .muted{color:var(--muted);font-size:13.5px}
+  button{font:inherit;cursor:pointer}
+  .btn{font-weight:700;border:none;border-radius:10px;padding:9px 15px;background:var(--ink);color:#fff}
+  .btn.light{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+  .btn.ok{background:var(--ok)}
+  .btn:disabled{opacity:.5;cursor:default}
+  .link{background:none;border:none;color:var(--accent-text);font-weight:700;padding:0;text-decoration:underline}
+  :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  #login{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:20px 0;display:grid;gap:10px;max-width:420px}
+  #login input[type=password]{font:inherit;padding:10px 12px;border:1px solid var(--field);border-radius:10px}
+  .tabs{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}
+  .tab{font-weight:700;font-size:14px;border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;padding:7px 16px}
+  .tab[aria-selected=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+  .controls input[type=search]{flex:1;min-width:200px;font:inherit;font-size:15px;padding:9px 12px;border:1px solid var(--field);border-radius:10px;background:var(--card)}
+  .controls select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--field);border-radius:10px;background:var(--card)}
+  .count{font-size:13px;color:var(--muted);font-weight:700;margin:4px 0 8px}
+  ul.list{list-style:none;margin:0;padding:0}
+  .row{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:8px 0;overflow:hidden}
+  .row>button.head{display:flex;gap:12px;align-items:baseline;width:100%;text-align:start;background:none;border:none;padding:12px 14px;color:inherit}
+  .row>button.head:hover{background:#fafaf8}
+  .when{min-width:120px;font-size:13.5px;color:var(--muted);font-weight:700}
+  .ttl{flex:1;font-weight:700}
+  .ttl small{display:block;font-weight:500;color:var(--muted);font-size:13px}
+  .badge{font-size:12px;font-weight:800;border-radius:999px;padding:2px 9px;white-space:nowrap;background:var(--chip);color:var(--muted)}
+  .badge.live{background:var(--okbg);color:var(--ok)}
+  .badge.off{background:var(--nobg);color:var(--no)}
+  .badge.past{background:var(--warnbg);color:var(--warn)}
+  form.ed{border-top:1px solid var(--line);padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}
+  form.ed .full{grid-column:1/-1}
+  @media (max-width:600px){form.ed{grid-template-columns:1fr}.when{min-width:84px}}
+  label,.lbl{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--muted);font-weight:700}
+  fieldset{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:0}
+  legend{font-size:13px;color:var(--muted);font-weight:700;padding:0 4px}
+  input,select,textarea{font:inherit;font-size:15px;color:var(--ink);border:1px solid var(--field);border-radius:10px;padding:9px 11px;background:#fff;width:100%}
+  input[type=checkbox]{width:auto}
+  textarea{min-height:90px;resize:vertical}
+  .checks{display:flex;flex-wrap:wrap;gap:6px 14px}
+  .checks label{flex-direction:row;align-items:center;gap:6px;font-weight:500;color:var(--ink);font-size:14px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+  .chip{display:inline-flex;gap:6px;align-items:center;background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:3px 6px 3px 11px;font-size:14px}
+  .chip button{background:none;border:none;color:var(--muted);padding:0 2px;font-size:14px}
+  .dates{display:flex;flex-wrap:wrap;gap:6px}
+  .dates button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:4px 9px;font-size:13.5px}
+  .dates button.skip{background:var(--nobg);color:var(--no);border-color:#f3c4bf;text-decoration:line-through}
+  .exlist{margin:6px 0 0;padding:0;list-style:none;font-size:14px}
+  .exlist li{display:flex;gap:8px;align-items:center;padding:3px 0}
+  .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .msg{font-size:14px;font-weight:700;border-radius:10px;padding:8px 12px}
+  .msg.err{background:var(--nobg);color:var(--no)}
+  .msg.ok{background:var(--okbg);color:var(--ok)}
+  .msg.warn{background:var(--warnbg);color:var(--warn)}
+  .hidden{display:none!important}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a href="/">zuzu</a>
+    <h1>עריכה מרוכזת</h1>
+    <span class="muted" id="loadedAt"></span>
+  </header>
+
+  <form id="login" class="hidden">
+    <label>סיסמת עריכה
+      <input type="password" id="pw" autocomplete="current-password" required>
+    </label>
+    <label style="flex-direction:row;align-items:center;gap:8px;font-weight:500;color:var(--ink)">
+      <input type="checkbox" id="remember"> לזכור במכשיר הזה
+    </label>
+    <button class="btn" type="submit">כניסה</button>
+    <div id="loginMsg" role="alert"></div>
+  </form>
+
+  <main id="app" class="hidden">
+    <div class="tabs" role="tablist" aria-label="מה לערוך">
+      <button class="tab" role="tab" data-tab="events" aria-selected="true">אירועים</button>
+      <button class="tab" role="tab" data-tab="venues" aria-selected="false">מקומות</button>
+      <button class="tab" role="tab" data-tab="hosts" aria-selected="false">מנחים</button>
+      <button class="btn light" id="reload" type="button" style="margin-inline-start:auto">טעינה מחדש</button>
+      <button class="link" id="logout" type="button">יציאה</button>
+    </div>
+
+    <section id="tab-events" role="tabpanel" aria-label="אירועים">
+      <div class="controls">
+        <label class="sr" for="q">חיפוש אירוע</label>
+        <input type="search" id="q" placeholder="חיפוש: כותרת, מקום, מנחה, עיר">
+        <label class="sr" for="fStatus">סטטוס</label>
+        <select id="fStatus"><option value="live">באתר</option><option value="off">לא באתר</option><option value="">כל הסטטוסים</option></select>
+        <label class="sr" for="fWhen">זמן</label>
+        <select id="fWhen"><option value="now">עכשיו ובהמשך</option><option value="past">עבר</option><option value="">הכול</option></select>
+      </div>
+      <div class="count" id="evCount" aria-live="polite"></div>
+      <ul class="list" id="evList"></ul>
+      <button class="btn light hidden" id="evMore" type="button">עוד</button>
+    </section>
+
+    <section id="tab-venues" role="tabpanel" aria-label="מקומות" class="hidden">
+      <div class="controls">
+        <label class="sr" for="qv">חיפוש מקום</label>
+        <input type="search" id="qv" placeholder="חיפוש: שם, כינוי, עיר">
+        <button class="btn light" type="button" data-new="venues">+ מקום חדש</button>
+      </div>
+      <div class="count" id="vCount" aria-live="polite"></div>
+      <ul class="list" id="vList"></ul>
+    </section>
+
+    <section id="tab-hosts" role="tabpanel" aria-label="מנחים" class="hidden">
+      <div class="controls">
+        <label class="sr" for="qh">חיפוש מנחה</label>
+        <input type="search" id="qh" placeholder="חיפוש: שם, כינוי">
+        <button class="btn light" type="button" data-new="hosts">+ מנחה חדש</button>
+      </div>
+      <div class="count" id="hCount" aria-live="polite"></div>
+      <ul class="list" id="hList"></ul>
+    </section>
+  </main>
+</div>
+
+<div id="toast" class="msg ok hidden" role="status" aria-live="polite" style="position:fixed;bottom:16px;inset-inline:16px;max-width:600px;margin:0 auto;box-shadow:0 4px 18px rgba(0,0,0,.12)"></div>
+<script>
+"use strict";
+const API = "/api/admin";
+const PW_KEY = "zuzu_edit_pw";
+const DAYS = ["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","ש׳"];
+const STATUS_HE = { live: "באתר", rejected: "נדחה", hidden: "מוסתר", draft: "טיוטה", pending: "ממתין" };
+const PAGE = 60;
+let PW = "", D = null, shown = PAGE, openId = null;
+const $ = (s, el = document) => el.querySelector(s);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const norm = (s) => String(s || "").normalize("NFKC").replace(/[֑-ׇ]/g, "").toLowerCase().replace(/['"`׳״]/g, "").replace(/\s+/g, " ").trim();
+const todayIso = () => new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jerusalem" }).format(new Date());
+const hhmm = (t) => (t ? String(t).slice(0, 5) : "");
+const heDate = (iso) => { if (!iso) return ""; const [y, m, d] = iso.split("-").map(Number); return `${d}.${m}.${String(y).slice(2)}`; };
+const statusHe = (s) => STATUS_HE[s] || s;
+const store = { get(k) { try { return sessionStorage.getItem(k) || localStorage.getItem(k) || ""; } catch { return ""; } },
+  set(k, v, keep) { try { (keep ? localStorage : sessionStorage).setItem(k, v); } catch {} },
+  del(k) { try { sessionStorage.removeItem(k); localStorage.removeItem(k); } catch {} } };
+
+async function api(action, args) {
+  let r;
+  try {
+    r = await fetch(API, { method: "POST", headers: { "Content-Type": "application/json", "x-admin-password": encodeURIComponent(PW) }, body: JSON.stringify({ action, args }) });
+  } catch (e) { throw Object.assign(new Error("אין חיבור לשרת"), { status: 0 }); }
+  const j = await r.json().catch(() => ({ ok: false, error: `שגיאת שרת ${r.status}` }));
+  if (!j.ok) throw Object.assign(new Error(j.error || `שגיאה ${r.status}`), { status: r.status, current: j.current });
+  return j;
+}
+
+function toast(t) {
+  const el = $("#toast"); el.textContent = t; el.classList.remove("hidden");
+  clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.add("hidden"), 5000);
+}
+
+// ---------- login / load
+function showLogin(msg) {
+  $("#app").classList.add("hidden"); $("#login").classList.remove("hidden");
+  $("#loginMsg").innerHTML = msg ? `<div class="msg err">${esc(msg)}</div>` : "";
+  $("#pw").focus();
+}
+async function loadAll() {
+  $("#loadedAt").textContent = "טוען…";
+  try {
+    D = await api("load");
+  } catch (e) {
+    $("#loadedAt").textContent = "";
+    if (e.status === 401) { store.del(PW_KEY); return showLogin(e.message); }
+    return showLogin(e.message);
+  }
+  D.venueById = Object.fromEntries(D.venues.map((v) => [v.id, v]));
+  D.hostById = Object.fromEntries(D.hosts.map((h) => [h.id, h]));
+  D.cityById = Object.fromEntries(D.cities.map((c) => [c.id, c]));
+  D.discLabel = Object.fromEntries(D.disciplines.map((d) => [d.slug, d.label_he]));
+  D.fmtLabel = Object.fromEntries(D.formats.map((d) => [d.slug, d.label_he]));
+  $("#login").classList.add("hidden"); $("#app").classList.remove("hidden");
+  $("#loadedAt").textContent = `נטען ${new Date().toLocaleTimeString("he-IL", { hour: "2-digit", minute: "2-digit" })} · ${D.events.length} אירועים`;
+  renderEvents(); renderPlaces("venues"); renderPlaces("hosts");
+}
+$("#login").addEventListener("submit", (ev) => {
+  ev.preventDefault();
+  PW = $("#pw").value;
+  store.del(PW_KEY); store.set(PW_KEY, PW, $("#remember").checked);
+  loadAll();
+});
+$("#logout").addEventListener("click", () => { store.del(PW_KEY); PW = ""; D = null; $("#pw").value = ""; showLogin(); });
+$("#reload").addEventListener("click", () => { openId = null; loadAll(); });
+
+// ---------- tabs
+document.querySelectorAll(".tab").forEach((b) => b.addEventListener("click", () => {
+  document.querySelectorAll(".tab").forEach((x) => x.setAttribute("aria-selected", x === b ? "true" : "false"));
+  for (const t of ["events", "venues", "hosts"]) $("#tab-" + t).classList.toggle("hidden", t !== b.dataset.tab);
+}));
+
+// ---------- events: list
+function lastDate(e) { return e.rule_weekdays?.length ? e.valid_until : e.date_end || e.date_start; }
+function isPast(e) { const l = lastDate(e); return !!l && l < todayIso(); }
+function whenText(e) {
+  const t = [hhmm(e.time_start), hhmm(e.time_end)].filter(Boolean).join("–");
+  if (e.rule_weekdays?.length) {
+    const every = Number(e.rule_interval_weeks) > 1 ? ` · כל ${e.rule_interval_weeks} שבועות` : "";
+    const span = `מ-${heDate(e.date_start)}${e.valid_until ? " עד " + heDate(e.valid_until) : ""}`;
+    return `${e.rule_weekdays.map((d) => DAYS[d]).join(" ")}${every} ${t}<br><span style="font-weight:500">${span}</span>`;
+  }
+  return `${heDate(e.date_start)}${e.date_end ? "–" + heDate(e.date_end) : ""} ${t}`;
+}
+function venueText(id) { const v = D.venueById[id]; if (!v) return ""; const c = D.cityById[v.city_id]; return v.name + (c ? ", " + c.name : ""); }
+function hayEvent(e) {
+  return norm([e.title, e.title_en, venueText(e.venue_id), ...e.host_ids.map((h) => D.hostById[h]?.name), e.link].join(" "));
+}
+function filteredEvents() {
+  const q = norm($("#q").value), st = $("#fStatus").value, wh = $("#fWhen").value;
+  const today = todayIso();
+  let list = D.events.filter((e) =>
+    (!st || (st === "live" ? e.status === "live" : e.status !== "live")) &&
+    (!wh || (wh === "past" ? isPast(e) : !isPast(e))) &&
+    (!q || q.split(" ").every((w) => hayEvent(e).includes(w))));
+  // Upcoming: soonest first. Past: most recent first.
+  const key = (e) => (wh === "now" ? (e.rule_weekdays?.length && e.date_start < today ? today : e.date_start) : e.date_start) || "";
+  list.sort((a, b) => (wh === "now" ? key(a).localeCompare(key(b)) : key(b).localeCompare(key(a))));
+  return list;
+}
+function badge(e) {
+  if (e.status !== "live") return `<span class="badge off">${esc(statusHe(e.status))}</span>`;
+  if (isPast(e)) return `<span class="badge past">עבר</span>`;
+  return `<span class="badge live">באתר</span>`;
+}
+function renderEvents() {
+  const list = filteredEvents();
+  $("#evCount").textContent = `${list.length} אירועים`;
+  $("#evList").innerHTML = list.slice(0, shown).map((e) => `
+    <li class="row" data-id="${esc(e.id)}">
+      <button type="button" class="head" aria-expanded="${openId === e.id}">
+        <span class="when">${whenText(e)}</span>
+        <span class="ttl">${esc(e.title)}<small>${esc(venueText(e.venue_id) || (e.location_on_registration ? "מיקום בהרשמה" : "בלי מקום"))}${e.host_ids.length ? " · " + esc(e.host_ids.map((h) => D.hostById[h]?.name).filter(Boolean).join(", ")) : ""}</small></span>
+        ${badge(e)}
+      </button>
+    </li>`).join("");
+  $("#evMore").classList.toggle("hidden", list.length <= shown);
+  if (openId) { const li = $(`#evList li[data-id="${CSS.escape(openId)}"]`); if (li) openEditor(li, false); }
+}
+let qTimer;
+for (const id of ["q", "fStatus", "fWhen"]) $("#" + id).addEventListener("input", () => { clearTimeout(qTimer); qTimer = setTimeout(() => { shown = PAGE; renderEvents(); }, 150); });
+$("#evMore").addEventListener("click", () => { shown += PAGE; renderEvents(); });
+$("#evList").addEventListener("click", (ev) => {
+  const head = ev.target.closest("button.head"); if (!head) return;
+  const li = head.closest("li");
+  if (openId === li.dataset.id) { openId = null; li.querySelector("form")?.remove(); head.setAttribute("aria-expanded", "false"); return; }
+  document.querySelectorAll("#evList form.ed").forEach((f) => { f.previousElementSibling.setAttribute("aria-expanded", "false"); f.remove(); });
+  openId = li.dataset.id; openEditor(li, true);
+});
+
+// ---------- events: editor
+const opt = (v, label, sel) => `<option value="${esc(v)}" ${v === sel ? "selected" : ""}>${esc(label)}</option>`;
+const checks = (name, items, selected) => `<div class="checks">${items.map(([v, l]) => `<label><input type="checkbox" name="${name}" value="${esc(v)}" ${selected.includes(v) ? "checked" : ""}> ${esc(l)}</label>`).join("")}</div>`;
+const venueOptions = (sel) => [opt("", "— בלי מקום —", sel || "")].concat(
+  [...D.venues].sort((a, b) => a.name.localeCompare(b.name, "he")).map((v) => opt(v.id, v.name + (D.cityById[v.city_id] ? " · " + D.cityById[v.city_id].name : ""), sel))).join("");
+const hostOptions = () => [...D.hosts].sort((a, b) => a.name.localeCompare(b.name, "he")).map((h) => `<option value="${esc(h.name)}"></option>`).join("");
+
+function upcomingMeetings(e, n = 16) {
+  if (!e.rule_weekdays?.length || !e.date_start) return [];
+  const out = [], step = Math.max(1, Number(e.rule_interval_weeks) || 1), wds = e.rule_weekdays.map(Number);
+  const P = (s) => { const [y, m, d] = s.split("-").map(Number); return new Date(Date.UTC(y, m - 1, d)); };
+  const s = P(e.date_start), wk0 = new Date(s); wk0.setUTCDate(wk0.getUTCDate() - wk0.getUTCDay());
+  const from = todayIso(), until = e.valid_until || null;
+  // Start at today (not at date_start), so a class that started years ago still shows its next meetings.
+  const first = from > e.date_start ? P(from) : s;
+  for (let d = first, i = 0; i < 800 && out.length < n; i++, d.setUTCDate(d.getUTCDate() + 1)) {
+    const iso = d.toISOString().slice(0, 10);
+    if (until && iso > until) break;
+    if (iso < from || !wds.includes(d.getUTCDay())) continue;
+    const wk = new Date(d); wk.setUTCDate(wk.getUTCDate() - wk.getUTCDay());
+    if (Math.round((wk - wk0) / (7 * 864e5)) % step !== 0) continue;
+    out.push(iso);
+  }
+  return out;
+}
+
+function openEditor(li, focus) {
+  const e = D.events.find((x) => x.id === li.dataset.id); if (!e) return;
+  li.querySelector("form")?.remove();
+  const weekly = !!e.rule_weekdays?.length;
+  const en = D.enums;
+  const f = document.createElement("form");
+  f.className = "ed"; f.noValidate = true;
+  f.innerHTML = `
+    <label class="full">כותרת<input name="title" value="${esc(e.title)}" required></label>
+    <label>כותרת באנגלית (לא חובה)<input name="title_en" value="${esc(e.title_en)}" dir="ltr"></label>
+    <label>סטטוס<select name="status">${en.status.map((s) => opt(s, statusHe(s) + (STATUS_HE[s] ? ` (${s})` : ""), e.status)).join("")}</select></label>
+
+    <fieldset class="full"><legend>מתי</legend>
+      <div class="checks" style="margin-bottom:8px">
+        <label><input type="radio" name="kind" value="once" ${!weekly ? "checked" : ""}> תאריך / טווח תאריכים</label>
+        <label><input type="radio" name="kind" value="weekly" ${weekly ? "checked" : ""}> קבוע (כל שבוע)</label>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+        <label>תאריך התחלה<input type="date" name="date_start" value="${esc(e.date_start)}"></label>
+        <label data-once>תאריך סיום (לטווח)<input type="date" name="date_end" value="${esc(e.date_end)}"></label>
+        <label data-weekly>עד תאריך (ריק = ממשיך)<input type="date" name="valid_until" value="${esc(e.valid_until)}"></label>
+        <label data-weekly>כל כמה שבועות<select name="rule_interval_weeks">${[1, 2, 3, 4].map((n) => opt(String(n), n === 1 ? "כל שבוע" : `כל ${n} שבועות`, String(e.rule_interval_weeks || 1))).join("")}</select></label>
+        <label>משעה<input type="time" name="time_start" value="${esc(hhmm(e.time_start))}"></label>
+        <label>עד שעה<input type="time" name="time_end" value="${esc(hhmm(e.time_end))}"></label>
+      </div>
+      <div data-weekly class="lbl" style="margin-top:8px">ימים
+        ${checks("rule_weekdays", DAYS.map((d, i) => [String(i), d]), (e.rule_weekdays || []).map(String))}
+      </div>
+    </fieldset>
+
+    <fieldset class="full" data-weekly><legend>מפגשים שלא מתקיימים</legend>
+      <div class="muted" style="margin-bottom:6px">לחיצה על תאריך מבטלת אותו (או מחזירה). נשמר מיד.</div>
+      <div class="dates" data-meetings></div>
+    </fieldset>
+    <fieldset class="full"><legend>שינויים בתאריכים מסוימים</legend>
+      <ul class="exlist" data-exlist></ul>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:6px;align-items:end">
+        <label>תאריך<input type="date" data-ex="on_date"></label>
+        <label>סוג<select data-ex="kind">${en.exception_kind.map((k) => opt(k, k === "skip" ? "לא מתקיים" : k === "override" ? "מנחה מחליף" : k, "skip")).join("")}</select></label>
+        <label>מנחה מחליף<input data-ex="host" list="hostNames"></label>
+        <label>הערה<input data-ex="note"></label>
+        <button class="btn light" type="button" data-addex>הוספה</button>
+      </div>
+    </fieldset>
+
+    <label class="full">מקום<select name="venue_id">${venueOptions(e.venue_id)}</select></label>
+    <label class="full" style="flex-direction:row;align-items:center;gap:8px;font-weight:500;color:var(--ink)"><input type="checkbox" name="location_on_registration" ${e.location_on_registration ? "checked" : ""}> המיקום נמסר בהרשמה</label>
+
+    <div class="full lbl">מנחים
+      <div class="chips" data-hosts></div>
+      <div style="display:flex;gap:8px"><input data-hostinput list="hostNames" placeholder="שם מנחה קיים"><button class="btn light" type="button" data-addhost>הוספה</button></div>
+    </div>
+
+    <div class="full lbl">סוגי תנועה ${checks("disciplines", D.disciplines.map((d) => [d.slug, d.label_he]), e.disciplines || [])}</div>
+    <div class="full lbl">פורמט ${checks("formats", D.formats.map((d) => [d.slug, d.label_he]), e.formats || [])}</div>
+    ${en.audience.length ? `<div class="full lbl">קהל ${checks("audience", en.audience.map((a) => [a, a]), e.audience || [])}</div>` : ""}
+
+    <label class="full">מחיר (כמו שנכתב)<input name="price_raw" value="${esc(e.price_raw)}"></label>
+    <label>סוג מחיר<select name="price_kind">${[opt("", "—", e.price_kind || "")].concat(en.price_kind.map((k) => opt(k, k, e.price_kind))).join("")}</select></label>
+    <label>יחידה<select name="price_unit">${[opt("", "—", e.price_unit || "")].concat(en.price_unit.map((k) => opt(k, k, e.price_unit))).join("")}</select></label>
+    <label>מחיר מינימום<input type="number" min="0" name="price_min" value="${esc(e.price_min)}"></label>
+    <label>מחיר מקסימום<input type="number" min="0" name="price_max" value="${esc(e.price_max)}"></label>
+
+    <label>קישור<input name="link" value="${esc(e.link)}" dir="ltr" inputmode="url"></label>
+    <label>טלפון<input name="phone" value="${esc(e.phone)}" dir="ltr" inputmode="tel"></label>
+    <label class="full">תיאור<textarea name="description">${esc(e.description)}</textarea></label>
+    <label>שפה<select name="language">${opt("he", "עברית", e.language)}${opt("en", "English", e.language)}</select></label>
+    <div class="full actions">
+      <button class="btn ok" type="submit">שמירה</button>
+      <button class="link" type="button" data-cancel>סגירה בלי לשמור</button>
+      <span class="muted">עודכן ${esc(new Date(e.updated_at).toLocaleString("he-IL"))}</span>
+    </div>
+    <div class="full" data-msg role="status" aria-live="polite"></div>
+    <datalist id="hostNames">${hostOptions()}</datalist>`;
+  li.appendChild(f);
+  li.querySelector("button.head").setAttribute("aria-expanded", "true");
+
+  let hostIds = [...e.host_ids];
+  const msg = (cls, t) => { f.querySelector("[data-msg]").innerHTML = t ? `<div class="msg ${cls}">${esc(t)}</div>` : ""; };
+  const drawHosts = () => {
+    f.querySelector("[data-hosts]").innerHTML = hostIds.map((h) => `<span class="chip">${esc(D.hostById[h]?.name || h)}<button type="button" data-rmhost="${esc(h)}" aria-label="הסרת ${esc(D.hostById[h]?.name || "")}">✕</button></span>`).join("") || `<span class="muted">אין</span>`;
+  };
+  const drawKind = () => {
+    const w = f.querySelector("input[name=kind]:checked").value === "weekly";
+    f.querySelectorAll("[data-weekly]").forEach((x) => x.classList.toggle("hidden", !w));
+    f.querySelectorAll("[data-once]").forEach((x) => x.classList.toggle("hidden", w));
+  };
+  const drawExceptions = () => {
+    const cur = D.events.find((x) => x.id === e.id);
+    const ex = cur.exceptions || [];
+    f.querySelector("[data-exlist]").innerHTML = ex.map((x) => `<li>${esc(heDate(x.on_date))} · ${x.kind === "skip" ? "לא מתקיים" : x.kind === "override" ? "מנחה מחליף: " + esc(D.hostById[x.override_host_id]?.name || "?") : esc(x.kind)}${x.note ? " · " + esc(x.note) : ""}
+      <button class="link" type="button" data-rmex="${esc(x.on_date)}">הסרה</button></li>`).join("") || `<li class="muted">אין</li>`;
+    const skipped = new Set(ex.filter((x) => x.kind === "skip").map((x) => x.on_date));
+    const other = new Set(ex.filter((x) => x.kind !== "skip").map((x) => x.on_date));
+    const meet = upcomingMeetings(cur);
+    // Skipped dates are not meetings any more, but must stay clickable to restore them.
+    const all = [...new Set([...meet, ...[...skipped].filter((d) => d >= todayIso())])].sort().slice(0, 20);
+    f.querySelector("[data-meetings]").innerHTML = all.map((d) => `<button type="button" data-toggle="${d}" class="${skipped.has(d) ? "skip" : ""}" ${other.has(d) ? "disabled title='יש שינוי אחר בתאריך הזה'" : ""} aria-pressed="${skipped.has(d)}">${DAYS[new Date(d + "T00:00:00Z").getUTCDay()]} ${heDate(d)}</button>`).join("") || `<span class="muted">אין מפגשים קרובים (בדקו תאריך התחלה וסיום)</span>`;
+  };
+  drawHosts(); drawKind(); drawExceptions();
+
+  const putEvent = (row) => { const i = D.events.findIndex((x) => x.id === row.id); if (i >= 0) D.events[i] = row; Object.assign(e, row); };
+  async function exAction(action, args, okText) {
+    // Only the dates list is taken from the answer: the form's fields and version stay as they were opened,
+    // so a change someone else made meanwhile still triggers the 409 on save instead of being overwritten.
+    try {
+      const { result } = await api(action, args);
+      e.exceptions = result.exceptions;
+      const cur = D.events.find((x) => x.id === e.id); if (cur) cur.exceptions = result.exceptions;
+      drawExceptions(); msg("ok", okText);
+    }
+    catch (err) { msg("err", err.message); }
+  }
+
+  f.addEventListener("change", (ev) => { if (ev.target.name === "kind") drawKind(); });
+  f.addEventListener("click", (ev) => {
+    const t = ev.target;
+    if (t.matches("[data-cancel]")) { openId = null; li.querySelector("button.head").setAttribute("aria-expanded", "false"); f.remove(); li.querySelector("button.head").focus(); }
+    else if (t.matches("[data-rmhost]")) { hostIds = hostIds.filter((h) => h !== t.dataset.rmhost); drawHosts(); }
+    else if (t.matches("[data-addhost]")) {
+      const inp = f.querySelector("[data-hostinput]"); const h = D.hosts.find((x) => norm(x.name) === norm(inp.value));
+      if (!h) return msg("err", "אין מנחה בשם הזה. מנחה חדש מוסיפים בלשונית 'מנחים'.");
+      if (!hostIds.includes(h.id)) hostIds.push(h.id); inp.value = ""; drawHosts(); msg("", "");
+    }
+    else if (t.matches("[data-toggle]")) {
+      const d = t.dataset.toggle;
+      if (t.classList.contains("skip")) exAction("exception.remove", { event_id: e.id, on_date: d }, `${heDate(d)} חזר ללוח`);
+      else exAction("exception.add", { event_id: e.id, on_date: d, kind: "skip" }, `${heDate(d)} סומן כלא מתקיים`);
+    }
+    else if (t.matches("[data-rmex]")) exAction("exception.remove", { event_id: e.id, on_date: t.dataset.rmex }, "השינוי הוסר");
+    else if (t.matches("[data-addex]")) {
+      const g = (k) => f.querySelector(`[data-ex=${k}]`).value;
+      const kind = g("kind"), host = D.hosts.find((x) => norm(x.name) === norm(g("host")));
+      if (kind === "override" && !host) return msg("err", "לבחור מנחה מחליף מהרשימה");
+      exAction("exception.add", { event_id: e.id, on_date: g("on_date"), kind, note: g("note"), override_host_id: host?.id }, "נוסף");
+    }
+  });
+
+  f.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const fd = new FormData(f), weeklyNow = fd.get("kind") === "weekly";
+    const v = {
+      title: fd.get("title"), title_en: fd.get("title_en"), status: fd.get("status"), language: fd.get("language"),
+      date_start: fd.get("date_start") || null, time_start: fd.get("time_start") || null, time_end: fd.get("time_end") || null,
+      date_end: weeklyNow ? null : fd.get("date_end") || null,
+      valid_until: weeklyNow ? fd.get("valid_until") || null : null,
+      rule_weekdays: weeklyNow ? fd.getAll("rule_weekdays").map(Number) : null,
+      rule_interval_weeks: weeklyNow ? Number(fd.get("rule_interval_weeks")) : null,
+      venue_id: fd.get("venue_id") || null, location_on_registration: fd.get("location_on_registration") === "on",
+      disciplines: fd.getAll("disciplines"), formats: fd.getAll("formats"), audience: fd.getAll("audience"),
+      price_raw: fd.get("price_raw"), price_kind: fd.get("price_kind") || null, price_unit: fd.get("price_unit") || null,
+      price_min: fd.get("price_min") === "" ? null : Number(fd.get("price_min")), price_max: fd.get("price_max") === "" ? null : Number(fd.get("price_max")),
+      link: fd.get("link"), phone: fd.get("phone"), description: fd.get("description"),
+    };
+    if (!D.enums.audience.length) delete v.audience;
+    if (weeklyNow && !v.rule_weekdays.length) return msg("err", "אירוע קבוע צריך לפחות יום אחד");
+    // Send only what changed, so a field nobody touched is never rewritten. A one-off event keeps its
+    // rule_interval_weeks as it is (the DB has 1 there), it only matters on a weekly event.
+    if (!weeklyNow) delete v.rule_interval_weeks;
+    const canon = (k, x) => {
+      if (k.startsWith("time_")) x = hhmm(x) || null;
+      if (k === "description" && x) x = String(x).replace(/\r\n/g, "\n").trim();
+      if (k === "rule_interval_weeks") x = x == null ? 1 : Number(x);
+      if (Array.isArray(x)) x = x.length ? [...x].map(String).sort() : k === "rule_weekdays" ? null : [];
+      if (x === "" || x === undefined) x = null;
+      if (typeof x === "string") x = x.trim() || null;
+      return JSON.stringify(x);
+    };
+    const patch = {};
+    for (const [k, val] of Object.entries(v)) if (canon(k, val) !== canon(k, e[k])) patch[k] = val;
+    const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+    const hostsChanged = !same([...hostIds].sort(), [...e.host_ids].sort());
+    if (!Object.keys(patch).length && !hostsChanged) return msg("warn", "אין שינויים");
+    const btn = f.querySelector("button[type=submit]"); btn.disabled = true; msg("", "");
+    try {
+      const { result } = await api("event.save", { id: e.id, updated_at: e.updated_at, patch, host_ids: hostsChanged ? hostIds : undefined });
+      putEvent(result);
+      renderEvents();
+      const nf = $(`#evList li[data-id="${CSS.escape(e.id)}"] form`);
+      if (nf) nf.querySelector("[data-msg]").innerHTML = `<div class="msg ok">נשמר. באתר מופיע ברענון הבא של הדף.</div>`;
+      else toast(`נשמר: ${result.title} (לא מופיע בסינון הנוכחי)`);
+    } catch (err) {
+      btn.disabled = false;
+      if (err.status === 409 && err.current) {
+        putEvent(err.current); renderEvents();
+        const nf = $(`#evList li[data-id="${CSS.escape(e.id)}"] form`);
+        if (nf) nf.querySelector("[data-msg]").innerHTML = `<div class="msg warn">${esc(err.message)}</div>`;
+      } else msg("err", err.message);
+    }
+  });
+  if (focus) f.querySelector("input[name=title]").focus();
+}
+
+// ---------- venues / hosts
+const CFG = {
+  venues: { list: "#vList", count: "#vCount", q: "#qv", one: "מקום", save: "venue.save", create: "venue.create", kinds: () => D.enums.venue_kind,
+    uses: (id) => D.events.filter((e) => e.venue_id === id).length,
+    sub: (v) => [D.cityById[v.city_id]?.name, v.kind].filter(Boolean).join(" · ") },
+  hosts: { list: "#hList", count: "#hCount", q: "#qh", one: "מנחה", save: "host.save", create: "host.create", kinds: () => D.enums.host_kind,
+    uses: (id) => D.events.filter((e) => e.host_ids.includes(id)).length,
+    sub: (h) => [h.kind, h.phone].filter(Boolean).join(" · ") },
+};
+function renderPlaces(type) {
+  const c = CFG[type], q = norm($(c.q).value);
+  const rows = D[type].filter((r) => !q || norm([r.name, ...(r.aliases || []), type === "venues" ? D.cityById[r.city_id]?.name : ""].join(" ")).includes(q))
+    .sort((a, b) => a.name.localeCompare(b.name, "he"));
+  $(c.count).textContent = `${rows.length} ${type === "venues" ? "מקומות" : "מנחים"}`;
+  $(c.list).innerHTML = rows.slice(0, 200).map((r) => `
+    <li class="row" data-id="${esc(r.id)}">
+      <button type="button" class="head" aria-expanded="false">
+        <span class="ttl">${esc(r.name)}<small>${esc(c.sub(r))}${r.aliases?.length ? " · גם: " + esc(r.aliases.join(", ")) : ""}</small></span>
+        <span class="badge">${c.uses(r.id)} אירועים</span>
+      </button>
+    </li>`).join("");
+}
+function placeForm(type, r) {
+  const c = CFG[type], isNew = !r.id, f = document.createElement("form");
+  f.className = "ed"; f.noValidate = true;
+  f.innerHTML = `
+    <label>שם<input name="name" value="${esc(r.name)}" required></label>
+    <label>סוג<select name="kind">${[opt("", "—", r.kind || "")].concat(c.kinds().map((k) => opt(k, k, r.kind))).join("")}</select></label>
+    <label class="full">כינויים / איותים נוספים (מופרדים בפסיק)<input name="aliases" value="${esc((r.aliases || []).join(", "))}"></label>
+    ${type === "venues" ? `
+      <label>עיר<select name="city_id">${[opt("", "—", r.city_id == null ? "" : String(r.city_id))].concat([...D.cities].sort((a, b) => a.name.localeCompare(b.name, "he")).map((x) => opt(String(x.id), x.name, String(r.city_id)))).join("")}</select></label>
+      <label>כתובת<input name="address" value="${esc(r.address)}"></label>` : `
+      <label>טלפון<input name="phone" value="${esc(r.phone)}" dir="ltr"></label>`}
+    <label>אתר<input name="url" value="${esc(r.url)}" dir="ltr"></label>
+    ${isNew ? "" : `<label class="full" style="flex-direction:row;align-items:center;gap:8px;font-weight:500;color:var(--ink)"><input type="checkbox" name="keep" checked> בשינוי שם: לשמור את השם הישן ככינוי (כדי שהבוט וההזנות יזהו אותו)</label>`}
+    <div class="full actions"><button class="btn ok" type="submit">${isNew ? "הוספה" : "שמירה"}</button><button class="link" type="button" data-cancel>סגירה</button></div>
+    <div class="full" data-msg role="status" aria-live="polite"></div>`;
+  f.addEventListener("click", (ev) => { if (ev.target.matches("[data-cancel]")) { f.closest("li")?.querySelector("button.head")?.setAttribute("aria-expanded", "false"); f.remove(); } });
+  f.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const fd = new FormData(f), patch = {};
+    for (const k of ["name", "kind", "aliases", "city_id", "address", "phone", "url"]) {
+      if (!fd.has(k)) continue;
+      let v = fd.get(k);
+      if (k === "aliases") v = String(v).split(",").map((s) => s.trim()).filter(Boolean);
+      const was = k === "aliases" ? r.aliases || [] : r[k] == null ? "" : String(r[k]);
+      if (isNew || JSON.stringify(v) !== JSON.stringify(was)) patch[k] = v;
+    }
+    const m = f.querySelector("[data-msg]");
+    if (!Object.keys(patch).length) { m.innerHTML = `<div class="msg warn">אין שינויים</div>`; return; }
+    try {
+      const { result } = await api(isNew ? c.create : c.save, isNew ? patch : { id: r.id, patch, keep_old_name: fd.get("keep") === "on" });
+      const i = D[type].findIndex((x) => x.id === result.id);
+      if (i >= 0) D[type][i] = result; else D[type].push(result);
+      if (type === "venues") D.venueById[result.id] = result; else D.hostById[result.id] = result;
+      renderPlaces(type); renderEvents();
+      toast(isNew ? `נוסף: ${result.name}` : `נשמר: ${result.name}`);
+    } catch (err) { m.innerHTML = `<div class="msg err">${esc(err.message)}</div>`; }
+  });
+  return f;
+}
+for (const type of ["venues", "hosts"]) {
+  const c = CFG[type];
+  $(c.q).addEventListener("input", () => renderPlaces(type));
+  $(c.list).addEventListener("click", (ev) => {
+    const head = ev.target.closest("button.head"); if (!head) return;
+    const li = head.closest("li"), had = li.querySelector("form");
+    document.querySelectorAll(`${c.list} form.ed`).forEach((x) => { x.closest("li").querySelector("button.head").setAttribute("aria-expanded", "false"); x.remove(); });
+    if (had) return;
+    li.appendChild(placeForm(type, D[type].find((x) => x.id === li.dataset.id)));
+    head.setAttribute("aria-expanded", "true"); li.querySelector("input[name=name]").focus();
+  });
+  document.querySelector(`[data-new=${type}]`).addEventListener("click", () => {
+    const list = $(c.list); list.querySelector("li.new")?.remove();
+    const li = document.createElement("li"); li.className = "row new";
+    li.appendChild(placeForm(type, { name: "", aliases: [] }));
+    list.prepend(li); li.querySelector("input[name=name]").focus();
+  });
+}
+
+// ---------- start
+PW = store.get(PW_KEY);
+if (PW) loadAll(); else showLogin();
+</script>
+</body>
+</html>
