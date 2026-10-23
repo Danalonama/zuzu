@@ -280,7 +280,9 @@ function upcomingMeetings(e, n = 16) {
   const P = (s) => { const [y, m, d] = s.split("-").map(Number); return new Date(Date.UTC(y, m - 1, d)); };
   const s = P(e.date_start), wk0 = new Date(s); wk0.setUTCDate(wk0.getUTCDate() - wk0.getUTCDay());
   const from = todayIso(), until = e.valid_until || null;
-  for (let d = new Date(s), i = 0; i < 800 && out.length < n; i++, d.setUTCDate(d.getUTCDate() + 1)) {
+  // Start at today (not at date_start), so a class that started years ago still shows its next meetings.
+  const first = from > e.date_start ? P(from) : s;
+  for (let d = first, i = 0; i < 800 && out.length < n; i++, d.setUTCDate(d.getUTCDate() + 1)) {
     const iso = d.toISOString().slice(0, 10);
     if (until && iso > until) break;
     if (iso < from || !wds.includes(d.getUTCDay())) continue;
@@ -394,7 +396,14 @@ function openEditor(li, focus) {
 
   const putEvent = (row) => { const i = D.events.findIndex((x) => x.id === row.id); if (i >= 0) D.events[i] = row; Object.assign(e, row); };
   async function exAction(action, args, okText) {
-    try { const { result } = await api(action, args); putEvent(result); drawExceptions(); msg("ok", okText); }
+    // Only the dates list is taken from the answer: the form's fields and version stay as they were opened,
+    // so a change someone else made meanwhile still triggers the 409 on save instead of being overwritten.
+    try {
+      const { result } = await api(action, args);
+      e.exceptions = result.exceptions;
+      const cur = D.events.find((x) => x.id === e.id); if (cur) cur.exceptions = result.exceptions;
+      drawExceptions(); msg("ok", okText);
+    }
     catch (err) { msg("err", err.message); }
   }
 

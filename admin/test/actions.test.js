@@ -98,3 +98,16 @@ test("password: compared whole, never open without one", () => {
   assert.equal(passwordOk("secret-secreT", "secret-secret"), false);
   assert.equal(passwordOk("secret-secret", "secret-secret"), true);
 });
+
+test("a hosts-only save bumps the version, so a second editor's stale save gets the 409", async () => {
+  const sb = world();
+  const e = await saveEvent(sb, await lookups(sb), { id: "e-jam", updated_at: T0, host_ids: ["h-maya"] });
+  assert.notEqual(e.updated_at, T0);
+  await assert.rejects(
+    saveEvent(sb, await lookups(sb), { id: "e-jam", updated_at: T0, host_ids: ["h-noam", "h-dani-a"] }),
+    (err) => err.status === 409 && err.current.host_ids.join() === "h-maya",
+  );
+  // Nothing changed → nothing written, version kept.
+  const same = await saveEvent(sb, await lookups(sb), { id: "e-jam", updated_at: e.updated_at, host_ids: ["h-maya"] });
+  assert.equal(same.updated_at, e.updated_at);
+});

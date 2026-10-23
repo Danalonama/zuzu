@@ -181,7 +181,14 @@ export async function saveEvent(sb, lk, { id, updated_at, patch = {}, host_ids }
   if (host_ids && host_ids.some((h) => !lk.hosts.some((x) => x.id === h))) errs.push("מנחה לא קיים");
   if (errs.length) throw new AdminError(uniq(errs).join(" · "));
 
-  if (Object.keys(clean).length) {
+  let add = [], drop = [];
+  if (host_ids) {
+    const want = uniq(host_ids);
+    const have = (await sb.get(`event_hosts?select=host_id&event_id=eq.${enc(id)}`)).map((h) => h.host_id);
+    add = want.filter((h) => !have.includes(h)); drop = have.filter((h) => !want.includes(h));
+  }
+  // A hosts-only change bumps updated_at too, so a second editor's stale save of the hosts gets the 409.
+  if (Object.keys(clean).length || add.length || drop.length) {
     const stamp = new Date().toISOString();
     let rows;
     try {
@@ -189,13 +196,8 @@ export async function saveEvent(sb, lk, { id, updated_at, patch = {}, host_ids }
     } catch (e) { throw dbError(e); }
     if (!rows.length) throw new AdminError("האירוע השתנה בדיוק עכשיו. הגרסה העדכנית נטענה — לשמור שוב.", 409, { current: await eventPayload(sb, id) });
   }
-  if (host_ids) {
-    const want = uniq(host_ids);
-    const have = (await sb.get(`event_hosts?select=host_id&event_id=eq.${enc(id)}`)).map((h) => h.host_id);
-    const add = want.filter((h) => !have.includes(h)), drop = have.filter((h) => !want.includes(h));
-    if (add.length) await sb.insert("event_hosts", add.map((host_id) => ({ event_id: id, host_id })), { returning: false });
-    for (const h of drop) await sb.del(`event_hosts?event_id=eq.${enc(id)}&host_id=eq.${enc(h)}`);
-  }
+  if (add.length) await sb.insert("event_hosts", add.map((host_id) => ({ event_id: id, host_id })), { returning: false });
+  for (const h of drop) await sb.del(`event_hosts?event_id=eq.${enc(id)}&host_id=eq.${enc(h)}`);
   return eventPayload(sb, id);
 }
 
