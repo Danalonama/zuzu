@@ -654,6 +654,55 @@
   footer{border-top:3px solid var(--ink)}
   footer .fmark{font-size:.85rem;letter-spacing:0;color:var(--ink)}
   footer .fmark:last-child{color:var(--muted)}
+
+  /* ---- closer to the mockup: wordmark, headline, ruled rows, quick style buttons, first-timers block ---- */
+  .topbar .tmark img,.topbar .tmark sup{display:none}
+  .topbar .tmark .kdot{color:var(--accent)}
+  .topbar .ttag{display:none}
+  .topbar .tright{gap:10px}
+  .topbar .quizlink{display:none}
+  .topbar .langlink{min-height:44px;padding:0 16px;border:2px solid var(--ink);border-radius:22px}
+  .kHero{padding-top:14px}
+  .kHead{font-family:var(--display);font-weight:700;font-size:clamp(5.4rem,24vw,9rem);line-height:.8;color:var(--ink)}
+  @media(min-width:721px){ .kHead br{display:none} }
+  .bar{margin-top:8px}
+
+  .quickRow{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:4px 2px 18px;margin:0 -2px}
+  .quickRow::-webkit-scrollbar{display:none}
+  .qpill{flex:none;min-height:44px;padding:0 16px;border-radius:22px;border:2px solid var(--ink);background:var(--bg);
+    color:var(--ink);font-family:inherit;font-weight:700;font-size:.95rem;cursor:pointer;white-space:nowrap}
+  .qpill:hover{background:#EFEDF2}
+  .qpill.on{background:var(--accent);color:#fff}
+  .qpill:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+  .tlTitle{font-size:clamp(3rem,10vw,4.4rem);color:var(--ink)}
+  .tlTitle .hot{color:var(--accent)}
+  .tlHero{border-bottom:3px solid var(--ink);padding-bottom:10px}
+
+  /* event rows: ruled lines instead of boxes, actions under the text (phone and desktop alike) */
+  #list,#dayDetail{gap:0}
+  .card{flex-wrap:wrap;border:none;border-bottom:1.5px solid var(--ink);border-radius:0;padding:18px 0;gap:10px 16px;background:transparent}
+  .card:hover{box-shadow:none}
+  body[data-cards] .card:hover{background:transparent}
+  .card .t{width:86px}
+  .card .main{flex:1 1 0}
+  .card .end{flex:1 1 100%;justify-content:flex-start;border-top:none;padding-top:4px;margin-top:0}
+  .card .more{flex:0 1 340px;justify-content:center}
+  @media(max-width:680px){ .card{padding:16px 0} .card .more{flex:1 1 auto} }
+  .card .cardlink::after{border-radius:0}
+  .zskel{border-radius:0;border:none;border-bottom:1.5px solid var(--hair);background:transparent;padding:18px 0;margin:0}
+
+  .kQuiz{margin:8px 0 0;padding:22px 20px;border-radius:22px;background:var(--cobalt);color:#fff;
+    display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+  .kQuiz h2{margin:0;font-family:var(--display);font-weight:700;font-size:2.8rem;line-height:.9}
+  .kQuiz p{margin:0;font-size:1rem;line-height:1.5}
+  .kQuiz a{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:24px;background:#fff;
+    color:var(--cobalt);font-weight:700;text-decoration:none}
+  .kQuiz a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+  .kAdd{display:flex;align-items:center;justify-content:center;width:100%;max-width:520px;min-height:52px;margin:22px auto 0;
+    border:none;border-radius:26px;background:var(--ink);color:var(--bg);font-family:inherit;font-weight:700;font-size:1rem;cursor:pointer}
+  .kAdd:hover{background:var(--accent)}
+  main{padding-bottom:28px}
 </style>
 </head>
 <body>
@@ -667,7 +716,7 @@
 <header class="wrap">
   <div class="topbar">
     <div class="tbrand">
-      <span class="tmark" id="homeLink" role="button" tabindex="0" aria-label="zuzu — חזרה לעמוד הבית" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">.zuzu<sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
+      <span class="tmark" id="homeLink" role="button" tabindex="0" aria-label="zuzu — חזרה לעמוד הבית" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none"><span class="kword" dir="ltr">zuzu<span class="kdot">.</span></span><sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
       <span class="ttag">איפה רוקדים היום?</span>
     </div>
     <div class="tright">
@@ -679,6 +728,7 @@
 
 </header>
 
+<div class="wrap kHero" aria-hidden="true"><div class="kHead">איפה<br> רוקדים<br> היום?</div></div>
 <div class="bar" role="region" aria-label="חיפוש וסינון">
   <div class="wrap">
     <div class="barRow">
@@ -727,6 +777,7 @@
 <div class="wrap">
   <main id="main" tabindex="-1">
     <h1 class="sr-only">zuzu — לוח אירועי תנועה וריקוד בישראל</h1>
+    <div class="quickRow" id="quickRow" role="group" aria-label="סוג תנועה" data-all="הכל"></div>
     <div id="tlHero" class="tlHero" aria-live="polite"></div>
     <div id="list" aria-busy="false"></div>
     <div id="calendar" style="display:none">
@@ -739,6 +790,8 @@
       <div class="dayDetail" id="dayDetail" aria-live="polite"></div>
     </div>
   </main>
+  <section class="kQuiz" aria-labelledby="kQuizT"><h2 id="kQuizT">פעם ראשונה?</h2><p>כמה שאלות קצרות, ונציע לכם מאיפה להתחיל.</p><a href="quiz.html">לשאלון</a></section>
+  <button type="button" class="kAdd" id="kAddBtn">+ הוסיפו אירוע</button>
 </div>
 
 <div id="addModal" class="modal" hidden>
@@ -1125,6 +1178,7 @@ function render(){
   document.querySelectorAll(".vt").forEach(b=>{ const on=b.dataset.view===state.view; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
   const lst=document.getElementById("list"); if(lst) lst.setAttribute("aria-busy",window.ZUZU_LOADING?"true":"false");
   cal?renderCalendar():renderTimeline();
+  try{ renderQuick(); }catch(_e){}   // MOVES is filled once the lookups load
   syncUrl();
 }
 
@@ -1375,7 +1429,20 @@ function updateFbCount(){
   el.textContent=n; el.hidden=(n===0);
   const sr=document.getElementById("fbCountSr"); if(sr) sr.textContent=n?`, ${n} סינונים פעילים`:"";
 }
-function refreshAll(){ renderChips(); updateFbCount(); if(sheetOpen) renderSheet(); }
+function refreshAll(){ renderChips(); updateFbCount(); if(sheetOpen) renderSheet(); renderQuick(); }
+/* quick movement-style buttons above the list (same filter as the sheet's "סוג תנועה") */
+function renderQuick(){
+  const row=document.getElementById("quickRow"); if(!row) return;
+  const moves=MOVES.filter(v=>moveCount(v)>0);
+  const btn=(v,label,on)=>`<button type="button" class="qpill${on?" on":""}" aria-pressed="${on}" data-v="${attrEsc(v)}">${label}</button>`;
+  row.innerHTML=btn("",row.dataset.all,state.cats.size===0)+moves.map(v=>btn(v,v,state.cats.has(v))).join("");
+  row.querySelectorAll(".qpill").forEach(b=>b.onclick=()=>{
+    const v=b.dataset.v;
+    if(!v) state.cats.clear(); else { state.cats.has(v)?state.cats.delete(v):state.cats.add(v); if(state.cats.has(v)) track("filter_movement",{value:v}); }
+    refreshAll(); render();
+    const again=row.querySelector(`.qpill[data-v="${CSS.escape(v)}"]`); if(again) again.focus();
+  });
+}
 function clearAll(){ state.when="all"; state.cats.clear(); state.fmts.clear(); state.regs.clear(); }
 
 function openSheet(){ sheetOpen=true; renderSheet(); sheet.classList.add("open");
@@ -1774,6 +1841,7 @@ loadEvents();
   function openContact(){cnForm.hidden=false;cnOk.hidden=true;cnForm.reset();cnM.hidden=false;zuzuA11y.trap(cnM.querySelector(".modal-card"));}
   function closeAll(){const wasOpen=!addM.hidden||!admM.hidden||!cnM.hidden;addM.hidden=true;admM.hidden=true;cnM.hidden=true;if(wasOpen)zuzuA11y.release();}
   document.getElementById("addEventLink").onclick=openAdd;
+  const kAdd=document.getElementById("kAddBtn"); if(kAdd) kAdd.onclick=openAdd;
   document.getElementById("contactLink").onclick=openContact;
   document.querySelectorAll("[data-close]").forEach(b=>b.onclick=closeAll);
   [addM,admM,cnM].forEach(m=>m.onclick=e=>{if(e.target===m)closeAll();});
