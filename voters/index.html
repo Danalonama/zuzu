@@ -85,6 +85,14 @@ section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inlin
   header{grid-template-columns:1fr}
   .grid{grid-template-columns:1fr}
   .day,.day:first-child{border-inline-start:1px solid var(--line)}
+  .slip{padding:10px 12px;gap:4px}
+  .slip.haspic{display:grid;grid-template-columns:88px minmax(0,1fr);column-gap:12px;align-items:start}
+  .slip.haspic .pic{grid-column:1;grid-row:1 / span 6;width:88px;height:88px;object-fit:cover;margin:0}
+  .slip.haspic > :not(.pic){grid-column:2}
+  .slip .n{font-size:17px}
+  .slip .s{font-size:14.5px}
+  .slip .t{font-size:13px}
+  .slip .v,.slip a{font-size:14px}
 }
 </style>
 
@@ -444,7 +452,7 @@ function slip(e){
   const tr=T[L], cc=CATS[e.c][1];
   const fl=e.f?`<span class="flag ${/FREE/.test(e.f)?"free":/LAST|RARE/.test(e.f)?"warn":""}">${esc(L==="he"&&FL[e.f]?FL[e.f]:e.f)}</span>`:"";
   const sub=pick(e.s), time=L==="he"&&TM[e.t]?TM[e.t]:e.t;
-  return `<div class="slip" style="--c:var(${cc})">
+  return `<div class="slip${e.img?" haspic":""}" style="--c:var(${cc})">
     ${e.img?`<img class="pic" src="${e.img}" alt="" loading="lazy">`:""}
     <span class="t">${esc(time)} · <span class="tag" style="color:var(${cc})">${pick(CATS[e.c][0])}</span></span>
     <span class="n" dir="auto">${esc(pick(e.n))}</span>
