@@ -35,7 +35,7 @@ html[lang="he"] [data-l="en"], html:not([lang="he"]) [data-l="he"]{display:none!
 .wrap{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
 a{color:var(--ballot)}
 a:focus-visible,button:focus-visible{outline:2px solid var(--ballot);outline-offset:2px}
-header{display:grid;grid-template-columns:1fr auto;gap:12px 24px;align-items:start}
+header{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
 .eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 h1{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,6vw,60px);line-height:1.05;margin:6px 0 0;text-wrap:balance}
 h1 .x{display:inline-block;border:3px solid var(--ballot);color:var(--ballot);padding:0 .18em;transform:rotate(-2deg);margin-inline:.1em}
@@ -82,7 +82,6 @@ section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inlin
 .notes li{margin-bottom:6px}
 .credit{border-top:1px solid var(--line);padding-top:10px;font-size:13px;color:var(--muted)}
 @media (max-width:900px){
-  header{grid-template-columns:1fr}
   .grid{grid-template-columns:1fr}
   .day,.day:first-child{border-inline-start:1px solid var(--line)}
   .slip{padding:10px 12px;gap:4px}
@@ -98,13 +97,13 @@ section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inlin
 
 <div class="wrap">
   <header>
-    <div>
-      <h1><span data-l="en">Election <span class="x">✕</span> Weeks</span><span data-l="he">שבועיים <span class="x">✕</span> בחירות</span></h1>
-      <p class="lede"><span data-l="en">Two weeks of things to do while you're home to vote. Pick what sounds good and tell me. Times are as listed by each venue on 24.10; check the link before you buy.</span><span data-l="he">שבועיים של דברים לעשות בזמן שאתם בארץ להצביע. תבחרו מה נשמע לכם ותגידו לי. השעות הן כפי שפורסמו אצל כל מקום ב־24.10, כדאי לבדוק בקישור לפני שקונים.</span></p>
-    </div>
     <div class="lang" role="group" aria-label="Language / שפה">
       <button type="button" id="l-en" data-set="en">English</button>
       <button type="button" id="l-he" data-set="he">עברית</button>
+    </div>
+    <div>
+      <h1><span data-l="en">Election <span class="x">✕</span> Weeks</span><span data-l="he">שבועיים <span class="x">✕</span> בחירות</span></h1>
+      <p class="lede"><span data-l="en">Two weeks of things to do while you're home to vote.</span><span data-l="he">שבועיים של דברים לעשות בזמן שאתם בארץ להצביע.</span></p>
     </div>
   </header>
 
@@ -422,19 +421,23 @@ function setLang(l){
 }
 document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>setLang(b.dataset.set));
 
+const allLabel=()=>L==="he"?"הכל":"All";
+const isAll=(set,obj)=>set.size===Object.keys(obj).length;
+const allChip=(attr,set,obj)=>`<button class="chip" type="button" id="${attr}-all" aria-pressed="${isAll(set,obj)}" data-${attr}="*">${allLabel()}</button>`;
+const pickSet=(set,obj,k)=>{const all=Object.keys(obj);if(k==="*")return new Set(all);if(isAll(set,obj))return new Set([k]);const n=new Set(set);n.has(k)?n.delete(k):n.add(k);return n.size?n:new Set(all)};
 const AREAS={tlv:["Tel Aviv-Yafo","תל אביב־יפו"],ph:["Pardes Hanna & Menashe","פרדס חנה ומנשה"],sharon:["Sharon","השרון"],jlm:["Jerusalem & hills","ירושלים והרים"],other:["Location on booking","מיקום בהזמנה"]};
 const AREA_OF={RAD:"tlv",MER:"tlv",ROM:"tlv",KULI:"tlv",DAV:"tlv",JAF:"tlv",EXPO:"tlv",GRAY:"tlv",PAC:"tlv",MUS:"tlv",CLOUD:"tlv",MAZE:"tlv",SUZ:"tlv",HAB:"tlv",UNI:"ph",PH:"ph",SHUK:"ph",MEN:"ph",SILO:"sharon",ALAYA:"sharon",DONE:"sharon",MIF:"jlm",VERT:"jlm"};
 const areaOf=e=>AREA_OF[e.v]||"other";
 let activeArea=new Set(Object.keys(AREAS));
 function renderAreas(){
   const f=document.getElementById("areas");
-  f.innerHTML=`<span class="eyebrow" style="align-self:center">${L==="he"?"אזור":"Area"}</span>`+Object.entries(AREAS).map(([k,l])=>`<button class="chip" id="a-${k}" type="button" aria-pressed="${activeArea.has(k)}" data-a="${k}">${pick(l)}</button>`).join("");
-  f.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{const k=b.dataset.a;activeArea.has(k)?activeArea.delete(k):activeArea.add(k);render()});
+  f.innerHTML=`<span class="eyebrow" style="align-self:center">${L==="he"?"אזור":"Area"}</span>`+allChip("a",activeArea,AREAS)+Object.entries(AREAS).map(([k,l])=>`<button class="chip" id="a-${k}" type="button" aria-pressed="${activeArea.has(k)}" data-a="${k}">${pick(l)}</button>`).join("");
+  f.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{activeArea=pickSet(activeArea,AREAS,b.dataset.a);render()});
 }
 function renderFilters(){
   const f=document.getElementById("filters");
-  f.innerHTML=Object.entries(CATS).map(([k,[l,c]])=>`<button class="chip" id="f-${k}" type="button" aria-pressed="${active.has(k)}" data-k="${k}" style="--c:var(${c})"><span class="dot"></span>${pick(l)}</button>`).join("");
-  f.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{const k=b.dataset.k;active.has(k)?active.delete(k):active.add(k);render()});
+  f.innerHTML=allChip("k",active,CATS)+Object.entries(CATS).map(([k,[l,c]])=>`<button class="chip" id="f-${k}" type="button" aria-pressed="${active.has(k)}" data-k="${k}" style="--c:var(${c})"><span class="dot"></span>${pick(l)}</button>`).join("");
+  f.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{active=pickSet(active,CATS,b.dataset.k);render()});
 }
 function slip(e){
   const tr=T[L], cc=CATS[e.c][1];
