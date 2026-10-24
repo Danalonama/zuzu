@@ -389,6 +389,8 @@ E.push({d:"2026-10-28",t:"21:00",n:["Rockfour host Knesiyat HaSechel","רוקפ�
 V.SHUK=["HaShuk HaYashan, HaOranim 12, Pardes Hanna-Karkur","השוק הישן, האורנים 12, פרדס חנה־כרכור"];
 E.push({d:"2026-10-27",t:"18:30",n:["TuesJazz – Musical Jazz, election day","TuesJazz – ג׳אז משפחות ביום הבחירות"],s:["Jazz standards born in Broadway musicals, with swing and improvisation. Alon Stern (bass, host), Rotem Yalin (drums), Sergei Niktyuk (piano). Fine for kids too","סטנדרטים שנולדו במחזות זמר, בעיבודים של סווינג ואלתור. אלון שטרן (בס ואירוח), רותם ילין (תופים), סרגיי ניקטיוק (פסנתר). מתאים גם לילדים"],v:"SHUK",c:"live",u:"",f:"FREE",k:false,img:"img/tuesjazz.jpg"});
 [["2026-10-31","19:00","MEN"],["2026-11-03","20:00","VERT"],["2026-11-05","20:30","SUZ"],["2026-11-06","14:00","SUZ"]].forEach(([d,t,v])=>E.push({d,t,n:MZ,s:MZS,v,c:"stage",u:MZU,f:"",k:false}));
+V.HEICHAL=["Heichal HaTarbut (Charles Bronfman Auditorium), TLV","היכל התרבות ע״ש צ׳רלס ברונפמן, ת״א"];
+["2026-11-02","2026-11-03","2026-11-04"].forEach(d=>E.push({d,t:"20:00",n:["HaKeves HaShisha Asar – and our songs too","הכבש השישה עשר ושירים שלנו גם"],s:["Final reunion tour: Yehudit Ravitz, Gidi Gov, Yoni Rechter and David Broza play the classic children's album plus their own hits, with Yehonatan Gefen's original texts in his voice","סיבוב האיחוד האחרון: יהודית רביץ, גידי גוב, יוני רכטר ודוד ברוזה בשירי האלבום ובלהיטים שלהם, עם הטקסטים של יהונתן גפן בקולו"],v:"HEICHAL",c:"live",u:"https://www.zappa-club.co.il/artist/%D7%94%D7%9B%D7%91%D7%A9%D7%94%D7%A9%D7%A9%D7%94%D7%A2%D7%A9%D7%A8%D7%95%D7%A9%D7%99%D7%A8%D7%99%D7%9D%D7%A9%D7%9C%D7%A0%D7%95%D7%92%D7%9D/",f:"",k:false}));
 const IMGS=[["2026-10-25","זה הזמן","now"],["2026-10-25","איך הדמוקרטיה","democracy"],["2026-10-25","נשים ששינו","aloni"],["2026-10-25","ארץ אוכלת","eretz"],["2026-10-25","6×6","sixsix"],["2026-10-25","דפנה והעוגיות","dafna"],["2026-10-25","Doron Shefer","shefer"],["2026-10-25","Tantra","yoga"],["2026-10-25","Movement","movement"],
 ["2026-10-26","היום שאחרי","dayafter"],["2026-10-26","WC","wc"],["2026-10-26","Doomsday","doomsday"],
 ["2026-10-27","Bring the Day","bringday"],["2026-10-27","הנוסטלגיה","nostalgia"],["2026-10-27","RE:SET","reset"],
@@ -426,7 +428,7 @@ const isAll=(set,obj)=>set.size===Object.keys(obj).length;
 const allChip=(attr,set,obj)=>`<button class="chip" type="button" id="${attr}-all" aria-pressed="${isAll(set,obj)}" data-${attr}="*">${allLabel()}</button>`;
 const pickSet=(set,obj,k)=>{const all=Object.keys(obj);if(k==="*")return new Set(all);if(isAll(set,obj))return new Set([k]);const n=new Set(set);n.has(k)?n.delete(k):n.add(k);return n.size?n:new Set(all)};
 const AREAS={tlv:["Tel Aviv-Yafo","תל אביב־יפו"],ph:["Pardes Hanna & Menashe","פרדס חנה ומנשה"],sharon:["Sharon","השרון"],jlm:["Jerusalem & hills","ירושלים והרים"],other:["Location on booking","מיקום בהזמנה"]};
-const AREA_OF={RAD:"tlv",MER:"tlv",ROM:"tlv",KULI:"tlv",DAV:"tlv",JAF:"tlv",EXPO:"tlv",GRAY:"tlv",PAC:"tlv",MUS:"tlv",CLOUD:"tlv",MAZE:"tlv",SUZ:"tlv",HAB:"tlv",UNI:"ph",PH:"ph",SHUK:"ph",MEN:"ph",SILO:"sharon",ALAYA:"sharon",DONE:"sharon",MIF:"jlm",VERT:"jlm"};
+const AREA_OF={RAD:"tlv",MER:"tlv",ROM:"tlv",KULI:"tlv",DAV:"tlv",JAF:"tlv",EXPO:"tlv",GRAY:"tlv",PAC:"tlv",MUS:"tlv",CLOUD:"tlv",MAZE:"tlv",SUZ:"tlv",HEICHAL:"tlv",HAB:"tlv",UNI:"ph",PH:"ph",SHUK:"ph",MEN:"ph",SILO:"sharon",ALAYA:"sharon",DONE:"sharon",MIF:"jlm",VERT:"jlm"};
 const areaOf=e=>AREA_OF[e.v]||"other";
 let activeArea=new Set(Object.keys(AREAS));
 function renderAreas(){
