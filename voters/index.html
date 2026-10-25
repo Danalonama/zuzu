@@ -93,6 +93,13 @@ h1 .x{display:inline-block;border:3px solid var(--ballot);color:var(--ballot);pa
 @media (max-width:599px){.promo img{aspect-ratio:3/2}}
 .cafes{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));border-top:1px solid var(--line);border-inline-start:1px solid var(--line)}
 .cafe{display:flex;flex-direction:column;gap:2px;padding:12px 16px;border-inline-end:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;min-width:0}
+.coffee-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);border-top:1px solid var(--line)}
+.coffee-pics{display:flex;flex-direction:column;min-width:0}
+.coffee-pics img{width:100%;flex:1 1 0;min-height:0;object-fit:cover;display:block;max-width:100%}
+.coffee-list{min-width:0;padding-bottom:12px}
+.cgroup h3{font-family:var(--f-mono);font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0;padding:14px 16px 8px}
+.coffee .cafes{border-top:1px solid var(--line);border-inline-start:1px solid var(--line)}
+@media (max-width:760px){.coffee-wrap{grid-template-columns:1fr}.coffee-pics img{aspect-ratio:3/2;flex:none}.coffee-pics img+img{display:none}}
 .cafecredit{margin:12px 16px 0;color:var(--muted);font-size:14px}
 .cafe b{font-size:15px}
 .cafe > span{font-size:13.5px;color:var(--muted)}
@@ -310,25 +317,65 @@ dialog.sdlg::backdrop{background:rgba(18,26,58,.45)}
     </div>
   </section>
 
-  <section class="band">
+  <section class="band coffee">
     <h2><span data-l="en">Coffee in Tel Aviv</span><span data-l="he">קפה בתל אביב</span></h2>
     <p><span data-l="en">Tap a café to open it in Google Maps.</span><span data-l="he">לחיצה על בית קפה פותחת אותו בגוגל מפות.</span></p>
-    <div class="cafes">
-      <a class="cafe" href="https://maps.app.goo.gl/zbCjFkcbhEwb1TX3A" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Tofin</span><span data-l="he">תופין</span></b><span><span data-l="en">Ahad Ha&#x27;Am 29</span><span data-l="he">אחד העם 29</span></span></a>
-      <a class="cafe" href="https://maps.app.goo.gl/sKpyRMUsrGhrSLiu8" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Apollo</span><span data-l="he">Apollo</span></b><span><span data-l="en">Lilienblum 3</span><span data-l="he">לילינבלום 3</span></span></a>
-      <a class="cafe" href="https://maps.app.goo.gl/DgBeh4e8UX6BVp3LA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Pensia</span><span data-l="he">פנסיה</span></b><span><span data-l="en">Levontin 2</span><span data-l="he">לבונטין 2</span></span></a>
-      <a class="cafe" href="https://maps.app.goo.gl/CosS1JhaHh9KhYDz5" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Alexander Bread &amp; Bakery</span><span data-l="he">Alexander Bread &amp; Bakery</span></b><span><span data-l="en">Lilienblum 18</span><span data-l="he">לילינבלום 18</span></span></a>
-      <a class="cafe" href="https://maps.app.goo.gl/rbrRcjHqrrEws9B66" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Ada Lewinsky Cafe</span><span data-l="he">Ada Lewinsky Cafe</span></b><span><span data-l="en">Zevulun 9</span><span data-l="he">זבולון 9</span></span></a>
-      <a class="cafe" href="https://maps.app.goo.gl/CryLEDgSHLv8Sz51A" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Fugazi</span><span data-l="he">Fugazi</span></b><span><span data-l="en">Nahalat Binyamin 12</span><span data-l="he">נחלת בנימין 12</span></span></a>
-      <a class="cafe" href="https://maps.app.goo.gl/6G3XtaZzs8EiE5ZHA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Nomena</span><span data-l="he">Nomena</span></b><span><span data-l="en">Allenby 54</span><span data-l="he">אלנבי 54</span></span></a>
-      <a class="cafe" href="https://maps.app.goo.gl/PWpDq6RoHMX1odHaA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Lev Cafe</span><span data-l="he">Lev Cafe</span></b><span><span data-l="en">Idelson 29</span><span data-l="he">אידלסון 29</span></span></a>
-      <a class="cafe" href="https://maps.app.goo.gl/dJscYAmK7RbxB7oi6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Pâte &amp; Puff</span><span data-l="he">Pâte &amp; Puff</span></b><span><span data-l="en">Masaryk Blvd 15</span><span data-l="he">שדרות מסריק 15</span></span></a>
-      <a class="cafe" href="https://maps.app.goo.gl/aPDjnkcheA6UQnKi7" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Nahat Coffee</span><span data-l="he">Nahat Coffee</span></b><span><span data-l="en">Dizengoff Square 10</span><span data-l="he">כיכר דיזנגוף 10</span></span></a>
-      <a class="cafe" href="https://maps.app.goo.gl/51Qgv3ii8U7WeqRv8" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Mela</span><span data-l="he">Mela</span></b><span><span data-l="en">Dizengoff 164</span><span data-l="he">דיזנגוף 164</span></span></a>
-      <a class="cafe" href="https://maps.app.goo.gl/DVkcdehkEmcbxyNQA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Chacho&#x27;s Cafe</span><span data-l="he">צ׳אצ׳וס</span></b><span><span data-l="en">Ge&#x27;ula 51</span><span data-l="he">גאולה 51</span></span></a>
-      <a class="cafe" href="https://maps.app.goo.gl/MKiSHLaFCwGyWqFo6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Amita Bakery</span><span data-l="he">Amita Bakery</span></b><span><span data-l="en">Shalma Rd 10, Jaffa</span><span data-l="he">דרך שלמה 10, יפו</span></span></a>
+    <div class="coffee-wrap">
+      <div class="coffee-pics"><img src="img/coffee1.jpg" alt=""><img src="img/coffee2.jpg" alt=""></div>
+      <div class="coffee-list">
+      <div class="cgroup">
+        <h3><span data-l="en">South: Lilienblum to Florentin</span><span data-l="he">דרום: מלילינבלום עד פלורנטין</span></h3>
+        <div class="cafes">
+          <a class="cafe" href="https://maps.app.goo.gl/zbCjFkcbhEwb1TX3A" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Tofin</span><span data-l="he">תופין</span></b><span><span data-l="en">Ahad Ha&#x27;Am 29</span><span data-l="he">אחד העם 29</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/tHd9jRmmqzMef1vb9" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Common People</span><span data-l="he">Common People</span></b><span><span data-l="en">Ahad Ha&#x27;Am 32</span><span data-l="he">אחד העם 32</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/sKpyRMUsrGhrSLiu8" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Apollo</span><span data-l="he">Apollo</span></b><span><span data-l="en">Lilienblum 3</span><span data-l="he">לילינבלום 3</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/CosS1JhaHh9KhYDz5" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Alexander Bread &amp; Bakery</span><span data-l="he">Alexander Bread &amp; Bakery</span></b><span><span data-l="en">Lilienblum 18</span><span data-l="he">לילינבלום 18</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/DgBeh4e8UX6BVp3LA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Pensia</span><span data-l="he">פנסיה</span></b><span><span data-l="en">Levontin 2</span><span data-l="he">לבונטין 2</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/rbrRcjHqrrEws9B66" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Ada Lewinsky Cafe</span><span data-l="he">Ada Lewinsky Cafe</span></b><span><span data-l="en">Zevulun 9</span><span data-l="he">זבולון 9</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/5MehnHeWJKA5BJEm8" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">p.o.c café</span><span data-l="he">p.o.c café</span></b><span><span data-l="en">Kfar Giladi 48</span><span data-l="he">כפר גלעדי 48</span></span></a>
+        </div>
+      </div>
+      <div class="cgroup">
+        <h3><span data-l="en">Center: Allenby, Sheinkin &amp; around</span><span data-l="he">מרכז: אלנבי, שינקין והסביבה</span></h3>
+        <div class="cafes">
+          <a class="cafe" href="https://maps.app.goo.gl/CryLEDgSHLv8Sz51A" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Fugazi</span><span data-l="he">Fugazi</span></b><span><span data-l="en">Nahalat Binyamin 12</span><span data-l="he">נחלת בנימין 12</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/yxThwF55J2XiVwDq6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">McLovin Cafe</span><span data-l="he">McLovin Cafe</span></b><span><span data-l="en">Sheinkin 11</span><span data-l="he">שינקין 11</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/6G3XtaZzs8EiE5ZHA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Nomena</span><span data-l="he">Nomena</span></b><span><span data-l="en">Allenby 54</span><span data-l="he">אלנבי 54</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/DVkcdehkEmcbxyNQA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Chacho&#x27;s Cafe Geula</span><span data-l="he">צ׳אצ׳וס גאולה</span></b><span><span data-l="en">Ge&#x27;ula 51</span><span data-l="he">גאולה 51</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/PWpDq6RoHMX1odHaA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Lev Cafe</span><span data-l="he">Lev Cafe</span></b><span><span data-l="en">Idelson 29</span><span data-l="he">אידלסון 29</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/EydQyFXV5pz4vB167" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">HOC – Trumpeldor</span><span data-l="he">HOC – טרומפלדור</span></b><span><span data-l="en">Trumpeldor 6</span><span data-l="he">טרומפלדור 6</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/gk6WQDBvLJtcyM8s7" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">HOC – House of Coffee</span><span data-l="he">HOC – House of Coffee</span></b><span><span data-l="en">HaTavor 2</span><span data-l="he">התבור 2</span></span></a>
+        </div>
+      </div>
+      <div class="cgroup">
+        <h3><span data-l="en">Ben Yehuda &amp; Gordon</span><span data-l="he">בן יהודה וגורדון</span></h3>
+        <div class="cafes">
+          <a class="cafe" href="https://maps.app.goo.gl/vpDE6VZpUSBLro2H6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">SUMR Cafe</span><span data-l="he">SUMR Cafe</span></b><span><span data-l="en">Ben Yehuda 70</span><span data-l="he">בן יהודה 70</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/PsosxsWetpivyiLc6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">CafeXoho</span><span data-l="he">CafeXoho</span></b><span><span data-l="en">Ben Yehuda 73</span><span data-l="he">בן יהודה 73</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/NY6WDSLRDWazueyPA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Chacho&#x27;s Cafe Gordon</span><span data-l="he">צ׳אצ׳וס גורדון</span></b><span><span data-l="en">Gordon 47</span><span data-l="he">גורדון 47</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/wu1Qbwi22WB2hLoU6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Kohi Coffee Shop</span><span data-l="he">Kohi Coffee Shop</span></b><span><span data-l="en">Ben Yehuda 155</span><span data-l="he">בן יהודה 155</span></span></a>
+        </div>
+      </div>
+      <div class="cgroup">
+        <h3><span data-l="en">Dizengoff &amp; north</span><span data-l="he">דיזנגוף וצפונה</span></h3>
+        <div class="cafes">
+          <a class="cafe" href="https://maps.app.goo.gl/dJscYAmK7RbxB7oi6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Pâte &amp; Puff</span><span data-l="he">Pâte &amp; Puff</span></b><span><span data-l="en">Masaryk Blvd 15</span><span data-l="he">שדרות מסריק 15</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/VWi47w7kpu2dtyjt8" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Cafelix Shlomo HaMelekh</span><span data-l="he">קפליקס שלמה המלך</span></b><span><span data-l="en">Shlomo HaMelekh 12</span><span data-l="he">שלמה המלך 12</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/aPDjnkcheA6UQnKi7" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Nahat Coffee</span><span data-l="he">Nahat Coffee</span></b><span><span data-l="en">Dizengoff Square 10</span><span data-l="he">כיכר דיזנגוף 10</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/51Qgv3ii8U7WeqRv8" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Mela</span><span data-l="he">Mela</span></b><span><span data-l="en">Dizengoff 164</span><span data-l="he">דיזנגוף 164</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/MDHnhoe8JMnE5prQ6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">ORIGEM Coffee</span><span data-l="he">ORIGEM Coffee</span></b><span><span data-l="en">Dizengoff 203</span><span data-l="he">דיזנגוף 203</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/djhKhPRPRw9xtGdu9" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">OTTOTO</span><span data-l="he">אוטוטו</span></b><span><span data-l="en">Gronemann 8, Ramat Aviv</span><span data-l="he">גרונימן 8, רמת אביב</span></span></a>
+        </div>
+      </div>
+      <div class="cgroup">
+        <h3><span data-l="en">Jaffa</span><span data-l="he">יפו</span></h3>
+        <div class="cafes">
+          <a class="cafe" href="https://maps.app.goo.gl/MKiSHLaFCwGyWqFo6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Amita Bakery</span><span data-l="he">Amita Bakery</span></b><span><span data-l="en">Shalma Rd 10</span><span data-l="he">דרך שלמה 10</span></span></a>
+        </div>
+      </div>
+        <p class="cafecredit"><span data-l="en">Recommended by <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">Inbal</a> (when are we meeting for coffee?)</span><span data-l="he">המלצות של <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">ענבל</a> (מתי נפגשות לקפה?)</span></p>
+      </div>
     </div>
-    <p class="cafecredit"><span data-l="en">Recommended by <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">Inbal</a> (when are we meeting for coffee?)</span><span data-l="he">המלצות של <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">ענבל</a> (מתי נפגשות לקפה?)</span></p>
   </section>
 
 
