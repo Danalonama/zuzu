@@ -123,6 +123,13 @@ section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inlin
 .smsg.ok{color:var(--c-film)} .smsg.err{color:var(--c-live)}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 @media (max-width:600px){.sform{grid-template-columns:1fr}}
+.toprow{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center}
+.addlink{font:700 14px var(--f-body);color:var(--ballot);background:none;border:0;padding:6px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+dialog.sdlg{border:0;padding:0;max-width:min(640px,calc(100vw - 32px));width:100%;background:var(--paper);color:var(--ink);box-shadow:0 20px 60px rgba(18,26,58,.35)}
+dialog.sdlg::backdrop{background:rgba(18,26,58,.45)}
+.sdlg .suggest{border-top:0;padding:22px 22px 24px;max-width:none}
+.sdlg h2{padding-inline-end:36px}
+.sclose{position:absolute;top:10px;inset-inline-end:10px;background:none;border:0;font-size:26px;line-height:1;color:var(--muted);cursor:pointer;padding:6px 10px}
 .credit{border-top:1px solid var(--line);padding-top:10px;font-size:13px;color:var(--muted)}
 @media (max-width:900px){
   .grid{grid-template-columns:1fr}
@@ -140,9 +147,12 @@ section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inlin
 
 <div class="wrap">
   <header>
-    <div class="lang" role="group" aria-label="Language / שפה">
-      <button type="button" id="l-en" data-set="en">English</button>
-      <button type="button" id="l-he" data-set="he">עברית</button>
+    <div class="toprow">
+      <div class="lang" role="group" aria-label="Language / שפה">
+        <button type="button" id="l-en" data-set="en">English</button>
+        <button type="button" id="l-he" data-set="he">עברית</button>
+      </div>
+      <button type="button" class="addlink" id="open-suggest"><span data-l="en">+ Add an event</span><span data-l="he">+ הוסיפו אירוע</span></button>
     </div>
     <div>
       <h1><span data-l="en">Election <span class="x">✕</span> Weeks</span><span data-l="he">שבועיים <span class="x">✕</span> בחירות</span></h1>
@@ -301,7 +311,7 @@ section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inlin
 
   <section class="band">
     <h2><span data-l="en">Coffee in Tel Aviv</span><span data-l="he">קפה בתל אביב</span></h2>
-    <p><span data-l="en">A friend's picks. Tap one to open it in Google Maps.</span><span data-l="he">ההמלצות של חברה. לחיצה פותחת בגוגל מפות.</span></p>
+    <p><span data-l="en">Recommendations by <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">Inbal Berkovitz</a>. Tap a café to open it in Google Maps.</span><span data-l="he">המלצות של <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">ענבל ברקוביץ</a>. לחיצה על בית קפה פותחת אותו בגוגל מפות.</span></p>
     <div class="cafes">
       <a class="cafe" href="https://maps.app.goo.gl/zbCjFkcbhEwb1TX3A" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Tofin</span><span data-l="he">תופין</span></b><span><span data-l="en">Ahad Ha&#x27;Am 29</span><span data-l="he">אחד העם 29</span></span></a>
       <a class="cafe" href="https://maps.app.goo.gl/sKpyRMUsrGhrSLiu8" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Apollo</span><span data-l="he">Apollo</span></b><span><span data-l="en">Lilienblum 3</span><span data-l="he">לילינבלום 3</span></span></a>
@@ -320,8 +330,10 @@ section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inlin
   </section>
 
 
-  <section class="suggest" id="suggest">
-    <h2><span data-l="en">Know something good? Add it</span><span data-l="he">מכירים משהו טוב? הוסיפו</span></h2>
+  <dialog class="sdlg" id="suggest" aria-labelledby="suggest-title">
+    <button type="button" class="sclose" id="close-suggest" aria-label="Close">×</button>
+  <section class="suggest">
+    <h2 id="suggest-title"><span data-l="en">Know something good? Add it</span><span data-l="he">מכירים משהו טוב? הוסיפו</span></h2>
     <p><span data-l="en">Send an event, a place or a day trip. Dana reads every suggestion and adds the ones that fit.</span><span data-l="he">שלחו אירוע, מקום או טיול. דנה קוראת כל הצעה ומוסיפה את מה שמתאים.</span></p>
     <form class="sform" id="sform" novalidate>
       <label class="wide" for="s-what"><span><span data-l="en">What is it?</span><span data-l="he">מה זה?</span> *</span><input id="s-what" name="what" required maxlength="200"></label>
@@ -337,6 +349,7 @@ section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inlin
       </div>
     </form>
   </section>
+  </dialog>
 
   <footer class="credit">
     <span data-l="en">Made by <a href="mailto:danalonama@gmail.com" title="danalonama@gmail.com">Dana</a> for my cool democratic friends :)</span>
@@ -602,6 +615,15 @@ setLang(L);
     }catch(_){say("err","err")}
     btn.disabled=false;
   });
+})();
+
+(function(){
+  const d=document.getElementById("suggest"); if(!d||!d.showModal) return;
+  const open=()=>{if(!d.open){d.showModal();setTimeout(()=>document.getElementById("s-what").focus(),30)}};
+  document.getElementById("open-suggest").onclick=open;
+  document.getElementById("close-suggest").onclick=()=>d.close();
+  d.addEventListener("click",e=>{if(e.target===d)d.close()});
+  if(location.hash==="#suggest") open();
 })();
 </script>
 
