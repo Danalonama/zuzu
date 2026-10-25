@@ -73,6 +73,7 @@ h1 .x{display:inline-block;border:3px solid var(--ballot);color:var(--ballot);pa
 .cols > .promo{padding:0;display:grid;grid-template-columns:1fr;background:var(--sheet);color:var(--ink);text-decoration:none;min-width:0}
 .promo img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;max-width:100%}
 .promo-body{display:flex;flex-direction:column;gap:5px;padding:14px 16px;min-width:0}
+.promo-q{font-family:var(--f-display);font-size:20px;line-height:1.2;color:var(--ink)}
 .promo-name{font-family:var(--f-display);font-size:26px;line-height:1.05}
 .promo-text{color:var(--muted);font-size:14px}
 .promo-cta{margin-top:auto;padding-top:8px;font-weight:700;color:var(--ballot);font-size:14px}
@@ -159,7 +160,7 @@ section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inlin
       <a class="promo" href="https://zuzu.today" target="_blank" rel="noopener">
         <img src="img/promo-zuzu.jpg" alt="">
         <span class="promo-body">
-        <span class="meta"><span data-l="en">Want to move or dance?</span><span data-l="he">בא לכם לזוז או לרקוד?</span></span>
+        <span class="promo-q"><span data-l="en">Want to dance or move?</span><span data-l="he">בא לכם לרקוד או לזוז?</span></span>
         <span class="promo-name">zuzu.today</span>
         <span class="promo-text"><span data-l="en">A calendar of movement events across Israel: ecstatic dance, contact improv, Gaga, Nia, biodanza and more.</span><span data-l="he">לו״ז של אירועי תנועה בכל הארץ: אקסטטיק דאנס, קונטקט אימפרוביזציה, גאגא, ניה, ביודנסה ועוד.</span></span>
         <span class="promo-cta"><span data-l="en">Find a class or a dance ↗</span><span data-l="he">למצוא שיעור או מסיבה ↗</span></span>
@@ -168,7 +169,7 @@ section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inlin
       <a class="promo" href="https://mode-il.com" target="_blank" rel="noopener">
         <img src="img/promo-modeil.jpg" alt="">
         <span class="promo-body">
-        <span class="meta"><span data-l="en">Shopping local</span><span data-l="he">קניות מקומיות</span></span>
+        <span class="promo-q"><span data-l="en">Want to shop local fashion?</span><span data-l="he">בא לכם לקנות אופנה מקומית?</span></span>
         <span class="promo-name">mode-il.com</span>
         <span class="promo-text"><span data-l="en">A curated guide to Israeli independent fashion designers. Find a label you like, then visit the studio or shop.</span><span data-l="he">מדריך אוצרותי למעצבי אופנה ישראלים עצמאיים. מוצאים מותג שאוהבים וקופצים לסטודיו או לחנות.</span></span>
         <span class="promo-cta"><span data-l="en">Browse designers ↗</span><span data-l="he">לגלות מעצבים ↗</span></span>
@@ -464,7 +465,7 @@ const allLabel=()=>L==="he"?"הכל":"All";
 const isAll=(set,obj)=>set.size===Object.keys(obj).length;
 const allChip=(attr,set,obj)=>`<button class="chip" type="button" id="${attr}-all" aria-pressed="${isAll(set,obj)}" data-${attr}="*">${allLabel()}</button>`;
 const pickSet=(set,obj,k)=>{const all=Object.keys(obj);if(k==="*")return new Set(all);if(isAll(set,obj))return new Set([k]);const n=new Set(set);n.has(k)?n.delete(k):n.add(k);return n.size?n:new Set(all)};
-const AREAS={tlv:["Tel Aviv-Yafo","תל אביב־יפו"],ph:["Pardes Hanna & Menashe","פרדס חנה ומנשה"],sharon:["Sharon","השרון"],jlm:["Jerusalem & hills","ירושלים והרים"],other:["Location on booking","מיקום בהזמנה"]};
+const AREAS={tlv:["Tel Aviv-Yafo","תל אביב־יפו"],ph:["Pardes Hanna & Menashe","פרדס חנה ומנשה"],sharon:["Sharon","השרון"],jlm:["Jerusalem & hills","ירושלים והרים"]};
 const AREA_OF={RAD:"tlv",MER:"tlv",ROM:"tlv",KULI:"tlv",DAV:"tlv",JAF:"tlv",EXPO:"tlv",GRAY:"tlv",PAC:"tlv",MUS:"tlv",CLOUD:"tlv",MAZE:"tlv",HASIMTA:"tlv",YEFET:"tlv",GELLER:"tlv",ALMINA:"tlv",TZAVTA:"tlv",SUZ:"tlv",HEICHAL:"tlv",HAB:"tlv",UNI:"ph",PH:"ph",SHUK:"ph",MEN:"ph",SILO:"sharon",ALAYA:"sharon",DONE:"sharon",MIF:"jlm",VERT:"jlm"};
 const areaOf=e=>AREA_OF[e.v]||"other";
 let activeArea=new Set(Object.keys(AREAS));
@@ -499,7 +500,7 @@ function render(){
     for(let i=0;i<7;i++){
       const dt=new Date(start);dt.setDate(start.getDate()+w*7+i);
       const iso=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,"0")}-${String(dt.getDate()).padStart(2,"0")}`;
-      const ev=E.filter(e=>e.d===iso&&active.has(e.c)&&activeArea.has(areaOf(e))).sort((x,y)=>tk(x.t)-tk(y.t)), vote=iso==="2026-10-27";
+      const ev=E.filter(e=>e.d===iso&&active.has(e.c)&&(AREAS[areaOf(e)]?activeArea.has(areaOf(e)):isAll(activeArea,AREAS))).sort((x,y)=>tk(x.t)-tk(y.t)), vote=iso==="2026-10-27";
       h+=`<div class="day${vote?" vote":""}"><div class="dh"><b>${dt.getDate()}.${dt.getMonth()+1}</b><span>${tr.days[i]}</span></div>
         ${vote?`<span class="tag">${tr.vote}</span>`:""}
         ${ev.length?ev.map(slip).join(""):`<span class="empty">${tr.empty}</span>`}</div>`;
