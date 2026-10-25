@@ -13,7 +13,7 @@
 :root{
   --paper:#F5F6FA; --sheet:#FFFFFF; --ink:#121A3A; --muted:#5A6283; --line:#DCE0EC;
   --ballot:#2747B8; --ballot-soft:#E6EBFA; --marker:#F4D348; --marker-ink:#3A2F00;
-  --c-talk:#2747B8; --c-live:#B5365B; --c-party:#7A3FC2; --c-film:#1E7A6B; --c-spirit:#B86A12; --c-game:#4B5563; --c-tour:#6B7A1C; --c-stage:#9C3D1E;
+  --c-talk:#2747B8; --c-live:#B5365B; --c-party:#7A3FC2; --c-film:#1E7A6B; --c-spirit:#B86A12; --c-game:#4B5563; --c-tour:#6B7A1C; --c-stage:#9C3D1E; --c-market:#0F7C8C;
   --f-display:"Secular One","Assistant",system-ui,sans-serif;
   --f-body:"Assistant",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"IBM Plex Mono","Assistant",ui-monospace,Menlo,monospace;
@@ -21,12 +21,12 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --paper:#0E1226; --sheet:#161B33; --ink:#E8EBF7; --muted:#9AA2C3; --line:#2A3152;
   --ballot:#8FA6FF; --ballot-soft:#1E2752; --marker:#E9C93A; --marker-ink:#2B2300;
-  --c-talk:#8FA6FF; --c-live:#F08AA8; --c-party:#C3A0FF; --c-film:#6FD3BE; --c-spirit:#F2B45E; --c-game:#AEB4C4; --c-tour:#C7D66A; --c-stage:#F29A76;
+  --c-talk:#8FA6FF; --c-live:#F08AA8; --c-party:#C3A0FF; --c-film:#6FD3BE; --c-spirit:#F2B45E; --c-game:#AEB4C4; --c-tour:#C7D66A; --c-stage:#F29A76; --c-market:#5FD0DE;
   color-scheme:dark}}
 :root[data-theme="dark"]{
   --paper:#0E1226; --sheet:#161B33; --ink:#E8EBF7; --muted:#9AA2C3; --line:#2A3152;
   --ballot:#8FA6FF; --ballot-soft:#1E2752; --marker:#E9C93A; --marker-ink:#2B2300;
-  --c-talk:#8FA6FF; --c-live:#F08AA8; --c-party:#C3A0FF; --c-film:#6FD3BE; --c-spirit:#F2B45E; --c-game:#AEB4C4; --c-tour:#C7D66A; --c-stage:#F29A76;
+  --c-talk:#8FA6FF; --c-live:#F08AA8; --c-party:#C3A0FF; --c-film:#6FD3BE; --c-spirit:#F2B45E; --c-game:#AEB4C4; --c-tour:#C7D66A; --c-stage:#F29A76; --c-market:#5FD0DE;
   color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;
@@ -214,7 +214,7 @@ section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inlin
       <div>
         <span class="meta"><span data-l="en">Hippy &amp; cool · not Shabbat</span><span data-l="he">היפי וקול · לא בשבת</span></span>
         <h3><span data-l="en">Pardes Hanna – Urvot HaAmanim</span><span data-l="he">פרדס חנה – אורוות האמנים</span></h3>
-        <p><span data-l="en">Old stables turned into shops, galleries, studios, cafés and bars. Shops: Sun–Thu 10:00–18:00, Fri 9:00–15:00. Food and bars: Sun–Fri 10:00–23:00. Closed Shabbat; some shops close Sun or Mon. The Unicorn is in the same compound, so a weekday afternoon can roll into Unicorn Dance on Thu 29.10. Add Shuzi Market if it's on. Best on 29–31.10, when the free Derech HaNadiv festival fills the town.</span><span data-l="he">אורוות ישנות שהפכו לחנויות, גלריות, סטודיו, בתי קפה וברים. חנויות: א׳–ה׳ 10:00–18:00, ו׳ 9:00–15:00. אוכל וברים: א׳–ו׳ 10:00–23:00. סגור בשבת, וחלק מהחנויות סגורות בא׳ או ב׳. היוניקורן באותו מתחם, אז אחר צהריים של יום חול יכול להתגלגל ל־Unicorn Dance בה׳ 29.10. ואם יש שוק שוזי באותו יום, עוד יותר טוב. הכי שווה ב־29–31.10, כשפסטיבל דרך הנדיב (בחינם) ממלא את המושבה.</span></p>
+        <p><span data-l="en">Old stables turned into shops, galleries, studios, cafés and bars. Shops: Sun–Thu 10:00–18:00, Fri 9:00–15:00. Food and bars: Sun–Fri 10:00–23:00. Closed Shabbat; some shops close Sun or Mon. The Unicorn is in the same compound, so a weekday afternoon can roll into Unicorn Dance on Thu 29.10. Shuzi's election-day market is here on Tue 27.10. Best on 29–31.10, when the free Derech HaNadiv festival fills the town.</span><span data-l="he">אורוות ישנות שהפכו לחנויות, גלריות, סטודיו, בתי קפה וברים. חנויות: א׳–ה׳ 10:00–18:00, ו׳ 9:00–15:00. אוכל וברים: א׳–ו׳ 10:00–23:00. סגור בשבת, וחלק מהחנויות סגורות בא׳ או ב׳. היוניקורן באותו מתחם, אז אחר צהריים של יום חול יכול להתגלגל ל־Unicorn Dance בה׳ 29.10. בג׳ 27.10 יש כאן את שוק הבחירות של שוזי. הכי שווה ב־29–31.10, כשפסטיבל דרך הנדיב (בחינם) ממלא את המושבה.</span></p>
         <a href="https://urvothamanim.co.il/">urvothamanim.co.il</a> <a href="https://www.instagram.com/shuzi.market/"><span data-l="en">Shuzi Market</span><span data-l="he">שוק שוזי</span></a>
       </div>
       <div>
@@ -279,8 +279,8 @@ const T={
   en:{week:"Week",vote:"Election day · public holiday",empty:"Nothing listed. Day-trip day?",loc:"Location on booking",stand:"Lots of standing / walking",details:"Details ↗",days:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]},
   he:{week:"שבוע",vote:"יום הבחירות · שבתון",empty:"אין אירועים. יום טיול?",loc:"מיקום בהזמנה",stand:"הרבה עמידה / הליכה",details:"פרטים ↗",days:["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","ש׳"]}
 };
-const CATS={talk:[["Talks & ideas","הרצאות ורעיונות"],"--c-talk"],live:[["Live music","מוזיקה חיה"],"--c-live"],party:[["Party","מסיבות"],"--c-party"],film:[["Film","קולנוע"],"--c-film"],spirit:[["Body & spirit","גוף ונפש"],"--c-spirit"],game:[["Game","משחק"],"--c-game"],tour:[["Tours","סיורים"],"--c-tour"],stage:[["Theatre & dance","תיאטרון ומחול"],"--c-stage"]};
-const FL={"FREE":"חינם","FREE · REGISTER":"חינם · בהרשמה","FREE TILL 23:00":"חינם עד 23:00","LAST TICKETS":"כרטיסים אחרונים","RARE REUNION":"איחוד נדיר","RARE SHOW":"הופעה נדירה","Festival day ₪100":"יום פסטיבל ₪100","Day pass ₪100":"כרטיס יומי ₪100"};
+const CATS={talk:[["Talks & ideas","הרצאות ורעיונות"],"--c-talk"],live:[["Live music","מוזיקה חיה"],"--c-live"],party:[["Party","מסיבות"],"--c-party"],film:[["Film","קולנוע"],"--c-film"],spirit:[["Body & spirit","גוף ונפש"],"--c-spirit"],game:[["Game","משחק"],"--c-game"],tour:[["Tours","סיורים"],"--c-tour"],stage:[["Theatre & dance","תיאטרון ומחול"],"--c-stage"],market:[["Markets","שווקים"],"--c-market"]};
+const FL={"FREE":"חינם","FREE · REGISTER":"חינם · בהרשמה","FREE TILL 23:00":"חינם עד 23:00","LAST TICKETS":"כרטיסים אחרונים","RARE REUNION":"איחוד נדיר","RARE SHOW":"הופעה נדירה","Festival day ₪100":"יום פסטיבל ₪100","Day pass ₪100":"כרטיס יומי ₪100","₪85 · ADVANCE ONLY":"₪85 · בהזמנה מראש בלבד","SOLD OUT":"אזל"};
 const TM={"Noon":"צהריים","Motzash":"מוצ״ש","All day":"כל היום","Afternoon":"צהריים"};
 const V={
   RAD:["Beit Radical, HaTkhiya × Herzl, TLV","בית רדיקל, התחייה פינת הרצל, ת״א"],
@@ -414,6 +414,20 @@ E.push({d:"2026-10-27",t:"18:30",n:["TuesJazz – Musical Jazz, election day","T
 [["2026-10-31","19:00","MEN"],["2026-11-03","20:00","VERT"],["2026-11-05","20:30","SUZ"],["2026-11-06","14:00","SUZ"]].forEach(([d,t,v])=>E.push({d,t,n:MZ,s:MZS,v,c:"stage",u:MZU,f:"",k:false}));
 V.HEICHAL=["Heichal HaTarbut (Charles Bronfman Auditorium), TLV","היכל התרבות ע״ש צ׳רלס ברונפמן, ת״א"];
 ["2026-11-02","2026-11-03","2026-11-04"].forEach(d=>E.push({d,t:"20:00",n:["HaKeves HaShisha Asar – and our songs too","הכבש השישה עשר ושירים שלנו גם"],s:["Final reunion tour: Yehudit Ravitz, Gidi Gov, Yoni Rechter and David Broza play the classic children's album plus their own hits, with Yehonatan Gefen's original texts in his voice","סיבוב האיחוד האחרון: יהודית רביץ, גידי גוב, יוני רכטר ודוד ברוזה בשירי האלבום ובלהיטים שלהם, עם הטקסטים של יהונתן גפן בקולו"],v:"HEICHAL",c:"live",u:"https://www.zappa-club.co.il/artist/%D7%94%D7%9B%D7%91%D7%A9%D7%94%D7%A9%D7%A9%D7%94%D7%A2%D7%A9%D7%A8%D7%95%D7%A9%D7%99%D7%A8%D7%99%D7%9D%D7%A9%D7%9C%D7%A0%D7%95%D7%92%D7%9D/",f:"",k:false}));
+V.TZAVTA=["Tzavta, Ibn Gabirol 30, TLV","צוותא, אבן גבירול 30, ת״א"];
+["20:00","21:30"].forEach((t,i)=>E.push({d:"2026-10-25",t,n:["Moadon Ktav 66 – election edition","מועדון כתב 66 – מהדורת בחירות"],s:["Literary face-offs: Hagar Ben Asher vs Shira Florentin (country or city), Rotem Kaplinsky vs Avraham Shalom Levi (disconnect or connect), Yael Golan vs Omri Laron (original or translation). "+(i?"Second show, doors 21:15":"First show, doors 19:30"),"עימותים ספרותיים: הגר בן אשר מול שירה פלורנטין (ארץ או עיר), רותם קפלינסקי מול אברהם שלום לוי (להתנתק או להתחבר), יעל גולן מול עמרי לרון (מקור או תרגום). "+(i?"מופע שני, דלתות 21:15":"מופע ראשון, דלתות 19:30")],v:"TZAVTA",c:"talk",u:"https://neve-schechter.org.il/product/moadon-66/",f:"₪85 · ADVANCE ONLY",k:false,img:"img/ktav66.jpg"}));
+E.push({d:"2026-10-27",t:"09:00–16:00",n:["Shuzi Market – vote & come","שוק שוזי – מצביעים ומגיעים"],s:["Election-day market at the Old Market: blue-and-white designers and makers – clothes, jewelry, swimwear, art, bags, ceramics, natural cosmetics – plus coffee, food, drinks and music","שוק יום הבחירות בשוק הישן: מעצבים ויוצרים כחול לבן – בגדים, תכשיטים, בגדי ים, אמנות, תיקים, קרמיקה, רוקחות טבעית – וקפה, אוכל, דרינקים ומוזיקה"],v:"SHUK",c:"market",u:"https://www.instagram.com/p/De4yrC4CKEq/",f:"",k:true,img:"img/shuzi.jpg"});
+V.HASIMTA=["Around Old Jaffa (Hasimta)","ברחבי יפו העתיקה (הסימטה)"];V.YEFET=["Yefet 27, Jaffa","יפת 27, יפו"];V.GELLER=["Uri Geller Museum, Jaffa","מוזיאון אורי גלר, יפו"];V.ALMINA=["Almina Theatre, Jaffa","תיאטרון אלמינה, יפו"];
+{const H="https://hasimta.com/";
+const J=[["Journeys in Hasimta – route A","מסעות בסימטה – נתיב א׳"],["Short works in different spaces around Old Jaffa: Inas Osrof Abu Saif, Ariel Alili Brown, Alita Weinstock, Hila Gloskinos","עבודות קצרות בחללים שונים ברחבי יפו העתיקה: אינאס אוסרוף אבו סייף, אריאל אלילי בראון, עליטה ווינטור, הילה גלוסקינוס"]];
+const K=[["Journeys in Hasimta – route B","מסעות בסימטה – נתיב ב׳"],["Short works in different spaces around Old Jaffa: Avigail Roz, Asirmasi, Mila Levi, Shahar Netz","עבודות קצרות בחללים שונים ברחבי יפו העתיקה: אביגיל רוז, אסירמסי, מילה לוי, שחר נץ"]];
+const add=(d,t,n,s,v,c,f,k)=>E.push({d,t,n,s,v,c,u:H,f:f||"",k:!!k});
+["2026-11-05","2026-11-07"].forEach(d=>{add(d,"—",J[0],J[1],"HASIMTA","stage","",1);add(d,"—",K[0],K[1],"HASIMTA","stage","",1)});
+add("2026-11-05","21:00 / 22:00",["Hasimta music night – Nicotine, Efrat Ben Tzur","ערב מוזיקה בסימטה – ניקוטין, אפרת בן צור"],["Nicotine at 21:00, Efrat Ben Tzur at 22:00","ניקוטין ב־21:00, אפרת בן צור ב־22:00"],"YEFET","live");
+add("2026-11-06","21:00 / 22:00",["Hasimta music night – Peleg, Vitarti","ערב מוזיקה בסימטה – פלג, ויתרתי"],["Peleg at 21:00, Vitarti at 22:00","פלג ב־21:00, ויתרתי ב־22:00"],"YEFET","live");
+add("2026-11-05","—","XPIRIT",["Séance show by Uri Geller and Richard Bromberg","מופע סיאנס של אורי גלר ורישרד ברומברג"],"GELLER","stage");
+add("2026-11-06","—",["Hasimta guest shows – Ariel Cohen, Orin Michaeli, Yael Mor","הצגות אורחות בסימטה – אריאל כהן, אוריין מיכאלי, יעל מור"],["Three guest performances","שלוש הצגות אורחות"],"ALMINA","stage");
+add("2026-11-07","—",["Ilan Peled & Yael Poliakov + Jaffa hafla","אילן פלד ויעל פוליאקוב + חפלה יפואית"],["",""],"YEFET","live","SOLD OUT");}
 const IMGS=[["2026-10-25","זה הזמן","now"],["2026-10-25","איך הדמוקרטיה","democracy"],["2026-10-25","נשים ששינו","aloni"],["2026-10-25","ארץ אוכלת","eretz"],["2026-10-25","6×6","sixsix"],["2026-10-25","דפנה והעוגיות","dafna"],["2026-10-25","Doron Shefer","shefer"],["2026-10-25","Tantra","yoga"],["2026-10-25","Movement","movement"],
 ["2026-10-26","היום שאחרי","dayafter"],["2026-10-26","WC","wc"],["2026-10-26","Doomsday","doomsday"],
 ["2026-10-27","Bring the Day","bringday"],["2026-10-27","הנוסטלגיה","nostalgia"],["2026-10-27","RE:SET","reset"],
@@ -451,7 +465,7 @@ const isAll=(set,obj)=>set.size===Object.keys(obj).length;
 const allChip=(attr,set,obj)=>`<button class="chip" type="button" id="${attr}-all" aria-pressed="${isAll(set,obj)}" data-${attr}="*">${allLabel()}</button>`;
 const pickSet=(set,obj,k)=>{const all=Object.keys(obj);if(k==="*")return new Set(all);if(isAll(set,obj))return new Set([k]);const n=new Set(set);n.has(k)?n.delete(k):n.add(k);return n.size?n:new Set(all)};
 const AREAS={tlv:["Tel Aviv-Yafo","תל אביב־יפו"],ph:["Pardes Hanna & Menashe","פרדס חנה ומנשה"],sharon:["Sharon","השרון"],jlm:["Jerusalem & hills","ירושלים והרים"],other:["Location on booking","מיקום בהזמנה"]};
-const AREA_OF={RAD:"tlv",MER:"tlv",ROM:"tlv",KULI:"tlv",DAV:"tlv",JAF:"tlv",EXPO:"tlv",GRAY:"tlv",PAC:"tlv",MUS:"tlv",CLOUD:"tlv",MAZE:"tlv",SUZ:"tlv",HEICHAL:"tlv",HAB:"tlv",UNI:"ph",PH:"ph",SHUK:"ph",MEN:"ph",SILO:"sharon",ALAYA:"sharon",DONE:"sharon",MIF:"jlm",VERT:"jlm"};
+const AREA_OF={RAD:"tlv",MER:"tlv",ROM:"tlv",KULI:"tlv",DAV:"tlv",JAF:"tlv",EXPO:"tlv",GRAY:"tlv",PAC:"tlv",MUS:"tlv",CLOUD:"tlv",MAZE:"tlv",HASIMTA:"tlv",YEFET:"tlv",GELLER:"tlv",ALMINA:"tlv",TZAVTA:"tlv",SUZ:"tlv",HEICHAL:"tlv",HAB:"tlv",UNI:"ph",PH:"ph",SHUK:"ph",MEN:"ph",SILO:"sharon",ALAYA:"sharon",DONE:"sharon",MIF:"jlm",VERT:"jlm"};
 const areaOf=e=>AREA_OF[e.v]||"other";
 let activeArea=new Set(Object.keys(AREAS));
 function renderAreas(){
@@ -466,7 +480,7 @@ function renderFilters(){
 }
 function slip(e){
   const tr=T[L], cc=CATS[e.c][1];
-  const fl=e.f?`<span class="flag ${/FREE/.test(e.f)?"free":/LAST|RARE/.test(e.f)?"warn":""}">${esc(L==="he"&&FL[e.f]?FL[e.f]:e.f)}</span>`:"";
+  const fl=e.f?`<span class="flag ${/FREE/.test(e.f)?"free":/LAST|RARE|SOLD/.test(e.f)?"warn":""}">${esc(L==="he"&&FL[e.f]?FL[e.f]:e.f)}</span>`:"";
   const sub=pick(e.s), time=L==="he"&&TM[e.t]?TM[e.t]:e.t;
   return `<div class="slip${e.img?" haspic":""}" style="--c:var(${cc})">
     ${e.img?`<img class="pic" src="${e.img}" alt="" loading="lazy">`:""}
