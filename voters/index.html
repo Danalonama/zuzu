@@ -93,6 +93,7 @@ h1 .x{display:inline-block;border:3px solid var(--ballot);color:var(--ballot);pa
 @media (max-width:599px){.promo img{aspect-ratio:3/2}}
 .cafes{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));border-top:1px solid var(--line);border-inline-start:1px solid var(--line)}
 .cafe{display:flex;flex-direction:column;gap:2px;padding:12px 16px;border-inline-end:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;min-width:0}
+.cafecredit{margin:12px 16px 0;color:var(--muted);font-size:14px}
 .cafe b{font-size:15px}
 .cafe > span{font-size:13.5px;color:var(--muted)}
 .cafe:hover b,.cafe:focus-visible b{text-decoration:underline;color:var(--ballot)}
@@ -311,7 +312,7 @@ dialog.sdlg::backdrop{background:rgba(18,26,58,.45)}
 
   <section class="band">
     <h2><span data-l="en">Coffee in Tel Aviv</span><span data-l="he">קפה בתל אביב</span></h2>
-    <p><span data-l="en">Recommendations by <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">Inbal Berkovitz</a>. Tap a café to open it in Google Maps.</span><span data-l="he">המלצות של <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">ענבל ברקוביץ</a>. לחיצה על בית קפה פותחת אותו בגוגל מפות.</span></p>
+    <p><span data-l="en">Tap a café to open it in Google Maps.</span><span data-l="he">לחיצה על בית קפה פותחת אותו בגוגל מפות.</span></p>
     <div class="cafes">
       <a class="cafe" href="https://maps.app.goo.gl/zbCjFkcbhEwb1TX3A" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Tofin</span><span data-l="he">תופין</span></b><span><span data-l="en">Ahad Ha&#x27;Am 29</span><span data-l="he">אחד העם 29</span></span></a>
       <a class="cafe" href="https://maps.app.goo.gl/sKpyRMUsrGhrSLiu8" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Apollo</span><span data-l="he">Apollo</span></b><span><span data-l="en">Lilienblum 3</span><span data-l="he">לילינבלום 3</span></span></a>
@@ -327,6 +328,7 @@ dialog.sdlg::backdrop{background:rgba(18,26,58,.45)}
       <a class="cafe" href="https://maps.app.goo.gl/DVkcdehkEmcbxyNQA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Chacho&#x27;s Cafe</span><span data-l="he">צ׳אצ׳וס</span></b><span><span data-l="en">Ge&#x27;ula 51</span><span data-l="he">גאולה 51</span></span></a>
       <a class="cafe" href="https://maps.app.goo.gl/MKiSHLaFCwGyWqFo6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Amita Bakery</span><span data-l="he">Amita Bakery</span></b><span><span data-l="en">Shalma Rd 10, Jaffa</span><span data-l="he">דרך שלמה 10, יפו</span></span></a>
     </div>
+    <p class="cafecredit"><span data-l="en">Recommended by <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">Inbal</a> (when are we meeting for coffee?)</span><span data-l="he">המלצות של <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">ענבל</a> (מתי נפגשות לקפה?)</span></p>
   </section>
 
 
