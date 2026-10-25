@@ -69,18 +69,21 @@ h1 .x{display:inline-block;border:3px solid var(--ballot);color:var(--ballot);pa
 .flag.warn{background:var(--c-live);color:var(--sheet)}
 .slip a{font-size:12.5px;font-weight:600}
 .empty{font-size:12.5px;color:var(--muted);font-style:italic}
-.promos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px}
-.promo{display:flex;flex-direction:column;background:var(--sheet);border:1px solid var(--line);color:var(--ink);text-decoration:none;overflow:hidden}
-.promo img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;max-width:100%}
-.promo-body{display:flex;flex-direction:column;gap:6px;padding:16px 18px 18px}
-.promo-name{font-family:var(--f-display);font-size:clamp(28px,4vw,40px);line-height:1}
-.promo-text{color:var(--muted);font-size:15px;max-width:52ch}
-.promo-cta{margin-top:6px;font-weight:700;color:var(--ballot)}
+.cols{grid-auto-flow:dense}
+.cols > .promo{padding:0;display:grid;grid-template-columns:1fr;background:var(--sheet);color:var(--ink);text-decoration:none;min-width:0}
+.promo img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;max-width:100%}
+.promo-body{display:flex;flex-direction:column;gap:5px;padding:14px 16px;min-width:0}
+.promo-name{font-family:var(--f-display);font-size:26px;line-height:1.05}
+.promo-text{color:var(--muted);font-size:14px}
+.promo-cta{margin-top:auto;padding-top:8px;font-weight:700;color:var(--ballot);font-size:14px}
 .promo:hover .promo-cta,.promo:focus-visible .promo-cta{text-decoration:underline}
+@media (min-width:600px){.cols > .promo{grid-column:span 2;grid-template-columns:1fr 1fr}.promo img{height:100%}}
+@media (max-width:599px){.promo img{aspect-ratio:3/2}}
 section.band{background:var(--sheet);border-top:2px solid var(--ink);padding:18px 0 4px}
 section.band h2{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px;padding-inline:16px}
 section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inline:16px}
-.cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:var(--line);border-top:1px solid var(--line)}
+.cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0;background:var(--sheet);border-top:1px solid var(--line);border-inline-start:1px solid var(--line)}
+.cols > *{border-inline-end:1px solid var(--line);border-bottom:1px solid var(--line)}
 .cols > div{background:var(--sheet);padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
 .cols h3{margin:0;font-size:16px}
 .cols p{margin:0;font-size:14px;color:var(--muted)}
@@ -120,27 +123,6 @@ section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inlin
 
   <div id="weeks"></div>
 
-  <section class="promos">
-    <a class="promo" href="https://zuzu.today" target="_blank" rel="noopener">
-      <img src="img/promo-zuzu.jpg" alt="">
-      <span class="promo-body">
-        <span class="meta"><span data-l="en">Want to move or dance?</span><span data-l="he">בא לכם לזוז או לרקוד?</span></span>
-        <span class="promo-name">zuzu.today</span>
-        <span class="promo-text"><span data-l="en">A calendar of movement events across Israel: ecstatic dance, contact improv, Gaga, Nia, biodanza and more.</span><span data-l="he">לו״ז של אירועי תנועה בכל הארץ: אקסטטיק דאנס, קונטקט אימפרוביזציה, גאגא, ניה, ביודנסה ועוד.</span></span>
-        <span class="promo-cta"><span data-l="en">Find a class or a dance ↗</span><span data-l="he">למצוא שיעור או מסיבה ↗</span></span>
-      </span>
-    </a>
-    <a class="promo" href="https://mode-il.com" target="_blank" rel="noopener">
-      <img src="img/promo-modeil.jpg" alt="">
-      <span class="promo-body">
-        <span class="meta"><span data-l="en">Shopping local</span><span data-l="he">קניות מקומיות</span></span>
-        <span class="promo-name">mode-il.com</span>
-        <span class="promo-text"><span data-l="en">A curated guide to Israeli independent fashion designers. Find a label you like, then visit the studio or shop.</span><span data-l="he">מדריך אוצרותי למעצבי אופנה ישראלים עצמאיים. מוצאים מותג שאוהבים וקופצים לסטודיו או לחנות.</span></span>
-        <span class="promo-cta"><span data-l="en">Browse designers ↗</span><span data-l="he">לגלות מעצבים ↗</span></span>
-      </span>
-    </a>
-  </section>
-
   <section class="band">
     <h2><span data-l="en">Both weeks</span><span data-l="he">לאורך כל השבועיים</span></h2>
     <p><span data-l="en">Fillers for any free afternoon.</span><span data-l="he">לכל אחר צהריים פנוי.</span></p>
@@ -174,6 +156,24 @@ section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inlin
         <p><span data-l="en">About 60 minutes lying on mattresses to a live musician set, often ending with a talk with the artist. Usually weekday evenings (18:30 or 20:30). Book ahead; many sessions sell out. 3rd floor; the site doesn't mention a lift.</span><span data-l="he">כשעה של שכיבה על מזרנים מול סט חי של מוזיקאי, לרוב עם שיחה עם האמן בסוף. בדרך כלל בערבי חול (18:30 או 20:30). כדאי להזמין מראש, הרבה מפגשים נמכרים. קומה 3, באתר לא כתוב אם יש מעלית.</span></p>
         <a href="https://sol-therapy.com/cloud">sol-therapy.com/cloud</a> <span class="v"><span data-l="en">Shoken 27, 3rd floor</span><span data-l="he">שוקן 27, קומה 3</span></span>
       </div>
+      <a class="promo" href="https://zuzu.today" target="_blank" rel="noopener">
+        <img src="img/promo-zuzu.jpg" alt="">
+        <span class="promo-body">
+        <span class="meta"><span data-l="en">Want to move or dance?</span><span data-l="he">בא לכם לזוז או לרקוד?</span></span>
+        <span class="promo-name">zuzu.today</span>
+        <span class="promo-text"><span data-l="en">A calendar of movement events across Israel: ecstatic dance, contact improv, Gaga, Nia, biodanza and more.</span><span data-l="he">לו״ז של אירועי תנועה בכל הארץ: אקסטטיק דאנס, קונטקט אימפרוביזציה, גאגא, ניה, ביודנסה ועוד.</span></span>
+        <span class="promo-cta"><span data-l="en">Find a class or a dance ↗</span><span data-l="he">למצוא שיעור או מסיבה ↗</span></span>
+      </span>
+    </a>
+      <a class="promo" href="https://mode-il.com" target="_blank" rel="noopener">
+        <img src="img/promo-modeil.jpg" alt="">
+        <span class="promo-body">
+        <span class="meta"><span data-l="en">Shopping local</span><span data-l="he">קניות מקומיות</span></span>
+        <span class="promo-name">mode-il.com</span>
+        <span class="promo-text"><span data-l="en">A curated guide to Israeli independent fashion designers. Find a label you like, then visit the studio or shop.</span><span data-l="he">מדריך אוצרותי למעצבי אופנה ישראלים עצמאיים. מוצאים מותג שאוהבים וקופצים לסטודיו או לחנות.</span></span>
+        <span class="promo-cta"><span data-l="en">Browse designers ↗</span><span data-l="he">לגלות מעצבים ↗</span></span>
+      </span>
+    </a>
       <div>
         <span class="meta"><span data-l="en">Free · Dizengoff St.</span><span data-l="he">חינם · רחוב דיזנגוף</span></span>
         <h3><span data-l="en">Dizengoff Time – tours, shows, wandering</span><span data-l="he">זמן דיזנגוף: סיורים, הופעות ושוטטות</span></h3>
