@@ -103,6 +103,21 @@ section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inlin
 .cols .v{font-size:13px;color:var(--muted)}
 .notes{font-size:14px;color:var(--muted);max-width:80ch;padding-inline-start:20px}
 .notes li{margin-bottom:6px}
+.suggest{border-top:2px solid var(--ink);padding-top:18px;display:flex;flex-direction:column;gap:12px;max-width:720px}
+.suggest h2{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0}
+.suggest > p{margin:0;color:var(--muted)}
+.sform{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sform label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:14px;min-width:0}
+.sform .wide{grid-column:1 / -1}
+.sform input,.sform textarea{font:15px var(--f-body);color:var(--ink);background:var(--sheet);border:1px solid var(--line);padding:10px 12px;border-radius:0;width:100%}
+.sform input:focus,.sform textarea:focus{outline:2px solid var(--ballot);outline-offset:0;border-color:var(--ballot)}
+.sform textarea{min-height:90px;resize:vertical}
+.sform button{justify-self:start;font:700 15px var(--f-body);background:var(--ink);color:var(--paper);border:0;padding:12px 22px;cursor:pointer}
+.sform button[disabled]{opacity:.6;cursor:default}
+.smsg{font-weight:600}
+.smsg.ok{color:var(--c-film)} .smsg.err{color:var(--c-live)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+@media (max-width:600px){.sform{grid-template-columns:1fr}}
 .credit{border-top:1px solid var(--line);padding-top:10px;font-size:13px;color:var(--muted)}
 @media (max-width:900px){
   .grid{grid-template-columns:1fr}
@@ -279,6 +294,24 @@ section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inlin
     </div>
   </section>
 
+
+  <section class="suggest" id="suggest">
+    <h2><span data-l="en">Know something good? Add it</span><span data-l="he">מכירים משהו טוב? הוסיפו</span></h2>
+    <p><span data-l="en">Send an event, a place or a day trip. Dana reads every suggestion and adds the ones that fit.</span><span data-l="he">שלחו אירוע, מקום או טיול. דנה קוראת כל הצעה ומוסיפה את מה שמתאים.</span></p>
+    <form class="sform" id="sform" novalidate>
+      <label class="wide" for="s-what"><span><span data-l="en">What is it?</span><span data-l="he">מה זה?</span> *</span><input id="s-what" name="what" required maxlength="200"></label>
+      <label for="s-when"><span data-l="en">Date and time</span><span data-l="he">תאריך ושעה</span><input id="s-when" name="when" maxlength="120" placeholder="29.10, 20:30"></label>
+      <label for="s-where"><span data-l="en">Where</span><span data-l="he">איפה</span><input id="s-where" name="where" maxlength="160"></label>
+      <label class="wide" for="s-link"><span data-l="en">Link (event page, Instagram…)</span><span data-l="he">קישור (עמוד אירוע, אינסטגרם…)</span><input id="s-link" name="link" type="url" inputmode="url" maxlength="500" placeholder="https://"></label>
+      <label class="wide" for="s-notes"><span data-l="en">Anything else? (price, why it's good)</span><span data-l="he">עוד משהו? (מחיר, למה שווה)</span><textarea id="s-notes" name="notes" maxlength="1000"></textarea></label>
+      <label for="s-name"><span data-l="en">Your name (optional)</span><span data-l="he">השם שלכם (לא חובה)</span><input id="s-name" name="name" maxlength="80" autocomplete="name"></label>
+      <span class="hp" aria-hidden="true"><input id="s-hp" name="_gotcha" tabindex="-1" autocomplete="off"></span>
+      <div class="wide" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+        <button type="submit" id="s-send"><span data-l="en">Send</span><span data-l="he">שליחה</span></button>
+        <span class="smsg" id="smsg" role="status" aria-live="polite"></span>
+      </div>
+    </form>
+  </section>
 
   <footer class="credit">
     <span data-l="en">Made by <a href="mailto:danalonama@gmail.com" title="danalonama@gmail.com">Dana</a> for my cool democratic friends :)</span>
@@ -521,6 +554,28 @@ function render(){
   W.innerHTML=h;
 }
 setLang(L);
+
+(function(){
+  const f=document.getElementById("sform"); if(!f) return;
+  const M={en:{need:"Please say what it is.",sending:"Sending…",ok:"Thanks! Sent to Dana.",err:"Couldn't send. Try again in a minute, or message Dana."},
+           he:{need:"כתבו מה זה, בבקשה.",sending:"שולח…",ok:"תודה! נשלח לדנה.",err:"השליחה לא עברה. נסו שוב בעוד דקה, או כתבו לדנה."}};
+  const msg=document.getElementById("smsg"), btn=document.getElementById("s-send");
+  const say=(k,cls)=>{msg.textContent=M[L][k];msg.className="smsg "+(cls||"")};
+  f.addEventListener("submit",async ev=>{
+    ev.preventDefault();
+    const d=Object.fromEntries(new FormData(f).entries());
+    if(d._gotcha) return;
+    if(!(d.what||"").trim()){say("need","err");document.getElementById("s-what").focus();return}
+    btn.disabled=true;say("sending");
+    try{
+      const r=await fetch("https://formspree.io/f/mykobzkv",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},
+        body:JSON.stringify({_subject:"Election Weeks – new suggestion: "+d.what.slice(0,80),source:"zuzu.today/voters",what:d.what,when:d.when||"—",where:d.where||"—",link:d.link||"—",notes:d.notes||"—",name:d.name||"—"})});
+      if(!r.ok) throw 0;
+      f.reset();say("ok","ok");
+    }catch(_){say("err","err")}
+    btn.disabled=false;
+  });
+})();
 </script>
 
 </body></html>
