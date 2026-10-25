@@ -498,6 +498,8 @@ add("2026-11-06","21:00 / 22:00",["Hasimta music night – Peleg, Vitarti","ער
 add("2026-11-05","—","XPIRIT",["Séance show by Uri Geller and Richard Bromberg","מופע סיאנס של אורי גלר ורישרד ברומברג"],"GELLER","stage");
 add("2026-11-06","—",["Hasimta guest shows – Ariel Cohen, Orin Michaeli, Yael Mor","הצגות אורחות בסימטה – אריאל כהן, אוריין מיכאלי, יעל מור"],["Three guest performances","שלוש הצגות אורחות"],"ALMINA","stage");
 add("2026-11-07","—",["Ilan Peled & Yael Poliakov + Jaffa hafla","אילן פלד ויעל פוליאקוב + חפלה יפואית"],["",""],"YEFET","live","SOLD OUT");}
+V.OPERA=["Israeli Opera, TLV Performing Arts Center","האופרה הישראלית, המשכן לאמנויות הבמה, ת״א"];
+E.push({d:"2026-11-03",t:"21:00",n:["Madame X's Scandal Dress – Yaara Keydar at the Opera","שמלת הסקנדל של מאדאם אקס באופרה – יערה קידר"],s:["Fashion historian Yaara Keydar on the secrets hidden in clothes in famous paintings, from Marie Antoinette's cotton dress to Degas' little dancer, with songs and arias by Israeli Opera soloists","ההיסטוריונית של האופנה יערה קידר על הסודות שמסתתרים בבגדים שביצירות מופת, משמלת הכותנה של מארי אנטואנט ועד הרקדנית הקטנה של דגה, עם שירה ואופרה בביצוע סולניות האופרה הישראלית"],v:"OPERA",c:"talk",u:"https://www.yaarakeydar.com/lecture/scandal-opera",f:"LAST TICKETS",k:false,img:"img/madamex.jpg"});
 const IMGS=[["2026-10-25","זה הזמן","now"],["2026-10-25","איך הדמוקרטיה","democracy"],["2026-10-25","נשים ששינו","aloni"],["2026-10-25","ארץ אוכלת","eretz"],["2026-10-25","6×6","sixsix"],["2026-10-25","דפנה והעוגיות","dafna"],["2026-10-25","Doron Shefer","shefer"],["2026-10-25","Tantra","yoga"],["2026-10-25","Movement","movement"],
 ["2026-10-26","היום שאחרי","dayafter"],["2026-10-26","WC","wc"],["2026-10-26","Doomsday","doomsday"],
 ["2026-10-27","Bring the Day","bringday"],["2026-10-27","הנוסטלגיה","nostalgia"],["2026-10-27","RE:SET","reset"],
@@ -535,7 +537,7 @@ const isAll=(set,obj)=>set.size===Object.keys(obj).length;
 const allChip=(attr,set,obj)=>`<button class="chip" type="button" id="${attr}-all" aria-pressed="${isAll(set,obj)}" data-${attr}="*">${allLabel()}</button>`;
 const pickSet=(set,obj,k)=>{const all=Object.keys(obj);if(k==="*")return new Set(all);if(isAll(set,obj))return new Set([k]);const n=new Set(set);n.has(k)?n.delete(k):n.add(k);return n.size?n:new Set(all)};
 const AREAS={tlv:["Tel Aviv-Yafo","תל אביב־יפו"],ph:["Pardes Hanna & Menashe","פרדס חנה ומנשה"],sharon:["Sharon","השרון"],jlm:["Jerusalem & hills","ירושלים והרים"]};
-const AREA_OF={RAD:"tlv",MER:"tlv",ROM:"tlv",KULI:"tlv",DAV:"tlv",JAF:"tlv",EXPO:"tlv",GRAY:"tlv",PAC:"tlv",MUS:"tlv",CLOUD:"tlv",MAZE:"tlv",HASIMTA:"tlv",YEFET:"tlv",GELLER:"tlv",ALMINA:"tlv",TZAVTA:"tlv",SUZ:"tlv",HEICHAL:"tlv",HAB:"tlv",UNI:"ph",PH:"ph",SHUK:"ph",MEN:"ph",SILO:"sharon",ALAYA:"sharon",DONE:"sharon",MIF:"jlm",VERT:"jlm"};
+const AREA_OF={RAD:"tlv",MER:"tlv",ROM:"tlv",KULI:"tlv",DAV:"tlv",JAF:"tlv",EXPO:"tlv",GRAY:"tlv",PAC:"tlv",MUS:"tlv",CLOUD:"tlv",MAZE:"tlv",OPERA:"tlv",HASIMTA:"tlv",YEFET:"tlv",GELLER:"tlv",ALMINA:"tlv",TZAVTA:"tlv",SUZ:"tlv",HEICHAL:"tlv",HAB:"tlv",UNI:"ph",PH:"ph",SHUK:"ph",MEN:"ph",SILO:"sharon",ALAYA:"sharon",DONE:"sharon",MIF:"jlm",VERT:"jlm"};
 const areaOf=e=>AREA_OF[e.v]||"other";
 let activeArea=new Set(Object.keys(AREAS));
 function renderAreas(){
