@@ -23,12 +23,12 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
 <link rel="apple-touch-icon" href="/favicon-180.png">
-<meta name="theme-color" content="#EEF4F7">
+<meta name="theme-color" content="#FAFAF8">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Zuzu">
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=IBM+Plex+Sans+Hebrew:wght@400;500;700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -537,6 +537,175 @@
     body[data-motion="off"] .rv{opacity:1;transform:none;animation:none}
   }
 </style>
+<!-- "Kinetic Poster" redesign layer (proposal). Everything for the new look sits in this one block:
+     delete it (and swap the font link back to Heebo) to return to the previous look. -->
+<style id="kinetic">
+  :root{
+    --bg:#FAFAF8; --ink:#16131C; --muted:#5E5A66; --line:#16131C; --hair:#E4E2E8;
+    --accent:#D4006A; --card:#ffffff; --cobalt:#2340E0;
+    --display:"Karantina","IBM Plex Sans Hebrew",sans-serif;
+  }
+  body{font-family:"IBM Plex Sans Hebrew","Noto Sans Hebrew","Segoe UI",Arial,sans-serif;line-height:1.4}
+
+  /* top bar: poster wordmark */
+  .topbar{padding-top:16px}
+  .topbar .tmark{font-family:var(--display);font-weight:700;font-size:44px!important;line-height:1;letter-spacing:.01em}
+  .topbar .ttag{font-weight:700;color:var(--accent);font-size:.95rem}
+  .topbar .tinstall{min-height:44px}
+
+  /* search / filter / view toggle: round, heavier outlines */
+  .bar{border-bottom:3px solid transparent}
+  .bar.scrolled{border-bottom-color:var(--ink)}
+  #searchInput,.filterBtn,.viewToggle{border-width:2px;border-radius:22px}
+  .vt{border-inline-start-width:2px}
+  .filterBtn:hover{background:var(--ink);color:var(--bg)}
+
+  /* day ruler → row of day tiles */
+  .ruler{gap:6px;padding:2px}
+  /* .tick.tick: outranks the older #ruler .tick !important reset at the end of the file */
+  #ruler .tick.tick{width:64px;height:68px;padding:0;justify-content:center;gap:2px;border-radius:14px;
+    border:2px solid var(--ink)!important;background-color:var(--bg)!important;color:var(--ink)}
+  #ruler .tick .dow{order:-1;font-size:.75rem;font-weight:500;color:inherit}
+  #ruler .tick .dnum{font-family:var(--display);font-weight:700;font-size:2rem;line-height:.9;color:inherit}
+  #ruler .tick .stem{display:none}
+  #ruler .tick:not(.has){opacity:.55}
+  #ruler .tick.today .dnum,#ruler .tick.today .dow{color:var(--accent)}
+  #ruler .tick.tick:hover{background-color:#EFEDF2!important}
+  #ruler .tick.tick.sel{background-color:var(--ink)!important;color:var(--bg);opacity:1}
+  #ruler .tick.tick.sel .dnum,#ruler .tick.tick.sel .dow{color:var(--bg)}
+  #ruler .tick.tick:focus-visible{outline:3px solid var(--accent)!important;outline-offset:2px}
+  @media(max-width:560px){ #ruler .tick.tick{width:56px} }
+
+  /* selected-day hero: huge poster type */
+  main{padding-top:6px}
+  .tlHero{padding:0}
+  .tlTitle{font-family:var(--display);font-weight:700;font-size:clamp(4.6rem,16vw,8rem);line-height:.82;letter-spacing:0}
+  .tlSub{font-size:.95rem;letter-spacing:0;color:var(--muted);margin-top:8px}
+  .day{margin:36px 0 12px;border-bottom:3px solid var(--ink);padding-bottom:6px}
+  .day h2{font-family:var(--display);font-weight:700;font-size:clamp(2.6rem,7vw,3.6rem);line-height:.9;letter-spacing:0}
+  .day .dc{font-size:.85rem;letter-spacing:0;font-weight:700}
+  .tlNext{min-height:48px}
+
+  /* event cards: outlined poster cards, time first, actions as pill buttons */
+  .card{border:2px solid var(--ink);border-radius:18px;padding:16px 20px;gap:18px}
+  .card:hover{transform:none;box-shadow:5px 5px 0 var(--ink)}
+  .card .thumb{display:none}
+  .card .t{width:86px;gap:3px}
+  .card .t .tt{font-family:var(--display);font-weight:700;font-size:3rem;line-height:.82;color:var(--ink);letter-spacing:0}
+  .card .t .td{font-size:.8rem}
+  .card .ti{font-size:1.1rem}
+  .card .host{font-size:.9rem;font-weight:500}
+  .card .host b{font-weight:700}
+  .card .host::before{display:none}
+  .card .labels{gap:6px;font-size:.75rem;letter-spacing:0}
+  .card .labels span{font-weight:700;padding:3px 10px;border-radius:12px;background:var(--ink);color:var(--bg)}
+  .card .labels span::before{display:none}
+  .card .labels span.fmt{background:none;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+  .card .meta,.card .price{font-size:.85rem}
+  .card .price{color:var(--ink);font-weight:700}
+  .card .end{gap:8px}
+  .card .more{min-height:46px;padding:0 20px;border-radius:23px;background:var(--ink);color:var(--bg);font-size:.92rem}
+  .card .more .nolink{color:var(--bg);opacity:.8}
+  .card .more:has(.nolink){background:none;color:var(--muted);padding:0 4px}
+  .card .more:has(.nolink) .nolink{color:var(--muted);opacity:1}
+  .card .more .ar.wa{color:#5BE38C}
+  .card .calbtn{min-height:46px;padding:0 16px;border-radius:23px;border:2px solid var(--ink);color:var(--ink);font-size:.85rem}
+  .card .calbtn svg{width:17px;height:17px}
+  .card .calbtn:hover{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+  body[data-cards] .card:hover{background:var(--card);color:var(--ink);border-color:var(--ink)}
+  body[data-cards] .card:hover .meta{color:var(--muted)}
+  body[data-cards] .card:hover .price,body[data-cards] .card:hover .labels{color:var(--ink)}
+  body[data-cards] .card:hover .more{color:var(--bg)}
+  body[data-cards] .card:hover .calbtn{border-color:var(--ink);color:var(--ink)}
+  @media(max-width:680px){
+    .card{padding:16px}
+    .card .t .tt{font-size:2.9rem}
+    .card .end{border-top:none;padding-top:4px}
+    .card .more{flex:1;justify-content:center}
+  }
+
+  /* filter sheet + pills */
+  .fsCard{border-width:2px;box-shadow:8px 8px 0 var(--ink)}
+  @media(min-width:721px){ .fsCard{border-radius:18px} }
+  .fsHead b{font-family:var(--display);font-weight:700;font-size:2rem;line-height:1}
+  .fgroup .glab{font-size:.8rem;letter-spacing:0;color:var(--muted)}
+  .pill2{min-height:44px;padding:0 16px;border-width:2px;font-weight:700;font-size:.92rem}
+  .pill2:hover{border-color:var(--ink);color:var(--ink);background:#EFEDF2}
+  .pill2.on{background:var(--accent);border-color:var(--ink);color:#fff}
+  .fsClear,.fsApply{min-height:48px;border-radius:24px}
+  .fsClear{border-width:2px}
+  .chip{min-height:36px;font-weight:700}
+  .shareBtn{min-height:36px;border-width:2px}
+
+  /* monthly calendar */
+  .calbar h2{font-family:var(--display);font-weight:700;font-size:clamp(2.8rem,7vw,4rem);line-height:.9;letter-spacing:0}
+  .calbar button{border:2px solid var(--ink);border-radius:22px}
+  .calgrid{border:2px solid var(--ink);border-radius:18px;box-shadow:none}
+  .cell .dn{font-family:var(--display);font-size:1.4rem;line-height:24px}
+  .cell.today .dn{background:var(--accent);width:30px;height:30px}
+  .chipE .h,.moreE{color:var(--accent)}
+  .calmenu button:hover{background:#F6E6EE;color:var(--ink)}
+
+  /* forms + modals */
+  .modal-card{border:2px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 var(--ink)}
+  .modal-card h2{font-family:var(--display);font-weight:700;font-size:2.8rem;line-height:.9;letter-spacing:0}
+  #addForm label,#contactForm label{font-size:.8rem;letter-spacing:0}
+  .fsubmit{border-radius:26px;min-height:52px;font-weight:700}
+
+  /* footer */
+  footer{border-top:3px solid var(--ink)}
+  footer .fmark{font-size:.85rem;letter-spacing:0;color:var(--ink)}
+  footer .fmark:last-child{color:var(--muted)}
+
+  /* ---- closer to the mockup: wordmark, headline, ruled rows, quick style buttons, first-timers block ---- */
+  .topbar .tmark img,.topbar .tmark sup{display:none}
+  .topbar .tmark .kdot{color:var(--accent)}
+  .topbar .ttag{display:none}
+  .topbar .tright{gap:10px}
+  .topbar .quizlink{display:none}
+  .topbar .langlink{min-height:44px;padding:0 16px;border:2px solid var(--ink);border-radius:22px}
+  .kHero{padding-top:14px}
+  .kHead{font-family:var(--display);font-weight:700;font-size:clamp(5.4rem,24vw,9rem);line-height:.8;color:var(--ink)}
+  @media(min-width:721px){ .kHead br{display:none} }
+  .bar{margin-top:8px}
+
+  .quickRow{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:4px 2px 18px;margin:0 -2px}
+  .quickRow::-webkit-scrollbar{display:none}
+  .qpill{flex:none;min-height:44px;padding:0 16px;border-radius:22px;border:2px solid var(--ink);background:var(--bg);
+    color:var(--ink);font-family:inherit;font-weight:700;font-size:.95rem;cursor:pointer;white-space:nowrap}
+  .qpill:hover{background:#EFEDF2}
+  .qpill.on{background:var(--accent);color:#fff}
+  .qpill:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+  .tlTitle{font-size:clamp(3rem,10vw,4.4rem);color:var(--ink)}
+  .tlTitle .hot{color:var(--accent)}
+  .tlHero{border-bottom:3px solid var(--ink);padding-bottom:10px}
+
+  /* event rows: ruled lines instead of boxes, actions under the text (phone and desktop alike) */
+  #list,#dayDetail{gap:0}
+  .card{flex-wrap:wrap;border:none;border-bottom:1.5px solid var(--ink);border-radius:0;padding:18px 0;gap:10px 16px;background:transparent}
+  .card:hover{box-shadow:none}
+  body[data-cards] .card:hover{background:transparent}
+  .card .t{width:86px}
+  .card .main{flex:1 1 0}
+  .card .end{flex:1 1 100%;justify-content:flex-start;border-top:none;padding-top:4px;margin-top:0}
+  .card .more{flex:0 1 340px;justify-content:center}
+  @media(max-width:680px){ .card{padding:16px 0} .card .more{flex:1 1 auto} }
+  .card .cardlink::after{border-radius:0}
+  .zskel{border-radius:0;border:none;border-bottom:1.5px solid var(--hair);background:transparent;padding:18px 0;margin:0}
+
+  .kQuiz{margin:8px 0 0;padding:22px 20px;border-radius:22px;background:var(--cobalt);color:#fff;
+    display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+  .kQuiz h2{margin:0;font-family:var(--display);font-weight:700;font-size:2.8rem;line-height:.9}
+  .kQuiz p{margin:0;font-size:1rem;line-height:1.5}
+  .kQuiz a{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:24px;background:#fff;
+    color:var(--cobalt);font-weight:700;text-decoration:none}
+  .kQuiz a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+  .kAdd{display:flex;align-items:center;justify-content:center;width:100%;max-width:520px;min-height:52px;margin:22px auto 0;
+    border:none;border-radius:26px;background:var(--ink);color:var(--bg);font-family:inherit;font-weight:700;font-size:1rem;cursor:pointer}
+  .kAdd:hover{background:var(--accent)}
+  main{padding-bottom:28px}
+</style>
 </head>
 <body data-dir="gallery" data-cards="minimal" data-motion="subtle">
 <a class="skipLink" href="#main">Skip to main content</a>
@@ -549,7 +718,7 @@
 <header class="wrap">
   <div class="topbar">
     <div class="tbrand">
-      <span class="tmark" id="homeLink" role="button" tabindex="0" aria-label="zuzu — back to the home page" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="/assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">zuzu.<sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
+      <span class="tmark" id="homeLink" role="button" tabindex="0" aria-label="zuzu — back to the home page" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="/assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none"><span class="kword" dir="ltr">zuzu<span class="kdot">.</span></span><sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
       <span class="ttag">Where are we dancing today?</span>
     </div>
     <div class="tright">
@@ -559,6 +728,7 @@
 
 </header>
 
+<div class="wrap kHero" aria-hidden="true"><div class="kHead">Where are we<br> dancing<br> today?</div></div>
 <div class="bar" role="region" aria-label="Search and filters">
   <div class="wrap">
     <div class="barRow">
@@ -607,6 +777,7 @@
 <div class="wrap">
   <main id="main" tabindex="-1">
     <h1 class="sr-only">zuzu — movement and dance events in Israel</h1>
+    <div class="quickRow" id="quickRow" role="group" aria-label="Movement style" data-all="All"></div>
     <div id="tlHero" class="tlHero" aria-live="polite"></div>
     <div id="list" aria-busy="false"></div>
     <div id="calendar" style="display:none">
@@ -937,6 +1108,7 @@ function render(){
   document.querySelectorAll(".vt").forEach(b=>{ const on=b.dataset.view===state.view; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
   const lst=document.getElementById("list"); if(lst) lst.setAttribute("aria-busy",window.ZUZU_LOADING?"true":"false");
   cal?renderCalendar():renderTimeline();
+  try{ renderQuick(); }catch(_e){}   // MOVES is filled once the lookups load
   syncUrl();
 }
 
@@ -1186,7 +1358,20 @@ function updateFbCount(){
   el.textContent=n; el.hidden=(n===0);
   const sr=document.getElementById("fbCountSr"); if(sr) sr.textContent=n?`, ${n} active filter${n===1?"":"s"}`:"";
 }
-function refreshAll(){ renderChips(); updateFbCount(); if(sheetOpen) renderSheet(); }
+function refreshAll(){ renderChips(); updateFbCount(); if(sheetOpen) renderSheet(); renderQuick(); }
+/* quick movement-style buttons above the list (same filter as the sheet's "סוג תנועה") */
+function renderQuick(){
+  const row=document.getElementById("quickRow"); if(!row) return;
+  const moves=MOVES.filter(v=>moveCount(v)>0);
+  const btn=(v,label,on)=>`<button type="button" class="qpill${on?" on":""}" aria-pressed="${on}" data-v="${attrEsc(v)}">${label}</button>`;
+  row.innerHTML=btn("",row.dataset.all,state.cats.size===0)+moves.map(v=>btn(v,v,state.cats.has(v))).join("");
+  row.querySelectorAll(".qpill").forEach(b=>b.onclick=()=>{
+    const v=b.dataset.v;
+    if(!v) state.cats.clear(); else { state.cats.has(v)?state.cats.delete(v):state.cats.add(v); if(state.cats.has(v)) track("filter_movement",{value:v}); }
+    refreshAll(); render();
+    const again=row.querySelector(`.qpill[data-v="${CSS.escape(v)}"]`); if(again) again.focus();
+  });
+}
 function clearAll(){ state.when="all"; state.cats.clear(); state.fmts.clear(); state.regs.clear(); }
 
 function openSheet(){ sheetOpen=true; renderSheet(); sheet.classList.add("open");
