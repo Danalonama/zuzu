@@ -134,7 +134,7 @@
   .dateRow .delDate{position:absolute;inset-inline-start:-2px;top:-2px;border:none;background:none;
         color:var(--muted);font-size:1rem;line-height:1;cursor:pointer;padding:2px}
   .dateRow .delDate:hover{color:var(--accent)}
-  .addDateBtn{align-self:flex-start;background:none;border:none;color:var(--accent);font-family:inherit;
+  .addDateBtn{align-self:flex-start;background:none;border:none;color:color-mix(in srgb,var(--accent) 85%,#000);font-family:inherit;
         font-weight:700;font-size:.82rem;cursor:pointer;padding:2px 0;margin-top:-4px}
   .addDateBtn:hover{text-decoration:underline}
   .taginput{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-bottom:1.5px solid var(--ink);padding:5px 2px}
@@ -286,9 +286,9 @@
   .pill2{appearance:none;background:var(--bg);border:1.4px solid var(--ink);border-radius:99px;padding:7px 13px;
       cursor:pointer;font-family:inherit;font-size:.86rem;font-weight:600;color:var(--ink);transition:.12s;
       display:inline-flex;align-items:center;gap:6px}
-  .pill2:hover{border-color:var(--accent);color:var(--accent)}
+  .pill2:hover{border-color:var(--accent);color:color-mix(in srgb,var(--accent) 85%,#000)}
   .pill2.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-  .pill2 .cnt{font-size:.72rem;opacity:.55;font-weight:500}
+  .pill2 .cnt{font-size:.72rem;opacity:.62;font-weight:500} /* a11y: .55 was 4.3:1, .62 is 5.4:1 */
   .pill2.on .cnt{opacity:.7}
   .fsFoot{display:flex;gap:10px;padding:13px 18px;border-top:1px solid var(--hair)}
   .fsClear{flex:0 0 auto;background:none;border:1.4px solid var(--ink);border-radius:10px;padding:11px 16px;
@@ -316,10 +316,10 @@
   .tick .dow{font-size:.72rem;font-weight:400;color:#1e1e1e;transition:color .15s}
   .tick .stem{width:1.5px;height:18px;background:#cdcdcd;margin-top:3px;transition:.15s}
   .tick.has .stem{background:#a6a6a6}
-  .tick:hover .dnum{color:var(--accent)}
-  .tick.today .dnum{color:var(--accent);font-weight:800}
+  .tick:hover .dnum{color:color-mix(in srgb,var(--accent) 85%,#000)}
+  .tick.today .dnum{color:color-mix(in srgb,var(--accent) 85%,#000);font-weight:800} /* a11y: brand orange is 3.7:1 on --bg */
   .tick.today .stem{background:var(--accent)}
-  .tick.sel .dnum{color:var(--accent);font-weight:800}
+  .tick.sel .dnum{color:color-mix(in srgb,var(--accent) 85%,#000);font-weight:800}
   .tick.sel .stem{background:var(--accent)}
   .tick:focus:not(:focus-visible){outline:none}
   @media(max-width:560px){ .tick{width:84px} .tick .dnum{font-size:1.05rem} }
@@ -474,11 +474,11 @@
   .cell.sel{box-shadow:inset 0 0 0 2px var(--accent)}
   .cell .dn{font-size:.8rem;color:var(--ink);font-weight:700;margin-bottom:5px;line-height:22px}
   .cell.today .dn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
-                  border-radius:50%;background:var(--accent);color:#fff}
+                  border-radius:50%;background:color-mix(in srgb,var(--accent) 85%,#000);color:#fff} /* a11y: white on brand orange is 4.2:1 → 5.6:1 */
   .chipE{display:block;font-size:.68rem;line-height:1.6;margin-bottom:1px;white-space:nowrap;overflow:hidden;
          text-overflow:ellipsis;font-weight:500;color:var(--ink)}
   .chipE .h{color:color-mix(in srgb,var(--accent) 85%,#000);font-weight:700} /* a11y: small text needs 4.5:1; brand orange alone is 4.2:1 */
-  .moreE{display:block;font-size:.66rem;color:var(--accent);font-weight:700;margin-top:2px}
+  .moreE{display:block;font-size:.66rem;color:color-mix(in srgb,var(--accent) 85%,#000);font-weight:700;margin-top:2px} /* a11y: 4.2:1 → 5.6:1 */
   .dayDetail{margin-top:30px}
   @media(max-width:560px){
     .cell{min-height:64px}
