@@ -71,7 +71,7 @@ rep(".card .more .nolink{color:var(--muted);font-weight:600}",
 # Hebrew titles, names and places keep their own direction inside the English page
 rep('<h3 class="ti">${e.title}</h3>', '<h3 class="ti" dir="auto">${e.title}</h3>')
 rep('<div class="meta">${loc}</div>', '<div class="meta" dir="auto">${loc}</div>')
-rep('<span class="h">${e.time}</span> ${e.title}</span>', '<span class="h">${e.time}</span> <bdi>${e.title}</bdi></span>')
+rep('<span class="st">${e.title}</span>${loc?`<span class="sv">${loc}</span>`:""}', '<span class="st" dir="auto">${e.title}</span>${loc?`<span class="sv" dir="auto">${loc}</span>`:""}')
 
 # the Hebrew page sets these from its design-tweaks script (removed here); use its defaults
 rep("<body>", '<body data-dir="gallery" data-cards="minimal" data-motion="subtle">', 1)
@@ -110,7 +110,6 @@ rep('id="fsApply" type="button">הצג אירועים</button>', 'id="fsApply" t
 rep('<h1 class="sr-only">zuzu — לוח אירועי תנועה וריקוד בישראל</h1>', '<h1 class="sr-only">zuzu — movement and dance events in Israel</h1>')
 rep('aria-label="החודש הקודם"', 'aria-label="Previous month"')
 rep('aria-label="החודש הבא"', 'aria-label="Next month"')
-rep('aria-label="ימי החודש"', 'aria-label="Days of the month"')
 # footer
 a = s.find("<footer>"); b = s.find("</footer>", a)
 if a < 0 or b < 0: sys.exit("build_en: footer not found")
@@ -158,10 +157,12 @@ rep('const longFmt=["קורס","סדנה","ריטריט"].includes(ev.format);',
 rep('const desc=[ev.host?"עם "+ev.host:"",ev.url]', 'const desc=[ev.host?"with "+ev.host:"",ev.url]', 2)
 rep("'<div class=\"empty\">אין אירועים בסינון הזה — נסו להרחיב את הבחירה ←</div>'", "'<div class=\"empty\">No events match these filters. Try widening them.</div>'")
 rep('<span class="dc">${String(perDay[e.date]).padStart(2,"0")} אירועים</span>', '<span class="dc">${evN(perDay[e.date],true)}</span>', 3)
-rep('`<span class="moreE">+${evs.length-3} נוספים</span>`', '`<span class="moreE">+${evs.length-3} more</span>`')
-rep('const cellLbl=`${HEB_DAYS[cur.getDay()]} ${cur.getDate()} ב${HEB_MONTHS[cur.getMonth()]}, ${evs.length?evs.length+" אירועים":"אין אירועים"}`;',
-    'const cellLbl=`${HEB_DAYS[cur.getDay()]} ${cur.getDate()} ${HEB_MONTHS[cur.getMonth()]}, ${evs.length?evN(evs.length):"no events"}`;')
-rep("'<div class=\"empty\">אין אירועים ביום הזה</div>'", "'<div class=\"empty\">No events on this day</div>'")
+rep('${open?"פחות":`+${evs.length-CAL_CAP} נוספים`}</button>', '${open?"Show less":`+${evs.length-CAL_CAP} more`}</button>')
+rep('// slips per day before "+N נוספים"', '// slips per day before "+N more"')
+rep('<h3>שבוע ${w+1} · ', '<h3>Week ${w+1} · ')
+rep('aria-label="${HEB_DAYS[cur.getDay()]} ${cur.getDate()} ב${HEB_MONTHS[cur.getMonth()]}"', 'aria-label="${HEB_DAYS[cur.getDay()]} ${cur.getDate()} ${HEB_MONTHS[cur.getMonth()]}"')
+rep('.find(f=>f&&f!=="שיעור")', '.find(f=>f&&f!=="Class")')
+rep('<span class="sr-only"> (נפתח בחלון חדש)</span></a>', '<span class="sr-only"> (opens in a new tab)</span></a>')
 rep("<span class=\"zspin\" aria-hidden=\"true\"></span>טוען אירועים…</div>", "<span class=\"zspin\" aria-hidden=\"true\"></span>Loading events…</div>")
 rep("'<div class=\"empty zerr\" role=\"alert\">לא הצלחנו לטעון את האירועים כרגע. '", "'<div class=\"empty zerr\" role=\"alert\">We couldn\\'t load the events right now. '")
 rep("id=\"zRetry\" class=\"tlNext\">נסו שוב →</button>", "id=\"zRetry\" class=\"tlNext\">Try again →</button>")
