@@ -461,7 +461,9 @@
                  font-size:1.1rem;cursor:pointer;font-family:inherit;transition:.15s}
   .calbar button:hover{background:var(--ink);color:var(--bg)}
   /* calendar — week sheets (same layout as /voters): each week is a row of 7 day columns,
-     each day a stack of event slips; collapses to a day list on phones */
+     each day a stack of event slips. Not offered on phones (see #viewToggle below) */
+  /* phones get the list view only: on a narrow screen the calendar was just a second list */
+  @media(max-width:700px){ #viewToggle{display:none} }
   .calgrid{display:flex;flex-direction:column;gap:30px;
            margin-inline:min(0px,calc((100% - min(100vw - 48px,1600px)) / 2))}
   .wk h3{margin:0 0 10px;font-size:1.05rem;font-weight:800;letter-spacing:-.01em}
@@ -488,14 +490,6 @@
          color:var(--ink);padding:5px 10px;cursor:pointer}
   .moreE:hover,.moreE[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
   @media(max-width:900px){ .slip .sv{display:none} }
-  @media(max-width:700px){
-    .wkgrid{grid-template-columns:1fr}
-    .dcol{border-inline-start:none;border-bottom:1px solid var(--hair);padding:12px 2px 16px}
-    .dcol.today{padding-inline:8px}
-    .dcol.nothing{display:none}
-    .dhead{justify-content:flex-start}
-    .slip .sv{display:block}
-  }
 
   footer{border-top:1px solid var(--ink);margin-top:60px}
   footer .wrap{padding:40px 0;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
@@ -956,7 +950,10 @@ function errorHtml(){
   return '<div class="empty zerr" role="alert">We couldn\'t load the events right now. '+
          '<button type="button" id="zRetry" class="tlNext">Try again →</button></div>';
 }
+const PHONE=window.matchMedia("(max-width:700px)");   // same breakpoint as the CSS that hides #viewToggle
+PHONE.addEventListener("change",()=>{ if(PHONE.matches&&state.view==="cal") render(); });
 function render(){
+  if(PHONE.matches&&state.view==="cal") state.view="list";
   const cal=state.view==="cal";
   document.getElementById("calendar").style.display=cal?"block":"none";
   document.getElementById("list").style.display=cal?"none":"flex";
