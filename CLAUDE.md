@@ -36,3 +36,20 @@ The repo misses most of the current state. Before planning anything:
 ## Working with Dana
 - Say plainly what you could not verify. The sandbox network often blocks outside sites, including zuzu.today itself.
 - Give the good news and the bad news. Don't guess.
+
+## Working loop — fewer questions, hard stops
+Dana prefers fewer interruptions. When one option is clearly best, take it and keep going: say it in one line and log it. Ask only at the stops below, or when the options are genuinely close, or it's a matter of taste (design, Hebrew wording).
+
+- **Queue = the board.** Work on the task you were given. If none was given, take the open task with `owner` Claude, highest `priority`, then lowest `order`. Before starting, set it to in progress and put your branch name in its `note`. That claim is what stops two sessions from doing the same work.
+- **Safe place = your branch + a PR.** Nothing reaches zuzu.today until Dana merges.
+- **Check before the PR.** A reviewer that didn't write the change (a fresh subagent) reads the diff against the Rules above: RTL, `en.html` rebuilt if `index.html` changed, no secrets, no new public files missing from `.vercelignore`. If a check fails, fix it or stop. Never open the PR as if it passed.
+- **Log.** Add one line per real decision to `docs/DECISIONS.md` (date, branch or PR, what you chose, why). If you stop mid-task, say in the board task's `note` where it stands and what's next.
+
+**Stops — always wait for Dana's yes:**
+- merging or pushing to `main` (it deploys the live site)
+- any change to Supabase data or schema, including turning a feed live (`FEEDS_LIVE`)
+- Vercel settings and env vars, and anything that costs money (paid plans, API spend, domains)
+- anything sent or published outside: Telegram messages to users, email, social posts, messages to studios or teachers
+- Apps Script: give Dana the code to paste. Never say a `.gs` change is live.
+- deleting anything you didn't create in this session
+- a failed check
