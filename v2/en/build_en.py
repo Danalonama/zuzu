@@ -160,6 +160,7 @@ rep('<span class="dc">${String(perDay[e.date]).padStart(2,"0")} אירועים</
 rep('${open?"פחות":`+${evs.length-CAL_CAP} נוספים`}</button>', '${open?"Show less":`+${evs.length-CAL_CAP} more`}</button>')
 rep('// slips per day before "+N נוספים"', '// slips per day before "+N more"')
 rep('<h3>שבוע ${w+1} · ', '<h3>Week ${w+1} · ')
+rep('aria-label="סוג תנועה: הצבע בקצה כל אירוע. לחיצה מסננת"', 'aria-label="Movement type: the color on the edge of each event. Click to filter"')
 rep('aria-label="${HEB_DAYS[cur.getDay()]} ${cur.getDate()} ב${HEB_MONTHS[cur.getMonth()]}"', 'aria-label="${HEB_DAYS[cur.getDay()]} ${cur.getDate()} ${HEB_MONTHS[cur.getMonth()]}"')
 rep('.find(f=>f&&f!=="שיעור")', '.find(f=>f&&f!=="Class")')
 rep('<span class="sr-only"> (נפתח בחלון חדש)</span></a>', '<span class="sr-only"> (opens in a new tab)</span></a>')

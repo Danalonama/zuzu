@@ -464,6 +464,12 @@
   @media(max-width:900px){ #viewToggle{display:none} }
   .calgrid{display:flex;flex-direction:column;gap:30px;
            margin-inline:min(0px,calc((100% - min(100vw - 48px,1600px)) / 2))}
+  .calLegend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+  .calLegend button{font:inherit;font-size:.8rem;font-weight:600;display:inline-flex;align-items:center;gap:7px;
+        border:1px solid var(--hair);background:var(--card);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+  .calLegend button:hover{border-color:var(--ink)}
+  .calLegend button[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+  .calLegend .ldot{width:10px;height:10px;border-radius:50%;background:var(--fc);flex:none}
   .wk h3{margin:0 0 10px;font-size:1.05rem;font-weight:800;letter-spacing:-.01em}
   .wkgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:2px solid var(--ink)}
   .dcol{padding:8px 6px 14px;border-inline-start:1px solid var(--hair);min-width:0;display:flex;flex-direction:column;gap:8px}
@@ -617,6 +623,7 @@
         <h2 id="mname" aria-live="polite"></h2>
         <button id="prevM" type="button" aria-label="החודש הבא">›</button>
       </div>
+      <div class="calLegend" id="calLegend" role="group" aria-label="סוג תנועה: הצבע בקצה כל אירוע. לחיצה מסננת"></div>
       <div class="calgrid" id="calgrid"></div>
     </div>
   </main>
@@ -995,6 +1002,14 @@ function renderCalendar(){
     html+=`</div></section>`;
   }
   document.getElementById("calgrid").innerHTML=html;
+  const lg=document.getElementById("calLegend");
+  lg.innerHTML=MOVES.map((v,i)=>`<button type="button" style="--fc:${FAM_COLORS[i%FAM_COLORS.length]}" aria-pressed="${state.cats.has(v)}" data-v="${v}"><span class="ldot" aria-hidden="true"></span>${v}</button>`).join("");
+  lg.querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    const v=b.dataset.v; state.cats.has(v)?state.cats.delete(v):state.cats.add(v);
+    if(state.cats.has(v)) track("filter_movement",{value:v});
+    refreshAll(); render();
+    const again=lg.querySelector(`button[data-v="${CSS.escape(v)}"]`); if(again) again.focus();
+  });
   reveal(document.getElementById("calgrid"),".slip",14,360);
   document.querySelectorAll("#calgrid .moreE").forEach(c=>c.onclick=()=>{
     const k=c.dataset.day, wasOpen=CAL_OPEN.has(k);
