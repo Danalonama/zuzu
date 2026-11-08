@@ -20,6 +20,7 @@ const match = (row, filters) => filters.every(({ k, op, val }) => {
   const x = row[k];
   if (op === "eq") return String(x) === val;
   if (op === "neq") return String(x) !== val;
+  if (op === "not" && val === "is.null") return x != null;
   if (op === "in") return val.replace(/^\(|\)$/g, "").split(",").map((s) => s.replace(/"/g, "")).includes(String(x));
   throw new Error("fake: unsupported op " + op);
 });
