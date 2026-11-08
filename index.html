@@ -23,12 +23,12 @@
 <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
 <link rel="apple-touch-icon" href="favicon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#EEF4F7">
+<meta name="theme-color" content="#FFFFFF">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Zuzu">
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -543,6 +543,108 @@
     body[data-motion="off"] .rv{opacity:1;transform:none;animation:none}
   }
 </style>
+<style id="motion">
+/* ===== "motion" look (preview): white page, hot pink + lime, poster type, blurred colour blobs, motion-blur photos.
+   Sits on top of the base CSS above; delete this block and <section class="mHeroWrap"> to go back. ===== */
+:root{
+  --bg:#FFFFFF; --card:#FFFFFF; --ink:#0A0A0A; --muted:#6b6b6b; --hair:#E6E6E6;
+  --pink:#FF2E93;      /* fills, blobs, big type only (3.5:1 on white) */
+  --accent:#D6006F;    /* pink for text and small UI: 5.1:1 on white */
+  --lime:#C6F432;      /* fills only; text on lime is ink (15:1) */
+  --soft:#F1F1EF;      /* the grey-white of the photo backdrops */
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+body{background:var(--bg)}
+.topbar .ttag{display:none}            /* the big headline says it */
+
+/* ---- hero ---- */
+.mHero{position:relative;overflow:hidden;height:clamp(240px,36vw,440px);margin:14px 0 0;border-block:1px solid var(--ink)}
+.mBlobs{position:absolute;inset:-10%;pointer-events:none}
+.mBlobs i{position:absolute;border-radius:50%;filter:blur(28px);animation:mDrift 16s ease-in-out infinite alternate}
+.mBlobs .p{background:var(--pink)}
+.mBlobs .p1{width:26%;aspect-ratio:1;inset-inline-start:-2%;top:4%;opacity:.95;filter:blur(36px)}
+.mBlobs .p2{width:18%;aspect-ratio:1;inset-inline-start:17%;top:44%;opacity:.85;animation-duration:21s;filter:blur(18px)}
+.mBlobs .p3{width:11%;aspect-ratio:1;inset-inline-start:22%;top:4%;background:#FF8CC6;animation-duration:13s;filter:blur(14px)}
+.mBlobs .p4{width:9%;aspect-ratio:1;inset-inline-start:4%;top:66%;animation-duration:18s;filter:blur(10px)}
+.mBlobs .p5{width:6%;aspect-ratio:1;inset-inline-start:30%;top:70%;background:#FF8CC6;animation-duration:11s;filter:blur(8px)}
+.mBlobs .dots{inset-inline-start:30%;top:0;width:40%;height:110%;border-radius:0;filter:blur(5px);
+  background:
+   radial-gradient(circle at 8% 12%,var(--lime) 0 3%,transparent 3.5%),radial-gradient(circle at 26% 30%,#E9FF5C 0 2.4%,transparent 3%),
+   radial-gradient(circle at 40% 8%,var(--lime) 0 3.4%,transparent 4%),radial-gradient(circle at 55% 26%,var(--lime) 0 2.2%,transparent 2.8%),
+   radial-gradient(circle at 72% 14%,#E9FF5C 0 3%,transparent 3.6%),radial-gradient(circle at 88% 30%,var(--lime) 0 2.6%,transparent 3.2%),
+   radial-gradient(circle at 14% 52%,var(--lime) 0 3%,transparent 3.6%),radial-gradient(circle at 34% 64%,#E9FF5C 0 2.6%,transparent 3.2%),
+   radial-gradient(circle at 50% 46%,var(--lime) 0 3.6%,transparent 4.2%),radial-gradient(circle at 66% 60%,var(--lime) 0 2.4%,transparent 3%),
+   radial-gradient(circle at 84% 50%,#E9FF5C 0 3.2%,transparent 3.8%),radial-gradient(circle at 6% 84%,var(--lime) 0 3.4%,transparent 4%),
+   radial-gradient(circle at 28% 92%,var(--lime) 0 2.4%,transparent 3%),radial-gradient(circle at 46% 80%,#E9FF5C 0 3%,transparent 3.6%),
+   radial-gradient(circle at 62% 94%,var(--lime) 0 3.2%,transparent 3.8%),radial-gradient(circle at 80% 78%,var(--lime) 0 2.6%,transparent 3.2%),
+   radial-gradient(circle at 95% 92%,#E9FF5C 0 3%,transparent 3.6%);
+  -webkit-mask:linear-gradient(to left,transparent,#000 30%,#000 70%,transparent);mask:linear-gradient(to left,transparent,#000 30%,#000 70%,transparent);animation-duration:24s}
+@keyframes mDrift{to{transform:translate3d(3%,-4%,0) scale(1.06)}}
+.mHead{position:relative;margin:0;padding:clamp(14px,2.5vw,28px) 0 0;font-weight:500;letter-spacing:-.045em;line-height:.92;
+  font-size:clamp(44px,7.4vw,104px);display:flex;flex-direction:column;align-items:flex-start}
+.mHead span:nth-child(2){padding-inline-start:16%}
+.mHead span:nth-child(3){padding-inline-start:4%}
+.mCoords{position:absolute;inset:0;margin:0;padding:0;list-style:none;font:500 10.5px/1 var(--mono);color:var(--ink);direction:ltr}
+.mCoords li{position:absolute}
+.mVerbs{position:absolute;inset-inline-start:0;bottom:14px;display:flex;flex-direction:column;font-size:clamp(18px,2.2vw,28px);font-weight:500;letter-spacing:-.03em;line-height:1.05}
+/* photos: drop assets/motion/1.jpg, 2.jpg, 3.jpg in and they appear; until then a blurred smear shows */
+.mFrames{position:absolute;inset-block:0;inset-inline-end:0;width:38%}
+.mFrames figure{margin:0;position:absolute;overflow:hidden;border-radius:3px;background-color:var(--soft);background-size:cover;background-position:center}
+.mFrames .f1{inset:0;inset-inline-start:0;border-radius:0;
+  background-image:url(/assets/motion/1.jpg),radial-gradient(ellipse 60% 30% at 40% 60%,var(--lime),transparent 70%),radial-gradient(ellipse 30% 40% at 65% 35%,#F2B8D3,transparent 70%)}
+.mFrames .f2{width:34%;aspect-ratio:4/3;inset-inline-end:calc(100% + 10px);bottom:14px;
+  background-image:url(/assets/motion/2.jpg),radial-gradient(ellipse 60% 40% at 55% 45%,var(--lime),transparent 70%)}
+.mFrames .f3{width:34%;aspect-ratio:4/3;inset-inline-end:calc(134% + 16px);bottom:14px;
+  background-image:url(/assets/motion/3.jpg),radial-gradient(ellipse 50% 40% at 35% 45%,#fff,transparent 70%),radial-gradient(ellipse 40% 50% at 70% 40%,#E6E36A,transparent 70%)}
+.mFrames .f1{filter:none}
+@media(max-width:900px){ .mFrames .f2,.mFrames .f3{display:none} .mFrames{width:42%} }
+@media(max-width:700px){
+  .mHero{height:220px}
+  .mVerbs,.mCoords{display:none}
+  .mFrames{width:40%}
+  .mBlobs .p1{width:50%}.mBlobs .p2{width:30%;inset-inline-start:30%}.mBlobs .dots{inset-inline-start:25%;width:50%}
+}
+@media(prefers-reduced-motion:reduce){.mBlobs i{animation:none}}
+
+/* ---- search / filter bar ---- */
+.bar{background:#fff}
+.filterBtn,#searchInput,.viewToggle{border-radius:999px;background:#fff}
+.filterBtn:hover{background:var(--ink);color:#fff}
+.vt.on{background:var(--ink);color:#fff}
+.chip{background:var(--lime);color:var(--ink)}
+.shareBtn{background:#fff}
+
+/* ---- day ruler ---- */
+.tick .dnum{position:relative;z-index:0}
+.tick.sel .dnum,.tick.today .dnum{color:var(--ink)}
+.tick.sel .dnum::before{content:"";position:absolute;z-index:-1;inset:-7px -12px;border-radius:999px;background:var(--lime)}
+.tick.today:not(.sel) .dnum{color:var(--accent)}
+.tick.sel .stem,.tick.today .stem{background:var(--ink)}
+.tick:hover .dnum{color:var(--accent)}
+
+/* ---- headings ---- */
+.tlKicker,.day .dc,.tlSub{font-family:var(--mono);letter-spacing:.02em}
+.tlTitle,.day h2{font-weight:500;letter-spacing:-.045em}
+.tlTitle{font-size:clamp(2.2rem,5.5vw,3.6rem)}
+.tlTitle .hot,.day h2 .hot{color:var(--pink)}
+.tlNext{background:var(--ink)}.tlNext:hover{background:var(--accent)}
+
+/* ---- event cards ---- */
+#list{gap:10px}
+.card{border:1px solid var(--hair);border-radius:6px;transition:border-color .2s,box-shadow .2s}
+.card:hover,body[data-cards="minimal"] .card:hover{transform:none;border-color:var(--ink);box-shadow:inset -6px 0 0 var(--lime)}
+html[dir="ltr"] .card:hover,html[dir="ltr"] body[data-cards="minimal"] .card:hover{box-shadow:inset 6px 0 0 var(--lime)}
+.card .t .tt{color:var(--ink);font-weight:500;letter-spacing:-.05em;font-size:clamp(1.7rem,2.6vw,2.2rem)}
+.card .t .td{font-family:var(--mono);font-size:.72rem}
+.card .host::before{background:var(--pink)}
+.card .calbtn:hover{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+body[data-cards="minimal"] .card:hover .more{color:var(--ink)}
+.calmenu button:hover{background:color-mix(in srgb,var(--lime) 35%,#fff);color:var(--ink)}
+
+/* ---- footer ---- */
+footer .sl{font-weight:500;letter-spacing:-.045em}
+</style>
+
 </head>
 <body>
 <a class="skipLink" href="#main">דלגו לתוכן הראשי</a>
@@ -555,17 +657,32 @@
 <header class="wrap">
   <div class="topbar">
     <div class="tbrand">
-      <span class="tmark" id="homeLink" role="button" tabindex="0" aria-label="zuzu — חזרה לעמוד הבית" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">.zuzu<sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
+      <span class="tmark" id="homeLink" role="button" tabindex="0" aria-label="zuzu — חזרה לעמוד הבית" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo-motion.svg" alt="" style="width:28px;height:28px;flex:none">.zuzu<sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
       <span class="ttag">איפה רוקדים היום?</span>
     </div>
     <div class="tright">
-      <a class="tinstall quizlink" href="quiz.html" style="font-weight:700"><img src="assets/question-icon.svg" alt="" style="width:16px;height:16px;flex:none"><span>מאיפה מתחילים?</span></a>
+      <a class="tinstall quizlink" href="quiz.html" style="font-weight:700"><img src="assets/question-icon-motion.svg" alt="" style="width:16px;height:16px;flex:none"><span>מאיפה מתחילים?</span></a>
       <a class="tinstall" href="install.html"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"></rect><line x1="10.5" y1="18.5" x2="13.5" y2="18.5"></line></svg><span>שמרו כאפליקציה</span></a>
       <a class="tinstall langlink" href="/en" lang="en" hreflang="en" style="font-weight:700"><span>English</span></a>
     </div>
   </div>
 
 </header>
+
+<section class="wrap mHeroWrap" aria-hidden="true">
+  <div class="mHero">
+    <div class="mBlobs"><i class="p p1"></i><i class="p p2"></i><i class="p p3"></i><i class="p p4"></i><i class="p p5"></i><i class="dots"></i></div>
+    <div class="mFrames"><figure class="f1"></figure><figure class="f2"></figure><figure class="f3"></figure></div>
+    <ul class="mCoords">
+      <li style="top:24%;inset-inline-start:36%">[32.08, 34.78]</li>
+      <li style="top:60%;inset-inline-start:48%">[31.77, 35.21]</li>
+      <li style="top:10%;inset-inline-start:52%">[32.79, 34.99]</li>
+      <li style="top:76%;inset-inline-start:30%">[29.56, 34.95]</li>
+    </ul>
+    <p class="mHead"><span>איפה</span><span>רוקדים</span><span>היום?</span></p>
+    <div class="mVerbs"><span>לזוז.</span><span>לנשום.</span><span>לרקוד.</span></div>
+  </div>
+</section>
 
 <div class="bar" role="region" aria-label="חיפוש וסינון">
   <div class="wrap">
