@@ -566,7 +566,9 @@ html[dir="ltr"] body[data-cards="minimal"] .card:hover{box-shadow:inset 5px 0 0 
 /* lime highlights */
 .tick .dnum{position:relative;z-index:0}
 .tick.sel .dnum{color:var(--ink)}
-.tick.sel .dnum::before{content:"";position:absolute;z-index:-1;inset:-6px -11px;border-radius:999px;background:var(--lime)}
+.tick .dnum{margin-bottom:6px}   /* room under the number for the circle */
+.tick.sel .dnum::before{content:"";position:absolute;z-index:-1;left:50%;top:50%;width:30px;height:30px;transform:translate(-50%,-50%);border-radius:50%;background:var(--lime)}
+.ruler{padding-top:8px}   /* the ruler scrolls sideways, which clips anything above its edge: leave room for the pill */
 .tick.sel .stem{background:var(--ink)}
 .chip{background:var(--lime);color:var(--ink)}
 .card .calbtn:hover{background:var(--lime);border-color:var(--lime);color:var(--ink)}
