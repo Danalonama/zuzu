@@ -23,7 +23,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
 <link rel="apple-touch-icon" href="favicon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#EEF4F7">
+<meta name="theme-color" content="#FFFFFF">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -49,6 +49,8 @@
   :root{
     --bg:#ECF2F5; --ink:#0a0a0a; --muted:#6b6b6b; /* a11y: was #8a8a8a (3.1:1) → 4.7:1 on --bg, WCAG AA */ --line:#0a0a0a; --hair:#e7e7e7;
     --accent:#E73804; --card:#ffffff;
+    /* movement-family colors (calendar slips + legend), in families sort order */
+    --fam0:#2747B8; --fam1:#B5365B; --fam2:#7A3FC2; --fam3:#1E7A6B; --fam4:#B86A12; --fam5:#0F7C8C; --fam6:#6B7A1C; --fam7:#9C3D1E; --fam8:#4B5563;
   }
   body[data-accent="ember"]{--accent:#ff5c1a}
   body[data-accent="ink"]{--accent:#0a0a0a}
@@ -543,6 +545,40 @@
     body[data-motion="off"] .rv{opacity:1;transform:none;animation:none}
   }
 </style>
+<style id="palette">
+/* ===== color-only preview: same layout and type as today, white page, hot pink + lime.
+   Delete this block (and point the two <img> back to the orange files) to go back. ===== */
+:root{
+  --bg:#FFFFFF; --card:#FFFFFF; --hair:#E6E6E6;
+  --pink:#FF2E93;      /* big type and fills only (3.5:1 on white) */
+  --accent:#D6006F;    /* replaces the orange everywhere; 5.1:1 on white */
+  --lime:#C6F432;      /* fills only; text on lime is ink */
+  --fam0:#FF2E93; --fam1:#F7A8CC; --fam2:#C6F432; --fam3:#4FA21A; --fam4:#0A0A0A; --fam5:#FF7A3D; --fam6:#A98BE0; --fam7:#CBBFA6; --fam8:#8A8A8A;
+}
+/* cards were white on light blue; on white they need an outline */
+.card{border:1px solid var(--hair)}
+body[data-cards="minimal"] .card:hover{border-color:var(--ink);box-shadow:inset -5px 0 0 var(--lime)}
+html[dir="ltr"] body[data-cards="minimal"] .card:hover{box-shadow:inset 5px 0 0 var(--lime)}
+.card .t .tt,.slip .sk .h{color:var(--ink)}     /* event times stay black; pink is only for accents */
+.tlTitle .hot,.day h2 .hot{color:var(--pink)}
+/* lime highlights */
+.tick .dnum{position:relative;z-index:0}
+.tick.sel .dnum{color:var(--ink)}
+.tick .dnum{margin-bottom:6px}   /* room under the number for the circle */
+.tick.sel .dnum::before{content:"";position:absolute;z-index:-1;left:50%;top:50%;width:30px;height:30px;transform:translate(-50%,-50%);border-radius:50%;background:var(--lime)}
+.ruler{padding-top:8px}   /* the ruler scrolls sideways, which clips anything above its edge: leave room for the pill */
+.tick.sel .stem{background:var(--ink)}
+.chip{background:var(--lime);color:var(--ink)}
+.card .calbtn:hover{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.calmenu button:hover{background:color-mix(in srgb,var(--lime) 35%,#fff);color:var(--ink)}
+.filterBtn .fbCount{background:var(--accent)}
+/* the zloading skeleton and the light-blue thumbnail tint assumed the old blue-grey page */
+.zskel{border:1px solid var(--hair)}
+/* calendar: light family colors need a wider edge and an outlined legend dot */
+.slip{border-inline-start-width:6px}
+.calLegend .ldot{box-shadow:inset 0 0 0 1px rgba(10,10,10,.18)}
+</style>
+
 </head>
 <body>
 <a class="skipLink" href="#main">דלגו לתוכן הראשי</a>
@@ -555,11 +591,11 @@
 <header class="wrap">
   <div class="topbar">
     <div class="tbrand">
-      <span class="tmark" id="homeLink" role="button" tabindex="0" aria-label="zuzu — חזרה לעמוד הבית" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">.zuzu<sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
+      <span class="tmark" id="homeLink" role="button" tabindex="0" aria-label="zuzu — חזרה לעמוד הבית" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo-pink.svg" alt="" style="width:28px;height:28px;flex:none">.zuzu<sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
       <span class="ttag">איפה רוקדים היום?</span>
     </div>
     <div class="tright">
-      <a class="tinstall quizlink" href="quiz.html" style="font-weight:700"><img src="assets/question-icon.svg" alt="" style="width:16px;height:16px;flex:none"><span>מאיפה מתחילים?</span></a>
+      <a class="tinstall quizlink" href="quiz.html" style="font-weight:700"><img src="assets/question-icon-pink.svg" alt="" style="width:16px;height:16px;flex:none"><span>מאיפה מתחילים?</span></a>
       <a class="tinstall" href="install.html"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"></rect><line x1="10.5" y1="18.5" x2="13.5" y2="18.5"></line></svg><span>שמרו כאפליקציה</span></a>
       <a class="tinstall langlink" href="/en" lang="en" hreflang="en" style="font-weight:700"><span>English</span></a>
     </div>
@@ -956,7 +992,7 @@ function renderList(){
   list.innerHTML=html;
   reveal(list,".day,.card,.empty",70,420);
 }
-const FAM_COLORS=["#2747B8","#B5365B","#7A3FC2","#1E7A6B","#B86A12","#0F7C8C","#6B7A1C","#9C3D1E","#4B5563"];
+const FAM_COLORS=[0,1,2,3,4,5,6,7,8].map(i=>`var(--fam${i})`);   // colors live in CSS (:root --fam0…8) so a theme can swap them
 function famColor(e){ const i=MOVES.indexOf((e._fams||[])[0]); return i<0?"var(--accent)":FAM_COLORS[i%FAM_COLORS.length]; }
 function slipHtml(e){
   const link=regLink(e);

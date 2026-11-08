@@ -226,7 +226,7 @@ rep('`<div class="host">with <b>${e.host}</b></div>`', '`<div class="host">with 
 rep('href="favicon-32.png"', 'href="/favicon-32.png"')
 rep('href="favicon-192.png"', 'href="/favicon-192.png"')
 rep('href="favicon-180.png"', 'href="/favicon-180.png"')
-rep('<img src="assets/zuzu-logo.svg"', '<img src="/assets/zuzu-logo.svg"')
+rep('<img src="assets/zuzu-logo-pink.svg"', '<img src="/assets/zuzu-logo-pink.svg"')
 rep('const PAGE_BASE="", OTHER_BASE="/en";', 'const PAGE_BASE="/en", OTHER_BASE="";')
 rep('LOOKUPS.regions.forEach(r=>{ const l=r.name_he;', 'LOOKUPS.regions.forEach(r=>{ const l=r.name_en||r.name_he;')
 rep('aria-label="שיתוף קישור לתוצאות האלה"', 'aria-label="Share a link to these results"')
