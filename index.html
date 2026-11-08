@@ -49,6 +49,8 @@
   :root{
     --bg:#ECF2F5; --ink:#0a0a0a; --muted:#6b6b6b; /* a11y: was #8a8a8a (3.1:1) → 4.7:1 on --bg, WCAG AA */ --line:#0a0a0a; --hair:#e7e7e7;
     --accent:#E73804; --card:#ffffff;
+    /* movement-family colors (calendar slips + legend), in families sort order */
+    --fam0:#2747B8; --fam1:#B5365B; --fam2:#7A3FC2; --fam3:#1E7A6B; --fam4:#B86A12; --fam5:#0F7C8C; --fam6:#6B7A1C; --fam7:#9C3D1E; --fam8:#4B5563;
   }
   body[data-accent="ember"]{--accent:#ff5c1a}
   body[data-accent="ink"]{--accent:#0a0a0a}
@@ -553,6 +555,9 @@
   --lime:#C6F432;      /* fills only; text on lime is ink (15:1) */
   --soft:#F1F1EF;      /* the grey-white of the photo backdrops */
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  /* movement families, from the photos and the poster (order = families sort order in Supabase):
+     free dance, guided dance, contact & impro, movement research, contemporary dance, world styles, movement/acro/martial, body-mind */
+  --fam0:#FF2E93; --fam1:#F7A8CC; --fam2:#C6F432; --fam3:#4FA21A; --fam4:#0A0A0A; --fam5:#FF7A3D; --fam6:#A98BE0; --fam7:#CBBFA6; --fam8:#8A8A8A;
 }
 body{background:var(--bg)}
 .topbar .ttag{display:none}            /* the big headline says it */
@@ -640,6 +645,11 @@ html[dir="ltr"] .card:hover,html[dir="ltr"] body[data-cards="minimal"] .card:hov
 .card .calbtn:hover{background:var(--lime);border-color:var(--lime);color:var(--ink)}
 body[data-cards="minimal"] .card:hover .more{color:var(--ink)}
 .calmenu button:hover{background:color-mix(in srgb,var(--lime) 35%,#fff);color:var(--ink)}
+
+/* ---- calendar: family colors are light now, so a wider edge and an outlined legend dot ---- */
+.slip{border-inline-start-width:6px}
+.calLegend .ldot{box-shadow:inset 0 0 0 1px rgba(10,10,10,.18)}
+.calLegend button[aria-pressed="true"]{background:color-mix(in srgb,var(--fc) 22%,#fff)}
 
 /* ---- footer ---- */
 footer .sl{font-weight:500;letter-spacing:-.045em}
@@ -1073,7 +1083,7 @@ function renderList(){
   list.innerHTML=html;
   reveal(list,".day,.card,.empty",70,420);
 }
-const FAM_COLORS=["#2747B8","#B5365B","#7A3FC2","#1E7A6B","#B86A12","#0F7C8C","#6B7A1C","#9C3D1E","#4B5563"];
+const FAM_COLORS=[0,1,2,3,4,5,6,7,8].map(i=>`var(--fam${i})`);   // colors live in CSS (:root --fam0…8) so a theme can swap them
 function famColor(e){ const i=MOVES.indexOf((e._fams||[])[0]); return i<0?"var(--accent)":FAM_COLORS[i%FAM_COLORS.length]; }
 function slipHtml(e){
   const link=regLink(e);
