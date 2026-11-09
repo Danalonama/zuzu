@@ -28,7 +28,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Zuzu">
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<!-- IBM Plex Mono for digits only: text= makes Google serve just these characters, so every letter falls through to Heebo -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&text=0123456789.%2C%3A-%E2%80%93%5B%5D%2F&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -556,7 +558,7 @@
   --accent:#D6006F;    /* pink for text and small UI: 5.1:1 on white */
   --lime:#C6F432;      /* fills only; text on lime is ink (15:1) */
   --soft:#F1F1EF;      /* the grey-white of the photo backdrops */
-  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --mono:"IBM Plex Mono","Heebo","Noto Sans Hebrew",sans-serif;   /* the Plex file holds only digits and . , : - – [ ] / ; letters render in Heebo */
   /* movement families, from the photos and the poster (order = families sort order in Supabase):
      free dance, guided dance, contact & impro, movement research, contemporary dance, world styles, movement/acro/martial, body-mind */
   --fam0:#FF2E93; --fam1:#F7A8CC; --fam2:#C6F432; --fam3:#4FA21A; --fam4:#0A0A0A; --fam5:#FF7A3D; --fam6:#A98BE0; --fam7:#CBBFA6; --fam8:#8A8A8A;
