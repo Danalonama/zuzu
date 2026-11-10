@@ -13,7 +13,8 @@ admin/test/           npm test (offline, the bot's fake Supabase)
 ## Setup (once)
 1. Vercel → the project → Settings → Environment Variables (Production): `ADMIN_PASSWORD` = a long
    password (at least 12 characters, e.g. `openssl rand -base64 18`). Without it the page refuses to work.
-   `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are the bot's, reused.
+   `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are the bot's, reused. To test on a preview link, all three
+   must also be ticked for **Preview** (the bot's were Production only).
 2. Redeploy.
 3. Open zuzu.today/edit and enter the password. "Remember on this device" keeps it in the browser
    (localStorage); otherwise it's forgotten when the tab closes.

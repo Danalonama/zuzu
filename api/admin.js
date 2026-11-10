@@ -27,6 +27,11 @@ export default async function handler(req, res, deps = {}) {
     return res.status(401).json({ ok: false, error: "סיסמה שגויה" });
   }
 
+  // The bot's Supabase variables must exist in this environment too (Production and, to test a preview, Preview).
+  if (!deps.sb && (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY)) {
+    return res.status(503).json({ ok: false, error: "חסרים SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY בסביבה הזו ב-Vercel (ב-Preview צריך לסמן גם אותה)" });
+  }
+
   let body;
   try { body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {}; }
   catch { return res.status(400).json({ ok: false, error: "bad JSON" }); }
