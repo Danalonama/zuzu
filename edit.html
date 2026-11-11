@@ -7,7 +7,7 @@
 <title>zuzu · עריכה</title>
 <link rel="icon" type="image/png" href="/favicon-32.png">
 <style>
-  :root{--bg:#f2f1ef;--card:#fff;--ink:#232830;--muted:#5c636d;--accent:#e8602c;--accent-text:#a8461f;--line:#e2e2de;
+  :root{--bg:#fff;--card:#fff;--ink:#232830;--muted:#5c636d;--accent:#e8602c;--accent-text:#a8461f;--line:#e2e2de;
     --field:#d9d9d5;--chip:#f0f0ee;--ok:#1f7a5a;--okbg:#e6f4ee;--no:#b3261e;--nobg:#fdecea;--warn:#8a5a00;--warnbg:#fdf3e2}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Assistant","Heebo",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;padding-bottom:80px}
@@ -151,6 +151,17 @@ const todayIso = () => new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jerusa
 const hhmm = (t) => (t ? String(t).slice(0, 5) : "");
 const heDate = (iso) => { if (!iso) return ""; const [y, m, d] = iso.split("-").map(Number); return `${d}.${m}.${String(y).slice(2)}`; };
 const statusHe = (s) => STATUS_HE[s] || s;
+// Hebrew for the database's internal values. Audience is worded as on the site (index.html AUDIENCE_LABELS).
+// A value missing here is shown as it is in the database, never guessed.
+const LABELS = {
+  audience: { women_only: "נשים בלבד", men_only: "גברים בלבד", beginners_welcome: "מתאים למתחילים",
+    parents_with_kids: "הורים וילדים", sixty_plus: "60+", partner_needed: "בזוגות" },
+  price_kind: { unknown: "לא ידוע", fixed: "מחיר קבוע", range: "טווח מחירים", free: "חינם", donation: "תרומה / כמה שרוצים" },
+  price_unit: { class: "לשיעור", session: "למפגש", course: "לקורס", day: "ליום", weekend: "לסופ״ש", punch_card: "כרטיסייה",
+    month: "לחודש", event: "לאירוע", workshop: "לסדנה" },
+  kind: { studio: "סטודיו", outdoor: "בחוץ", online: "אונליין", person: "אדם", org: "ארגון" },
+};
+const he = (group, v) => LABELS[group][v] || v;
 const store = { get(k) { try { return sessionStorage.getItem(k) || localStorage.getItem(k) || ""; } catch { return ""; } },
   set(k, v, keep) { try { (keep ? localStorage : sessionStorage).setItem(k, v); } catch {} },
   del(k) { try { sessionStorage.removeItem(k); localStorage.removeItem(k); } catch {} } };
@@ -348,11 +359,11 @@ function openEditor(li, focus) {
 
     <div class="full lbl">סוגי תנועה ${checks("disciplines", D.disciplines.map((d) => [d.slug, d.label_he]), e.disciplines || [])}</div>
     <div class="full lbl">פורמט ${checks("formats", D.formats.map((d) => [d.slug, d.label_he]), e.formats || [])}</div>
-    ${en.audience.length ? `<div class="full lbl">קהל ${checks("audience", en.audience.map((a) => [a, a]), e.audience || [])}</div>` : ""}
+    ${en.audience.length ? `<div class="full lbl">קהל ${checks("audience", en.audience.map((a) => [a, he("audience", a)]), e.audience || [])}</div>` : ""}
 
     <label class="full">מחיר (כמו שנכתב)<input name="price_raw" value="${esc(e.price_raw)}"></label>
-    <label>סוג מחיר<select name="price_kind">${[opt("", "—", e.price_kind || "")].concat(en.price_kind.map((k) => opt(k, k, e.price_kind))).join("")}</select></label>
-    <label>יחידה<select name="price_unit">${[opt("", "—", e.price_unit || "")].concat(en.price_unit.map((k) => opt(k, k, e.price_unit))).join("")}</select></label>
+    <label>סוג מחיר<select name="price_kind">${[opt("", "—", e.price_kind || "")].concat(en.price_kind.map((k) => opt(k, he("price_kind", k), e.price_kind))).join("")}</select></label>
+    <label>יחידה<select name="price_unit">${[opt("", "—", e.price_unit || "")].concat(en.price_unit.map((k) => opt(k, he("price_unit", k), e.price_unit))).join("")}</select></label>
     <label>מחיר מינימום<input type="number" min="0" name="price_min" value="${esc(e.price_min)}"></label>
     <label>מחיר מקסימום<input type="number" min="0" name="price_max" value="${esc(e.price_max)}"></label>
 
@@ -490,10 +501,10 @@ function openEditor(li, focus) {
 const CFG = {
   venues: { list: "#vList", count: "#vCount", q: "#qv", one: "מקום", save: "venue.save", create: "venue.create", kinds: () => D.enums.venue_kind,
     uses: (id) => D.events.filter((e) => e.venue_id === id).length,
-    sub: (v) => [D.cityById[v.city_id]?.name, v.kind].filter(Boolean).join(" · ") },
+    sub: (v) => [D.cityById[v.city_id]?.name, v.kind && he("kind", v.kind)].filter(Boolean).join(" · ") },
   hosts: { list: "#hList", count: "#hCount", q: "#qh", one: "מנחה", save: "host.save", create: "host.create", kinds: () => D.enums.host_kind,
     uses: (id) => D.events.filter((e) => e.host_ids.includes(id)).length,
-    sub: (h) => [h.kind, h.phone].filter(Boolean).join(" · ") },
+    sub: (h) => [h.kind && he("kind", h.kind), h.phone].filter(Boolean).join(" · ") },
 };
 function renderPlaces(type) {
   const c = CFG[type], q = norm($(c.q).value);
@@ -513,7 +524,7 @@ function placeForm(type, r) {
   f.className = "ed"; f.noValidate = true;
   f.innerHTML = `
     <label>שם<input name="name" value="${esc(r.name)}" required></label>
-    <label>סוג<select name="kind">${[opt("", "—", r.kind || "")].concat(c.kinds().map((k) => opt(k, k, r.kind))).join("")}</select></label>
+    <label>סוג<select name="kind">${[opt("", "—", r.kind || "")].concat(c.kinds().map((k) => opt(k, he("kind", k), r.kind))).join("")}</select></label>
     <label class="full">כינויים / איותים נוספים (מופרדים בפסיק)<input name="aliases" value="${esc((r.aliases || []).join(", "))}"></label>
     ${type === "venues" ? `
       <label>עיר<select name="city_id">${[opt("", "—", r.city_id == null ? "" : String(r.city_id))].concat([...D.cities].sort((a, b) => a.name.localeCompare(b.name, "he")).map((x) => opt(String(x.id), x.name, String(r.city_id)))).join("")}</select></label>
