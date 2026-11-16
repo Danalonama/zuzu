@@ -598,7 +598,7 @@
 
   /* hero */
   .kHero{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px 2.5rem;padding-top:40px;padding-bottom:26px}
-  .kHead{flex:1 1 460px;font-weight:500;font-size:clamp(2.8rem,6.2vw,4.4rem);line-height:1.02;letter-spacing:-.035em}
+  .kHead{flex:1 1 460px;font-weight:500;font-size:clamp(2.1rem,6.2vw,4.4rem);line-height:1.02;letter-spacing:-.035em}
   .kSub{flex:0 1 380px;margin:0;font-size:clamp(1.05rem,1.6vw,1.3rem);line-height:1.38;letter-spacing:-.01em}
 
   /* search / filter / view */
@@ -676,6 +676,12 @@
   .card .calbtn:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
   .card .calbtn svg{width:16px;height:16px}
   @media(max-width:680px){ .card{padding:16px} .card .more{flex:1 1 auto} .card .t .tt{font-size:1.6rem} }
+  /* desktop: one row per event, buttons at the card's far (left) edge */
+  @media(min-width:681px){
+    .card{flex-wrap:nowrap;align-items:center}
+    .card .end{flex:none;padding-top:0}
+    .card .more{flex:none}
+  }
   .zskel{border-radius:22px;border:1px solid var(--hair)}
 
   /* "by style" tiles */
