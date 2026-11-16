@@ -1,0 +1,817 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="description" content="Two weeks of talks, shows, parties, markets and day trips while you're here to vote. 25.10–7.11.2026.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zuzu.today/voters">
+<meta property="og:title" content="Election ✕ Weeks · שבועיים ✕ בחירות">
+<meta property="og:description" content="Two weeks of talks, shows, parties, markets and day trips while you're here to vote. 25.10–7.11.2026.">
+<meta property="og:image" content="https://zuzu.today/voters/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Election Weeks – a two-week calendar of events in Tel Aviv and around">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zuzu.today/voters/img/og.jpg">
+<base href="/voters/">
+<script defer src="/_vercel/insights/script.js"></script>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head><body>
+<title>Election Weeks TLV</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Secular+One&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a two-week ballot-sheet grid (Sun→Sat rows), each day a column of tear-off event slips; collapses to a day list on phones. Hebrew mode flips to RTL. */
+:root{
+  --paper:#F5F6FA; --sheet:#FFFFFF; --ink:#121A3A; --muted:#5A6283; --line:#DCE0EC;
+  --ballot:#2747B8; --ballot-soft:#E6EBFA; --marker:#F4D348; --marker-ink:#3A2F00;
+  --c-talk:#2747B8; --c-live:#B5365B; --c-party:#7A3FC2; --c-film:#1E7A6B; --c-spirit:#B86A12; --c-game:#4B5563; --c-tour:#6B7A1C; --c-stage:#9C3D1E; --c-market:#0F7C8C;
+  --f-display:"Secular One","Assistant",system-ui,sans-serif;
+  --f-body:"Assistant",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono","Assistant",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0E1226; --sheet:#161B33; --ink:#E8EBF7; --muted:#9AA2C3; --line:#2A3152;
+  --ballot:#8FA6FF; --ballot-soft:#1E2752; --marker:#E9C93A; --marker-ink:#2B2300;
+  --c-talk:#8FA6FF; --c-live:#F08AA8; --c-party:#C3A0FF; --c-film:#6FD3BE; --c-spirit:#F2B45E; --c-game:#AEB4C4; --c-tour:#C7D66A; --c-stage:#F29A76; --c-market:#5FD0DE;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1226; --sheet:#161B33; --ink:#E8EBF7; --muted:#9AA2C3; --line:#2A3152;
+  --ballot:#8FA6FF; --ballot-soft:#1E2752; --marker:#E9C93A; --marker-ink:#2B2300;
+  --c-talk:#8FA6FF; --c-live:#F08AA8; --c-party:#C3A0FF; --c-film:#6FD3BE; --c-spirit:#F2B45E; --c-game:#AEB4C4; --c-tour:#C7D66A; --c-stage:#F29A76; --c-market:#5FD0DE;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px}
+html[lang="he"] [data-l="en"], html:not([lang="he"]) [data-l="he"]{display:none!important}
+.wrap{max-width:none;margin:0;display:flex;flex-direction:column;gap:28px}
+a{color:var(--ballot)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--ballot);outline-offset:2px}
+header{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,6vw,60px);line-height:1.05;margin:6px 0 0;text-wrap:balance}
+h1 .x{display:inline-block;border:3px solid var(--ballot);color:var(--ballot);padding:0 .18em;transform:rotate(-2deg);margin-inline:.1em}
+.lede{max-width:62ch;color:var(--muted);margin:10px 0 0}
+.lang{display:inline-flex;border:1.5px solid var(--ink)}
+.lang button{font:600 14px var(--f-body);background:var(--sheet);color:var(--ink);border:0;padding:8px 14px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:600 13px var(--f-body);border:1px solid var(--line);background:var(--sheet);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--sheet);color:var(--ink)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.week h2{font-family:var(--f-display);font-weight:400;font-size:22px;margin:0 0 10px}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:2px solid var(--ink)}
+.day{border-inline-end:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 8px 14px;min-width:0;display:flex;flex-direction:column;gap:8px;background:var(--sheet)}
+.day:first-child{border-inline-start:1px solid var(--line)}
+.day.vote{background:var(--marker);color:var(--marker-ink)}
+.day.vote .slip{background:var(--sheet);color:var(--ink)}
+.dh{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.dh b{font-family:var(--f-display);font-weight:400;font-size:26px;line-height:1}
+.dh span{font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.tag{font:700 11px var(--f-body);letter-spacing:.04em;text-transform:uppercase}
+.slip{border:1px solid var(--line);border-inline-start:3px solid var(--c);padding:8px 9px;display:flex;flex-direction:column;gap:3px;background:var(--sheet)}
+.slip .pic{width:100%;height:auto;display:block;margin-bottom:4px}
+.slip .t{font-family:var(--f-mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.slip .n{font-weight:700;line-height:1.25;overflow-wrap:anywhere}
+.slip .v{font-size:12.5px;color:var(--muted)}
+.slip .s{font-size:12.5px}
+.slip .row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:3px}
+.flag{font:700 10.5px var(--f-body);text-transform:uppercase;letter-spacing:.05em;padding:2px 6px;background:var(--ballot-soft);color:var(--ballot)}
+.flag.free{background:var(--c-film);color:var(--sheet)}
+.flag.warn{background:var(--c-live);color:var(--sheet)}
+.slip a{font-size:12.5px;font-weight:600}
+.empty{font-size:12.5px;color:var(--muted);font-style:italic}
+.cols{grid-auto-flow:dense}
+.cols > .promo{padding:0;display:grid;grid-template-columns:1fr;background:var(--sheet);color:var(--ink);text-decoration:none;min-width:0}
+.promo img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;max-width:100%}
+.promo-body{display:flex;flex-direction:column;gap:5px;padding:14px 16px;min-width:0}
+.promo-q{font-family:var(--f-display);font-size:20px;line-height:1.2;color:var(--ink)}
+.promo-name{font-family:var(--f-display);font-size:26px;line-height:1.05}
+.promo-text{color:var(--muted);font-size:14px}
+.promo-cta{margin-top:auto;padding-top:8px;font-weight:700;color:var(--ballot);font-size:14px}
+.promo:hover .promo-cta,.promo:focus-visible .promo-cta{text-decoration:underline}
+@media (min-width:600px){.cols > .promo{grid-column:span 2;grid-template-columns:1fr 1fr}.promo img{height:100%}}
+@media (max-width:599px){.promo img{aspect-ratio:3/2}}
+.cafes{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));border-top:1px solid var(--line);border-inline-start:1px solid var(--line)}
+.cafe{display:flex;flex-direction:column;gap:2px;padding:12px 16px;border-inline-end:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;min-width:0}
+.coffee-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);border-top:1px solid var(--line)}
+.coffee-wrap.nopics{grid-template-columns:1fr}
+.cafe-pic{border-inline-end:1px solid var(--line);border-bottom:1px solid var(--line);min-height:88px;position:relative;overflow:hidden}
+.cafe-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+@media (max-width:460px){.cafe-pic{min-height:140px}}
+.coffee-pics{display:flex;flex-direction:column;min-width:0}
+.coffee-pics img{width:100%;flex:1 1 0;min-height:0;object-fit:cover;display:block;max-width:100%}
+.coffee-list{min-width:0;padding-bottom:12px}
+.cgroup h3{font-family:var(--f-mono);font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0;padding:14px 16px 8px}
+.coffee .cafes{border-top:1px solid var(--line);border-inline-start:1px solid var(--line)}
+@media (max-width:760px){.coffee-wrap{grid-template-columns:1fr}.coffee-pics img{aspect-ratio:3/2;flex:none}.coffee-pics img+img{display:none}}
+.coffee-head{display:flex;align-items:center;gap:16px;padding:0 16px 14px}
+.coffee-head img{width:120px;height:90px;object-fit:cover;flex:none;display:block}
+.coffee-head h2,.coffee-head p{padding-inline:0!important;margin:0}
+.coffee-head p{color:var(--muted);margin-top:4px}
+.cafecredit{margin:4px 0 0!important;color:var(--ink)!important;font-size:15px}
+.cafe b{font-size:15px}
+.cafe > span{font-size:13.5px;color:var(--muted)}
+.cafe:hover b,.cafe:focus-visible b{text-decoration:underline;color:var(--ballot)}
+section.band{background:var(--sheet);border-top:2px solid var(--ink);padding:18px 0 4px}
+section.band h2{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 4px;padding-inline:16px}
+section.band > p{color:var(--muted);margin:0 0 14px;max-width:70ch;padding-inline:16px}
+.cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0;background:var(--sheet);border-top:1px solid var(--line);border-inline-start:1px solid var(--line)}
+.cols > *{border-inline-end:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cols > div{background:var(--sheet);padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.cols h3{margin:0;font-size:16px}
+.cols p{margin:0;font-size:14px;color:var(--muted)}
+.cols .meta{font-family:var(--f-mono);font-size:11.5px;color:var(--ink);text-transform:uppercase;letter-spacing:.04em}
+.cols .v{font-size:13px;color:var(--muted)}
+.notes{font-size:14px;color:var(--muted);max-width:80ch;padding-inline-start:20px}
+.notes li{margin-bottom:6px}
+.suggest{border-top:2px solid var(--ink);padding-top:18px;display:flex;flex-direction:column;gap:12px;max-width:720px}
+.suggest h2{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0}
+.suggest > p{margin:0;color:var(--muted)}
+.sform{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sform label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:14px;min-width:0}
+.sform .wide{grid-column:1 / -1}
+.sform input,.sform textarea{font:15px var(--f-body);color:var(--ink);background:var(--sheet);border:1px solid var(--line);padding:10px 12px;border-radius:0;width:100%}
+.sform input:focus,.sform textarea:focus{outline:2px solid var(--ballot);outline-offset:0;border-color:var(--ballot)}
+.sform textarea{min-height:90px;resize:vertical}
+.sform button{justify-self:start;font:700 15px var(--f-body);background:var(--ink);color:var(--paper);border:0;padding:12px 22px;cursor:pointer}
+.sform button[disabled]{opacity:.6;cursor:default}
+.smsg{font-weight:600}
+.smsg.ok{color:var(--c-film)} .smsg.err{color:var(--c-live)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+@media (max-width:600px){.sform{grid-template-columns:1fr}}
+.toprow{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center}
+.addlink{font:700 14px var(--f-body);color:var(--ballot);background:none;border:0;padding:6px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+dialog.sdlg{border:0;padding:0;max-width:min(640px,calc(100vw - 32px));width:100%;background:var(--paper);color:var(--ink);box-shadow:0 20px 60px rgba(18,26,58,.35)}
+dialog.sdlg::backdrop{background:rgba(18,26,58,.45)}
+.sdlg .suggest{border-top:0;padding:22px 22px 24px;max-width:none}
+.sdlg h2{padding-inline-end:36px}
+.sclose{position:absolute;top:10px;inset-inline-end:10px;background:none;border:0;font-size:26px;line-height:1;color:var(--muted);cursor:pointer;padding:6px 10px}
+.credit{border-top:1px solid var(--line);padding-top:10px;font-size:13px;color:var(--muted)}
+@media (max-width:900px){
+  .grid{grid-template-columns:1fr}
+  .day,.day:first-child{border-inline-start:1px solid var(--line)}
+  .slip{padding:10px 12px;gap:4px}
+  .slip.haspic{display:grid;grid-template-columns:88px minmax(0,1fr);column-gap:12px;align-items:start}
+  .slip.haspic .pic{grid-column:1;grid-row:1 / span 6;width:88px;height:88px;object-fit:cover;margin:0}
+  .slip.haspic > :not(.pic){grid-column:2}
+  .slip .n{font-size:17px}
+  .slip .s{font-size:14.5px}
+  .slip .t{font-size:13px}
+  .slip .v,.slip a{font-size:14px}
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="toprow">
+      <div class="lang" role="group" aria-label="Language / שפה">
+        <button type="button" id="l-en" data-set="en">English</button>
+        <button type="button" id="l-he" data-set="he">עברית</button>
+      </div>
+      <button type="button" class="addlink" id="open-suggest"><span data-l="en">+ Add an event</span><span data-l="he">+ הוסיפו אירוע</span></button>
+    </div>
+    <div>
+      <h1><span data-l="en">Election <span class="x">✕</span> Weeks</span><span data-l="he">שבועיים <span class="x">✕</span> בחירות</span></h1>
+      <p class="lede"><span data-l="en">Two weeks of things to do while you're here to vote.</span><span data-l="he">שבועיים של דברים לעשות בזמן שאתם בארץ להצביע.</span></p>
+    </div>
+  </header>
+
+  <div class="filters" id="filters" role="group" aria-label="Filter"></div>
+  <div class="filters" id="areas" role="group" aria-label="Area"></div>
+
+  <div id="weeks"></div>
+
+  <section class="band">
+    <h2><span data-l="en">Both weeks</span><span data-l="he">לאורך כל השבועיים</span></h2>
+    <p><span data-l="en">Fillers for any free afternoon. On Shabbat (31.10, 7.11) many shops close and most public transport stops, so plan on a car, taxi or walking.</span><span data-l="he">לכל אחר צהריים פנוי. בשבת (31.10, 7.11) הרבה חנויות סגורות ורוב התחבורה הציבורית לא עובדת, אז כדאי לתכנן רכב, מונית או הליכה.</span></p>
+    <div class="cols">
+      <div>
+        <span class="meta"><span data-l="en">Last chance · closes Sat 7.11 · MUZA, Ramat Aviv</span><span data-l="he">הזדמנות אחרונה · נסגרת בש׳ 7.11 · מוזיאון ארץ ישראל, רמת אביב</span></span>
+        <h3><span data-l="en">Tel Aviv Biennale of Crafts &amp; Design</span><span data-l="he">הביאנלה לאומנויות ולעיצוב</span></h3>
+        <p><span data-l="en">"Works and Days" – ceramics, glass, textile, jewelry, industrial design. English guided tours exist; dates on the museum site. Museum open 10:00–16:00. Also on: Layers of Light, analog cameras 1860–2000.</span><span data-l="he">״מעשים וימים״ – קרמיקה, זכוכית, טקסטיל, תכשיטים ועיצוב תעשייתי. יש גם סיורים מודרכים, התאריכים באתר המוזיאון. המוזיאון פתוח 10:00–16:00. עוד במוזיאון: ״שכבות של אור״, מצלמות אנלוגיות 1860–2000.</span></p>
+        <a href="https://www.eretzmuseum.org.il/en/exhibitions/the-tel-aviv-biennale-of-crafts-and-design-2026/"><span data-l="en">Museum page</span><span data-l="he">עמוד המוזיאון</span></a>
+      </div>
+      <div>
+        <span class="meta"><span data-l="en">From Thu 29.10 · Allenby station, Red Line</span><span data-l="he">מה׳ 29.10 · תחנת אלנבי, הקו האדום</span></span>
+        <h3><span data-l="en">MUZA on the Line</span><span data-l="he">מוזא על הקו</span></h3>
+        <p><span data-l="en">Works from three Biennales installed in the light-rail station. Free if you're passing through anyway.</span><span data-l="he">עבודות מהביאנלה מוצגות בתחנת הרכבת הקלה. חינם, אם ממילא עוברים שם.</span></p>
+      </div>
+      <div>
+        <span class="meta"><span data-l="en">Until Sat 31.10 · Cinematheque</span><span data-l="he">עד ש׳ 31.10 · סינמטק תל אביב</span></span>
+        <h3><span data-l="en">TLVFest – LGBTQ+ Film Festival</span><span data-l="he">TLVFest – פסטיבל הסרטים הגאה</span></h3>
+        <p><span data-l="en">21st edition. Screening schedule on the festival site.</span><span data-l="he">המהדורה ה־21. לוח ההקרנות באתר הפסטיבל.</span></p>
+        <a href="https://www.tlvfest.com">tlvfest.com</a>
+      </div>
+      <div>
+        <span class="meta"><span data-l="en">1–8.11 · Museum, Performing Arts Center, Heichal HaTarbut</span><span data-l="he">1–8.11 · מוזיאון ת״א, המשכן, היכל התרבות</span></span>
+        <h3><span data-l="en">Tel Aviv Festival 2026</span><span data-l="he">פסטיבל תל־אביב 2026</span></h3>
+        <p><span data-l="en">City-run music and art festival, 59 shows, curated by Shlomi Shaban. Closing show is Sun 8.11 at Heichal HaTarbut. Tickets via Ticketmaster; Digitel holders get discounts.</span><span data-l="he">פסטיבל מוזיקה ואמנות של העירייה, 59 מופעים, בניהול אמנותי של שלומי שבן. מופע הנעילה בא׳ 8.11 בהיכל התרבות. כרטיסים בטיקטמאסטר, הנחות למחזיקי דיגיתל.</span></p>
+        <a href="https://telavivfestival.co.il/">telavivfestival.co.il</a>
+      </div>
+      <div>
+        <span class="meta"><span data-l="en">Sessions on the calendar · 28.10–5.11</span><span data-l="he">המפגשים בלו״ז · 28.10–5.11</span></span>
+        <h3><span data-l="en">Cloud Space – sound meditation</span><span data-l="he">Cloud Space – מדיטציית סאונד</span></h3>
+        <p><span data-l="en">About 60 minutes lying on mattresses to a live musician set, often ending with a talk with the artist. Usually weekday evenings (18:30 or 20:30). Book ahead; many sessions sell out. 3rd floor; the site doesn't mention a lift.</span><span data-l="he">כשעה של שכיבה על מזרנים מול סט חי של מוזיקאי, לרוב עם שיחה עם האמן בסוף. בדרך כלל בערבי חול (18:30 או 20:30). כדאי להזמין מראש, הרבה מפגשים נמכרים. קומה 3, באתר לא כתוב אם יש מעלית.</span></p>
+        <a href="https://sol-therapy.com/cloud">sol-therapy.com/cloud</a> <span class="v"><span data-l="en">Shoken 27, 3rd floor</span><span data-l="he">שוקן 27, קומה 3</span></span>
+      </div>
+      <a class="promo" href="https://zuzu.today" target="_blank" rel="noopener">
+        <img src="img/promo-zuzu.jpg" alt="">
+        <span class="promo-body">
+        <span class="promo-q"><span data-l="en">Want to dance or move?</span><span data-l="he">בא לכם לרקוד או לזוז?</span></span>
+        <span class="promo-name">zuzu.today</span>
+        <span class="promo-text"><span data-l="en">A calendar of movement events across Israel: ecstatic dance, contact improv, Gaga, Nia, biodanza and more.</span><span data-l="he">לו״ז של אירועי תנועה בכל הארץ: אקסטטיק דאנס, קונטקט אימפרוביזציה, גאגא, ניה, ביודנסה ועוד.</span></span>
+        <span class="promo-cta"><span data-l="en">Find a class or a dance ↗</span><span data-l="he">למצוא שיעור או מסיבה ↗</span></span>
+      </span>
+    </a>
+      <a class="promo" href="https://mode-il.com" target="_blank" rel="noopener">
+        <img src="img/promo-modeil.jpg" alt="">
+        <span class="promo-body">
+        <span class="promo-q"><span data-l="en">Want to shop local fashion?</span><span data-l="he">בא לכם לקנות אופנה מקומית?</span></span>
+        <span class="promo-name">mode-il.com</span>
+        <span class="promo-text"><span data-l="en">A curated guide to Israeli independent fashion designers. Find a label you like, then visit the studio or shop.</span><span data-l="he">מדריך אוצרותי למעצבי אופנה ישראלים עצמאיים. מוצאים מותג שאוהבים וקופצים לסטודיו או לחנות.</span></span>
+        <span class="promo-cta"><span data-l="en">Browse designers ↗</span><span data-l="he">לגלות מעצבים ↗</span></span>
+      </span>
+    </a>
+      <div>
+        <span class="meta"><span data-l="en">Until Fri 30.10 · Barzilai 11, Gan HaHashmal</span><span data-l="he">עד ו׳ 30.10 · ברזילי 11, גן החשמל</span></span>
+        <h3><span data-l="en">Pop-up October at Kisim</span><span data-l="he">פופ־אפ אוקטובר בחנות כיסים</span></h3>
+        <p><span data-l="en">Fashion pop-up in its last week. Mon–Thu 10:30–18:00, Fri 10:00–14:00. On election day (27.10): 27% off selected new-collection pieces.</span><span data-l="he">פופ־אפ אופנה בשבוע האחרון שלו. ב׳–ה׳ 10:30–18:00, ו׳ 10:00–14:00. ביום הבחירות (27.10): 27% הנחה על פריטים נבחרים מהקולקציה החדשה.</span></p>
+      </div>
+      <div>
+        <span class="meta"><span data-l="en">Closing soon · Yigal Alon 119, TLV</span><span data-l="he">לפני שנסגרת · יגאל אלון 119, ת״א</span></span>
+        <h3>THE SPARK</h3>
+        <p><span data-l="en">An immersive exhibition in the old Tara factory: 43 rooms of art, colour and installations by dozens of artists. Book tickets online.</span><span data-l="he">תערוכה חווייתית במפעל הישן של טרה: 43 חדרים של אמנות, צבע ומיצבים של עשרות אמנים. כרטיסים באתר.</span></p>
+        <a href="https://tickchak.co.il/107202"><span data-l="en">Tickets</span><span data-l="he">כרטיסים</span></a>
+      </div>
+      <div>
+        <span class="meta"><span data-l="en">Free · Dizengoff St.</span><span data-l="he">חינם · רחוב דיזנגוף</span></span>
+        <h3><span data-l="en">Dizengoff Time – tours, shows, wandering</span><span data-l="he">זמן דיזנגוף: סיורים, הופעות ושוטטות</span></h3>
+        <p><span data-l="en">City program bringing back strolling on Dizengoff: fashion and design shops, cafés, nightlife. Check the dates on the city page.</span><span data-l="he">תוכנית של העירייה שמחזירה את ההזדנגפות: אופנה ועיצוב, בתי קפה וחיי לילה. התאריכים בעמוד של העירייה.</span></p>
+        <a href="https://www.tel-aviv.gov.il/Pages/MainItemPage.aspx?WebID=3af57d92-807c-43c5-8d5f-6fd455eb2776&amp;ListID=969f7de3-0ac9-4a30-88f0-2e1a7281f3d0&amp;ItemID=49708"><span data-l="en">City page</span><span data-l="he">העמוד באתר העירייה</span></a>
+      </div>
+      <div>
+        <span class="meta"><span data-l="en">Friday market · Ra'anan 36, TLV</span><span data-l="he">שוק שישי · רעננה 36, ת״א</span></span>
+        <h3><span data-l="en">Anan sale – Friday market</span><span data-l="he">סייל ענן – שוק שישי</span></h3>
+        <p><span data-l="en">Curated by Shira Carmena: second-hand clothes collected around Europe (Kizzy Salon), jewelry by Odd Pearls, hand-made scrunchies by Nog Em Avisar, coffee by Wild Nosh. Check the post for which Friday and the hours.</span><span data-l="he">באוצרות שירה כרמנה: בגדי יד שנייה שנאספו באירופה (Kizzy Salon), תכשיטים של Odd Pearls, גומיות שיער בעבודת יד של נוג עם אביסר, וקפה של Wild Nosh. באיזה שישי ובאילו שעות – בפוסט.</span></p>
+        <a href="https://www.instagram.com/p/Dey4uBCDPN1/"><span data-l="en">Instagram post</span><span data-l="he">הפוסט באינסטגרם</span></a>
+      </div>
+      <div>
+        <span class="meta"><span data-l="en">By booking · Levontin 3, TLV</span><span data-l="he">בהזמנה מראש · לבונטין 3, ת״א</span></span>
+        <h3><span data-l="en">Carpet DM – make your own rug</span><span data-l="he">Carpet DM – סדנת טאפטינג לשטיח משלכם</span></h3>
+        <p><span data-l="en">Tufting workshop: design a rug and take it home the same day. 60×60 cm takes about 4.5 hours, 40×40 cm about 3.5. Ages 18+. Couples and group formats too.</span><span data-l="he">סדנת טאפטינג: מעצבים שטיח ולוקחים הביתה באותו יום. 60×60 ס״מ כ־4.5 שעות, 40×40 ס״מ כ־3.5 שעות. מגיל 18. יש גם סדנאות זוגיות וקבוצתיות.</span></p>
+        <a href="https://www.carpet-dm.com/">carpet-dm.com</a> <span class="v">054-206-8815</span>
+      </div>
+      <div>
+        <span class="meta"><span data-l="en">By booking · at home</span><span data-l="he">בתיאום · אצלכם בבית</span></span>
+        <h3><span data-l="en">Murder Mystery Club</span><span data-l="he">מועדון ארוחת הרצח</span></h3>
+        <p><span data-l="en">Hosted murder-mystery dinner game for 8–21 players, in Hebrew or English. Their public Halloween night is 29.10 (last tickets).</span><span data-l="he">משחק תעלומת רצח עם מפעיל/ה, ל־8 עד 21 משתתפים, בעברית או באנגלית. נשף ההאלווין הפתוח שלהם ב־29.10 (כרטיסים אחרונים).</span></p>
+        <a href="https://www.mysterymurderclub.com/">mysterymurderclub.com</a> <span class="v">WhatsApp: 052-3872598</span>
+      </div>
+      <div>
+        <span class="meta"><span data-l="en">Open on Shabbat · Mon–Sat · ₪55</span><span data-l="he">פתוח בשבת · ב׳–ש׳ · ₪55</span></span><h3><span data-l="en">Tel Aviv Museum of Art</span><span data-l="he">מוזיאון תל אביב לאמנות</span></h3>
+        <p><span data-l="en">Open Saturday, closed Sunday. Last entry an hour before closing. Now showing: Noma Bar: Look Again, and Tom Wesselmann: All Out (closed Mon 26.10). Alex Levac: Black Box opens Tue 27.10. The Kusama Infinity Room is closed for maintenance.</span><span data-l="he">פתוח בשבת, סגור ביום ראשון. כניסה אחרונה שעה לפני הסגירה. מוצגות עכשיו: ״נומה בר: מצד שני״ ו״טום וסלמן: בגדול״ (סגורה בב׳ 26.10). ״אלכס ליבק: קופסה שחורה״ נפתחת בג׳ 27.10. חדר המראות של קוסאמה סגור לתחזוקה.</span></p><a href="https://www.tamuseum.org.il/en/visit/"><span data-l="en">Visit info</span><span data-l="he">מידע למבקר</span></a></div>
+      <div>
+        <span class="meta"><span data-l="en">Good on Shabbat · morning to sunset</span><span data-l="he">טוב לשבת · מהבוקר עד השקיעה</span></span><h3><span data-l="en">Tel Aviv Port &amp; the promenade</span><span data-l="he">נמל תל אביב והטיילת</span></h3>
+        <p><span data-l="en">Cafés and restaurants stay open on the wooden boardwalk. The promenade runs flat all the way to Jaffa; walk part of it, sit down for the rest.</span><span data-l="he">בתי קפה ומסעדות פתוחים על הדק. הטיילת מישורית עד יפו, אפשר ללכת חלק ולשבת בשאר.</span></p></div>
+      <div>
+        <span class="meta"><span data-l="en">Good on Shabbat · afternoon</span><span data-l="he">טוב לשבת · אחר הצהריים</span></span><h3><span data-l="en">Old Jaffa</span><span data-l="he">יפו העתיקה</span></h3>
+        <p><span data-l="en">Most flea-market stalls are closed, but some cafés and restaurants open. St. Peter's Church and the view from the hill.</span><span data-l="he">רוב דוכני שוק הפשפשים סגורים, אבל חלק מבתי הקפה והמסעדות פתוחים. כנסיית סנט פטר והתצפית מהגבעה.</span></p></div>
+      <div>
+        <span class="meta"><span data-l="en">Good on Shabbat · all day</span><span data-l="he">טוב לשבת · כל היום</span></span><h3><span data-l="en">Beach or Yarkon Park</span><span data-l="he">חוף או פארק הירקון</span></h3>
+        <p><span data-l="en">Swim, picnic, sunset. In the park: paths, pedal boats and kayaks.</span><span data-l="he">רחצה, פיקניק, שקיעה. בפארק: שבילים, סירות פדלים וקיאקים.</span></p></div>
+    </div>
+  </section>
+
+  <section class="band coffee workshops">
+    <h2><span data-l="en">Book a workshop</span><span data-l="he">להזמין סדנה</span></h2>
+    <p><span data-l="en">Workshops, tours and experiences you book directly, for a day with a friend. ↗ opens the place's own page; the rest open a web search.</span><span data-l="he">סדנאות, סיורים וחוויות שמזמינים ישירות, ליום עם חברה. ↗ פותח את העמוד של המקום; השאר פותחים חיפוש ברשת.</span></p>
+    <div class="coffee-wrap nopics">
+      <div class="coffee-list">
+      <div class="cgroup">
+        <h3><span data-l="en">Craft &amp; making</span><span data-l="he">יצירה ומלאכה</span></h3>
+        <div class="cafes">
+          <a class="cafe" href="https://www.google.com/search?q=DaizyJewelry%20workshop" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Jewelry workshop</span><span data-l="he">סדנת צורפות</span></b><span><span data-l="en">DaizyJewelry · Tel Aviv</span><span data-l="he">DaizyJewelry · תל אביב</span></span></a>
+          <a class="cafe" href="https://foxbruner.com/products/candle-workshop" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Candle workshop</span><span data-l="he">סדנת נרות</span> ↗</b><span><span data-l="en">Fox Bruner · Jaffa</span><span data-l="he">Fox Bruner · יפו</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=Molet%20%D7%A0%D7%92%D7%A8%D7%95%D7%AA%20%D7%99%D7%A4%D7%95%20%D7%A1%D7%93%D7%A0%D7%94" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Woodworking</span><span data-l="he">סדנאות נגרות</span></b><span><span data-l="en">Molet · Jaffa</span><span data-l="he">Molet · יפו</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%91%D7%A2%D7%9C%D7%99%20%D7%94%D7%9E%D7%9C%D7%90%D7%9B%D7%94%20%D7%A1%D7%93%D7%A0%D7%AA%20%D7%94%D7%93%D7%A4%D7%A1%20%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Printmaking</span><span data-l="he">סדנת הדפס</span></b><span><span data-l="en">Baalei HaMelacha · Tel Aviv</span><span data-l="he">בעלי המלאכה · תל אביב</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%A1%D7%98%D7%95%D7%93%D7%99%D7%95%20%D7%9C%D7%94%D7%93%D7%A4%D7%A1%20Amber%20%D7%A4%D7%A8%D7%93%D7%A1%20%D7%97%D7%A0%D7%94" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Printmaking</span><span data-l="he">סדנת הדפס</span></b><span><span data-l="en">Amber print studio · Pardes Hanna</span><span data-l="he">סטודיו להדפס Amber · פרדס חנה</span></span></a>
+          <a class="cafe" href="https://www.facebook.com/letterpress.workshop" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Antique letterpress</span><span data-l="he">סדנת הדפס עתיקה</span> ↗</b><span><span data-l="en">HaSadriya · Kfar Kish</span><span data-l="he">הסדריה · כפר קיש</span></span></a>
+          <a class="cafe" href="https://www.amirama.co/shibori-workshops" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Shibori – natural Japanese fabric dyeing</span><span data-l="he">שיבורי – צביעת בדים בטכניקות יפניות</span> ↗</b><span><span data-l="en">Amirama · Herzliya</span><span data-l="he">Amirama · הרצליה</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%9E%D7%90%D7%95%D7%A8%20%D7%90%D7%94%D7%A8%D7%95%D7%9F%20%D7%A1%D7%93%D7%A0%D7%AA%20%D7%98%D7%A8%D7%A6%D7%95" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Colourful terrazzo</span><span data-l="he">סדנת טרצו צבעונית</span></b><span><span data-l="en">with designer Maor Aharon</span><span data-l="he">עם המעצב מאור אהרון</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=Speculo%20Caesarea%20glass%20blowing" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Glass blowing</span><span data-l="he">ניפוח זכוכית</span></b><span><span data-l="en">Speculo · Caesarea, private guide, sea view</span><span data-l="he">ספקולו · קיסריה, מדריך פרטי ונוף לים</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%90%D7%A0%D7%96%D7%95%20%D7%91%D7%99%D7%AA%20%D7%A7%D7%98%D7%9F%20%D7%9C%D7%AA%D7%A8%D7%91%D7%95%D7%AA%20%D7%94%D7%99%D7%99%D7%A7%D7%95" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Haiku</span><span data-l="he">סדנת הייקו</span></b><span><span data-l="en">Anzu, a small house for culture</span><span data-l="he">אנזו – בית קטן לתרבות</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=Re.Gal%20workshops%20upcycling" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Clothes upcycling</span><span data-l="he">מיחדוש בגדים</span></b><span><span data-l="en">Re.Gal</span><span data-l="he">Re.Gal</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%A1%D7%93%D7%A0%D7%AA%20%D7%A4%D7%A1%D7%99%D7%A4%D7%A1%20%D7%9B%D7%A8%D7%9E%D7%99%D7%AA%D7%90" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Mosaic</span><span data-l="he">פסיפס</span></b><span><span data-l="en">Karmita</span><span data-l="he">כרמיתא</span></span></a>
+          <a class="cafe" href="https://betceramics.com/pages/ceramic-workshop" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Ceramics</span><span data-l="he">קרמיקה</span> ↗</b><span><span data-l="en">Bet Ceramics</span><span data-l="he">Bet Ceramics</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=Clay%20House%20%D7%A6%D7%99%D7%95%D7%A8%20%D7%A2%D7%9C%20%D7%A7%D7%A8%D7%9E%D7%99%D7%A7%D7%94" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Paint your own ceramics</span><span data-l="he">צביעה וציור על קרמיקה</span></b><span><span data-l="en">Clay House</span><span data-l="he">Clay House</span></span></a>
+          <a class="cafe" href="http://melachot.co.il/" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Ancient crafts – roasting, weaving and more</span><span data-l="he">מלאכות קדומות – קלייה, אריגה ועוד</span> ↗</b><span><span data-l="en">Melachot</span><span data-l="he">מלאכות</span></span></a>
+          <a class="cafe" href="https://www.pazityahalomi.com/" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Making from materials</span><span data-l="he">סדנאות יצירה מחומרים</span> ↗</b><span><span data-l="en">Pazit Yahalomi</span><span data-l="he">פזית יהלומי</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%9E%D7%A1%D7%A2%20%D7%91%D7%9E%D7%99%D7%9C%D7%99%D7%9D%20%D7%97%D7%92%D7%99%D7%AA%20%D7%90%D7%9C%D7%9E%D7%A7%D7%99%D7%99%D7%A1%20%D7%A1%D7%93%D7%A0%D7%AA%20%D7%9B%D7%AA%D7%99%D7%91%D7%94" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Writing – &quot;A Journey in Words&quot;</span><span data-l="he">סדנת כתיבה – מסע במילים</span></b><span><span data-l="en">Hagit Elmakayes</span><span data-l="he">חגית אלמקייס</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%A0%D7%95%D7%A2%D7%94%20%D7%A9%D7%9B%D7%98%D7%A8%20%D7%A1%D7%93%D7%A0%D7%90%D7%95%D7%AA%20%D7%A7%D7%9C%D7%99%D7%A2%D7%AA%20%D7%A1%D7%9C%D7%99%D7%9D" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Basket weaving</span><span data-l="he">קליעת סלים</span></b><span><span data-l="en">Noa Schechter</span><span data-l="he">נועה שכטר</span></span></a>
+          <a class="cafe" href="https://www.carpet-dm.com/" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Rug tufting</span><span data-l="he">סדנת שטיח</span> ↗</b><span><span data-l="en">Carpet DM · Levontin 3, Tel Aviv</span><span data-l="he">Carpet DM · לבונטין 3, תל אביב</span></span></a>
+          <a class="cafe" href="https://galisfly.com/" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Mirrors</span><span data-l="he">סדנת מראות</span> ↗</b><span><span data-l="en">Gali&#x27;s Fly</span><span data-l="he">Gali&#x27;s Fly</span></span></a>
+        </div>
+      </div>
+      <div class="cgroup">
+        <h3><span data-l="en">Movement &amp; play</span><span data-l="he">תנועה וספורט</span></h3>
+        <div class="cafes">
+          <a class="cafe" href="https://www.michalmazar.com/motivation-shape" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Playful – improv in play and movement</span><span data-l="he">פלייפול – אימפרוביזציה במשחק ותנועה</span> ↗</b><span><span data-l="en">Michal Mazar</span><span data-l="he">מיכל מזר</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=B.Oz%20%D7%99%D7%95%D7%9D%20%D7%9B%D7%99%D7%A3%20%D7%92%D7%9C%D7%99%D7%A9%D7%94%20%D7%A4%D7%99%D7%99%D7%A0%D7%98%D7%91%D7%95%D7%9C" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Fun days – surfing, sea, paintball</span><span data-l="he">ימי כיף – גלישה, ים, פיינטבול</span></b><span><span data-l="en">B.Oz</span><span data-l="he">B.Oz</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=MysticRoom%20%D7%97%D7%93%D7%A8%20%D7%91%D7%A8%D7%99%D7%97%D7%94%20%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Escape room</span><span data-l="he">חדר בריחה</span></b><span><span data-l="en">MysticRoom · Tel Aviv</span><span data-l="he">MysticRoom · תל אביב</span></span></a>
+          <a class="cafe" href="https://axenco.co.il/" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Axe throwing</span><span data-l="he">זריקת גרזנים</span> ↗</b><span><span data-l="en">Axenco · Tel Aviv</span><span data-l="he">Axenco · תל אביב</span></span></a>
+        </div>
+      </div>
+      <div class="cgroup">
+        <h3><span data-l="en">Tours &amp; something different</span><span data-l="he">סיורים ושונות</span></h3>
+        <div class="cafes">
+          <a class="cafe" href="https://www.soundtrackbateva.com" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Nature walk with a soundtrack</span><span data-l="he">טיול טבע עם פסקול</span> ↗</b><span><span data-l="en">Soundtrack BaTeva</span><span data-l="he">פסקול בטבע</span></span></a>
+          <a class="cafe" href="https://www.mizculture.co.il" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Creator tours in the city</span><span data-l="he">סיורי יוצרים במרחב העירוני</span> ↗</b><span><span data-l="en">Miz Culture · Tel Aviv-Jaffa</span><span data-l="he">Miz Culture · תל אביב־יפו</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%A1%D7%99%D7%95%D7%A8%20%D7%9E%D7%A7%D7%A6%D7%95%D7%A2%D7%95%D7%AA%20%D7%A9%D7%A0%D7%A2%D7%9C%D7%9E%D7%99%D7%9D%20%D7%9E%D7%9F%20%D7%94%D7%A2%D7%95%D7%9C%D7%9D%20%D7%91%D7%A2%D7%9C%D7%99%20%D7%9E%D7%9C%D7%90%D7%9B%D7%94" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">&quot;Vanishing professions&quot; tour</span><span data-l="he">סיור ״מקצועות שנעלמים מן העולם״</span></b><span><span data-l="en">Old craftspeople and long-running shops</span><span data-l="he">בעלי מלאכה וחנויות ותיקות</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%92%D7%A8%D7%A4%D7%99%D7%98%D7%99%D7%95%D7%9C%20%D7%A1%D7%99%D7%95%D7%A8%20%D7%92%D7%A8%D7%A4%D7%99%D7%98%D7%99" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Graffiti tour</span><span data-l="he">גרפיטיול</span></b><span><span data-l="en">Street art walk</span><span data-l="he">סיור גרפיטי</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=Better%20Be%20Second%20%D7%A1%D7%99%D7%95%D7%A8%20%D7%95%D7%99%D7%A0%D7%98%D7%92" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Vintage shopping tour</span><span data-l="he">סיור קניות וינטג׳</span></b><span><span data-l="en">Better Be Second</span><span data-l="he">Better Be Second</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=Eureka%20Jaffa%20%D7%A1%D7%93%D7%A0%D7%90%D7%95%D7%AA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Creativity &amp; self-expression</span><span data-l="he">סדנאות יצירתיות והבעה עצמית</span></b><span><span data-l="en">Eureka · Jaffa</span><span data-l="he">Eureka · יפו</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=djadibareket%20%D7%A1%D7%93%D7%A0%D7%AA%20%D7%AA%D7%A7%D7%9C%D7%95%D7%98" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">DJ workshop</span><span data-l="he">סדנת תקלוט</span></b><span><span data-l="en">DJ Adi Bareket</span><span data-l="he">DJ עדי ברקת</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%9E%D7%95%D7%A1%D7%9C%D7%9C%D7%94" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Musallala</span><span data-l="he">מוסללה</span></b><span><span data-l="en">Details via search</span><span data-l="he">פרטים בחיפוש</span></span></a>
+          <a class="cafe" href="https://www.peres-center.org/innovation-center/tickets/tickets/" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Peres Center for Innovation</span><span data-l="he">מרכז פרס לחדשנות</span> ↗</b><span><span data-l="en">Guided visit · Jaffa</span><span data-l="he">סיור · יפו</span></span></a>
+          <a class="cafe" href="https://www.beitgalgalim.org.il/chavaya" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">The Rolling Experience</span><span data-l="he">החוויה המתגלגלת</span> ↗</b><span><span data-l="en">Hands-on look at daily life with disability · Beit Galgalim</span><span data-l="he">התנסות בחוויות היום־יומיות של אנשים עם מוגבלות · בית גלגלים</span></span></a>
+        </div>
+      </div>
+      <div class="cgroup">
+        <h3><span data-l="en">Food &amp; culinary tours</span><span data-l="he">אוכל וסיורים קולינריים</span></h3>
+        <div class="cafes">
+          <a class="cafe" href="https://chicklist.co.il/category/funday/" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Fun days around the country</span><span data-l="he">ימי כיף ברחבי הארץ</span> ↗</b><span><span data-l="en">with Adi Artzi Shalev</span><span data-l="he">עם עדי ארצי שלו</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%A2%D7%9E%D7%A7%20%D7%94%D7%A9%D7%95%D7%95%D7%94%20%D7%92%D7%99%D7%9C%20%D7%93%D7%95%D7%AA%D7%9F%20%D7%A1%D7%99%D7%95%D7%A8" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Food &amp; art tour, Emek Hefer</span><span data-l="he">סיור אוכל ואמנות בעמק חפר</span></b><span><span data-l="en">&quot;Emek HaShave&quot; with Gil Dotan</span><span data-l="he">עמק השווה עם גיל דותן</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%A1%D7%99%D7%95%D7%A8%20%D7%99%D7%93%20%D7%A9%D7%A0%D7%99%D7%94%20%D7%A2%D7%9E%D7%A7%20%D7%97%D7%A4%D7%A8" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Second-hand boutique tour, Emek Hefer</span><span data-l="he">סיור יד שנייה בעמק חפר</span></b><span><span data-l="en">Second-hand shops in the valley</span><span data-l="he">חנויות יד שנייה בעמק והסביבה</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%94%D7%A1%D7%99%D7%95%D7%A8%20%D7%94%D7%A4%D7%A8%D7%A7%D7%95%D7%9C%D7%99%D7%A0%D7%A8%D7%99%20%D7%A4%D7%A8%D7%93%D7%A1%20%D7%97%D7%A0%D7%94" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Culinary tour, Pardes Hanna-Karkur</span><span data-l="he">סיור קולינרי בפרדס חנה־כרכור</span></b><span><span data-l="en">&quot;HaSiyur HaParculinari&quot; and others</span><span data-l="he">הסיור הפרקולינרי ועוד</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%92%D7%99%D7%9C%20%D7%9C%D7%94%D7%91%20%D7%A1%D7%99%D7%95%D7%A8%20%D7%A7%D7%95%D7%9C%D7%99%D7%A0%D7%A8%D7%99%20%D7%91%D7%A0%D7%99%20%D7%91%D7%A8%D7%A7" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Culinary tour, Bnei Brak</span><span data-l="he">סיור קולינרי בבני ברק</span></b><span><span data-l="en">Gil Lahav</span><span data-l="he">גיל להב</span></span></a>
+          <a class="cafe" href="https://www.foodsteps.co.il/" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Cooking competition</span><span data-l="he">תחרות בישול</span> ↗</b><span><span data-l="en">Foodsteps · Tel Aviv</span><span data-l="he">Foodsteps · תל אביב</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%94%D7%A1%D7%98%D7%95%D7%93%D7%99%D7%95%20%D7%9C%D7%91%D7%99%D7%A9%D7%95%D7%9C%20%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91%20%D7%A1%D7%93%D7%A0%D7%94" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Cooking &amp; baking</span><span data-l="he">סדנת בישול ואפייה</span></b><span><span data-l="en">HaStudio LeBishul · Tel Aviv</span><span data-l="he">הסטודיו לבישול · תל אביב</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%A2%D7%A8%D7%9F%20%D7%92%D7%95%D7%A8%D7%A0%D7%A8%20%D7%91%D7%99%D7%A9%D7%95%D7%9C%20%D7%94%D7%95%D7%93%D7%99" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Indian cooking</span><span data-l="he">בישול הודי</span></b><span><span data-l="en">Eran Gorner</span><span data-l="he">ערן גורנר</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=Sajida%20Bentzur%20Indian%20cooking" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Indian cooking</span><span data-l="he">בישול הודי</span></b><span><span data-l="en">Sajida Bentzur</span><span data-l="he">Sajida Bentzur</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%98%D7%99%D7%95%D7%9C%20%D7%91%D7%98%D7%A2%D7%9E%D7%99%D7%9D%20%D7%A1%D7%99%D7%95%D7%A8%D7%99%20%D7%98%D7%A2%D7%99%D7%9E%D7%95%D7%AA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Tasting tours</span><span data-l="he">סיורי טעימות</span></b><span><span data-l="en">Tiyul BeTe&#x27;amim</span><span data-l="he">טיול בטעמים</span></span></a>
+        </div>
+      </div>
+      <div class="cgroup">
+        <h3><span data-l="en">Places with workshops</span><span data-l="he">מקומות עם סדנאות</span></h3>
+        <div class="cafes">
+          <a class="cafe" href="https://www.thecontainershouse.com/" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">The Container House</span><span data-l="he">בית הקונטיינרים</span> ↗</b><span><span data-l="en">Moshav Luzit, Elah Valley</span><span data-l="he">מושב לוזית, עמק האלה</span></span></a>
+          <a class="cafe" href="https://www.siloculture.com/workshops" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Silo</span><span data-l="he">סילו</span> ↗</b><span><span data-l="en">Café, workshops and events · Hod HaSharon</span><span data-l="he">קפה, סדנאות ואירועים · הוד השרון</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=TERRA%20%D7%9B%D7%A4%D7%A8%20%D7%A0%D7%98%D7%A8%20%D7%A7%D7%A4%D7%94%20%D7%A1%D7%93%D7%A0%D7%90%D7%95%D7%AA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">TERRA</span><span data-l="he">TERRA</span></b><span><span data-l="en">Café with yoga and workshops · Kfar Netter</span><span data-l="he">קפה עם יוגה וסדנאות · כפר נטר</span></span></a>
+          <a class="cafe" href="https://www.google.com/search?q=%D7%A2%D7%93%D7%A0%D7%94%20%D7%A0%D7%95%D7%95%D7%94%20%D7%9E%D7%93%D7%91%D7%A8%20%D7%99%D7%A4%D7%95%D7%90%D7%99" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Edna – a Jaffa oasis</span><span data-l="he">עדנה – נווה מדבר יפואי</span></b><span><span data-l="en">A beautiful space with workshops · Jaffa</span><span data-l="he">מקום יפה עם סדנאות · יפו</span></span></a>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <h2><span data-l="en">Day trips</span><span data-l="he">טיולי יום</span></h2>
+    <p><span data-l="en">Check opening hours and the weather before you go.</span><span data-l="he">כדאי לבדוק שעות פתיחה ומזג אוויר לפני שיוצאים.</span></p>
+    <div class="cols">
+      <div>
+        <span class="meta"><span data-l="en">Artsy · Carmel coast, ~1h15 from TLV</span><span data-l="he">אמנותי · חוף הכרמל, כשעה ורבע מת״א</span></span>
+        <h3><span data-l="en">Ein Hod artists' village</span><span data-l="he">כפר האמנים עין הוד</span></h3>
+        <p><span data-l="en">Dozens of open studios and gallery shops (ceramics, glass, fashion and textiles, jewelry), a large art gallery, the Janco Dada Museum and 150+ outdoor sculptures. Cafés in the village. It sits on a hillside.</span><span data-l="he">עשרות סטודיו וחנויות גלריה (קרמיקה, זכוכית, אופנה וטקסטיל, תכשיטים), גלריה גדולה, מוזיאון ינקו דאדא ויותר מ־150 פסלים בחוץ. יש בתי קפה בכפר. הכפר בנוי על מדרון.</span></p>
+        <a href="https://www.ein-hod.org/en/homepage/">ein-hod.org</a> <span class="v">04-9842029</span>
+      </div>
+      <div>
+        <span class="meta"><span data-l="en">Hippy &amp; cool · not Shabbat</span><span data-l="he">היפי וקול · לא בשבת</span></span>
+        <h3><span data-l="en">Pardes Hanna – Urvot HaAmanim</span><span data-l="he">פרדס חנה – אורוות האמנים</span></h3>
+        <p><span data-l="en">Old stables turned into shops, galleries, studios, cafés and bars. Shops: Sun–Thu 10:00–18:00, Fri 9:00–15:00. Food and bars: Sun–Fri 10:00–23:00. Closed Shabbat; some shops close Sun or Mon. The Unicorn is in the same compound, so a weekday afternoon can roll into Unicorn Dance on Thu 29.10. On election day (Tue 27.10) there's an all-day happening here, and Shuzi's market is nearby at the Old Market. Best on 29–31.10, when the free Derech HaNadiv festival fills the town.</span><span data-l="he">אורוות ישנות שהפכו לחנויות, גלריות, סטודיו, בתי קפה וברים. חנויות: א׳–ה׳ 10:00–18:00, ו׳ 9:00–15:00. אוכל וברים: א׳–ו׳ 10:00–23:00. סגור בשבת, וחלק מהחנויות סגורות בא׳ או ב׳. היוניקורן באותו מתחם, אז אחר צהריים של יום חול יכול להתגלגל ל־Unicorn Dance בה׳ 29.10. ביום הבחירות (ג׳ 27.10) יש כאן הפנינג לאורך כל היום, ושוק הבחירות של שוזי קרוב, בשוק הישן. הכי שווה ב־29–31.10, כשפסטיבל דרך הנדיב (בחינם) ממלא את המושבה.</span></p>
+        <a href="https://urvothamanim.co.il/">urvothamanim.co.il</a> <a href="https://www.instagram.com/shuzi.market/"><span data-l="en">Shuzi Market</span><span data-l="he">שוק שוזי</span></a>
+      </div>
+      <div>
+        <span class="meta"><span data-l="en">Any weekday</span><span data-l="he">כל יום חול</span></span>
+        <h3><span data-l="en">Zichron Ya'akov &amp; Ramat Hanadiv</span><span data-l="he">זכרון יעקב ורמת הנדיב</span></h3>
+        <p><span data-l="en">Memorial gardens at Ramat Hanadiv (paved, flat paths near the entrance), then cafés on the old main street in Zichron.</span><span data-l="he">גני הזיכרון ברמת הנדיב (שבילים סלולים ומישוריים ליד הכניסה), ואחר כך בתי קפה במדרחוב של זכרון.</span></p>
+      </div>
+      <div>
+        <span class="meta"><span data-l="en">Not Friday afternoon or Shabbat</span><span data-l="he">לא בשישי אחה״צ או בשבת</span></span>
+        <h3><span data-l="en">Jerusalem day</span><span data-l="he">יום בירושלים</span></h3>
+        <p><span data-l="en">Israel Museum in the morning, Machane Yehuda market for lunch, Old City walk before sunset. The Old City is mostly stone steps. Coffee or an event at Hamiffal (HaMa'aravim 3, café Sun–Thu 8:00–19:00, Fri 10:00–14:00). On election night it hosts a free trivia quiz.</span><span data-l="he">מוזיאון ישראל בבוקר, צהריים בשוק מחנה יהודה, סיבוב בעיר העתיקה לפני השקיעה. בעיר העתיקה הרבה מדרגות אבן. קפה או אירוע במפעל (המערביים 3, בית קפה א׳–ה׳ 8:00–19:00, ו׳ 10:00–14:00). בערב הבחירות יש שם טריוויה בחינם.</span></p>
+      </div>
+      <div>
+        <span class="meta"><span data-l="en">Half day, close to home</span><span data-l="he">חצי יום, קרוב לבית</span></span>
+        <h3><span data-l="en">Herzliya cliffs &amp; Apollonia</span><span data-l="he">מצוק הרצליה ואפולוניה</span></h3>
+        <p><span data-l="en">Crusader fortress ruins on the cliff edge, then a sea walk down to Herzliya marina. Sandy, uneven path.</span><span data-l="he">שרידי מבצר צלבני על שפת המצוק, ואז הליכה לאורך הים עד מרינה הרצליה. שביל חולי ולא אחיד.</span></p>
+      </div>
+      <div>
+        <span class="meta"><span data-l="en">Thu 5.11 onward · far south</span><span data-l="he">מה׳ 5.11 · דרום רחוק</span></span>
+        <h3><span data-l="en">Arava Film Festival</span><span data-l="he">פסטיבל הסרטים בערבה</span></h3>
+        <p><span data-l="en">Runs 5–14.11. Only worth it as an overnight.</span><span data-l="he">5–14.11. שווה רק עם לינה.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <h2><span data-l="en">Eating near the venues</span><span data-l="he">איפה לאכול ליד</span></h2>
+    <p><span data-l="en">From 2025–26 "best of" lists. Check they're open and book ahead.</span><span data-l="he">מרשימות ״הכי טובים״ של 2025–26. כדאי לוודא שפתוח ולהזמין מראש.</span></p>
+    <div class="cols">
+      <div><span class="meta"><span data-l="en">Jaffa · lunch</span><span data-l="he">יפו · צהריים</span></span><h3><span data-l="en">Abu Hassan</span><span data-l="he">אבו חסן</span></h3><p><span data-l="en">The hummus institution. Open until it sells out.</span><span data-l="he">מוסד החומוס. פתוח עד שנגמר.</span></p></div>
+      <div><span class="meta"><span data-l="en">Neve Tzedek · dinner</span><span data-l="he">נווה צדק · ערב</span></span><h3><span data-l="en">Dallal</span><span data-l="he">דלאל</span></h3><p><span data-l="en">Sit-down dinner before a Romano night (Derech Yafo is close).</span><span data-l="he">ארוחת ערב לפני ערב ברומנו (דרך יפו קרובה).</span></p></div>
+      <div><span class="meta"><span data-l="en">Tel Aviv · vegetarian</span><span data-l="he">תל אביב · צמחוני</span></span><h3><span data-l="en">Caffe Kaymak</span><span data-l="he">קפה קיימק</span></h3><p><span data-l="en">Turkish coffee and vegetarian plates.</span><span data-l="he">קפה טורקי ומנות צמחוניות.</span></p></div>
+      <div><span class="meta"><span data-l="en">Nahalat Binyamin 29 · daily 12:00–02:00</span><span data-l="he">נחלת בנימין 29 · כל יום 12:00–02:00</span></span><h3><span data-l="en">Bicicletta</span><span data-l="he">ביצ׳יקלטה</span></h3><p><span data-l="en">Gastropub with a backyard garden and an upstairs bar that often plays jazz.</span><span data-l="he">גסטרופאב עם חצר ירוקה ובר בקומה העליונה, לעיתים קרובות עם ג׳אז.</span></p></div>
+      <div><span class="meta"><span data-l="en">Ibn Gabirol 12 · from noon</span><span data-l="he">אבן גבירול 12 · מהצהריים</span></span><h3><span data-l="en">HaAchim</span><span data-l="he">האחים</span></h3><p><span data-l="en">Lively, unpretentious Israeli–Mediterranean: house salads and kebabs. Opens at 9:00 on Fri and Sat.</span><span data-l="he">ישראלית־ים תיכונית, תוססת ולא מתיימרת: סלטים ביתיים וקבבים. בשישי ושבת פותחים ב־9:00.</span></p></div>
+      <div><span class="meta"><span data-l="en">Pardes Hanna-Karkur</span><span data-l="he">פרדס חנה־כרכור</span></span><h3>Roberta Vinci</h3><p><span data-l="en">Before a Unicorn night.</span><span data-l="he">לפני ערב ביוניקורן.</span></p></div>
+      <div><span class="meta"><span data-l="en">Easy formula</span><span data-l="he">נוסחה פשוטה</span></span><h3><span data-l="en">Radical + dinner nearby</span><span data-l="he">רדיקל + ארוחה בסביבה</span></h3><p><span data-l="en">Pick anything from Radical's calendar, then eat around the venue (HaTkhiya × Herzl, south Tel Aviv). Lots of options.</span><span data-l="he">בוחרים משהו מהלו״ז של רדיקל ואוכלים בסביבה (התחייה פינת הרצל, דרום ת״א). יש המון אפשרויות.</span></p><a href="https://radical.org.il/calendar/"><span data-l="en">Radical calendar</span><span data-l="he">הלו״ז של רדיקל</span></a></div>
+      <div><span class="meta"><span data-l="en">On site</span><span data-l="he">במקום</span></span><h3><span data-l="en">Venue bars &amp; cafés</span><span data-l="he">הברים והקפה במקומות עצמם</span></h3><p><span data-l="en">Radical has its own cafeteria; Hameretz2 and Kuli Alma have full bars.</span><span data-l="he">ברדיקל יש קפיטריה, ובמרץ2 ובכולי עלמא יש בר מלא.</span></p></div>
+    </div>
+  </section>
+
+  <section class="band coffee">
+    <div class="coffee-head">
+      <img src="img/coffee2.jpg" alt="">
+      <div>
+        <h2><span data-l="en">Coffee in Tel Aviv</span><span data-l="he">קפה בתל אביב</span></h2>
+        <p class="cafecredit"><span data-l="en">Recommended by <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">Inbal</a> (when are we meeting for coffee?)</span><span data-l="he">המלצות של <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">ענבל</a> (מתי נפגשות לקפה?)</span></p>
+        <p><span data-l="en">Tap a café to open it in Google Maps.</span><span data-l="he">לחיצה על בית קפה פותחת אותו בגוגל מפות.</span></p>
+      </div>
+    </div>
+    <div class="coffee-wrap nopics">
+      <div class="coffee-list">
+      <div class="cgroup">
+        <h3><span data-l="en">South: Lilienblum to Florentin</span><span data-l="he">דרום: מלילינבלום עד פלורנטין</span></h3>
+        <div class="cafes">
+          <a class="cafe" href="https://maps.app.goo.gl/zbCjFkcbhEwb1TX3A" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Tofin</span><span data-l="he">תופין</span></b><span><span data-l="en">Ahad Ha&#x27;Am 29</span><span data-l="he">אחד העם 29</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/tHd9jRmmqzMef1vb9" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Common People</span><span data-l="he">Common People</span></b><span><span data-l="en">Ahad Ha&#x27;Am 32</span><span data-l="he">אחד העם 32</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/sKpyRMUsrGhrSLiu8" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Apollo</span><span data-l="he">Apollo</span></b><span><span data-l="en">Lilienblum 3</span><span data-l="he">לילינבלום 3</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/CosS1JhaHh9KhYDz5" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Alexander Bread &amp; Bakery</span><span data-l="he">Alexander Bread &amp; Bakery</span></b><span><span data-l="en">Lilienblum 18</span><span data-l="he">לילינבלום 18</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/DgBeh4e8UX6BVp3LA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Pensia</span><span data-l="he">פנסיה</span></b><span><span data-l="en">Levontin 2</span><span data-l="he">לבונטין 2</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/rbrRcjHqrrEws9B66" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Ada Lewinsky Cafe</span><span data-l="he">Ada Lewinsky Cafe</span></b><span><span data-l="en">Zevulun 9</span><span data-l="he">זבולון 9</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/5MehnHeWJKA5BJEm8" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">p.o.c café</span><span data-l="he">p.o.c café</span></b><span><span data-l="en">Kfar Giladi 48</span><span data-l="he">כפר גלעדי 48</span></span></a>
+        </div>
+      </div>
+      <div class="cgroup">
+        <h3><span data-l="en">Center: Allenby, Sheinkin &amp; around</span><span data-l="he">מרכז: אלנבי, שינקין והסביבה</span></h3>
+        <div class="cafes">
+          <a class="cafe" href="https://maps.app.goo.gl/CryLEDgSHLv8Sz51A" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Fugazi</span><span data-l="he">Fugazi</span></b><span><span data-l="en">Nahalat Binyamin 12</span><span data-l="he">נחלת בנימין 12</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/yxThwF55J2XiVwDq6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">McLovin Cafe</span><span data-l="he">McLovin Cafe</span></b><span><span data-l="en">Sheinkin 11</span><span data-l="he">שינקין 11</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/6G3XtaZzs8EiE5ZHA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Nomena</span><span data-l="he">Nomena</span></b><span><span data-l="en">Allenby 54</span><span data-l="he">אלנבי 54</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/DVkcdehkEmcbxyNQA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Chacho&#x27;s Cafe Geula</span><span data-l="he">צ׳אצ׳וס גאולה</span></b><span><span data-l="en">Ge&#x27;ula 51</span><span data-l="he">גאולה 51</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/PWpDq6RoHMX1odHaA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Lev Cafe</span><span data-l="he">Lev Cafe</span></b><span><span data-l="en">Idelson 29</span><span data-l="he">אידלסון 29</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/EydQyFXV5pz4vB167" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">HOC – Trumpeldor</span><span data-l="he">HOC – טרומפלדור</span></b><span><span data-l="en">Trumpeldor 6</span><span data-l="he">טרומפלדור 6</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/gk6WQDBvLJtcyM8s7" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">HOC – House of Coffee</span><span data-l="he">HOC – House of Coffee</span></b><span><span data-l="en">HaTavor 2</span><span data-l="he">התבור 2</span></span></a>
+        </div>
+      </div>
+      <div class="cgroup">
+        <h3><span data-l="en">Ben Yehuda &amp; Gordon</span><span data-l="he">בן יהודה וגורדון</span></h3>
+        <div class="cafes">
+          <a class="cafe" href="https://maps.app.goo.gl/vpDE6VZpUSBLro2H6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">SUMR Cafe</span><span data-l="he">SUMR Cafe</span></b><span><span data-l="en">Ben Yehuda 70</span><span data-l="he">בן יהודה 70</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/PsosxsWetpivyiLc6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">CafeXoho</span><span data-l="he">CafeXoho</span></b><span><span data-l="en">Ben Yehuda 73</span><span data-l="he">בן יהודה 73</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/NY6WDSLRDWazueyPA" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Chacho&#x27;s Cafe Gordon</span><span data-l="he">צ׳אצ׳וס גורדון</span></b><span><span data-l="en">Gordon 47</span><span data-l="he">גורדון 47</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/wu1Qbwi22WB2hLoU6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Kohi Coffee Shop</span><span data-l="he">Kohi Coffee Shop</span></b><span><span data-l="en">Ben Yehuda 155</span><span data-l="he">בן יהודה 155</span></span></a>
+        </div>
+      </div>
+      <div class="cgroup">
+        <h3><span data-l="en">Dizengoff &amp; north</span><span data-l="he">דיזנגוף וצפונה</span></h3>
+        <div class="cafes">
+          <a class="cafe" href="https://maps.app.goo.gl/dJscYAmK7RbxB7oi6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Pâte &amp; Puff</span><span data-l="he">Pâte &amp; Puff</span></b><span><span data-l="en">Masaryk Blvd 15</span><span data-l="he">שדרות מסריק 15</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/VWi47w7kpu2dtyjt8" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Cafelix Shlomo HaMelekh</span><span data-l="he">קפליקס שלמה המלך</span></b><span><span data-l="en">Shlomo HaMelekh 12</span><span data-l="he">שלמה המלך 12</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/aPDjnkcheA6UQnKi7" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Nahat Coffee</span><span data-l="he">Nahat Coffee</span></b><span><span data-l="en">Dizengoff Square 10</span><span data-l="he">כיכר דיזנגוף 10</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/51Qgv3ii8U7WeqRv8" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Mela</span><span data-l="he">Mela</span></b><span><span data-l="en">Dizengoff 164</span><span data-l="he">דיזנגוף 164</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/MDHnhoe8JMnE5prQ6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">ORIGEM Coffee</span><span data-l="he">ORIGEM Coffee</span></b><span><span data-l="en">Dizengoff 203</span><span data-l="he">דיזנגוף 203</span></span></a>
+          <a class="cafe" href="https://maps.app.goo.gl/djhKhPRPRw9xtGdu9" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">OTTOTO</span><span data-l="he">אוטוטו</span></b><span><span data-l="en">Gronemann 8, Ramat Aviv</span><span data-l="he">גרונימן 8, רמת אביב</span></span></a>
+        </div>
+      </div>
+      <div class="cgroup">
+        <h3><span data-l="en">Jaffa</span><span data-l="he">יפו</span></h3>
+        <div class="cafes">
+          <a class="cafe" href="https://maps.app.goo.gl/MKiSHLaFCwGyWqFo6" target="_blank" rel="noopener"><b dir="auto"><span data-l="en">Amita Bakery</span><span data-l="he">Amita Bakery</span></b><span><span data-l="en">Shalma Rd 10</span><span data-l="he">דרך שלמה 10</span></span></a>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+
+  <dialog class="sdlg" id="suggest" aria-labelledby="suggest-title">
+    <button type="button" class="sclose" id="close-suggest" aria-label="Close">×</button>
+  <section class="suggest">
+    <h2 id="suggest-title"><span data-l="en">Know something good? Add it</span><span data-l="he">מכירים משהו טוב? הוסיפו</span></h2>
+    <p><span data-l="en">Send an event, a place or a day trip. Dana reads every suggestion and adds the ones that fit.</span><span data-l="he">שלחו אירוע, מקום או טיול. דנה קוראת כל הצעה ומוסיפה את מה שמתאים.</span></p>
+    <form class="sform" id="sform" novalidate>
+      <label class="wide" for="s-what"><span><span data-l="en">What is it?</span><span data-l="he">מה זה?</span> *</span><input id="s-what" name="what" required maxlength="200"></label>
+      <label for="s-when"><span data-l="en">Date and time</span><span data-l="he">תאריך ושעה</span><input id="s-when" name="when" maxlength="120" placeholder="29.10, 20:30"></label>
+      <label for="s-where"><span data-l="en">Where</span><span data-l="he">איפה</span><input id="s-where" name="where" maxlength="160"></label>
+      <label class="wide" for="s-link"><span data-l="en">Link (event page, Instagram…)</span><span data-l="he">קישור (עמוד אירוע, אינסטגרם…)</span><input id="s-link" name="link" type="url" inputmode="url" maxlength="500" placeholder="https://"></label>
+      <label class="wide" for="s-notes"><span data-l="en">Anything else? (price, why it's good)</span><span data-l="he">עוד משהו? (מחיר, למה שווה)</span><textarea id="s-notes" name="notes" maxlength="1000"></textarea></label>
+      <label for="s-name"><span data-l="en">Your name (optional)</span><span data-l="he">השם שלכם (לא חובה)</span><input id="s-name" name="name" maxlength="80" autocomplete="name"></label>
+      <span class="hp" aria-hidden="true"><input id="s-hp" name="_gotcha" tabindex="-1" autocomplete="off"></span>
+      <div class="wide" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+        <button type="submit" id="s-send"><span data-l="en">Send</span><span data-l="he">שליחה</span></button>
+        <span class="smsg" id="smsg" role="status" aria-live="polite"></span>
+      </div>
+    </form>
+  </section>
+  </dialog>
+
+  <footer class="credit">
+    <span data-l="en">Made by <a href="mailto:danalonama@gmail.com" title="danalonama@gmail.com">Dana</a> for my cool democratic friends :)</span>
+    <span data-l="he">נבנה על ידי <a href="mailto:danalonama@gmail.com" title="danalonama@gmail.com">דנה</a> – לחברים.ות שבאו להצביע</span>
+  </footer>
+</div>
+
+<script>
+const T={
+  en:{week:"Week",vote:"Election day · public holiday",empty:"Nothing listed. Day-trip day?",loc:"Location on booking",stand:"Lots of standing / walking",details:"Details ↗",days:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]},
+  he:{week:"שבוע",vote:"יום הבחירות · שבתון",empty:"אין אירועים. יום טיול?",loc:"מיקום בהזמנה",stand:"הרבה עמידה / הליכה",details:"פרטים ↗",days:["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","ש׳"]}
+};
+const CATS={talk:[["Talks & ideas","הרצאות ורעיונות"],"--c-talk"],live:[["Live music","מוזיקה חיה"],"--c-live"],party:[["Party","מסיבות"],"--c-party"],film:[["Film","קולנוע"],"--c-film"],spirit:[["Body & spirit","גוף ונפש"],"--c-spirit"],game:[["Game","משחק"],"--c-game"],tour:[["Tours","סיורים"],"--c-tour"],stage:[["Theatre & dance","תיאטרון ומחול"],"--c-stage"],market:[["Markets & fashion","שווקים ואופנה"],"--c-market"]};
+const FL={"FREE":"חינם","FREE · REGISTER":"חינם · בהרשמה","FREE TILL 23:00":"חינם עד 23:00","LAST TICKETS":"כרטיסים אחרונים","RARE REUNION":"איחוד נדיר","RARE SHOW":"הופעה נדירה","Festival day ₪100":"יום פסטיבל ₪100","Day pass ₪100":"כרטיס יומי ₪100","₪85 · ADVANCE ONLY":"₪85 · בהזמנה מראש בלבד","SOLD OUT":"אזל","From ₪80":"החל מ־₪80","From ₪50":"החל מ־₪50","27% OFF":"27% הנחה"};
+const TM={"Noon":"צהריים","Motzash":"מוצ״ש","All day":"כל היום","Afternoon":"צהריים"};
+const V={
+  RAD:["Beit Radical, HaTkhiya × Herzl, TLV","בית רדיקל, התחייה פינת הרצל, ת״א"],
+  MER:["Hameretz2, Kiryat HaMelacha, TLV","המרץ2, קריית המלאכה, ת״א"],
+  ROM:["Beit Romano, Derech Yafo 9, TLV","בית רומנו, דרך יפו 9, ת״א"],
+  KULI:["Kuli Alma, TLV","כולי עלמא, ת״א"],
+  UNI:["The Unicorn, Pardes Hanna","היוניקורן, פרדס חנה"],
+  DAV:["Tel Aviv Tarbut Da Vinci, TLV","ת״א תרבות דה וינצ׳י"],
+  JAF:["Meet at Sderot Yerushalayim 9, Jaffa","מפגש: שדרות ירושלים 9, יפו"],
+  EXPO:["Expo Tel Aviv, Pavilion 1","אקספו תל אביב, ביתן 1"],
+  GRAY:["GRAY, Ibn Gabirol 30, TLV","GRAY, אבן גבירול 30, ת״א"],
+  PAC:["Performing Arts Center, TLV","המשכן לאמנויות הבמה, ת״א"],
+  MUS:["Tel Aviv Museum of Art, Shaul HaMelech 27","מוזיאון תל אביב לאמנות, שאול המלך 27"],
+  SILO:["Silo, Hod HaSharon","סילו, הוד השרון"],
+  CLOUD:["Cloud Space, Shoken 27, 3rd floor, TLV","Cloud Space, שוקן 27, קומה 3, ת״א"],
+  MIF:["Hamiffal, HaMa'aravim 3, Jerusalem","המפעל, המערביים 3, ירושלים"],
+  HAB:["Habait Theatre, Noam 5, Jaffa flea market","תיאטרון הבית, נעם 5, שוק הפשפשים, יפו"],
+  MAZE:["Mazeh 9, TLV","מאז״ה 9, ת״א"],
+  PH:["Pardes Hanna-Karkur, venues vary","פרדס חנה־כרכור, במקומות שונים"],
+  ALAYA:["Alaya Poleg, Shulamit 3, Netanya","אלאיה פולג, שולמית 3, פולג"]
+};
+/* [date, time, title (string or [en,he]), subtitle [en,he], venue key, category, url, flag, standing/walking] */
+const E=[
+ ["2026-10-25","18:30 / 19:00","נשים ששינו את ישראל: שולמית אלוני",["Zehava Galon, Hadar Hazan, Omri Feinstein","זהבה גלאון, הדר חזן ועומרי פיינשטיין"],"RAD","talk","https://radical.org.il/product/shulamit-aloni/","Festival day ₪100"],
+ ["2026-10-25","18:30 / 19:00","זה הזמן",["From the ballot to the street – who guards your vote? Political house show with Yaron Kremer","מהקלפי לרחוב: מי באמת שומר על הקול שלך? חוג בית פוליטי עם ירון קרמר"],"RAD","talk","https://radical.org.il/product/now/","Festival day ₪100"],
+ ["2026-10-25","19:30","ארץ אוכלת יוצריה",["Live podcast with Niv Hadas & Gili Izikovich, then Dafna performs","פודקאסט לייב עם ניב הדס וגילי איזיקוביץ׳, ואחריו הופעה של דפנה"],"MER","live","https://hameretz2.org/e/eretz/"],
+ ["2026-10-25","19:30","Live from Romano – Rona Malkin",["",""],"ROM","live","https://www.teder.fm/home"],
+ ["2026-10-25","20:30 / 20:45","איך הדמוקרטיה תנצח (אם היא תנצח)",["Nadav Eyal, Gil Dickmann, Stav Shafir","נדב איל, גיל דיקמן וסתיו שפיר"],"RAD","talk","https://radical.org.il/product/democracy-3/","Festival day ₪100"],
+ ["2026-10-25","21:00",["6×6 – six artists, six mini shows","6×6 – שישה אמנים, שישה מיני־מופעים"],["Gal De Paz, Tapash, Masok, Shay Hazan, Guy Moses, D Fine Us","גל דה פז, טפש, מסוק, שי חזן, גיא מוזס, D Fine Us"],"KULI","live","","FREE",1],
+ ["2026-10-25","21:30","דפנה והעוגיות",["Extra show after the first sold out","הופעה נוספת אחרי שהראשונה נמכרה"],"MER","live","https://hameretz2.org/e/cookies/","LAST TICKETS"],
+ ["2026-10-25","—",["Unicorn Inspiration – Doron Shefer, The Game of Life","Unicorn Inspiration – דורון שפר, משחק החיים"],["Talk evening","ערב הרצאה"],"UNI","talk","https://theunicorn.co.il/"],
+
+ ["2026-10-25","—",["Tantra yoga with Erez","יוגה טנטרה עם ארז"],["New at Silo","חדש בסילו"],"SILO","spirit","https://www.siloculture.com/workshops"],
+ ["2026-10-25","—",["Movement by Yaniv Tzadick – ecstatic dance in the dark","Movement by Yaniv Tzadick – אקסטטיק דאנס בחושך"],["With live sound healing by Naama","עם סאונד הילינג חי של נעמה"],"SILO","spirit","https://www.siloculture.com/workshops","",1],
+
+ ["2026-10-26","18:30 / 19:00","היום שאחרי מחר",["Short talks on the future, two rounds (19:00 and 21:00)","טוקים קצרים על העתיד, שני סבבים (19:00 ו־21:00)"],"RAD","talk","https://radical.org.il/product/day-after-tomorrow/","Festival day ₪100"],
+ ["2026-10-26","20:00","Live from Romano – Meitar Hagai",["",""],"ROM","live","https://www.teder.fm/home"],
+ ["2026-10-26","20:30 / 21:30","WC במרתף",["Election-eve emergency show, hosted by Dana Z","מופע חירום בערב הבחירות, מארחת Dana Z"],"RAD","live","https://radical.org.il/product/wc/","Festival day ₪100"],
+ ["2026-10-26","21:00 →","יום הולדת 3 לת״א תרבות דה וינצ׳י",["Election-eve birthday: one-night show by the house's artists, DJ Noam Halper, relaunch of Rik magazine, open workshops","ערב לפני הבחירות: תערוכת משך של חברי הבית, דיג׳יי נעם הלפר, השקה מחודשת של מגזין ״ריק״ וסדנאות"],"DAV","party","https://modusforms.pro.typeform.com/birthday3","FREE · REGISTER"],
+ ["2026-10-26","21:30",["Karaoke Hamudim – election & democracy night","קריוקי חמודים – חוגגים בחירות ודמוקרטיה"],["Open sing-along karaoke night","ערב קריוקי פתוח לכולם"],"MAZE","party","","FREE"],
+ ["2026-10-26","21:00 →","Doomsday Disco",["Simonsays, Basicskill · lounge Idan · kiosk Reef","Simonsays, Basicskill · בלאונג׳ עידן · בקיוסק Reef"],"KULI","party","","FREE TILL 23:00",1],
+
+ ["2026-10-27","10:00–11:30","יפו בסטייל – סיור אופנה ואמנות",["Guided by Guy Farhi: Jaffa shops and studios, the flea market, the Greek market, Noga. Vote early, then walk","בהדרכת גיא פרחי: בתי עסק ביפו, שוק הפשפשים, השוק היווני ושכונת נגה. מצביעים מוקדם ויוצאים לסיור"],"JAF","tour","https://www.tel-aviv.gov.il/Pages/MainItemPage.aspx?WebID=3af57d92-807c-43c5-8d5f-6fd455eb2776&ListID=969f7de3-0ac9-4a30-88f0-2e1a7281f3d0&ItemID=49815","₪35",1],
+ ["2026-10-27","11:00–22:00",["Bring the Day – election day at Radical","הביאו את היום – יום הבחירות ברדיקל"],["Vote, then an all-day outdoor stage. Portis plays at 21:00","מצביעים ובאים לבמה פתוחה לאורך כל היום. פורטיס ב־21:00"],"RAD","live","https://radical.org.il/product/bring-the-day-27-10/","Day pass ₪100",1],
+ ["2026-10-27","18:00","פסטיבל הנוסטלגיה הגדול בישראל",["DJ Zarchi, Tomer Maizner, Vini Vici (classics set), DJ Spikes + 2 surprise acts. Drinks included all evening","DJ Zarchi, תומר מייזנר, Vini Vici (סט קלאסיקות), DJ Spikes ועוד 2 הופעות הפתעה. שתייה חופשית כל הערב"],"EXPO","party","https://www.eventer.co.il/mesibataexpotlv2","₪350",1],
+ ["2026-10-27","20:00","Nuweiba InStore Sessions – Teito",["",""],"ROM","live","https://www.teder.fm/home"],
+ ["2026-10-27","—",["RE:SET – healing sounds journey","מסע בצלילים מרפאים | RE:SET"],["With Equinote accessible culture","עם תו המשווה – תרבות מונגשת"],"SILO","spirit","https://www.siloculture.com/workshops"],
+
+ ["2026-10-28","—",["Amazing Sexuality – talk with Dr. Masha Halevi","מיניות מופלאה – הרצאה עם ד״ר משה הלוי"],["",""],"SILO","talk","https://www.siloculture.com/workshops"],
+ ["2026-10-28","20:30",["Cloud Space – Echo","Cloud Space – אקו"],["Sound meditation: bare voice and deep frequencies","מדיטציית סאונד: קול חשוף ותדרים עמוקים"],"CLOUD","spirit","https://sol-therapy.com/cloud","LAST TICKETS"],
+ ["2026-10-28","21:30","OSOG",["Balkan brass band reunites for one night","כנופיית הבלקן חוזרת לערב חד־פעמי"],"MER","live","https://hameretz2.org/e/osog/","RARE REUNION"],
+
+ ["2026-10-29","18:30",["Cloud Space – Hadas Kleinman","Cloud Space – הדס קליינמן"],["Live cello, soft electronica, whispered vocals. The 20:30 round is sold out","צ׳לו חי, אלקטרוניקה רכה ושירה חרישית. הסבב של 20:30 אזל"],"CLOUD","spirit","https://sol-therapy.com/cloud","LAST TICKETS"],
+ ["2026-10-29","20:00 / 21:00","סופר ספרטה",["Regev Baruch album launch","השקת האלבום של רגב ברוך"],"RAD","live","https://radical.org.il/product/super-sparta/"],
+ ["2026-10-29","21:30","ג׳ונטלו",["Back ahead of their third album","חוזרים לקראת האלבום השלישי"],"MER","live","https://hameretz2.org/e/jonatello/"],
+ ["2026-10-29","—","Plazita × Tropikaos // Halloween",["",""],"MER","party","https://hameretz2.org/e/halloween-pilar/","",1],
+ ["2026-10-29","All day",["Derech HaNadiv festival – day 1","פסטיבל דרך הנדיב – יום 1"],["Community festival across Pardes Hanna-Karkur: 200+ events – concerts, pottery and jewelry workshops, yoga and qigong, talks, films","פסטיבל קהילתי בפרדס חנה־כרכור: יותר מ־200 אירועים – הופעות, סדנאות קרמיקה ותכשיטים, יוגה וצ׳י קונג, הרצאות וסרטים"],"PH","live","https://2026.hanadiv.org/","FREE"],
+ ["2026-10-29","—","Silo Dance Gathering",["Yaniv Tzadick & Alon Carmelly","יניב צדיק ואלון כרמלי"],"SILO","party","https://www.siloculture.com/workshops","",1],
+ ["2026-10-29","19:00 / 20:00",["BPM with JUNAM","BPM עם JUNAM"],["Sauna, hot tubs, taboon, bar and a bonfire at 23:00 (bring an instrument). Global downtempo and Latin electronic. Till 02:00. Overnight packages available","סאונה, שכשוכיות, טאבון, בר ומדורה ב־23:00 (מוזמנים להביא כלי נגינה). דאון טמפו גלובלי ולטיני. עד 02:00. אפשר להישאר ללינה"],"ALAYA","party","https://app.partiq.co/party/vSzbor","₪50 / ₪70",1],
+ ["2026-10-29","—","Unicorn Dance – Dekel Terry",["Donation-based party","מסיבה בתרומה חופשית"],"UNI","party","https://theunicorn.co.il/","",1],
+ ["2026-10-29","—",["Halloween Ball – murder mystery dinner","נשף האלווין – ארוחת רצח"],["Witchy-themed murder dinner. Location given on booking","ארוחת רצח בסגנון מכושף. המיקום נמסר בהזמנה"],null,"game","https://www.mysterymurderclub.com/","LAST TICKETS"],
+
+ ["2026-10-30","All day",["Derech HaNadiv festival – day 2","פסטיבל דרך הנדיב – יום 2"],["Pick events from the festival program","בוחרים מתוך התוכנייה"],"PH","live","https://2026.hanadiv.org/","FREE"],
+ ["2026-10-30","11:30–13:30","מערכת העצבים אחרי מערכת הבחירות",["Lecture and breathing practice with Dalit Nemirovsky","הרצאה ותרגול נשימה עם דלית נמירובסקי"],"RAD","spirit","https://radical.org.il/product/nerv-system/"],
+ ["2026-10-30","—",["A Few Notes on the Situation + Eran Kolirin","כמה הערות על המצב + ערן קולירין"],["Screening and talk with the director (Pashut festival)","הקרנה ושיחה עם הבמאי (פסטיבל פשוט)"],"MER","film","https://hameretz2.org/e/pashuthamatzav/"],
+ ["2026-10-30","21:00",["LUCID – sound journey with Boaz Bentor","מסע צלילות עם בועז בנטור"],["90-minute live sound bath, lying on mattresses. Bring a blanket and an eye mask","אמבט סאונד חי של שעה וחצי, בשכיבה על מזרנים. להביא שמיכה וכיסוי עיניים"],"ALAYA","spirit","https://app.partiq.co/party/ahDdZI"],
+ ["2026-10-30","20:00 / 22:00","Drag Brunch – Spooky Halloween",["Drag show with guest star Riki Ben Ari. Shared tables, first come first seated","מופע דראג עם אורחת הכבוד ריקי בן ארי. שולחנות משותפים, מי שבא ראשון יושב"],"GRAY","party","https://grayclub.co.il/event/320/19863/","₪119"],
+
+ ["2026-10-31","All day",["Derech HaNadiv festival – day 3","פסטיבל דרך הנדיב – יום 3"],["Last day; Unicorn Dance closes it after Shabbat","יום אחרון, נסגר במוצ״ש עם Unicorn Dance"],"PH","live","https://2026.hanadiv.org/","FREE"],
+ ["2026-10-31","12:00 / 13:00","Romano Record Fair",["Vinyl fair is back","יריד התקליטים חוזר"],"ROM","live","https://www.teder.fm/events/15334","",1],
+ ["2026-10-31","—",["Pashut festival – animation & competition shorts","פסטיבל פשוט – אנימציה וסרטי התחרות"],["",""],"MER","film","https://hameretz2.org/e/pashutanimation/"],
+ ["2026-10-31","20:00 / 21:00","סדנת הג׳אז",["Shai Zelman trio hosts Asaf Yuria (NYC)","שלישיית שי זלמן מארחת את אסף יוריה (ניו יורק)"],"RAD","live","https://radical.org.il/product/jazz-show/"],
+ ["2026-10-31","—",["Movement by Yaniv Tzadick – ecstatic dance in the dark","Movement by Yaniv Tzadick – אקסטטיק דאנס בחושך"],["With live sound healing by Naama","עם סאונד הילינג חי של נעמה"],"SILO","spirit","https://www.siloculture.com/workshops","",1],
+ ["2026-10-31","Motzash","Unicorn Dance – DJ Lazak",["70s–2000s hits & nostalgia party","מסיבת להיטים ונוסטלגיה, שנות ה־70 עד ה־2000"],"UNI","party","https://theunicorn.co.il/","",1],
+
+ ["2026-11-01","—",["Tel Aviv Festival – Opening show","פסטיבל תל־אביב – מופע הפתיחה"],["Opening night of the city festival (art director Shlomi Shaban)","ערב הפתיחה של פסטיבל העיר (מנהל אמנותי: שלומי שבן)"],"PAC","live","https://telavivfestival.co.il/"],
+ ["2026-11-01","—","altered states",["",""],"MER","party","https://hameretz2.org/e/alteredstate/","",1],
+ ["2026-11-01","—",["Yonatan Barak – new material night","יונתן ברק – ערב בדיקת חומרים"],["Stand-up","סטנדאפ"],"UNI","talk","https://theunicorn.co.il/"],
+
+ ["2026-11-02","20:30 / 21:00",["Where To (Lean) – pre-premiere","לאן – טרום בכורה"],["Prize-winning film + talk with producer Asaf Machnes","סרט עטור פרסים ושיחה עם המפיק אסף מכנס"],"RAD","film","https://radical.org.il/product/where-to/"],
+ ["2026-11-02","20:30",["Cloud Space – Ziv","Cloud Space – זיו"],["Dreamy electronica and caressing vocals","אלקטרוניקה חלומית ושירה מלטפת"],"CLOUD","spirit","https://sol-therapy.com/cloud"],
+ ["2026-11-02","21:30","RAMZAILECH",["Rare show by the Balkan hardcore-klezmer cult band","הופעה נדירה של להקת הקאלט, הארדקור־בלקן־קלזמר"],"MER","live","https://hameretz2.org/e/ramzailech/","RARE SHOW"],
+
+ ["2026-11-03","20:30",["Cloud Space – Noa Argov","Cloud Space – נועה ארגוב"],["Eclectic sound journey","מסע סאונד אקלקטי"],"CLOUD","spirit","https://sol-therapy.com/cloud"],
+ ["2026-11-03","21:45","ליהיא אם",["Album launch – Mi Mitnadev","השקת האלבום ״מי מתנדב״"],"MER","live","https://hameretz2.org/e/lihiaam/"],
+
+ ["2026-11-04","—",["Tel Aviv Festival – Night Pass","פסטיבל תל־אביב – Night Pass"],["Roam the museum: shows, installations, one-on-one performances","שיטוט במוזיאון: מופעים, מיצגים, אמן אחד מול צופה אחד"],"MUS","live","https://telavivfestival.co.il/","",1],
+ ["2026-11-04","18:30",["Cloud Space – Avraham Tal","Cloud Space – אברהם טל"],["Deep journey of voice and sound. Early round added; the 20:30 is sold out","מסע עמוק של קול וצליל. נוסף סבב מוקדם, הסבב של 20:30 אזל"],"CLOUD","spirit","https://sol-therapy.com/cloud"],
+ ["2026-11-04","18:30","המיתוג של השלום",["",""],"RAD","talk","https://radical.org.il/product/peace-brand/"],
+ ["2026-11-04","21:00","Cold Sauna",["",""],"RAD","live","https://radical.org.il/product/cold-sauna-2/"],
+ ["2026-11-04","21:30","TALMA",["New EP, new stage costume","אי־פי חדש ותלבושת במה חדשה"],"MER","live","https://hameretz2.org/e/talma/"],
+
+ ["2026-11-05","—",["Tel Aviv Festival – Night Pass","פסטיבל תל־אביב – Night Pass"],["Second museum night","ערב שני במוזיאון"],"MUS","live","https://telavivfestival.co.il/","",1],
+ ["2026-11-05","20:30","Halloween Kiki Ball 2.0",["Vogue night","ערב ווג"],"RAD","party","https://radical.org.il/product/vogue-night/","",1],
+ ["2026-11-05","—","Silo Dance Gathering",["Terra Rosa & Magic Vibes","Terra Rosa ו־ Magic Vibes"],"SILO","party","https://www.siloculture.com/workshops","",1],
+ ["2026-11-05","20:30",["Cloud Space – Etar Meiner","Cloud Space – עטר מיינר"],["Atmospheric electronica and touching melodies","אלקטרוניקה אטמוספרית ומלודיות נוגעות"],"CLOUD","spirit","https://sol-therapy.com/cloud"],
+ ["2026-11-05","21:30","GAGI",["Debut solo album Vildehay launch","השקת אלבום הסולו הראשון Vildehay"],"MER","live","https://hameretz2.org/e/gagi/"],
+
+ ["2026-11-06","21:00",["LUCID – Friday sound journey","LUCID – מסע צלילות של שישי"],["Runs every Friday; confirm this date is on sale","מתקיים כל שישי, כדאי לוודא שהתאריך הזה במכירה"],"ALAYA","spirit","https://www.alayapoleg.com/shows"],
+ ["2026-11-06","11:30","כאן ועכשיו",["",""],"RAD","spirit","https://radical.org.il/product/here-and-now/"],
+ ["2026-11-06","Noon",["Tel Aviv Festival – Noon at the Museum","פסטיבל תל־אביב – צהריים במוזיאון"],["",""],"MUS","live","https://telavivfestival.co.il/","",1],
+ ["2026-11-06","—",["Tel Aviv Festival – After Party","פסטיבל תל־אביב – After Party"],["The festival's closing party, at Beit Radical","מסיבת הסיום של הפסטיבל, בבית רדיקל"],"RAD","party","https://telavivfestival.co.il/","",1],
+
+ ["2026-11-07","—","דיסקו שמש",["",""],"MER","party","https://hameretz2.org/e/discoshemesh/","",1],
+ ["2026-11-07","—","רותם בר אור – Solo 360",["",""],"UNI","live","https://theunicorn.co.il/"],
+ ["2026-10-25", "20:30", "החזיר", ["Premiere from Habait Festival 2026: a pig who must keep the house rules in a tiger's home", "בכורה מפסטיבל הבית 2026: חזיר שצריך לשמור על חוקי הבית אצל נמר"], "HAB", "stage", "https://www.habait-theatre.org.il/he/home", ""],
+ ["2026-10-26", "20:30", "Down the Aisle", ["Two close friends trapped in a tight, almost violent space", "שני חברים קרובים לכודים במרחב צפוף וכמעט אלים"], "HAB", "stage", "https://www.habait-theatre.org.il/he/home", ""],
+ ["2026-10-28", "20:30", "חזיתות", ["Documentary theatre: a couple through a long war, him called up again and again", "תיאטרון דוקומנטרי: זוג במלחמה ארוכה, כשהוא נקרא שוב ושוב לחזית"], "HAB", "stage", "https://www.habait-theatre.org.il/he/home", ""],
+ ["2026-10-29", "20:30", "חזיתות", ["Second night", "ערב שני"], "HAB", "stage", "https://www.habait-theatre.org.il/he/home", ""],
+ ["2026-10-31", "20:00", "אפקטוס", ["A dancer, a philosopher and an AI, on making art during a humanitarian crisis", "רקדנית, פילוסוף ובינה מלאכותית, על יצירה בזמן משבר הומניטרי"], "HAB", "stage", "https://www.habait-theatre.org.il/he/home", ""],
+ ["2026-11-01", "20:00", "חי שחור ביער", ["A woman meets her past self as she enters the theatre world", "אישה פוגשת את עצמה מהעבר כשהיא נכנסת לעולם התיאטרון"], "HAB", "stage", "https://www.habait-theatre.org.il/he/home", ""],
+ ["2026-11-01", "20:30", "אבנים", ["Ortho-Da: six performers form the ghetto fighters' statue with their bodies", "אורתו־דה: שישה מבצעים יוצרים בגופם את פסל לוחמי הגטו"], "HAB", "stage", "https://www.habait-theatre.org.il/he/home", ""],
+ ["2026-11-02", "19:00 / 21:00", "חי שחור ביער", ["Two shows", "שתי הצגות"], "HAB", "stage", "https://www.habait-theatre.org.il/he/home", ""],
+ ["2026-11-03", "19:30", "מרסל", ["A child whose vivid dreams never come true. Jerusalem Comedy Festival award winner", "ילד שהחלומות שלו אף פעם לא מתגשמים. זוכה פרסים בפסטיבל הקומדיה בירושלים"], "HAB", "stage", "https://www.habait-theatre.org.il/he/home", ""],
+ ["2026-11-04", "19:30", "מרסל", ["Second show", "הצגה שנייה"], "HAB", "stage", "https://www.habait-theatre.org.il/he/home", ""],
+ ["2026-11-04", "20:30", "SEX DREAM", ["Dreamlike piece on desire, intimacy, fantasy and memory", "יצירה חלומית על תשוקה, אינטימיות, פנטזיה וזיכרון"], "HAB", "stage", "https://www.habait-theatre.org.il/he/home", ""],
+ ["2026-11-06", "—", ["FEX – experimental flamenco festival", "FEX – פסטיבל פלמנקו ניסיוני"], ["Day pass covers all that day's shows", "כרטיס יומי לכל המופעים של היום"], "HAB", "stage", "https://www.habait-theatre.org.il/he/home", ""],
+ ["2026-11-07", "—", "חיץ", ["Duet about two performers struggling to touch and break each other. Includes nudity", "דואט של שני מבצעים שנאבקים לגעת ולשבור זה את זה. כולל עירום"], "HAB", "stage", "https://www.habait-theatre.org.il/he/home", ""],
+ ["2026-10-26", "—", ["Berlin–Jerusalem performance evening", "ערב מופעים ברלין–ירושלים"], ["Artists from Berlin and Jerusalem", "אמנים מברלין ומירושלים"], "MIF", "live", "https://hamiffal.com/", ""],
+ ["2026-10-27", "20:00", ["Choosing & Crying – election trivia night", "בוחרים ובוכים – החגיגה נמשכת"], ["Hamiffal's election quiz with quizmaster Yossi Komer. Teams of up to 5; one person registers the team. Exit polls on screen at the end", "טריוויית הבחירות של המפעל עם הקוויזמאסטר יוסי קומר. קבוצות עד 5, נציג אחד נרשם מראש. בסוף מקרינים את המדגמים"], "MIF", "game", "https://hamiffal.com/event/2165/", "FREE · REGISTER"],
+ ["2026-10-30", "Afternoon", ["Yemenite-inspired music & dance double bill", "מוזיקה ומחול בהשראת המסורת התימנית"], ["Friday afternoon double feature", "דאבל פיצ׳ר בשישי בצהריים"], "MIF", "live", "https://hamiffal.com/", ""]
+].map(a=>({d:a[0],t:a[1],n:a[2],s:a[3],v:a[4],c:a[5],u:a[6],f:a[7]||"",k:!!a[8]}));
+const MZ=["Strange at 26 – Noa Dar Dance Group","מוזר ב־26 – קבוצת מחול נעה דר"], MZS=["26 years on, Noa Dar revisits her landmark piece with Moshe Shechter and Michal Moalem, who returns to her original role. Intimate, funny, small hall; limited seats","26 שנה אחרי, נעה דר חוזרת למופע המכונן, עם משה שכטר ומיכל מועלם שחוזרת לתפקיד המקורי. אינטימי ומצחיק, מספר מקומות מוגבל"], MZU="https://noadarpro.wixstudio.com/strange-2";
+V.MEN=["Menashe Regional Center, Ein Shemer (Menashe Dance Festival)","המרכז האזורי מנשה, עין שמר (פסטיבל המחול מנשה)"];
+V.VERT=["Vertigo eco-art village, Netiv HaLamed-He","ורטיגו – כפר אמנות אקולוגי, נתיב הל״ה"];
+V.SUZ=["Studio Ora, Suzanne Dellal Center, Yehieli 5, TLV","סטודיו אורה, מרכז סוזן דלל, יחיאלי 5, ת״א"];
+V.DONE=["D-One hall, Kiryat HaMoatza, Neve Yarak","D-One, קריית המועצה, נווה ירק"];
+E.push({d:"2026-10-28",t:"21:00",n:["Rockfour host Knesiyat HaSechel","רוקפור מארחים את כנסיית השכל"],s:["30 years of \"Bachazara LaShablul\". Two rock bands, one stage, one night","30 שנה ל״בחזרה לשבלול״. שתי להקות רוק על במה אחת, ערב חד־פעמי"],v:"DONE",c:"live",u:"https://d-one.smarticket.co.il",f:"",k:true,img:"img/rockfour.jpg"});
+V.SHUK=["HaShuk HaYashan, HaOranim 12, Pardes Hanna-Karkur","השוק הישן, האורנים 12, פרדס חנה־כרכור"];
+E.push({d:"2026-10-27",t:"18:30",n:["TuesJazz – Musical Jazz, election day","TuesJazz – ג׳אז משפחות ביום הבחירות"],s:["Jazz standards born in Broadway musicals, with swing and improvisation. Alon Stern (bass, host), Rotem Yalin (drums), Sergei Niktyuk (piano). Fine for kids too","סטנדרטים שנולדו במחזות זמר, בעיבודים של סווינג ואלתור. אלון שטרן (בס ואירוח), רותם ילין (תופים), סרגיי ניקטיוק (פסנתר). מתאים גם לילדים"],v:"SHUK",c:"live",u:"",f:"FREE",k:false,img:"img/tuesjazz.jpg"});
+[["2026-10-31","19:00","MEN"],["2026-11-03","20:00","VERT"],["2026-11-05","20:30","SUZ"],["2026-11-06","14:00","SUZ"]].forEach(([d,t,v])=>E.push({d,t,n:MZ,s:MZS,v,c:"stage",u:MZU,f:"",k:false}));
+V.HEICHAL=["Heichal HaTarbut (Charles Bronfman Auditorium), TLV","היכל התרבות ע״ש צ׳רלס ברונפמן, ת״א"];
+["2026-11-02","2026-11-03","2026-11-04"].forEach(d=>E.push({d,t:"20:00",n:["HaKeves HaShisha Asar – and our songs too","הכבש השישה עשר ושירים שלנו גם"],s:["Final reunion tour: Yehudit Ravitz, Gidi Gov, Yoni Rechter and David Broza play the classic children's album plus their own hits, with Yehonatan Gefen's original texts in his voice","סיבוב האיחוד האחרון: יהודית רביץ, גידי גוב, יוני רכטר ודוד ברוזה בשירי האלבום ובלהיטים שלהם, עם הטקסטים של יהונתן גפן בקולו"],v:"HEICHAL",c:"live",u:"https://www.zappa-club.co.il/artist/%D7%94%D7%9B%D7%91%D7%A9%D7%94%D7%A9%D7%A9%D7%94%D7%A2%D7%A9%D7%A8%D7%95%D7%A9%D7%99%D7%A8%D7%99%D7%9D%D7%A9%D7%9C%D7%A0%D7%95%D7%92%D7%9D/",f:"",k:false}));
+V.TZAVTA=["Tzavta, Ibn Gabirol 30, TLV","צוותא, אבן גבירול 30, ת״א"];
+["20:00","21:30"].forEach((t,i)=>E.push({d:"2026-10-25",t,n:["Moadon Ktav 66 – election edition","מועדון כתב 66 – מהדורת בחירות"],s:["Literary face-offs: Hagar Ben Asher vs Shira Florentin (country or city), Rotem Kaplinsky vs Avraham Shalom Levi (disconnect or connect), Yael Golan vs Omri Laron (original or translation). "+(i?"Second show, doors 21:15":"First show, doors 19:30"),"עימותים ספרותיים: הגר בן אשר מול שירה פלורנטין (ארץ או עיר), רותם קפלינסקי מול אברהם שלום לוי (להתנתק או להתחבר), יעל גולן מול עמרי לרון (מקור או תרגום). "+(i?"מופע שני, דלתות 21:15":"מופע ראשון, דלתות 19:30")],v:"TZAVTA",c:"talk",u:"https://neve-schechter.org.il/product/moadon-66/",f:"₪85 · ADVANCE ONLY",k:false,img:"img/ktav66.jpg"}));
+E.push({d:"2026-10-27",t:"09:00–16:00",n:["Shuzi Market – vote & come","שוק שוזי – מצביעים ומגיעים"],s:["Election-day market at the Old Market: blue-and-white designers and makers – clothes, jewelry, swimwear, art, bags, ceramics, natural cosmetics – plus coffee, food, drinks and music","שוק יום הבחירות בשוק הישן: מעצבים ויוצרים כחול לבן – בגדים, תכשיטים, בגדי ים, אמנות, תיקים, קרמיקה, רוקחות טבעית – וקפה, אוכל, דרינקים ומוזיקה"],v:"SHUK",c:"market",u:"https://www.instagram.com/p/De4yrC4CKEq/",f:"",k:true,img:"img/shuzi.jpg"});
+V.HASIMTA=["Around Old Jaffa (Hasimta)","ברחבי יפו העתיקה (הסימטה)"];V.YEFET=["Yefet 27, Jaffa","יפת 27, יפו"];V.GELLER=["Uri Geller Museum, Jaffa","מוזיאון אורי גלר, יפו"];V.ALMINA=["Almina Theatre, Jaffa","תיאטרון אלמינה, יפו"];
+{const H="https://hasimta.com/";
+const J=[["Journeys in Hasimta – route A","מסעות בסימטה – נתיב א׳"],["Short works in different spaces around Old Jaffa: Inas Osrof Abu Saif, Ariel Alili Brown, Alita Weinstock, Hila Gloskinos","עבודות קצרות בחללים שונים ברחבי יפו העתיקה: אינאס אוסרוף אבו סייף, אריאל אלילי בראון, עליטה ווינטור, הילה גלוסקינוס"]];
+const K=[["Journeys in Hasimta – route B","מסעות בסימטה – נתיב ב׳"],["Short works in different spaces around Old Jaffa: Avigail Roz, Asirmasi, Mila Levi, Shahar Netz","עבודות קצרות בחללים שונים ברחבי יפו העתיקה: אביגיל רוז, אסירמסי, מילה לוי, שחר נץ"]];
+const add=(d,t,n,s,v,c,f,k)=>E.push({d,t,n,s,v,c,u:H,f:f||"",k:!!k});
+["2026-11-05","2026-11-07"].forEach(d=>{add(d,"—",J[0],J[1],"HASIMTA","stage","",1);add(d,"—",K[0],K[1],"HASIMTA","stage","",1)});
+add("2026-11-05","21:00 / 22:00",["Hasimta music night – Nicotine, Efrat Ben Tzur","ערב מוזיקה בסימטה – ניקוטין, אפרת בן צור"],["Nicotine at 21:00, Efrat Ben Tzur at 22:00","ניקוטין ב־21:00, אפרת בן צור ב־22:00"],"YEFET","live");
+add("2026-11-06","21:00 / 22:00",["Hasimta music night – Peleg, Vitarti","ערב מוזיקה בסימטה – פלג, ויתרתי"],["Peleg at 21:00, Vitarti at 22:00","פלג ב־21:00, ויתרתי ב־22:00"],"YEFET","live");
+add("2026-11-05","—","XPIRIT",["Séance show by Uri Geller and Richard Bromberg","מופע סיאנס של אורי גלר ורישרד ברומברג"],"GELLER","stage");
+add("2026-11-06","—",["Hasimta guest shows – Ariel Cohen, Orin Michaeli, Yael Mor","הצגות אורחות בסימטה – אריאל כהן, אוריין מיכאלי, יעל מור"],["Three guest performances","שלוש הצגות אורחות"],"ALMINA","stage");
+add("2026-11-07","—",["Ilan Peled & Yael Poliakov + Jaffa hafla","אילן פלד ויעל פוליאקוב + חפלה יפואית"],["",""],"YEFET","live","SOLD OUT");}
+V.OPERA=["Israeli Opera, TLV Performing Arts Center","האופרה הישראלית, המשכן לאמנויות הבמה, ת״א"];
+E.push({d:"2026-11-03",t:"21:00",n:["Madame X's Scandal Dress – Yaara Keydar at the Opera","שמלת הסקנדל של מאדאם אקס באופרה – יערה קידר"],s:["Fashion historian Yaara Keydar on the secrets hidden in clothes in famous paintings, from Marie Antoinette's cotton dress to Degas' little dancer, with songs and arias by Israeli Opera soloists","ההיסטוריונית של האופנה יערה קידר על הסודות שמסתתרים בבגדים שביצירות מופת, משמלת הכותנה של מארי אנטואנט ועד הרקדנית הקטנה של דגה, עם שירה ואופרה בביצוע סולניות האופרה הישראלית"],v:"OPERA",c:"talk",u:"https://www.yaarakeydar.com/lecture/scandal-opera",f:"LAST TICKETS",k:false,img:"img/madamex.jpg"});
+V.TEFER=["Beit Tefer, Tel Aviv","בית טפר, תל אביב"];
+["2026-10-30","2026-10-31"].forEach((d,i)=>E.push({d,t:"All day",n:["Surround Festival 2026 – day "+(i+1),"פסטיבל Surround 2026 – יום "+(i+1)],s:["Hanut Theatre's multidisciplinary festival: visual theatre, puppets, dance, literature, music, cinema and circus. This year's theme: mystery","פסטיבל רב־תחומי של תיאטרון החנות: תיאטרון חזותי, בובות, מחול, ספרות, מוזיקה, קולנוע וקרקס. נושא השנה: התעלומה"],v:"TEFER",c:"stage",u:"https://www.hanut31.co.il/%D7%A4%D7%A1%D7%98%D7%99%D7%91%D7%9C-surround2026",f:"",k:false,img:"img/surround.jpg"}));
+V.KISIM=["Kisim shop, Barzilai 11, Gan HaHashmal, TLV","חנות כיסים, ברזילי 11, גן החשמל, ת״א"];
+E.push({d:"2026-10-27",t:"10:30–18:00",n:["Pop-up October at Kisim – election-day sale","פופ־אפ אוקטובר בכיסים – הנחת יום הבחירות"],s:["Last week of the pop-up. On election day only: 27% off selected pieces from the new collection (online code HOPE27)","השבוע האחרון של הפופ־אפ. ביום הבחירות בלבד: 27% הנחה על פריטים נבחרים מהקולקציה החדשה (באתר: קוד HOPE27)"],v:"KISIM",c:"market",u:"",f:"27% OFF",k:false,img:"img/kisim.jpg"});
+V.SHVILIM=["Shvilim school amphitheatre, Pardes Hanna","אמפי פנימי, בית ספר שבילים, פרדס חנה"];
+E.push({"d": "2026-10-29", "t": "16:00–22:00", "n": ["Alterndiv stage – Derech HaNadiv festival", "במת אלטרנדיב – פסטיבל דרך הנדיב"], "s": ["Bands all day: 16:00 שרון קנטור · 17:30 אורן בן סימון ולהקתו · 19:00 נגה שלו · 20:30 Wrong Use · 22:00 רימון און", "להקות לאורך היום: 16:00 שרון קנטור · 17:30 אורן בן סימון ולהקתו · 19:00 נגה שלו · 20:30 Wrong Use · 22:00 רימון און"], "v": "SHVILIM", "c": "live", "u": "https://2026.hanadiv.org/", "f": "FREE", "k": true, "img": "img/alterndiv.jpg"});
+E.push({"d": "2026-10-30", "t": "13:00–23:00", "n": ["Alterndiv stage – Derech HaNadiv festival", "במת אלטרנדיב – פסטיבל דרך הנדיב"], "s": ["Bands all day: 13:00 Cosmic Alliance · 14:30 אלעד זאב ולהקה · 16:00 Cadaver Eyes · 17:30 Stereo Candy · 19:00 Electric Sea · 20:30 רייסקינדר · 22:00 SKLEP · 23:00 Friend Zone", "להקות לאורך היום: 13:00 Cosmic Alliance · 14:30 אלעד זאב ולהקה · 16:00 Cadaver Eyes · 17:30 Stereo Candy · 19:00 Electric Sea · 20:30 רייסקינדר · 22:00 SKLEP · 23:00 Friend Zone"], "v": "SHVILIM", "c": "live", "u": "https://2026.hanadiv.org/", "f": "FREE", "k": true, "img": "img/alterndiv.jpg"});
+E.push({"d": "2026-10-31", "t": "13:00–22:00", "n": ["Alterndiv stage – Derech HaNadiv festival", "במת אלטרנדיב – פסטיבל דרך הנדיב"], "s": ["Bands all day: 13:00 מוטי פרנסס · 14:30 עמוס צימרמן · 16:00 מאיה זלצר ולהקה · 17:30 דני לוזון ולהקה · 19:00 רוקרפוקסט · 20:30 ריי הונדה · 22:00 רפאים", "להקות לאורך היום: 13:00 מוטי פרנסס · 14:30 עמוס צימרמן · 16:00 מאיה זלצר ולהקה · 17:30 דני לוזון ולהקה · 19:00 רוקרפוקסט · 20:30 ריי הונדה · 22:00 רפאים"], "v": "SHVILIM", "c": "live", "u": "https://2026.hanadiv.org/", "f": "FREE", "k": true, "img": "img/alterndiv.jpg"});
+V.GIV=["Givatayim Theatre","תיאטרון גבעתיים"];
+E.push({d:"2026-11-05",t:"—",n:["Geva Alon – Volume Winter series","גבע אלון – סדרת ווליום חורף"],s:["Opening show of the Volume Winter series at Givatayim Theatre","מופע הפתיחה של סדרת ווליום חורף בתיאטרון גבעתיים"],v:"GIV",c:"live",u:"https://t-g.co.il/%D7%95%D7%95%D7%9C%D7%99%D7%95%D7%9D-%D7%97%D7%95%D7%A8%D7%A3-2026/",f:"",k:false,img:"img/geva.jpg"});
+V.GOLD=["Goldmund bookshop, Haifa","חנות גולדמונד, חיפה"];
+E.push({"d": "2026-10-29", "t": "20:00", "n": ["Ben Artzi – solo show", "בן ארצי – מופע סולו"], "s": ["Alone with piano and guitar, songs from all five albums and the stories behind them", "לבד עם פסנתר וגיטרה, שירים מכל חמשת האלבומים והסיפורים שמאחוריהם"], "v": "GOLD", "c": "live", "u": "https://goldmundbooks.com/tickets", "f": "From ₪80", "k": false, "img": "img/goldmund.jpg"});
+E.push({"d": "2026-10-29", "t": "22:30", "n": ["Halloween Party – Pop Juice with DJ Lior Rasta", "מסיבת האלווין – Pop Juice עם DJ Lior Rasta"], "s": ["The bookshop turns into a dance floor: 90s MTV pop to fresh pop. Come in costume", "החנות הופכת לרחבה: פופ מה־MTV של הניינטיז ועד הפופ הטרי. בואו בתחפושת"], "v": "GOLD", "c": "party", "u": "https://goldmundbooks.com/tickets", "f": "From ₪50", "k": true, "img": "img/goldmund.jpg"});
+E.push({"d": "2026-11-02", "t": "20:30", "n": ["Leon Bor – Straight Friendly", "לאון בור – סטרייט פרנדלי"], "s": ["Stand-up from the comedian also known as drag king \"Borbie\": queer, autistic and poly communities, with love and zero sensitivity", "מופע הסטנדאפ החדש של לאון בור, המוכר גם כדראג קינג ״בורבי״: קהילות אלטרנטיביות באהבה גדולה ובאפס רגישות"], "v": "GOLD", "c": "talk", "u": "https://goldmundbooks.com/tickets", "f": "From ₪80", "k": false, "img": "img/goldmund.jpg"});
+E.push({"d": "2026-11-05", "t": "20:00", "n": ["Karaoke night + birthday", "ערב קריוקי + יום הולדת"], "s": ["Hosted by Tamara Bar; it's also Tamara's and Li-Or's birthday", "בהנחיית תמרה ובר, ובאותו ערב חוגגים יום הולדת לתמרה ולי־אור"], "v": "GOLD", "c": "party", "u": "https://goldmundbooks.com/tickets", "f": "FREE", "k": true, "img": "img/goldmund.jpg"});
+V.URVOT=["Urvot HaAmanim, Pardes Hanna","אורוות האמנים, פרדס חנה"];
+E.push({"d": "2026-10-27", "t": "09:00–21:45", "n": ["Voting at Urvot – election-day happening", "בוחרים באורוות – הפנינג ענק ביום הבחירות"], "s": ["All day at the artists' stables: workshops (terrarium ₪410, dried flowers ₪100, glass blowing ₪99, kids' jewelry ₪70), an election show at Laybalev at 12:00, yoga and movement classes at Being, and DJ Gal at Laybalev after sunset", "כל היום באורוות האמנים: סדנאות (טרריום ₪410, זר יבש ₪100, ניפוח זכוכית ₪99, תכשיטים לילדים ₪70), ״בוחרים בלב״ – מופע בחירות בלייבלב ב־12:00, יוגה ותנועה ב־Being, ו־DJ GAL בלייבלב אחרי השקיעה"], "v": "URVOT", "c": "live", "u": "https://urvothamanim.co.il/", "f": "", "k": true, "img": "img/urvot.jpg"});
+V.ZOYA=["Zoya Beer Taps, Jabotinsky 1, Ramat Gan (Bursa)","Zoya Beer Taps, ז׳בוטינסקי 1, רמת גן (הבורסה)"];
+E.push({"d": "2026-10-26", "t": "17:00", "n": ["Open stage at Zoya Beer Taps", "במה פתוחה ב־Zoya Beer Taps"], "s": ["Ramat Gan's Bursa district hosts local singers and bands for an acoustic open stage, hosted by Chen Aharoni. Audience gets 15% off drinks. Want to play? Spots are limited and need advance registration with the Ramat Gan municipality", "מתחם הבורסה ועיריית רמת גן מארחים זמרים, יוצרים ולהקות מקומיות לבמה פתוחה אקוסטית, בהנחיית חן אהרוני. לקהל: 15% הנחה על הדרינקים. רוצים להופיע? מספר המקומות מוגבל ובהרשמה מראש מול עיריית רמת גן"], "v": "ZOYA", "c": "live", "u": "", "f": "", "k": false});
+V.JLMSQ=["I ♥ JLM square by Mamilla, Jerusalem","רחבת I ♥ JLM ליד ממילא, ירושלים"];
+E.push({"d": "2026-10-27", "t": "16:00–18:00", "n": ["Vote to dance – Jerusalem flash mob", "בוחרים לרקוד – פלאש מוב ירושלמי"], "s": ["The Wandering Studio teaches a short, easy dance, then surprises passers-by with it. Friends and families welcome; nobody asks who you voted for. Register by message to Shirili: 052-291-5130 (write \"פלאש מוב\")", "הסטודיו הנודד מלמד ריקוד קל ופשוט בסדנה קצרה, ואז מפתיעים את העוברים והשבים ברחבה. חברים ומשפחות מוזמנים, ואף אחד לא ישאל למי הצבעתם. להרשמה: הודעה לשירילי 052-291-5130 (״פלאש מוב״)"], "v": "JLMSQ", "c": "spirit", "u": "https://www.labriutart.co.il", "f": "FREE · REGISTER", "k": true, "img": "img/flashmob.jpg"});
+V.FOMA=["Foma, Shvil HaTnufa 6, TLV","פומא, שביל התנופה 6, ת״א"];
+E.push({"d": "2026-10-26", "t": "21:00", "n": ["Pacofest 26 – Vote & Dance (night 1)", "Pacofest 26 – Vote & Dance (ערב 1)"], "s": ["Live bands, electronic acts, acoustic mash-ups, digital art and DJs. 18+. ₪60, or ₪50 with Digitel code Pacodigitel (plus a ₪3.54 fee)", "הופעות חיות, הרכבים, מוזיקה אלקטרונית ושילובים אקוסטיים, אמנות דיגיטלית ותקלוטים. מגיל 18. ₪60, או ₪50 עם קוד דיגיתל Pacodigitel (ועוד עמלה של ₪3.54)"], "v": "FOMA", "c": "party", "u": "https://selector.org.il/e/jE3Q_qDflYK", "f": "", "k": true, "img": "img/pacofest.jpg"});
+E.push({"d": "2026-10-27", "t": "15:00", "n": ["Pacofest 26 – Vote & Dance (election day)", "Pacofest 26 – Vote & Dance (יום הבחירות)"], "s": ["Live bands, electronic acts, acoustic mash-ups, digital art and DJs. 18+. ₪60, or ₪50 with Digitel code Pacodigitel (plus a ₪3.54 fee)", "הופעות חיות, הרכבים, מוזיקה אלקטרונית ושילובים אקוסטיים, אמנות דיגיטלית ותקלוטים. מגיל 18. ₪60, או ₪50 עם קוד דיגיתל Pacodigitel (ועוד עמלה של ₪3.54)"], "v": "FOMA", "c": "party", "u": "https://selector.org.il/e/jE3Q_qDflYK", "f": "", "k": true, "img": "img/pacofest.jpg"});
+V.TMKT=["Azrieli Outlet Herzliya, Medinat HaYehudim 85","קניון עזריאלי אאוטלט הרצליה, מדינת היהודים 85"];
+V.YSUB=["Yellow Submarine, Jerusalem","צוללת צהובה, ירושלים"];
+V.TOD=["Tower of David Museum, Jerusalem","מגדל דוד מוזיאון ירושלים"];
+E.push({"d": "2026-11-07", "t": "10:00–17:00", "n": ["T Market – fashion & vintage market", "T Market – שוק אופנה ווינטג׳"], "s": ["About 30 stalls: streetwear labels, rare vintage, jewelry, sunglasses, hats and accessories, with music. Also on Sat 14.11", "כ־30 דוכנים: מותגי סטריט וור, וינטג׳ נדיר, תכשיטים, משקפי שמש, כובעים ואקססוריז, עם מוזיקה. גם בשבת 14.11"], "v": "TMKT", "c": "market", "u": "", "f": "FREE", "k": true, "img": "img/tmarket.jpg"});
+E.push({"d": "2026-10-28", "t": "21:30", "n": ["Piazzolla's New Tango", "הטנגו החדש של פיאצולה"], "s": ["Piano meets percussion, with live playing, theatre and stories. Doors 20:30", "פסנתר וכלי הקשה, נגינה חיה, נוכחות תיאטרלית וסיפורים. דלתות 20:30"], "v": "YSUB", "c": "live", "u": "https://yellowsubmarine.org.il", "f": "LAST TICKETS", "k": false, "img": "img/piazzolla.jpg"});
+E.push({"d": "2026-10-29", "t": "22:00", "n": ["Aviv Bachar – trio show", "אביב בכר – מופע טריו"], "s": ["New arrangements of well-loved songs from every era. Doors 21:00", "עיבודים חדשים לשירים האהובים מכל התקופות. דלתות 21:00"], "v": "YSUB", "c": "live", "u": "https://yellowsubmarine.org.il", "f": "", "k": false, "img": "img/avivbachar.jpg"});
+E.push({"d": "2026-10-30", "t": "08:00–14:00", "n": ["Migdal-Or – yoga, words & sound at the citadel", "מגדלאור – יוגה, מילים וצלילים במצודה"], "s": ["A Friday at the Tower of David: an inner-yoga day with Michal Lichtman, Tali Apel and Yael Ben-Reuven, sound healing, and a live set by Orca", "שישי במגדל דוד: יום עיון פנימה עם מיכל ליכטמן, טלי אפל ויעל בן־ראובן, סאונד הילינג והופעה חיה של אורקה"], "v": "TOD", "c": "spirit", "u": "https://tod.org.il", "f": "", "k": false, "img": "img/migdalor.jpg"});
+V.TTKM=["Tel Aviv Tarbut Kiryat HaMelacha, Shvil HaMeretz 6","ת״א תרבות קריית המלאכה, שביל המרץ 6"];
+E.push({"d": "2026-11-02", "t": "10:30–13:30", "n": ["Dressed Model – drawing workshop with Anat Martkovich", "מודל לבוש – סדנה בהנחיית אנת מרטקוביץ׳"], "s": ["Life drawing of a clothed model: four poses rich in colour, textures, patterns and trims", "סדנת ציור מודל: ארבע סצינות של גוף לבוש בעושר של צבעים, טקסטורות, פטרנים ועיטורים"], "v": "TTKM", "c": "talk", "u": "https://www.eventer.co.il/2282f", "f": "", "k": false, "img": "img/modellavush.jpg"});
+const IMGS=[["2026-10-25","זה הזמן","now"],["2026-10-25","איך הדמוקרטיה","democracy"],["2026-10-25","נשים ששינו","aloni"],["2026-10-25","ארץ אוכלת","eretz"],["2026-10-25","6×6","sixsix"],["2026-10-25","דפנה והעוגיות","dafna"],["2026-10-25","Doron Shefer","shefer"],["2026-10-25","Tantra","yoga"],["2026-10-25","Movement","movement"],
+["2026-10-26","היום שאחרי","dayafter"],["2026-10-26","WC","wc"],["2026-10-26","Doomsday","doomsday"],
+["2026-10-27","Bring the Day","bringday"],["2026-10-27","הנוסטלגיה","nostalgia"],["2026-10-27","RE:SET","reset"],
+["2026-10-28","Echo","echo"],["2026-10-28","Amazing Sexuality","masha"],["2026-10-28","OSOG","osog"],
+["2026-10-29","Hadas","hadas"],["2026-10-29","סופר ספרטה","sparta"],["2026-10-29","ונטלו","jona"],["2026-10-29","Silo Dance","silo29"],["2026-10-29","Dekel","dekel"],
+["2026-10-30","מערכת העצבים","nerv"],
+["2026-10-31","סדנת הג","jazz"],["2026-10-31","Movement","movement"],["2026-10-31","Lazak","lazak"],
+["2026-11-01","Yonatan Barak","barak"],
+["2026-11-02","Where To","where"],["2026-11-02","Ziv","ziv"],["2026-11-02","RAMZAILECH","ramz"],
+["2026-11-03","Noa Argov","noa"],["2026-11-03","ליהיא","lihia"],
+["2026-11-04","Avraham","avraham"],["2026-11-04","TALMA","talma"],
+["2026-11-05","Etar","etar"],["2026-11-05","Silo Dance","silo511"],["2026-11-05","GAGI","gagi"],
+["2026-11-07","רותם בר אור","rotem"],["2026-10-27","בוחרים ובוכים","trivia"]];
+E.forEach(e=>{const s=JSON.stringify(e.n);const m=IMGS.find(([d,k])=>d===e.d&&s.includes(k));if(m)e.img="img/"+m[2]+".jpg"});
+
+let L="en", active=new Set(Object.keys(CATS));
+const h0=(location.hash||"").replace("#","");
+if(h0==="he"||h0==="en") L=h0; else { try{const s=localStorage.getItem("ef-lang"); if(s==="he"||s==="en") L=s;}catch(e){} }
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pick=x=>Array.isArray(x)?x[L==="he"?1:0]:x;
+
+function setLang(l){
+  L=l;
+  document.documentElement.lang=l;
+  document.documentElement.dir=l==="he"?"rtl":"ltr";
+  document.getElementById("l-en").setAttribute("aria-pressed",l==="en");
+  document.getElementById("l-he").setAttribute("aria-pressed",l==="he");
+  try{localStorage.setItem("ef-lang",l)}catch(e){}
+  render();
+}
+document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>setLang(b.dataset.set));
+
+const allLabel=()=>L==="he"?"הכל":"All";
+const isAll=(set,obj)=>set.size===Object.keys(obj).length;
+const allChip=(attr,set,obj)=>`<button class="chip" type="button" id="${attr}-all" aria-pressed="${isAll(set,obj)}" data-${attr}="*">${allLabel()}</button>`;
+const pickSet=(set,obj,k)=>{const all=Object.keys(obj);if(k==="*")return new Set(all);if(isAll(set,obj))return new Set([k]);const n=new Set(set);n.has(k)?n.delete(k):n.add(k);return n.size?n:new Set(all)};
+const AREAS={tlv:["Tel Aviv-Yafo","תל אביב־יפו"],ph:["Pardes Hanna & Menashe","פרדס חנה ומנשה"],sharon:["Sharon","השרון"],jlm:["Jerusalem & hills","ירושלים והרים"],haifa:["Haifa","חיפה"]};
+const AREA_OF={RAD:"tlv",MER:"tlv",ROM:"tlv",KULI:"tlv",DAV:"tlv",JAF:"tlv",EXPO:"tlv",GRAY:"tlv",PAC:"tlv",MUS:"tlv",CLOUD:"tlv",MAZE:"tlv",TTKM:"tlv",FOMA:"tlv",ZOYA:"tlv",GIV:"tlv",KISIM:"tlv",TEFER:"tlv",OPERA:"tlv",HASIMTA:"tlv",YEFET:"tlv",GELLER:"tlv",ALMINA:"tlv",TZAVTA:"tlv",SUZ:"tlv",HEICHAL:"tlv",HAB:"tlv",UNI:"ph",URVOT:"ph",SHVILIM:"ph",PH:"ph",SHUK:"ph",MEN:"ph",SILO:"sharon",TMKT:"sharon",ALAYA:"sharon",DONE:"sharon",MIF:"jlm",YSUB:"jlm",TOD:"jlm",JLMSQ:"jlm",GOLD:"haifa",VERT:"jlm"};
+const areaOf=e=>AREA_OF[e.v]||"other";
+let activeArea=new Set(Object.keys(AREAS));
+function renderAreas(){
+  const f=document.getElementById("areas");
+  f.innerHTML=`<span class="eyebrow" style="align-self:center">${L==="he"?"אזור":"Area"}</span>`+allChip("a",activeArea,AREAS)+Object.entries(AREAS).map(([k,l])=>`<button class="chip" id="a-${k}" type="button" aria-pressed="${activeArea.has(k)}" data-a="${k}">${pick(l)}</button>`).join("");
+  f.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{activeArea=pickSet(activeArea,AREAS,b.dataset.a);render()});
+}
+function renderFilters(){
+  const f=document.getElementById("filters");
+  f.innerHTML=allChip("k",active,CATS)+Object.entries(CATS).map(([k,[l,c]])=>`<button class="chip" id="f-${k}" type="button" aria-pressed="${active.has(k)}" data-k="${k}" style="--c:var(${c})"><span class="dot"></span>${pick(l)}</button>`).join("");
+  f.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{active=pickSet(active,CATS,b.dataset.k);render()});
+}
+function slip(e){
+  const tr=T[L], cc=CATS[e.c][1];
+  const fl=e.f?`<span class="flag ${/FREE/.test(e.f)?"free":/LAST|RARE|SOLD/.test(e.f)?"warn":""}">${esc(L==="he"&&FL[e.f]?FL[e.f]:e.f)}</span>`:"";
+  const sub=pick(e.s), time=L==="he"&&TM[e.t]?TM[e.t]:e.t;
+  return `<div class="slip${e.img?" haspic":""}" style="--c:var(${cc})">
+    ${e.img?`<img class="pic" src="${e.img}" alt="" loading="lazy">`:""}
+    <span class="t">${esc(time)} · <span class="tag" style="color:var(${cc})">${pick(CATS[e.c][0])}</span></span>
+    <span class="n" dir="auto">${esc(pick(e.n))}</span>
+    ${sub?`<span class="s" dir="auto">${esc(sub)}</span>`:""}
+    <span class="v" dir="auto">${e.v?esc(pick(V[e.v])):tr.loc}</span>
+    <span class="row">${e.k?`<span class="flag">${tr.stand}</span>`:""}${fl}${e.u?`<a href="${e.u}" target="_blank" rel="noopener">${tr.details}</a>`:""}</span></div>`;
+}
+const tk=t=>{const m=/^(\d{1,2}):(\d{2})/.exec(t);if(m)return +m[1]*60+ +m[2];return {"All day":-1,"Noon":720,"Afternoon":780,"Motzash":1140}[t]??2000};
+function render(){
+  renderFilters();renderAreas();
+  const tr=T[L], start=new Date(2026,9,25), W=document.getElementById("weeks");let h="";
+  for(let w=0;w<2;w++){
+    h+=`<div class="week"><h2>${tr.week} ${w+1} · ${w?"1.11 – 7.11":"25.10 – 31.10"}</h2><div class="grid">`;
+    for(let i=0;i<7;i++){
+      const dt=new Date(start);dt.setDate(start.getDate()+w*7+i);
+      const iso=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,"0")}-${String(dt.getDate()).padStart(2,"0")}`;
+      const ev=E.filter(e=>e.d===iso&&active.has(e.c)&&(AREAS[areaOf(e)]?activeArea.has(areaOf(e)):isAll(activeArea,AREAS))).sort((x,y)=>tk(x.t)-tk(y.t)), vote=iso==="2026-10-27";
+      h+=`<div class="day${vote?" vote":""}"><div class="dh"><b>${dt.getDate()}.${dt.getMonth()+1}</b><span>${tr.days[i]}</span></div>
+        ${vote?`<span class="tag">${tr.vote}</span>`:""}
+        ${ev.length?ev.map(slip).join(""):`<span class="empty">${tr.empty}</span>`}</div>`;
+    }
+    h+=`</div></div>`;
+  }
+  W.innerHTML=h;
+}
+setLang(L);
+
+(function(){
+  const f=document.getElementById("sform"); if(!f) return;
+  const M={en:{need:"Please say what it is.",sending:"Sending…",ok:"Thanks! Sent to Dana.",err:"Couldn't send. Try again in a minute, or message Dana."},
+           he:{need:"כתבו מה זה, בבקשה.",sending:"שולח…",ok:"תודה! נשלח לדנה.",err:"השליחה לא עברה. נסו שוב בעוד דקה, או כתבו לדנה."}};
+  const msg=document.getElementById("smsg"), btn=document.getElementById("s-send");
+  const say=(k,cls)=>{msg.textContent=M[L][k];msg.className="smsg "+(cls||"")};
+  f.addEventListener("submit",async ev=>{
+    ev.preventDefault();
+    const d=Object.fromEntries(new FormData(f).entries());
+    if(d._gotcha) return;
+    if(!(d.what||"").trim()){say("need","err");document.getElementById("s-what").focus();return}
+    btn.disabled=true;say("sending");
+    try{
+      const r=await fetch("https://formspree.io/f/mykobzkv",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},
+        body:JSON.stringify({_subject:"Election Weeks – new suggestion: "+d.what.slice(0,80),source:"zuzu.today/voters",what:d.what,when:d.when||"—",where:d.where||"—",link:d.link||"—",notes:d.notes||"—",name:d.name||"—"})});
+      if(!r.ok) throw 0;
+      f.reset();say("ok","ok");
+    }catch(_){say("err","err")}
+    btn.disabled=false;
+  });
+})();
+
+(function(){
+  const d=document.getElementById("suggest"); if(!d||!d.showModal) return;
+  const open=()=>{if(!d.open){d.showModal();setTimeout(()=>document.getElementById("s-what").focus(),30)}};
+  document.getElementById("open-suggest").onclick=open;
+  document.getElementById("close-suggest").onclick=()=>d.close();
+  d.addEventListener("click",e=>{if(e.target===d)d.close()});
+  if(location.hash==="#suggest") open();
+})();
+</script>
+
+</body></html>
