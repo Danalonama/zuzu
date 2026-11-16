@@ -80,7 +80,9 @@ rep("border-radius:11px;padding:0 42px 0 38px;", "border-radius:11px;padding:0 3
 rep("#searchInput{padding:0 36px 0 14px;font-size:16px}", "#searchInput{padding:0 14px 0 36px;font-size:16px}")
 # wordmark: the redesign wraps it in a dir="ltr" span, so it already reads "zuzu." here
 # redesign: poster headline, quick style buttons; the quiz block and add-event button stay Hebrew-only
-rep('<div class="kHead">איפה<br> רוקדים<br> היום?</div>', '<div class="kHead">Where are we<br> dancing<br> today?</div>')
+rep('<div class="kHead" aria-hidden="true">איפה רוקדים היום?</div><p class="kSub">כל שיעורי התנועה, הג׳אמים והסדנאות בישראל, במקום אחד. לכל גיל ולכל רמה.</p>',
+    '<div class="kHead" aria-hidden="true">Where are we dancing today?</div><p class="kSub">Every movement class, jam and workshop in Israel, in one place. For every age and every level.</p>')
+rep('<p class="kKick">לפי סגנון</p><h2 id="kTilesT">כל סגנון, הצבע והצורה שלו.</h2>', '<p class="kKick">By style</p><h2 id="kTilesT">Every style has its own color and shape.</h2>')
 rep('aria-label="סוג תנועה" data-all="הכל"', 'aria-label="Movement style" data-all="All"')
 cut('  <section class="kQuiz"', '</div>\n\n<footer>')
 # Hebrew titles keep their letter order (dir="auto") but line up with the English text
