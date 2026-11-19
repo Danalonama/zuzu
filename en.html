@@ -23,7 +23,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
 <link rel="apple-touch-icon" href="/favicon-180.png">
-<meta name="theme-color" content="#F0F0EE">
+<meta name="theme-color" content="#FFFFFF">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -548,10 +548,8 @@
 <!-- "Grid & shapes" redesign layer (proposal, inspired by loopsii.com). Everything for the new look sits in
      this one block plus a few marked elements (kHero, quickRow, kTiles, kQuiz, kNavAdd): delete them to go back. -->
 <style id="gridshapes">
-  :root{--bg:#F0F0EE;--ink:#111111;--muted:#55554F;--line:#111111;--hair:#DADAD5;--accent:#111111;--card:#ffffff;--lime:#C6F04A}
-  body{background-color:var(--bg);
-    background-image:linear-gradient(#E3E3DF 1px,transparent 1px),linear-gradient(90deg,#E3E3DF 1px,transparent 1px);
-    background-size:26px 26px}
+  :root{--bg:#FFFFFF;--ink:#111111;--muted:#55554F;--line:#111111;--hair:#DADAD5;--accent:#111111;--card:#ffffff;--lime:#C6F04A}
+  body{background:var(--bg)}   /* white page, as on main */
 
   /* shape tokens: data-s = the family's index in MOVES */
   [data-s]{background:var(--sc,transparent)}
