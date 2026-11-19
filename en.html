@@ -545,6 +545,179 @@
     body[data-motion="off"] .rv{opacity:1;transform:none;animation:none}
   }
 </style>
+<!-- "Grid & shapes" redesign layer (proposal, inspired by loopsii.com). Everything for the new look sits in
+     this one block plus a few marked elements (kHero, quickRow, kTiles, kQuiz, kNavAdd): delete them to go back. -->
+<style id="gridshapes">
+  :root{--bg:#FFFFFF;--ink:#111111;--muted:#55554F;--line:#111111;--hair:#DADAD5;--accent:#111111;--card:#ffffff;--lime:#C6F04A}
+  body{background:var(--bg)}   /* white page, as on main */
+
+  /* shape tokens: data-s = the family's index in MOVES */
+  [data-s]{background:var(--sc,transparent)}
+  [data-s="-1"]{display:none!important}
+  [data-s="0"]{--sc:#FA8E66;border-radius:100% 0 0 0}
+  .kTile[data-s="0"]{background:#FA8E66;border-radius:18px;clip-path:none}
+  .kTile[data-s="0"] .ts{border-radius:100% 0 0 0}
+  [data-s="1"]{--sc:#C6F04A;border-radius:50%}
+  .kTile[data-s="1"]{background:#C6F04A;border-radius:18px;clip-path:none}
+  .kTile[data-s="1"] .ts{border-radius:50%}
+  [data-s="2"]{--sc:#BDE5F7;border-radius:0}
+  .kTile[data-s="2"]{background:#BDE5F7;border-radius:18px;clip-path:none}
+  .kTile[data-s="2"] .ts{border-radius:0}
+  [data-s="3"]{--sc:#AABFA6;border-radius:999px 999px 0 0}
+  .kTile[data-s="3"]{background:#AABFA6;border-radius:18px;clip-path:none}
+  .kTile[data-s="3"] .ts{border-radius:999px 999px 0 0}
+  [data-s="4"]{--sc:#F2BA78;border-radius:0;clip-path:polygon(0 100%,100% 100%,0 0)}
+  .kTile[data-s="4"]{background:#F2BA78;border-radius:18px;clip-path:none}
+  .kTile[data-s="4"] .ts{border-radius:0;clip-path:polygon(0 100%,100% 100%,0 0)}
+  [data-s="5"]{--sc:#CDBDF2;border-radius:50%}
+  .kTile[data-s="5"]{background:#CDBDF2;border-radius:18px;clip-path:none}
+  .kTile[data-s="5"] .ts{border-radius:50%}
+  [data-s="6"]{--sc:#F6B3C6;border-radius:999px 999px 0 0}
+  .kTile[data-s="6"]{background:#F6B3C6;border-radius:18px;clip-path:none}
+  .kTile[data-s="6"] .ts{border-radius:999px 999px 0 0}
+  [data-s="7"]{--sc:#9ED9C3;border-radius:100% 0 0 0}
+  .kTile[data-s="7"]{background:#9ED9C3;border-radius:18px;clip-path:none}
+  .kTile[data-s="7"] .ts{border-radius:100% 0 0 0}
+
+  /* floating nav pill */
+  .topbar{margin-top:14px;padding:6px 16px;padding-inline-end:6px;min-height:58px;box-sizing:border-box;
+    border:1px solid var(--ink);border-radius:999px;font-size:.92rem}
+  .topbar .tmark img,.topbar .tmark sup{display:none}
+  .topbar .tmark{font-size:27px!important}
+  .topbar .kword{font-weight:700;letter-spacing:-.04em;display:inline-flex;align-items:center}
+  .topbar .kdot{display:inline-block;width:.56em;height:.56em;border-radius:50%;background:#FA8E66;margin:0 .04em}
+  .topbar .ttag,.topbar .quizlink{display:none}
+  .topbar .tright{gap:6px}
+  .topbar .tinstall{min-height:44px;padding:0 8px;font-weight:500!important}
+  .topbar .tinstall:hover{color:var(--muted)}
+  .kNavAdd{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:0;border-radius:999px;
+    background:var(--ink);color:#fff;font:inherit;font-weight:500;cursor:pointer;white-space:nowrap}
+  .kNavAdd:hover{background:#333}
+
+  /* hero */
+  .kHero{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px 2.5rem;padding-top:40px;padding-bottom:26px}
+  .kHead{flex:1 1 460px;font-weight:500;font-size:clamp(2.1rem,6.2vw,4.4rem);line-height:1.02;letter-spacing:-.035em}
+  .kSub{flex:0 1 380px;margin:0;font-size:clamp(1.05rem,1.6vw,1.3rem);line-height:1.38;letter-spacing:-.01em}
+
+  /* search / filter / view */
+  .bar{margin-top:0;border-bottom:1px solid transparent}
+  .bar.scrolled{border-bottom-color:var(--ink)}
+  #searchInput,.filterBtn,.viewToggle{border-width:1px;border-radius:999px;background:#fff}
+  .vt{border-inline-start-width:1px}
+  .filterBtn{font-weight:500}
+
+  /* day ruler: one white strip of cells */
+  .ruler{gap:0;border:1px solid var(--ink);border-radius:16px;background:#fff;padding:0}
+  #ruler .tick.tick{width:58px;height:64px;padding:0;justify-content:center;gap:2px;border-radius:0;
+    border:0!important;border-inline-start:1px solid var(--hair)!important;background-color:#fff!important;color:var(--ink)}
+  #ruler .tick.tick:first-child{border-inline-start:0!important}
+  #ruler .tick .dow{order:-1;font-size:.7rem;font-weight:400;color:var(--muted)}
+  #ruler .tick .dnum{font-size:1.25rem;font-weight:500;color:var(--ink)}
+  #ruler .tick .stem{display:none}
+  #ruler .tick:not(.has){opacity:.5}
+  #ruler .tick.today .dow{color:var(--ink);font-weight:700}
+  #ruler .tick.tick:hover{background-color:#F6F6F3!important}
+  #ruler .tick.tick.sel{background-color:var(--lime)!important;opacity:1}
+  #ruler .tick.tick.sel .dnum,#ruler .tick.tick.sel .dow{color:var(--ink)}
+  #ruler .tick.tick:focus-visible{outline:2px solid var(--ink)!important;outline-offset:-3px}
+
+  /* quick movement-style buttons */
+  .quickRow{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:4px 1px 18px}
+  .quickRow::-webkit-scrollbar{display:none}
+  .qpill{flex:none;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:999px;
+    border:1px solid var(--ink);background:#fff;color:var(--ink);font:inherit;font-size:.95rem;font-weight:500;cursor:pointer;white-space:nowrap}
+  .qpill .qs{flex:none;width:14px;height:14px}
+  .qpill:hover{background:#F6F6F3}
+  .qpill.on{background:var(--ink);color:#fff}
+  .qpill:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+  /* selected-day title */
+  main{padding-top:4px;padding-bottom:30px}
+  .tlHero{padding:4px 0 14px}
+  .tlTitle{font-weight:500;font-size:clamp(1.9rem,5vw,2.5rem);letter-spacing:-.03em;line-height:1.05}
+  .tlTitle .hot{color:var(--ink)}
+  .tlSub{font-size:.95rem;letter-spacing:0;color:var(--muted)}
+  .day h2{font-weight:500;letter-spacing:-.03em}
+  .day .dc{letter-spacing:0;font-size:.85rem}
+
+  /* event cards: white, rounded, the family's shape at the end */
+  #list,#dayDetail{gap:12px}
+  .card{flex-wrap:wrap;align-items:flex-start;background:#fff;border:1px solid var(--ink);border-radius:22px;padding:16px 18px;gap:10px 14px}
+  .card:hover{transform:none;box-shadow:none}
+  body[data-cards] .card:hover{background:#fff;color:var(--ink);border-color:var(--ink)}
+  body[data-cards] .card:hover .meta{color:var(--muted)}
+  body[data-cards] .card:hover .labels,body[data-cards] .card:hover .price{color:var(--ink)}
+  body[data-cards] .card:hover .calbtn{border-color:var(--ink);color:var(--ink)}
+  body[data-cards] .card:hover .more .ar{transform:none}
+  /* hover keeps the button colors (the old card-hover rules paint them with --accent, which is ink here) */
+  body[data-cards] .card:hover .more{color:#fff}
+  body[data-cards] .card:hover .more:has(.nolink){color:var(--muted)}
+  body[data-cards] .card .calbtn:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .card .t{order:0;width:auto;min-width:70px;gap:3px;margin-top:0}
+  .card .t .tt{font-size:1.7rem;font-weight:500;color:var(--ink);letter-spacing:-.03em}
+  .card .t .td{font-size:.78rem}
+  .card .main{order:0;flex:1 1 0;gap:6px}
+  .card .ti{font-size:1.08rem;font-weight:500}
+  .card .host{font-weight:400}
+  .card .host b{font-weight:500}
+  .card .host::before{display:none}
+  .card .labels{gap:6px;letter-spacing:0}
+  .card .labels span{font-size:.72rem;letter-spacing:.03em;padding:3px 9px;border:1px solid var(--ink);border-radius:999px;color:var(--ink)}
+  .card .labels span::before,.card .labels span.fmt::before{display:none}
+  .card .labels span.fmt{color:var(--ink)}
+  .card .price{color:var(--ink);font-weight:500}
+  .card .thumb{order:1;display:block;flex:none;width:54px;height:54px;background:var(--sc,transparent)}
+  body[data-cards="minimal"] .card .thumb{display:block}
+  .card .thumb img{display:none}
+  .card .end{order:2;flex:1 1 100%;justify-content:flex-start;gap:8px;border-top:none;padding-top:2px;margin-top:0}
+  .card .more{flex:0 1 340px;justify-content:center;min-height:48px;padding:0 20px;border-radius:999px;background:var(--ink);color:#fff;font-weight:500}
+  .card .more .ar.wa{color:#5BE38C}
+  .card .more:has(.nolink){background:none;color:var(--muted);padding:0 4px;flex:0 1 auto}
+  .card .more .nolink{color:var(--muted)}
+  .card .calbtn{min-height:48px;padding:0 18px;border-radius:999px;border:1px solid var(--ink);background:#fff;color:var(--ink);font-size:.9rem;font-weight:500}
+  .card .calbtn:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .card .calbtn svg{width:16px;height:16px}
+  @media(max-width:680px){ .card{padding:16px} .card .more{flex:1 1 auto} .card .t .tt{font-size:1.6rem} }
+  /* desktop: one row per event, buttons at the card's far (left) edge */
+  @media(min-width:681px){
+    .card{flex-wrap:nowrap;align-items:center}
+    .card .end{flex:none;padding-top:0}
+    .card .more{flex:none}
+  }
+  .zskel{border-radius:22px;border:1px solid var(--hair)}
+
+  /* "by style" tiles */
+  .kTiles{margin:36px 0 0;display:flex;flex-direction:column;gap:14px}
+  .kTiles .kKick{margin:0;font-size:1.1rem;font-weight:500}
+  .kTiles h2{margin:0;font-size:clamp(2rem,5vw,3.2rem);font-weight:500;letter-spacing:-.035em;line-height:1.02}
+  .kTileGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .kTile{aspect-ratio:1;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;padding:14px;
+    border:0;color:var(--ink);font:inherit;font-size:1.05rem;font-weight:500;text-align:start;cursor:pointer}
+  .kTile .ts{width:52px;height:52px;background:var(--ink)}
+  .kTile:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+  /* first-timers */
+  .kQuiz{margin:36px 0 0;padding:34px 22px 36px;border-radius:26px;background:#161616;color:#fff;
+    display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+  .kQuiz h2{margin:0;font-size:clamp(2rem,5.5vw,3.4rem);font-weight:500;letter-spacing:-.035em;line-height:1.04}
+  .kQuiz .kq{display:flex;flex-wrap:wrap;gap:8px;font-size:.92rem}
+  .kQuiz .kq span{padding:7px 12px;border-radius:999px;background:#2A2A2A}
+  .kQuiz p{margin:0;font-size:1.05rem;line-height:1.45;color:#E6E6E2}
+  .kQuiz a{display:inline-flex;align-items:center;min-height:50px;padding:0 24px;border-radius:999px;background:var(--lime);color:var(--ink);font-weight:500;text-decoration:none}
+  .kQuiz a:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+  /* filter sheet, calendar, dialogs, footer */
+  .fsCard{border-width:1px;border-radius:22px}
+  .pill2{min-height:40px;border-width:1px;font-weight:500}
+  .pill2.on{background:var(--ink);color:#fff}
+  .fsApply,.fsClear{border-radius:999px;min-height:46px}
+  .slip{border-inline-start-width:6px}
+  .calLegend .ldot{background:var(--fc)}
+  .modal-card{border-radius:22px;border-width:1px;box-shadow:none}
+  .modal-card h2{font-weight:500}
+  .fsubmit{border-radius:999px;min-height:50px;font-weight:500}
+  footer{border-top:1px solid #C9C9C4}
+</style>
 </head>
 <body data-dir="gallery" data-cards="minimal" data-motion="subtle">
 <a class="skipLink" href="#main">Skip to main content</a>
@@ -557,7 +730,7 @@
 <header class="wrap">
   <div class="topbar">
     <div class="tbrand">
-      <span class="tmark" id="homeLink" role="button" tabindex="0" aria-label="zuzu — back to the home page" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="/assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none">zuzu.<sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
+      <span class="tmark" id="homeLink" role="button" tabindex="0" aria-label="zuzu — back to the home page" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="/assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none"><span class="kword" dir="ltr">zu<span class="kdot"></span>zu</span><sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
       <span class="ttag">Where are we dancing today?</span>
     </div>
     <div class="tright">
@@ -567,6 +740,7 @@
 
 </header>
 
+<div class="wrap kHero"><div class="kHead" aria-hidden="true">Where are we dancing today?</div><p class="kSub">Every movement class, jam and workshop in Israel, in one place. For every age and every level.</p></div>
 <div class="bar" role="region" aria-label="Search and filters">
   <div class="wrap">
     <div class="barRow">
@@ -615,6 +789,7 @@
 <div class="wrap">
   <main id="main" tabindex="-1">
     <h1 class="sr-only">zuzu — movement and dance events in Israel</h1>
+    <div class="quickRow" id="quickRow" role="group" aria-label="Movement style" data-all="All"></div>
     <div id="tlHero" class="tlHero" aria-live="polite"></div>
     <div id="list" aria-busy="false"></div>
     <div id="calendar" style="display:none">
@@ -627,6 +802,7 @@
       <div class="calgrid" id="calgrid"></div>
     </div>
   </main>
+  <section class="kTiles" aria-labelledby="kTilesT"><p class="kKick">By style</p><h2 id="kTilesT">Every style has its own color and shape.</h2><div class="kTileGrid" id="kTileGrid"></div></section>
 </div>
 
 <footer><div class="wrap">
@@ -764,7 +940,7 @@ function cardHtml(e){
         : `<span>${e.format==="Performance"?"Details & tickets":"Details & sign-up"}</span><span class="ar" aria-hidden="true">→</span>`)
     : '<span class="nolink">Details soon</span>';
   return `<div class="card${link&&link.wa?" wacard":""}">
-    <div class="thumb"></div>
+    <div class="thumb" data-s="${famIdx(e)}" aria-hidden="true"></div>
     <div class="t"><span class="tt">${t}</span><span class="td">${dateStr}</span></div>
     <div class="main">
       <h3 class="ti" dir="auto">${e.title}</h3>
@@ -888,7 +1064,8 @@ function renderList(){
   list.innerHTML=html;
   reveal(list,".day,.card,.empty",70,420);
 }
-const FAM_COLORS=["#2747B8","#B5365B","#7A3FC2","#1E7A6B","#B86A12","#0F7C8C","#6B7A1C","#9C3D1E","#4B5563"];
+const FAM_COLORS=["#FA8E66","#C6F04A","#BDE5F7","#AABFA6","#F2BA78","#CDBDF2","#F6B3C6","#9ED9C3"];   // redesign: pastel set; the shapes live in the CSS ([data-s])
+function famIdx(e){ return MOVES.indexOf((e._fams||[])[0]); }
 function famColor(e){ const i=MOVES.indexOf((e._fams||[])[0]); return i<0?"var(--accent)":FAM_COLORS[i%FAM_COLORS.length]; }
 function slipHtml(e){
   const link=regLink(e);
@@ -976,6 +1153,7 @@ function render(){
   document.querySelectorAll(".vt").forEach(b=>{ const on=b.dataset.view===state.view; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
   const lst=document.getElementById("list"); if(lst) lst.setAttribute("aria-busy",window.ZUZU_LOADING?"true":"false");
   cal?renderCalendar():renderTimeline();
+  try{ renderQuick(); renderTiles(); }catch(_e){}   // MOVES is filled once the lookups load
   syncUrl();
 }
 
@@ -1225,7 +1403,29 @@ function updateFbCount(){
   el.textContent=n; el.hidden=(n===0);
   const sr=document.getElementById("fbCountSr"); if(sr) sr.textContent=n?`, ${n} active filter${n===1?"":"s"}`:"";
 }
-function refreshAll(){ renderChips(); updateFbCount(); if(sheetOpen) renderSheet(); }
+function refreshAll(){ renderChips(); updateFbCount(); if(sheetOpen) renderSheet(); renderQuick(); renderTiles(); }
+/* "by style" tiles under the list: one per movement family with events; a tap shows only that family */
+function renderTiles(){
+  const g=document.getElementById("kTileGrid"); if(!g) return;
+  g.innerHTML=MOVES.filter(v=>moveCount(v)>0).map(v=>`<button type="button" class="kTile" data-s="${MOVES.indexOf(v)}" data-v="${attrEsc(v)}">${v}<span class="ts" aria-hidden="true"></span></button>`).join("");
+  g.querySelectorAll(".kTile").forEach(b=>b.onclick=()=>{
+    state.cats.clear(); state.cats.add(b.dataset.v); track("filter_movement",{value:b.dataset.v});
+    refreshAll(); render(); document.getElementById("main").scrollIntoView({behavior:"smooth"});
+  });
+}
+/* quick movement-style buttons above the list (same filter as the sheet's "סוג תנועה") */
+function renderQuick(){
+  const row=document.getElementById("quickRow"); if(!row) return;
+  const moves=MOVES.filter(v=>moveCount(v)>0);
+  const btn=(v,label,on)=>`<button type="button" class="qpill${on?" on":""}" aria-pressed="${on}" data-v="${attrEsc(v)}">${v?`<span class="qs" data-s="${MOVES.indexOf(v)}" aria-hidden="true"></span>`:""}${label}</button>`;
+  row.innerHTML=btn("",row.dataset.all,state.cats.size===0)+moves.map(v=>btn(v,v,state.cats.has(v))).join("");
+  row.querySelectorAll(".qpill").forEach(b=>b.onclick=()=>{
+    const v=b.dataset.v;
+    if(!v) state.cats.clear(); else { state.cats.has(v)?state.cats.delete(v):state.cats.add(v); if(state.cats.has(v)) track("filter_movement",{value:v}); }
+    refreshAll(); render();
+    const again=row.querySelector(`.qpill[data-v="${CSS.escape(v)}"]`); if(again) again.focus();
+  });
+}
 function clearAll(){ state.when="all"; state.cats.clear(); state.fmts.clear(); state.regs.clear(); }
 
 function openSheet(){ sheetOpen=true; renderSheet(); sheet.classList.add("open");
