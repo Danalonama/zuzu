@@ -142,7 +142,7 @@
 const API = "/api/admin";
 const PW_KEY = "zuzu_edit_pw";
 const DAYS = ["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","ש׳"];
-const STATUS_HE = { live: "באתר", rejected: "נדחה", hidden: "מוסתר", draft: "טיוטה", pending: "ממתין" };
+const STATUS_HE = { live: "באתר", past: "עבר", rejected: "נדחה", hidden: "מוסתר", draft: "טיוטה", pending: "ממתין" };
 const PAGE = 60;
 let PW = "", D = null, shown = PAGE, openId = null;
 const $ = (s, el = document) => el.querySelector(s);
@@ -250,6 +250,7 @@ function filteredEvents() {
   return list;
 }
 function badge(e) {
+  if (e.status === "past") return `<span class="badge past">עבר</span>`;
   if (e.status !== "live") return `<span class="badge off">${esc(statusHe(e.status))}</span>`;
   if (isPast(e)) return `<span class="badge past">עבר</span>`;
   return `<span class="badge live">באתר</span>`;
