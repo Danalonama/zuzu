@@ -4,6 +4,7 @@ docs/
 apps-script/
 bot/test/
 feeds/test/
+admin/test/
 v2/
 *.md
 *.zip
