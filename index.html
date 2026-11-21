@@ -664,9 +664,15 @@
   .card .labels span::before,.card .labels span.fmt::before{display:none}
   .card .labels span.fmt{color:var(--ink)}
   .card .price{color:var(--ink);font-weight:500}
-  .card .thumb{order:1;display:block;flex:none;width:54px;height:54px;background:var(--sc,transparent)}
+  .card .thumb{order:1;display:block;flex:none;position:relative;width:54px;height:54px;background:none}
   body[data-cards="minimal"] .card .thumb{display:block}
-  .card .thumb img{display:none}
+  .card .thumb .fs{position:absolute;inset:0}
+  /* the event's ad image (from /api/event-image); only shown once it really loads */
+  .card .thumb .pic{position:absolute;inset:0;width:100%;height:100%;opacity:0}   /* not display:none: a hidden img is never lazy-loaded */
+  .card .thumb.haspic{width:112px;height:112px;border-radius:16px;overflow:hidden;border:1px solid var(--ink)}
+  .card .thumb.haspic .pic{opacity:1;object-fit:cover}
+  .card .thumb.haspic .fs{inset:auto;inset-inline-start:7px;bottom:7px;width:22px;height:22px;z-index:1;box-shadow:0 0 0 2px #fff}
+  @media(max-width:680px){ .card .thumb.haspic{width:88px;height:88px} }
   .card .end{order:2;flex:1 1 100%;justify-content:flex-start;gap:8px;border-top:none;padding-top:2px;margin-top:0}
   .card .more{flex:0 1 340px;justify-content:center;min-height:48px;padding:0 20px;border-radius:999px;background:var(--ink);color:#fff;font-weight:500}
   .card .more .ar.wa{color:#5BE38C}
@@ -1010,7 +1016,7 @@ function cardHtml(e){
         : `<span>${e.format==="הופעה/מופע"?"לפרטים ורכישה":"לפרטים והרשמה"}</span><span class="ar" aria-hidden="true">←</span>`)
     : '<span class="nolink">פרטים בקרוב</span>';
   return `<div class="card${link&&link.wa?" wacard":""}">
-    <div class="thumb" data-s="${famIdx(e)}" aria-hidden="true"></div>
+    <div class="thumb" aria-hidden="true"><span class="fs" data-s="${famIdx(e)}"></span>${e.id?`<img class="pic" src="/api/event-image?id=${encodeURIComponent(e.id)}" alt="" loading="lazy" decoding="async" onload="this.parentNode.classList.add('haspic')" onerror="this.remove()">`:""}</div>
     <div class="t"><span class="tt">${t}</span><span class="td">${dateStr}</span></div>
     <div class="main">
       <h3 class="ti">${e.title}</h3>
