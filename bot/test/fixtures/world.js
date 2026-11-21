@@ -46,7 +46,7 @@ export const hosts = [
 export const events = [
   {
     id: "e-pf-intro", title: "PLAY-FIGHT סדנת מבוא", language: "he", status: "live", venue_id: "v-tena",
-    date_start: "2026-09-18", date_end: null, valid_until: null, rule_weekdays: null, rule_interval_weeks: null,
+    date_start: "2026-09-18", date_end: null, valid_until: null, rule_weekdays: null, rule_interval_weeks: 1,
     time_start: "10:00:00", time_end: "13:00:00", disciplines: ["play_fight"], formats: ["workshop"], audience: [],
     price_raw: "100 ₪", price_kind: null, price_min: 100, price_max: 100, price_unit: null,
     link: null, phone: "052-5551234", description: null, location_on_registration: false,
@@ -60,7 +60,7 @@ export const events = [
   },
   {
     id: "e-other", title: "ערב אקסטטי", language: "he", status: "live", venue_id: "v-masl",
-    date_start: "2026-10-24", date_end: null, valid_until: null, rule_weekdays: null, rule_interval_weeks: null,
+    date_start: "2026-10-24", date_end: null, valid_until: null, rule_weekdays: null, rule_interval_weeks: 1,
     time_start: "21:00:00", time_end: null, disciplines: ["ecstatic"], formats: ["party"], audience: [],
     price_raw: null, price_kind: null, price_min: null, price_max: null, price_unit: null,
     link: "https://example.org/x", phone: null, description: null, location_on_registration: false,
