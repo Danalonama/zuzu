@@ -582,10 +582,8 @@
   /* floating nav pill */
   .topbar{margin-top:14px;padding:6px 16px;padding-inline-end:6px;min-height:58px;box-sizing:border-box;
     border:1px solid var(--ink);border-radius:999px;font-size:.92rem}
-  .topbar .tmark img,.topbar .tmark sup{display:none}
   .topbar .tmark{font-size:27px!important}
   .topbar .kword{font-weight:700;letter-spacing:-.04em;display:inline-flex;align-items:center}
-  .topbar .kdot{display:inline-block;width:.56em;height:.56em;border-radius:50%;background:#FA8E66;margin:0 .04em}
   .topbar .ttag,.topbar .quizlink{display:none}
   .topbar .tright{gap:6px}
   .topbar .tinstall{min-height:44px;padding:0 8px;font-weight:500!important}
@@ -674,7 +672,6 @@
   .card .pic,.slip .spic{position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
   .card .pic img,.slip .spic img{display:block;width:100%;height:100%;object-fit:cover}
   .card .pic.on{position:static;order:0;flex:none;width:112px;height:112px;opacity:1;border-radius:16px;border:1px solid var(--ink)}
-  @media(max-width:680px){ .card .pic.on{width:76px;height:76px;border-radius:12px} .card:has(.pic.on) .thumb{display:none} }
   .slip{position:relative}
   .slip .spic.on{position:static;display:block;width:100%;height:auto;aspect-ratio:3/2;opacity:1;border-radius:8px;margin:5px 0 4px}
   .card .end{order:2;flex:1 1 100%;justify-content:flex-start;gap:8px;border-top:none;padding-top:2px;margin-top:0}
@@ -725,6 +722,68 @@
   .modal-card h2{font-weight:500}
   .fsubmit{border-radius:999px;min-height:50px;font-weight:500}
   footer{border-top:1px solid #C9C9C4}
+
+  /* ---- Figma "zuzu — grid & shapes" (node 21:1905), Dana's revision ---- */
+  /* nav: no frame; the original logo (mark + zuzu + ®) */
+  .topbar{border:none;border-radius:0;padding:6px 0;margin-top:0}
+  header.wrap{padding-top:14px}
+  .topbar .tmark{font-size:28px!important;gap:8px!important}
+  .topbar .kword{font-weight:800;letter-spacing:-.01em;line-height:36px}
+  .topbar .tmark sup{margin-inline-start:-7px!important;align-self:flex-start;margin-top:5px}
+  /* hero */
+  .kHero{padding-top:38px;padding-bottom:26px;gap:12px 40px}
+  .kHead{font-size:clamp(1.75rem,5vw,4.375rem);letter-spacing:-.035em;line-height:1.02}
+  .kSub{font-size:clamp(1rem,1.5vw,1.25rem);line-height:1.38}
+  /* style buttons: lighter outline, slimmer */
+  .quickRow{padding:2px 1px 18px}
+  .qpill{min-height:30px;padding:4px 12px;border:1px solid var(--rule,#C9C9C4);background:#fff;font-size:15px}
+  .qpill.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  /* desktop: light band behind the whole page header (nav → style buttons) */
+  @media(min-width:681px){
+    header.wrap,.kHero,.bar,.quickRow{background:#F6F6F3;box-shadow:0 0 0 100vmax #F6F6F3;clip-path:inset(0 -100vmax)}
+    .bar{background:#F6F6F3}
+    main{padding-top:0}
+    .quickRow{padding-bottom:20px;margin-bottom:18px}
+    .kHero{padding-top:32px;padding-bottom:24px}
+  }
+  .tlTitle{letter-spacing:-.03em}
+
+  /* event card = grid. Desktop: [image][time + shape][title, host | place, tags][buttons] (right to left) */
+  .card{display:grid;align-items:center;column-gap:14px;row-gap:4px;padding:16px 18px;border-radius:22px;
+    grid-template-columns:auto auto minmax(0,1fr) auto;grid-template-areas:"pic t main end" "pic s main end"}
+  .card .pic.on{grid-area:pic;width:80px;height:80px;border-radius:8px;border:none;overflow:hidden}
+  .card .t{grid-area:t;align-self:end;min-width:0;width:auto;margin:0;gap:0}
+  .card .t .tt{font-size:26px;line-height:32px;letter-spacing:-.03em;font-weight:500}
+  .card .t .td{font-size:12px}
+  .card .thumb{grid-area:s;align-self:start;justify-self:start;width:20px;height:20px;margin-top:4px}
+  .card .main{grid-area:main;gap:6px}
+  .card .ti{font-size:17px;font-weight:600}
+  .card .hp{display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px}
+  .card .hp .host{font-size:14px}
+  .card .hp .meta{font-size:13px;white-space:normal}
+  .card .hp .host+.meta{border-inline-start:1px solid #C9C9C4;padding-inline-start:8px}
+  .card .info{gap:6px}
+  .card .end{grid-area:end;padding:0;gap:8px}
+  .card .more{flex:none;min-height:48px;padding:0 20px}
+  .card .calbtn{min-height:48px;padding:0 20px}
+  /* phone: [image | time+date, title, host, place, tags] then [shape | buttons] */
+  @media(max-width:680px){
+    .card{padding:16px;column-gap:16px;row-gap:12px;align-items:start;
+      grid-template-columns:auto minmax(0,1fr);grid-template-areas:"pic t" "pic main" "s end"}
+    .card:not(:has(.pic.on)){grid-template-areas:"t t" "main main" "s end"}
+    .card .t{display:flex;flex-direction:row;align-items:baseline;gap:8px;align-self:start}
+    .card .t .tt{font-size:26px;line-height:26px;letter-spacing:0}
+    .card .t .td{font-size:16px;font-weight:500}
+    .card .pic.on{align-self:start}
+    .card .main{gap:0}
+    .card .ti{font-weight:500}
+    .card .hp{flex-direction:column;align-items:flex-start;gap:2px 0}
+    .card .hp .host+.meta{border:none;padding:0}
+    .card .info{padding-top:8px}
+    .card .thumb{width:48px;height:48px;margin:0;align-self:center}
+    .card .end{justify-self:end;flex:none;width:auto}
+    .card .more{width:156px;flex:none}
+  }
 </style>
 </head>
 <body data-dir="gallery" data-cards="minimal" data-motion="subtle">
@@ -738,7 +797,7 @@
 <header class="wrap">
   <div class="topbar">
     <div class="tbrand">
-      <span class="tmark" id="homeLink" role="button" tabindex="0" aria-label="zuzu — back to the home page" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="/assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none"><span class="kword" dir="ltr">zu<span class="kdot"></span>zu</span><sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
+      <span class="tmark" id="homeLink" role="button" tabindex="0" aria-label="zuzu — back to the home page" style="font-size: 28px;display:inline-flex;align-items:center;gap:6px"><img src="/assets/zuzu-logo.svg" alt="" style="width:28px;height:28px;flex:none"><span class="kword" dir="ltr">zuzu</span><sup style="font-size:0.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span>
       <span class="ttag">Where are we dancing today?</span>
     </div>
     <div class="tright">
@@ -953,10 +1012,9 @@ function cardHtml(e){
     ${e.id?`<div class="pic" aria-hidden="true"><img src="/api/event-image?id=${encodeURIComponent(e.id)}" alt="" loading="lazy" decoding="async" onload="this.parentNode.classList.add('on')" onerror="this.parentNode.remove()"></div>`:""}
     <div class="main">
       <h3 class="ti" dir="auto">${e.title}</h3>
-      ${e.host?`<div class="host">with <b dir="auto">${e.host}</b></div>`:""}
+      <div class="hp">${e.host?`<div class="host">with <b dir="auto">${e.host}</b></div>`:""}<div class="meta" dir="auto">${loc}</div></div>
       <div class="info">
         <div class="labels">${[...String(e.discipline||e.category||"").split(",").map(s=>s.trim()).filter(Boolean),...(e.tags||[])].map(c=>`<span>${c}</span>`).join("")}${(e._fmts||[e.format]).filter(f=>f&&f!=="Class").map(f=>`<span class="fmt">${f}</span>`).join("")}${e.region?`<span>${e.region}</span>`:""}</div>
-        <div class="meta" dir="auto">${loc}</div>
         ${e.price?`<div class="price">${e.price}</div>`:""}
       </div>
     </div>
