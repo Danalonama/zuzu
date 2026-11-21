@@ -180,3 +180,19 @@ test("fromWire turns \"\" / -1 / 0 back into null, and keeps real values", () =>
   assert.equal(item.row.valid_until, null);
   assert.equal(item.venue.chosen, "v-tena");
 });
+
+// Regression (21.11): approving an update of a one-off event failed with
+// "null value in column rule_interval_weeks violates not-null constraint".
+// The DB stores 1 for one-off events and price_kind is NOT NULL ('unknown').
+test("NOT NULL columns: one-off rows carry rule_interval_weeks 1; updates never null them or overwrite a known price with 'unknown'", async () => {
+  const { buildUpdate, mapExtracted } = await import("../map.js");
+  const lk = { ...lookups, priceKinds: [...lookups.priceKinds, "unknown"] };
+  const { row } = mapExtracted({ title: "x", disciplines: ["contact"], schedule: { kind: "single", date_start: "2026-12-10", time_start: "19:00" }, link: "https://example.org" }, lk, TODAY);
+  assert.equal(row.rule_interval_weeks, 1);
+  assert.equal(row.price_kind, "unknown");
+  const existing = { ...world().events[0], price_kind: "fixed" };
+  const { patch } = buildUpdate(existing, row);
+  assert.ok(!("rule_interval_weeks" in patch));
+  assert.ok(!("price_kind" in patch));
+  for (const [k, v] of Object.entries(patch)) assert.notEqual(v, undefined, k);
+});
