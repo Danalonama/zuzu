@@ -31,9 +31,9 @@ export function mapExtracted(ext, lk, today) {
     audience: uniq((ext.audience || []).filter((s) => (lk.audience || AUDIENCE).includes(s))),
     location_on_registration: !!ext.location_on_registration,
     date_start: null, date_end: null, time_start: null, time_end: null,
-    rule_weekdays: null, rule_interval_weeks: null, valid_until: null,
+    rule_weekdays: null, rule_interval_weeks: 1, valid_until: null, // DB: rule_interval_weeks NOT NULL, one-off events store 1
     price_raw: ext.price?.raw?.trim() || null,
-    price_kind: lk.priceKinds?.includes(ext.price?.kind) ? ext.price.kind : null,
+    price_kind: lk.priceKinds?.includes(ext.price?.kind) ? ext.price.kind : lk.priceKinds?.includes("unknown") ? "unknown" : null, // DB: NOT NULL
     price_unit: lk.priceUnits?.includes(ext.price?.unit) ? ext.price.unit : null,
     price_min: Number.isFinite(ext.price?.min) ? ext.price.min : null,
     price_max: Number.isFinite(ext.price?.max) ? ext.price.max : null,
@@ -155,7 +155,10 @@ export function buildUpdate(existing, row) {
     const from = f.startsWith("time_") ? hhmm(existing[f]) : existing[f];
     if (!same(from, row[f])) patch[f] = row[f];
   }
-  for (const f of FILL_FIELDS) if (row[f] != null && !same(existing[f], row[f])) patch[f] = row[f];
+  for (const f of FILL_FIELDS) {
+    if (row[f] == null || (f === "price_kind" && row[f] === "unknown")) continue; // "unknown" never overwrites a known price
+    if (!same(existing[f], row[f])) patch[f] = row[f];
+  }
   for (const f of ["disciplines", "formats", "audience"]) {
     const u = uniq([...(existing[f] || []), ...(row[f] || [])]);
     if (u.length !== (existing[f] || []).length) patch[f] = u;
