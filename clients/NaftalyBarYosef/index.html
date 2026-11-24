@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>לפגוש אותי גוף | נפתלי בר-יוסף</title>
+<meta name="description" content="נפתלי בר-יוסף • מרחב תנועה, קול, רגש, כתיבה ומפגש. 26.12 בקריית טבעון | 2.1 בקריית טבעון | 15.1 בפרדס חנה | 12:00–16:00 | 300 ש״ח למפגש">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream-50:#FCF9F4; --cream-100:#F6EFE4; --cream-200:#ECE0CE; --cream-300:#DCC9B0;
+    --sage-50:#F2F5F1; --sage-500:#6B8065; --sage-700:#41523D;
+    --terra-400:#C97E62; --terra-500:#B4664A; --terra-600:#944F36;
+    --ink-900:#26201B; --ink-700:#544940; --ink-500:#7a6e64;
+    --serif:"Heebo",sans-serif; --sans:"Heebo",sans-serif;
+    --radius:22px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:84px}
+  body{margin:0;background:var(--cream-50);color:var(--ink-900);font-family:var(--sans);font-size:17px;line-height:1.75;-webkit-tap-highlight-color:transparent}
+  img{display:block;max-width:100%}
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.15;margin:0;letter-spacing:-.015em}
+  h2{font-weight:400}
+  .eyebrow{font-size:19px;font-weight:500;letter-spacing:.02em;color:var(--terra-600);margin:0 0 10px}
+  section{padding:84px 0}
+  h2{font-size:clamp(32px,4.4vw,46px);margin-bottom:28px}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:20;background:rgba(252,249,244,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--cream-200)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:20px}
+  nav .brand{font-family:var(--serif);font-size:21px;text-decoration:none}
+  nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;font-size:15px}
+  nav ul a{text-decoration:none;color:var(--ink-700)}
+  nav ul a:hover{color:var(--terra-600)}
+  @media (max-width:820px){nav ul{display:none}}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 26px;border-radius:999px;font:500 16px var(--sans);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .2s,transform .15s}
+  .btn:active{transform:scale(.97)}
+  .btn-primary{background:var(--terra-500);color:#fff}
+  .btn-primary:hover{background:var(--terra-600)}
+  .btn-ghost{background:transparent;border-color:var(--cream-300);color:var(--ink-900)}
+  .btn-ghost:hover{background:var(--cream-100)}
+  .wa-ico{width:20px;height:20px;flex:none;color:#25D366}
+  .ph-ico{width:19px;height:19px;flex:none;color:var(--terra-500)}
+  .btn-dark{background:var(--ink-900);color:#fff}
+
+  /* hero */
+  .hero{padding:56px 0 72px}
+  .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  .tag{display:block;font-size:clamp(18px,1.7vw,21px);font-weight:400;line-height:1.5;color:var(--sage-700);text-wrap:balance}
+  .hero h1{font-size:clamp(44px,5.6vw,76px);font-weight:300;margin:12px 0 6px;letter-spacing:-.03em;white-space:nowrap}
+  .kind{margin:0 0 24px;font-size:clamp(20px,2vw,24px);font-weight:400;color:var(--terra-600)}
+  .hero-cta{margin-top:26px}
+  @media (max-width:820px){.hero-cta{display:none}}
+  .dates{display:flex;flex-direction:column;gap:0;margin:0 0 30px;border-top:1px solid var(--cream-200)}
+  .dates li{list-style:none;display:flex;align-items:baseline;gap:14px;padding:8px 0;border-bottom:1px solid var(--cream-200)}
+  .dates b{font-family:var(--serif);font-size:20px;font-weight:500;min-width:54px;color:var(--terra-600)}
+  .dates span{color:var(--ink-700)}
+  .meta{color:var(--ink-700);margin:0}
+  .meta strong{color:var(--ink-900);font-weight:500}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px}
+  .hero-photo{position:relative}
+  .hero-photo img{width:100%;aspect-ratio:4/5.2;object-fit:cover;object-position:50% 40%;border-radius:200px 200px var(--radius) var(--radius)}
+  .hero-photo .credit{display:block;margin-top:2px;font-size:13px;color:var(--ink-500);opacity:.85}
+  .hero-photo figcaption{margin-top:12px;font-size:14px;color:var(--ink-500);text-align:center}
+  @media (max-width:820px){
+    .hero{padding:28px 0 56px}
+    .hero .wrap{grid-template-columns:1fr;gap:32px}
+    .hero-photo{order:-1;max-width:420px;margin:0 auto;width:100%}
+    .hero-photo img{aspect-ratio:1/1;border-radius:var(--radius)}
+  }
+
+  /* tools */
+  .tools{background:#fff;border-top:1px solid var(--cream-200);border-bottom:1px solid var(--cream-200)}
+  .tools .intro{font-size:19px;color:var(--ink-700);max-width:640px;margin:0 0 36px}
+  .tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+  .tool{padding:22px 20px;border-radius:18px;background:var(--cream-50);border:1px solid var(--cream-200)}
+  .tool .n{font-family:var(--serif);color:var(--terra-400);font-size:15px}
+  .tool h3{font-size:22px;margin:6px 0 8px}
+  .tool p{margin:0;font-size:15px;line-height:1.6;color:var(--ink-700)}
+
+  .gallery{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px;margin-top:28px}
+  .gallery img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;background:var(--cream-100)}
+  @media (max-width:820px){
+    .gallery{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+    .gallery img:nth-child(n+5){display:none}
+  }
+
+  /* words */
+  .words .wrap{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .card{border-radius:var(--radius);padding:36px 34px}
+  .card h3{font-size:28px;margin-bottom:16px}
+  .card p{margin:0 0 14px;color:var(--ink-700);font-size:17.5px}
+  .card p:last-child{margin:0}
+  .card.sage{background:var(--sage-50);border:1px solid #dfe7dc}
+  .card.cream{background:var(--cream-100);border:1px solid var(--cream-200)}
+  @media (max-width:820px){.words .wrap{grid-template-columns:1fr}.card{padding:28px 24px}}
+
+  /* workshops */
+  .ws-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:28px}
+  .ws-head h2{margin:0}
+  .ws-head p{margin:0;color:var(--ink-700);max-width:440px}
+  .notice{display:flex;gap:16px;align-items:flex-start;padding:20px 24px;border-radius:18px;background:var(--sage-50);border:1px solid #dfe7dc;margin-bottom:22px}
+  .notice p{margin:0;color:var(--ink-700);font-size:16px}
+  .notice strong{color:var(--ink-900);font-weight:500}
+  .ws-intro{max-width:680px;margin:0 0 30px;font-size:18px;color:var(--ink-700)}
+  .ws{display:grid;grid-template-columns:120px 1fr auto;gap:28px;align-items:center;padding:28px 30px;border-radius:var(--radius);background:#fff;border:1px solid var(--cream-200);margin-bottom:14px;transition:box-shadow .25s,transform .25s}
+  .ws:hover{box-shadow:0 14px 30px -14px rgba(38,32,27,.16)}
+  .ws .date{text-align:center;border-left:1px solid var(--cream-200);padding-left:24px}
+  .ws .date b{display:block;font-family:var(--serif);font-weight:500;font-size:44px;line-height:1;color:var(--terra-600)}
+  .ws .date .dow{display:block;margin-top:8px;font-size:16px;font-weight:500;color:var(--ink-900)}
+  .ws .date small{display:block;margin-top:2px;font-size:13px;color:var(--ink-500)}
+  .ws .label{font-size:14px;color:var(--sage-700);font-weight:500}
+  .ws h3{font-size:24px;margin:0 0 8px}
+  .ws p{margin:0;font-size:15.5px;line-height:1.65;color:var(--ink-700)}
+  .ws .facts{margin-top:6px;font-size:14px;color:var(--ink-500)}
+  .ws .facts strong{color:var(--ink-900);font-weight:500}
+  @media (max-width:820px){
+    .ws{grid-template-columns:1fr;gap:14px;padding:24px 22px}
+    .ws .date{border:none;padding:0;text-align:right;display:flex;align-items:baseline;gap:12px}
+    .ws .date b{font-size:38px}
+    .ws .date small,.ws .date .dow{margin:0}
+    .ws .btn{width:100%}
+  }
+
+  /* about */
+  .about .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:center}
+  .about img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top;border-radius:var(--radius)}
+  .about h3{font-size:30px;margin-bottom:16px}
+  .about p{color:var(--ink-700);margin:0 0 16px;font-size:17.5px}
+  .about .eyebrow{color:var(--terra-600);font-size:19px;margin:0 0 10px}
+  .about .ask{margin-top:24px;color:var(--ink-900)}
+  .about .ask a{color:var(--terra-600);font-weight:500;text-decoration-thickness:1px;text-underline-offset:4px}
+  @media (max-width:820px){.about .wrap{grid-template-columns:1fr;gap:28px}.about img{max-width:380px;margin:0 auto}}
+
+  /* testimonials */
+  .testi{background:var(--cream-100);border-top:1px solid var(--cream-200)}
+  .testi-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:16px 20px;margin-bottom:28px}
+  .testi-head h2{margin:0}
+  .arrows{display:flex;gap:10px;flex:none}
+  .arrow{width:48px;height:48px;border-radius:50%;border:1px solid var(--cream-300);background:var(--cream-50);color:var(--ink-900);display:grid;place-items:center;cursor:pointer;transition:background .2s,transform .15s}
+  .arrow:hover{background:#fff}
+  .arrow:active{transform:scale(.94)}
+  .arrow svg{width:22px;height:22px}
+  .quotes{display:flex;gap:18px;align-items:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding-bottom:4px;outline:none}
+  .quotes::-webkit-scrollbar{display:none}
+  blockquote{flex:0 0 calc((100% - 18px)/2);min-width:0;scroll-snap-align:start;margin:0;padding:58px 30px 24px;background:var(--cream-50);border:1px solid var(--cream-200);border-radius:var(--radius);position:relative}
+  blockquote::before{content:"”";position:absolute;top:22px;right:28px;font-family:var(--serif);font-size:60px;line-height:.6;color:var(--terra-400);opacity:.4}
+  blockquote p{margin:0 0 8px;font-size:16px;line-height:1.75;color:var(--ink-700)}
+  blockquote cite{display:block;margin-top:14px;padding-top:12px;border-top:1px solid var(--cream-200);font-style:normal;font-weight:500;font-size:15px;color:var(--ink-900)}
+  @media (max-width:820px){blockquote{flex-basis:86%;padding:54px 24px 22px}.testi-head .arrows{margin-inline-start:auto}.arrow{width:44px;height:44px}}
+  @media (prefers-reduced-motion:reduce){.quotes{scroll-behavior:auto}}
+
+  /* closing */
+  .closing{padding:64px 0 120px}
+  .closing .box{text-align:center;padding:48px 0 0;border-top:1px solid var(--cream-200)}
+  .closing h2{font-size:clamp(28px,4vw,40px);margin-bottom:28px;text-wrap:balance}
+  .closing .sep{color:var(--terra-400);font-weight:300;margin:0 .15em}
+  .closing .cta-row{justify-content:center}
+
+  /* mobile sticky bar */
+  .sticky{display:none}
+  @media (max-width:820px){
+    .sticky{display:flex;gap:10px;position:fixed;inset:auto 0 0 0;z-index:30;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(252,249,244,.95);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--cream-200)}
+    .sticky .btn{flex:1;min-height:48px;padding:0 12px;font-size:15px}
+    .sticky .btn-ghost{flex:0 0 auto}
+    section{padding:64px 0}
+  }
+  @media (hover:none){.ws:hover{box-shadow:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">לפגוש אותי גוף</a>
+    <ul>
+      <li><a href="#top">הפתיחה</a></li>
+      <li><a href="#tools">התהליך והכלים</a></li>
+      <li><a href="#workshops">מועדים והרשמה</a></li>
+      <li><a href="#about">על המנחה</a></li>
+      <li><a href="#words">מהדהדים</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="tag">נפתלי בר-יוסף • מרחב תנועה, קול, רגש, כתיבה ומפגש</span>
+      <h1>לפגוש אותי גוף</h1>
+      <p class="kind">שלוש סדנאות תנועה</p>
+      <ul class="dates" style="padding:0">
+        <li><b>26.12</b><span>בקריית טבעון</span></li>
+        <li><b>2.1</b><span>בקריית טבעון</span></li>
+        <li><b>15.1</b><span>בפרדס חנה</span></li>
+      </ul>
+      <p class="meta"><strong><span dir="ltr">12:00–16:00</span></strong> &nbsp;|&nbsp; <strong>300 ש״ח למפגש</strong></p>
+      <div class="cta-row hero-cta">
+        <a class="btn btn-ghost" href="https://wa.me/972542815787?text=%D7%94%D7%99%D7%99%20%D7%A0%D7%A4%D7%AA%D7%9C%D7%99%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%A2%D7%9C%20%D7%94%D7%A1%D7%93%D7%A0%D7%90%D7%95%D7%AA" target="_blank" rel="noopener"><svg class="wa-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>לפרטים בוואטסאפ</a>
+      </div>
+    </div>
+    <figure class="hero-photo" style="margin:0">
+      <img src="images/hero-stage.jpg" alt="נפתלי בר-יוסף בתנועה וריקוד">
+      <figcaption><span class="credit">צילום: <bdi>Anne-Sylvie Bonnet</bdi></span></figcaption>
+    </figure>
+  </div>
+</header>
+
+<!-- TOOLS -->
+<section class="tools" id="tools">
+  <div class="wrap">
+    <p class="eyebrow">העמקה, תנועה והתפתחות</p>
+    <h2>מה נחווה ונעמיק במהלך הסדנאות</h2>
+    <p class="intro">במהלך הסדנאות נחווה ונעמיק בכלים רבים מעולמות התנועה וביטוי יצירה:</p>
+    <div class="tool-grid">
+      <div class="tool"><span class="n">01</span><h3>ריליס-עבודת רצפה</h3><p>הקשבה למשקל, לקרקע ולשחרור מפרקים ושרירים</p></div>
+      <div class="tool"><span class="n">02</span><h3>גאגא</h3><p>חקירה תנועתית חיה, דימויים וגילוי אפשרויות חדשות</p></div>
+      <div class="tool"><span class="n">03</span><h3>קונטקט</h3><p>הקשבה, מגע, משקל ומפגש בתנועה עם האחר והמרחב</p></div>
+      <div class="tool"><span class="n">04</span><h3>קול ותנועה</h3><p>פתיחת נשימה, צליל וביטוי חי מתוך הגוף</p></div>
+      <div class="tool"><span class="n">05</span><h3>ביטוי ויצירה • אימפרוביזציה</h3><p>אלתור, הקשבה לרגש, כתיבה ומציאת קול אישי</p></div>
+    </div>
+    <div class="gallery" aria-label="תמונות מהסטודיו">
+      <img src="images/studio-6.jpg" alt="נפתלי בתנועה בסטודיו" style="object-position:50% 60%" loading="lazy">
+      <img src="images/studio-8.jpg" alt="שכיבה על הרצפה בסטודיו" style="object-position:50% 60%" loading="lazy">
+      <img src="images/studio-3.jpg" alt="קפיצה בסטודיו" style="object-position:50% 25%" loading="lazy">
+      <img src="images/studio-5.jpg" alt="נפתלי בתנועה מול החלונות" style="object-position:50% 50%" loading="lazy">
+      <img src="images/studio-2.jpg" alt="תנועה בסטודיו" style="object-position:50% 0%" loading="lazy">
+      <img src="images/studio-4.jpg" alt="נפתלי בתנועה מול החלונות" style="object-position:50% 50%" loading="lazy">
+      <img src="images/studio-1.jpg" alt="עבודת רצפה בסטודיו" style="object-position:50% 70%" loading="lazy">
+      <img src="images/studio-7.jpg" alt="נפתלי בתנועה בסטודיו" style="object-position:50% 60%" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- WORDS -->
+<section class="words">
+  <div class="wrap">
+    <div class="card sage">
+      <h3>פעימה של בריאות, התחדשות וזרימה</h3>
+      <p>במהלך הסדנאות תתאפשר לשפה החדשה להיספג בתאים. ההעמקה וההתמסרות ייצרו לנו פעימה של בריאות והתחדשות, זרימה רגשית מנטלית ופיזית.</p>
+      <p>נניע הרבה דרך הגוף הנע, נעשה בתוכנו מקום. נתחזק ונתגמש באופן טבעי דרך ההתמדה והתנועה.</p>
+    </div>
+    <div class="card cream">
+      <h3>לנוע עם מי שאני היום</h3>
+      <p>דרך העייפות העצבות השמחה וההתרגשות, יש קסם שלא משנה איך קמתי אני מגיע לסטודיו ולומד לנוע עם מי שאני היום.</p>
+      <p>מתרגש לחלוק יחד כלים וידע שאספתי בשנים האחרונות כרקדן וכאדם ממורים ואמנים רבים.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WORKSHOPS -->
+<section id="workshops" style="padding-top:40px">
+  <div class="wrap">
+    <p class="eyebrow">מועדים והרשמה</p>
+    <p class="ws-intro">הסדנאות דומות באופיין וכל אחת משהו מעט בפני עצמה, תוך חקירה חיה של התנועה, הגוף, הקול, הרגש, הכתיבה והמפגש. אפשר להירשם לאחת או לכולן.</p>
+
+    <article class="ws">
+      <div class="date"><b>26.12</b><span class="dow">שבת</span><small><span dir="ltr">12:00–16:00</span></small></div>
+      <div>
+        <h3>הסדנה הראשונה • קריית טבעון</h3>
+        <div class="facts"><strong>עלות:</strong> 300 ש״ח &nbsp;|&nbsp; <strong>מיקום:</strong> יימסר לאחר התשלום</div>
+      </div>
+      <a class="btn btn-primary js-signup" data-date="26.12 בקריית טבעון" href="#">הרשמה ותשלום ב-PayBox</a>
+    </article>
+
+    <article class="ws">
+      <div class="date"><b>2.1</b><span class="dow">שבת</span><small><span dir="ltr">12:00–16:00</span></small></div>
+      <div>
+        <h3>הסדנה השנייה • קריית טבעון</h3>
+        <div class="facts"><strong>עלות:</strong> 300 ש״ח &nbsp;|&nbsp; <strong>מיקום:</strong> יימסר לאחר התשלום</div>
+      </div>
+      <a class="btn btn-primary js-signup" data-date="2.1 בקריית טבעון" href="#">הרשמה ותשלום ב-PayBox</a>
+    </article>
+
+    <article class="ws">
+      <div class="date"><b>15.1</b><span class="dow">יום שישי</span><small><span dir="ltr">12:00–16:00</span></small></div>
+      <div>
+        <h3>הסדנה השלישית • פרדס חנה</h3>
+        <div class="facts"><strong>עלות:</strong> 300 ש״ח &nbsp;|&nbsp; <strong>מיקום:</strong> יימסר לאחר התשלום</div>
+      </div>
+      <a class="btn btn-primary js-signup" data-date="15.1 בפרדס חנה" href="#">הרשמה ותשלום ב-PayBox</a>
+    </article>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about" style="padding-top:40px">
+  <div class="wrap">
+    <img src="images/portrait.jpg" alt="דיוקן של נפתלי בר-יוסף">
+    <div>
+      <p class="eyebrow">על המנחה</p>
+      <h3>נפתלי בר יוסף</h3>
+      <p>אבא לסמאיא שמס, איש לניירוז, רקדן יוצר, משתתף ומופיע בפרוייקטים עם כוריאוגרפים רבים בארץ ובעולם. רקד בלהקת אדמה.</p>
+      <p>חוקר תודעה ורבדים שונים של הוויה דרך תנועה וקול. מלמד עבודת רצפה, מחול עכשווי, תנועה חופשית וקונטקט. משלב בין טכניקה וחקירה סומאטית.</p>
+      <div class="cta-row" style="margin-top:26px">
+        <a class="btn btn-ghost" href="tel:0542815787"><svg class="ph-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><bdi dir="ltr">054-2815787</bdi></a>
+        <a class="btn btn-ghost" href="https://wa.me/972542815787" target="_blank" rel="noopener"><svg class="wa-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>וואטסאפ</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi" id="words">
+  <div class="wrap">
+    <div class="testi-head">
+      <div>
+        <p class="eyebrow">מילים שנותרו מהדרך</p>
+        <h2>המלצות ומהדהדים מהמרחב</h2>
+      </div>
+      <div class="arrows">
+        <button class="arrow" type="button" data-dir="prev" aria-label="ההמלצה הקודמת"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="arrow" type="button" data-dir="next" aria-label="ההמלצה הבאה"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+    <div class="quotes" tabindex="0" aria-label="המלצות">
+      <blockquote>
+        <p>״משהו מופלא ומרתק התרחש בי בסדנא של נפתלי. המרחב שהוא יצר היה רווי בשקט פנימי בצירוף של תנועה אוורירית מיימית. יכולתי מתוך התהליך שהוא יצר איתנו לאט להרפות, לפתוח מימדים רבים בגוף בהמון רכות ונועם ומשם לצאת למסע חקירה מרתק בתחומים כה רבים.</p>
+        <p>נפתלי העניק לנו מסע מאוד שלם ובתוכו נגענו בכל כך הרבה עולמות שפתחו שאלות עומק כה רבות בזמן כה קצר. הרגשתי את קולו הנעים שמלווה אותנו בהתבוננות עמוקה, את הזרימה שלו והפתיחות להרגיש את הקבוצה ולהשתנות כשצריך בקלילות. יצאתי בחווית פתיחות גדולה והשראה ממנו, מהמרחב ומהתוכן״.</p>
+        <cite>(עינת פלד)</cite>
+      </blockquote>
+      <blockquote>
+        <p>נפתלי, פתחת את הראש והגוף לאפשרויות שלא ידעתי שקיימות עם כל כך הרבה חן ומשחקיות.<br>אתה מורה מדהים...</p>
+        <cite>(רויטל מטר)</cite>
+      </blockquote>
+      <blockquote>
+        <p>״המפגש עם נפתלי כמורה היתה בעיקר בעיקר חוויה נעימה ואוהבת. גם הכניסה לסטודיו לוותה במבט ששמח לראות ולפגוש וגם בסקרנות מה המפגש יביא וזה נתן תחושה מזמינה ומאפשרת.</p>
+        <p>הלימוד עצמו נעשה במתח שבין דידקטיות ודיוק לצד משחקיות, חופש והתאמה לתלמיד. כלומר, ניכר הרצון של נפתלי ללמד ושהתלמידים בשיעור יבינו באופן עמוק את מה שהוא מלמד יחד עם ההבנה שהתלמידים מגיעים ברמות שונות ועם יכולות שונות, ומתוך זה הוא מציע מגוון של אופציות כדי שכולם יצאו בתחושה מעורבת של מאמץ והצלחה. לי היה נעים ומלמד ומפתח, יחד עם תחושת השראה מהיכולות התנועתיות של נפתלי והפשטות שבה הוא מנגיש אותם.״</p>
+        <cite>(אוריה יובל)</cite>
+      </blockquote>
+      <blockquote>
+        <p>מסע של חיבור, גילויים<br>חיבור לתוך עצמנו, ולביחד.<br>חיבור גוף נפש<br>מרחב לאינטימיות וחקירה..</p>
+        <cite>(רעות)</cite>
+      </blockquote>
+      <blockquote>
+        <p>ואווו ואוווו איזה סדנה!!!!<br>אני כל כך שמחה שהייתי, ושכל מי שהיה שהיה, ושזכיתי להכיר מעט מהקסם שלך... הקסם שיוצא במילים, וגם דרך הגוף בתנועות וקצבים מהפנטים..</p>
+        <p>תודה על זה שאתה מלמד! הדהמת אותי באופן שבו החזקת את המרחב, לימדת, הרגשת, לימדת מתוך הקבוצה ולא מחוצה לה, שמת לב לכולם, בכזאת אהבה ורגישות... תודה שפתחת וחיברת ואיפשרת מקום להכל ולכולן. זה היה מורגש לאורך כל הסדנה והרגיש לי כמו קרקע ענקית, הרבה מעבר לגבולות הסטודיו ולזמן של הסדנה, של ביטחון ובית ואהבה. זה עוד חי בי והולך איתי ופותח את הלב והנשמה...</p>
+        <p>זה היה בשבילי כמו התגלמות של עולם טוב, ושהייה ארוכה ועמוקה בו, והתפעלות מהיופי האנושי, שבשילוב עם התנועה והחוויה הגופנית ממש מעוררים ומחדשים את התקווה והאמונה בעולם כזה.. וזה בטוח מובן כמה זה חזק עבורי בימים הבלתי נתפסים האלה......</p>
+        <cite>(איילת מגידס)</cite>
+      </blockquote>
+      <blockquote>
+        <p>נפתלי יקר, תודה על מסע מסחרר עם גופי, אבל גם עם נפשי ורוחי.<br>הגוף עוד נע וחי<br>אני מרגישה תנועת חיים חדשה שנובטת ומבקשת דרך חדשה בעקבות המפגש אתמול...</p>
+        <cite>(ענבל צוק)</cite>
+      </blockquote>
+      <blockquote>
+        <p>נפתלי יקר,<br>חשוב לי לאמר לך תודה על השנה הזו.<br>השיעורים שלך הכניסו בי המון חיות ומשחק לתוך השגרה שלי. מצאתי את עצמי בהרבה תקיעות בימי ראשון וידעתי שאני פשוט צריכה להגיע לסטודיו ומשהו יזוז, ואכן זה מה שקרה.<br>העזת להביא גם תכנים שנוגעים מעבר לרק תנועה וזה נתן לי המון ולקבוצה...</p>
+        <cite>(הילה שפיצר)</cite>
+      </blockquote>
+      <blockquote>
+        <p>החזקה בטוחה, הנחייה רכה ומאפשרת בתוכה מסע של גילויים שעוד מהדהדים. האפשרות להישען, להתמסר לשחרר שליטה.<br>מילים שמתקשות לצאת להביע במקומות שהגוף והנפש מתחברים.<br>אני רק יכולה להפיץ את האור שלו, ולהמליץ מעמקי הלב על נפתלי כמנחה, כמלווה של תהליך כה משמעותי.<br>תעניקו לעצמכם את המתנה הזו, תנועו לתוך היא ידיעה והאפשרות לשחרר שליטה זכות אדירה למי שיבחר בנפתלי.</p>
+        <cite>(רעות חליפה)</cite>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="wrap">
+    <div class="box">
+      <h2>נפתלי בר יוסף <span class="sep">/</span> לפגוש אותי גוף</h2>
+      <div class="cta-row">
+        <a class="btn btn-ghost" href="tel:0542815787"><svg class="ph-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>טלפון: <bdi dir="ltr">054-2815787</bdi></a>
+        <a class="btn btn-ghost" href="https://wa.me/972542815787" target="_blank" rel="noopener"><svg class="wa-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>וואטסאפ</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sticky">
+  <a class="btn btn-primary js-signup" href="#">הרשמה ותשלום ב-PayBox</a>
+  <a class="btn btn-ghost" href="https://wa.me/972542815787" target="_blank" rel="noopener" aria-label="וואטסאפ לנפתלי"><svg class="wa-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>וואטסאפ</a>
+</div>
+
+<script>
+  // ← כאן מדביקים את קישור ה-PayBox של נפתלי. כל עוד הוא ריק, כפתורי ההרשמה פותחים וואטסאפ לנפתלי.
+  const PAYBOX_URL = "";
+  const WA = "https://wa.me/972542815787";
+  document.querySelectorAll(".js-signup").forEach(a => {
+    if (a.getAttribute("href") === "#workshops") return;
+    if (PAYBOX_URL) { a.href = PAYBOX_URL; }
+    else {
+      const d = a.dataset.date;
+      a.href = WA + "?text=" + encodeURIComponent("היי נפתלי, אשמח להירשם לסדנה „לפגוש אותי גוף”" + (d ? " — " + d : ""));
+    }
+    a.target = "_blank"; a.rel = "noopener";
+  });
+  // sideways sliders: arrows for both; gentle auto-advance only for testimonials
+  // (pauses on hover/touch/focus, only while on screen, off for reduced motion)
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function slider(track, arrowsBox, auto) {
+    const cards = [...track.children];
+    const current = () => {
+      const r = track.getBoundingClientRect().right; let best = 0, d = 1e9;
+      cards.forEach((c, i) => { const x = Math.abs(c.getBoundingClientRect().right - r); if (x < d) { d = x; best = i; } });
+      return best;
+    };
+    const go = i => {
+      const n = cards.length; i = (i + n) % n;
+      track.scrollBy({ left: cards[i].getBoundingClientRect().right - track.getBoundingClientRect().right });
+    };
+    const atEnd = () => Math.abs(track.scrollLeft) + track.clientWidth >= track.scrollWidth - 4;
+    const step = dir => { if (dir > 0 && atEnd()) go(0); else go(current() + dir); };
+    let timer = null, paused = false, visible = false;
+    const restart = () => { clearInterval(timer); if (auto && !reduce) timer = setInterval(() => { if (!paused && visible && !document.hidden) step(1); }, 6000); };
+    arrowsBox.querySelectorAll(".arrow").forEach(b => b.addEventListener("click", () => { step(b.dataset.dir === "next" ? 1 : -1); restart(); }));
+    track.addEventListener("keydown", e => { if (e.key === "ArrowLeft") { step(1); restart(); } if (e.key === "ArrowRight") { step(-1); restart(); } });
+    if (auto) {
+      ["mouseenter","touchstart","focusin"].forEach(ev => track.addEventListener(ev, () => paused = true, { passive: true }));
+      ["mouseleave","focusout"].forEach(ev => track.addEventListener(ev, () => paused = false));
+      track.addEventListener("touchend", () => setTimeout(() => paused = false, 8000), { passive: true });
+      new IntersectionObserver(es => es.forEach(e => visible = e.isIntersecting), { threshold: .4 }).observe(track);
+      restart();
+    }
+  }
+  slider(document.querySelector(".quotes"), document.querySelector(".testi-head .arrows"), true);
+</script>
+</body>
+</html>

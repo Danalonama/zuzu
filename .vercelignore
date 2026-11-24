@@ -10,3 +10,5 @@ v2/
 *.zip
 .claude/
 skills-lock.json
+# Client landing pages: each deploys as its own Vercel project (root dir clients/<name>), not on zuzu.today.
+clients/
