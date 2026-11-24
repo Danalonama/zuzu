@@ -17,5 +17,12 @@
       "path": "/api/feeds/deepcontact",
       "schedule": "10 3 * * *"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/clients/:path*",
+      "destination": "/",
+      "permanent": false
+    }
   ]
 }
