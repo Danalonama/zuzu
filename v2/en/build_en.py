@@ -85,11 +85,11 @@ rep(".card .thumb .bk{opacity:0}", ".card .thumb .bk{opacity:0}\n  .card .ti,.ca
 # ---------- page text ----------
 rep('href="#main">דלגו לתוכן הראשי</a>', 'href="#main">Skip to main content</a>')
 rep('aria-label="zuzu — חזרה לעמוד הבית"', 'aria-label="zuzu — back to the home page"')
-rep('<span class="ttag">איפה רוקדים היום?</span>', '<span class="ttag">Where are we dancing today?</span>')
-# top-right links (quiz + install are Hebrew pages) → one link back to the Hebrew site
-cut('      <a class="tinstall quizlink" href="quiz.html"', "    </div>\n  </div>\n\n</header>")
-rep("    <div class=\"tright\">\n    </div>\n  </div>\n\n</header>",
-    '    <div class="tright">\n      <a class="tinstall langlink" href="/" lang="he" hreflang="he" style="font-weight:700"><span>עברית</span></a>\n    </div>\n  </div>\n\n</header>')
+# top bar: language capsule with English selected; the add-event form is Hebrew-only, so the button links to the Hebrew site
+rep('<div class="langcap" role="group" aria-label="Language / שפה"><span class="on" aria-current="true">עברית</span><a class="langlink" href="/en" lang="en" hreflang="en">English</a></div>',
+    '<div class="langcap" role="group" aria-label="Language / שפה"><a class="langlink" href="/" lang="he" hreflang="he">עברית</a><span class="on" aria-current="true">English</span></div>')
+rep('<button type="button" class="tcta" id="ctaAdd">+ הוסיפו אירוע</button>', '<a class="tcta" href="/" style="text-decoration:none">+ Add an event (Hebrew)</a>')
+rep(".topbar{background:#FFDDE8;border-radius:14px;padding:10px 18px 10px 12px;", ".topbar{background:#FFDDE8;border-radius:14px;padding:10px 12px 10px 18px;")
 rep('aria-label="חיפוש וסינון"', 'aria-label="Search and filters"')
 rep("<span>סינון</span>", "<span>Filter</span>")
 rep('placeholder="חיפוש מורה, שיעור או מקום…" aria-label="חיפוש מורה, שיעור או מקום"',
