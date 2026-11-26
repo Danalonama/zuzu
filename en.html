@@ -485,6 +485,9 @@
   @media(max-width:900px){ #viewToggle{display:none} }
   .calgrid{display:flex;flex-direction:column;gap:30px;
            margin-inline:min(0px,calc((100% - min(100vw - 48px,1600px)) / 2))}
+  /* month view: the header, the peach panel and the week sheets share one wider width */
+  body.calView header.wrap,body.calView .bar>.wrap,body.calView .mainWrap{max-width:min(100vw - 48px,1600px)}
+  body.calView .calgrid{margin-inline:0}
   .calLegend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
   .calLegend button{font:inherit;font-size:.8rem;font-weight:600;display:inline-flex;align-items:center;gap:7px;
         border:1px solid var(--hair);background:var(--card);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
@@ -641,7 +644,7 @@
   </div>
 </div>
 
-<div class="wrap">
+<div class="wrap mainWrap">
   <main id="main" tabindex="-1">
     <h1 class="sr-only">zuzu — movement and dance events in Israel</h1>
     <div id="tlHero" class="tlHero" aria-live="polite"></div>
@@ -999,6 +1002,7 @@ function render(){
   if(PHONE.matches&&state.view==="cal") state.view="list";
   const cal=state.view==="cal";
   document.getElementById("calendar").style.display=cal?"block":"none";
+  document.body.classList.toggle("calView",cal);
   document.getElementById("list").style.display=cal?"none":"flex";
   document.getElementById("rulerWrap").style.display=cal?"none":"";
   document.getElementById("tlHero").style.display=cal?"none":"";
