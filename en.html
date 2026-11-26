@@ -514,10 +514,11 @@
   .moreE:hover,.moreE[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 
   footer{border-top:1px solid var(--ink);margin-top:60px}
-  footer .wrap{padding:40px 0;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+  footer .wrap{padding:40px 22px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
   footer .sl{display:block;color:var(--ink);font-weight:900;font-size:clamp(1.6rem,4vw,3rem);letter-spacing:-.03em;line-height:.95;max-width:18ch}
   footer .fmark{font-size:.7rem;color:var(--muted);letter-spacing:.08em}
   footer .fmark.flist{display:inline-flex;flex-wrap:wrap;align-items:center;gap:10px}
+  @media(max-width:600px){footer .fmark.flist{gap:8px 16px}footer .fmark.flist .sep{display:none}}
 
   /* tweaks panel */
   #tweaks{position:fixed;bottom:18px;inset-inline-end:18px;width:248px;background:var(--bg);
@@ -656,7 +657,7 @@
 </div>
 
 <footer><div class="wrap">
-  <span class="fmark flist"><span>zuzu © 2026</span><span>·</span><a href="/" class="footlink" style="text-decoration:none" lang="he" hreflang="he">zuzu בעברית</a><span>·</span><a href="/" class="footlink" style="text-decoration:none">Add an event (Hebrew form)</a><span>·</span><a href="/workshops#en" class="footlink" style="text-decoration:none">Workshops &amp; tours</a><span>·</span><a href="/accessibility" class="footlink" style="text-decoration:none">Accessibility (Hebrew)</a></span>
+  <span class="fmark flist"><span>zuzu © 2026</span><span class="sep" aria-hidden="true">·</span><a href="/" class="footlink" style="text-decoration:none" lang="he" hreflang="he">zuzu בעברית</a><span class="sep" aria-hidden="true">·</span><a href="/" class="footlink" style="text-decoration:none">Add an event (Hebrew form)</a><span class="sep" aria-hidden="true">·</span><a href="/workshops#en" class="footlink" style="text-decoration:none">Workshops &amp; tours</a><span class="sep" aria-hidden="true">·</span><a href="/accessibility" class="footlink" style="text-decoration:none">Accessibility (Hebrew)</a></span>
   <span class="fmark">Created with ❤️ by Dana Shimoni</span>
 </div></footer>
 
