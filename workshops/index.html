@@ -41,9 +41,9 @@ html[lang="he"] [data-l="en"], html:not([lang="he"]) [data-l="he"]{display:none!
 a{color:var(--accent)}
 a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .toprow{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center}
-.lang{display:inline-flex;border:1.5px solid var(--ink)}
-.lang button{font:600 14px var(--f-body);background:var(--sheet);color:var(--ink);border:0;padding:8px 14px;cursor:pointer}
-.lang button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--sheet)}
+.lang button{font:600 12px var(--f-body);background:transparent;color:var(--ink);border:0;padding:4px 11px;cursor:pointer;border-radius:999px}
+.lang button[aria-pressed="true"]{background:#83E9E9;color:#000}
 .addlink{font:700 14px var(--f-body);color:var(--accent);background:none;border:0;padding:6px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 .home{font:600 14px var(--f-body);color:var(--muted);text-decoration:none}
 h1{font-family:var(--f-display);font-weight:800;font-size:clamp(34px,6vw,58px);line-height:1.05;margin:0;text-wrap:balance}
@@ -95,8 +95,6 @@ dialog.sdlg::backdrop{background:rgba(18,26,58,.45)}
         <button type="button" id="l-en" data-set="en">English</button>
         <button type="button" id="l-he" data-set="he">עברית</button>
       </div>
-      <button type="button" class="addlink" id="open-suggest"><span data-l="en">+ Suggest a workshop</span><span data-l="he">+ הציעו סדנה</span></button>
-      <a class="home" href="/"><span data-l="en">zuzu.today ↗</span><span data-l="he">zuzu.today ↗</span></a>
     </div>
     <div>
       <h1><span data-l="en">Workshops &amp; tours</span><span data-l="he">סדנאות וסיורים</span></h1>
@@ -138,6 +136,10 @@ dialog.sdlg::backdrop{background:rgba(18,26,58,.45)}
   </dialog>
 
   <footer class="credit">
+    <div class="toprow" style="margin-bottom:8px">
+      <button type="button" class="addlink" id="open-suggest"><span data-l="en">+ Suggest a workshop</span><span data-l="he">+ הציעו סדנה</span></button>
+      <a class="home" href="/"><span data-l="en">zuzu.today ↗</span><span data-l="he">zuzu.today ↗</span></a>
+    </div>
     <span data-l="en">Made by <a href="mailto:danalonama@gmail.com" title="danalonama@gmail.com">Dana</a>, while looking for workshops to do with family, friends or a team. I've already been to some :)</span>
     <span data-l="he">נבנה על ידי <a href="mailto:danalonama@gmail.com" title="danalonama@gmail.com">דנה</a>, שחיפשה רעיונות לסדנאות עם המשפחה, חברות או לצוות, בחלק כבר הייתי :)</span>
   </footer>
