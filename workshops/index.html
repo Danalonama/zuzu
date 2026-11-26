@@ -93,7 +93,8 @@ body::before{display:none}
 .wrap{gap:18px;max-width:1240px;margin-inline:auto}
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--pink);border-radius:14px;padding:10px 12px 10px 18px}
 html[lang="he"] .topbar{padding:10px 18px 10px 12px}
-.logo{font:900 24px var(--f-display);color:var(--red);text-decoration:none;letter-spacing:-.02em}
+.logo{display:inline-flex;align-items:center;gap:7px;font:900 26px var(--f-display);color:var(--ink);text-decoration:none;letter-spacing:-.02em}
+.logo img{width:30px;height:30px;flex:none}
 .topbar .right{display:flex;align-items:center;gap:12px}
 .lang{border:2px solid var(--ink);background:#fff}
 .lang button{font-weight:700}
@@ -160,7 +161,7 @@ dialog.sdlg::backdrop{background:rgba(17,17,17,.5)}
 <div class="wrap">
   <header>
     <div class="topbar">
-      <a class="logo" href="/">zuzu</a>
+      <a class="logo" href="/" aria-label="zuzu — לעמוד הבית"><img src="/workshops/zuzu-logo-red.svg" alt="" width="30" height="30">.zuzu</a>
       <div class="right">
       <div class="lang" role="group" aria-label="Language / שפה">
         <button type="button" id="l-en" data-set="en">English</button>
