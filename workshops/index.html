@@ -50,11 +50,10 @@ h1{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,6vw,58px);l
 .tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .chip{font:600 13px var(--f-body);border:1px solid var(--line);background:var(--sheet);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
 .chip[aria-pressed="true"]{border-color:var(--ink)}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--c)}
 .search{flex:1 1 220px;max-width:340px;font:15px var(--f-body);color:var(--ink);background:var(--sheet);border:1px solid var(--line);padding:8px 12px}
 .count{font-family:var(--f-mono);font-size:12px;color:var(--muted);letter-spacing:.04em}
 .grid{columns:230px;column-gap:14px}
-.card{display:flex;flex-direction:column;gap:4px;padding:0 16px 16px;margin:0 0 14px;break-inside:avoid;background:var(--sheet);border:1px solid var(--line);border-top:3px solid var(--c);color:var(--ink);text-decoration:none;min-width:0}
+.card{display:flex;flex-direction:column;gap:4px;padding:0 16px 16px;margin:0 0 14px;break-inside:avoid;background:var(--sheet);border:1px solid var(--line);border-radius:12px;overflow:hidden;color:var(--ink);text-decoration:none;min-width:0}
 .card>.k{padding-top:14px}
 .card>.pic+.k{padding-top:0}
 .card .pic{display:block;margin:0 -16px 10px}
@@ -157,7 +156,7 @@ document.getElementById("q").addEventListener("input",e=>{q=e.target.value.trim(
 function render(){
   const chips=document.getElementById("chips");
   chips.innerHTML=`<button class="chip" type="button" data-k="" aria-pressed="${!active}">${t("All","הכל")}</button>`+
-    Object.entries(CATS).map(([k,[en,he]])=>`<button class="chip" type="button" data-k="${k}" aria-pressed="${active===k}" style="--c:var(${COL[k]})"><span class="dot"></span>${esc(t(en,he))}</button>`).join("");
+    Object.entries(CATS).map(([k,[en,he]])=>`<button class="chip" type="button" data-k="${k}" aria-pressed="${active===k}" style="--c:var(${COL[k]})">${esc(t(en,he))}</button>`).join("");
   chips.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{active=b.dataset.k||null;render()});
   const list=W.filter(w=>(!active||w.c===active)&&(!q||[w.ne,w.nh,w.pe,w.ph].join(" ").toLowerCase().includes(q)));
   document.getElementById("grid").innerHTML=list.map(w=>`<a class="card" href="${esc(w.u)}" target="_blank" rel="noopener" style="--c:var(${COL[w.c]})">
