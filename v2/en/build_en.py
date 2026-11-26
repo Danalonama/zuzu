@@ -79,7 +79,6 @@ rep("<body>", '<body data-dir="gallery" data-cards="minimal" data-motion="subtle
 rep("border-radius:11px;padding:0 42px 0 38px;", "border-radius:11px;padding:0 38px 0 42px;")
 rep("#searchInput{padding:0 36px 0 14px;font-size:16px}", "#searchInput{padding:0 14px 0 36px;font-size:16px}")
 # wordmark: "zuzu." reads left to right
-rep('flex:none">.zuzu<sup', 'flex:none">zuzu.<sup')
 # Hebrew titles keep their letter order (dir="auto") but line up with the English text
 rep(".card .thumb .bk{opacity:0}", ".card .thumb .bk{opacity:0}\n  .card .ti,.card .meta{text-align:left}")
 
@@ -227,7 +226,7 @@ rep('`<div class="host">with <b>${e.host}</b></div>`', '`<div class="host">with 
 rep('href="favicon-32.png"', 'href="/favicon-32.png"')
 rep('href="favicon-192.png"', 'href="/favicon-192.png"')
 rep('href="favicon-180.png"', 'href="/favicon-180.png"')
-rep('<img src="assets/zuzu-logo.svg"', '<img src="/assets/zuzu-logo.svg"')
+rep('<img src="assets/zuzu-logo-red.svg"', '<img src="/assets/zuzu-logo-red.svg"')
 rep('const PAGE_BASE="", OTHER_BASE="/en";', 'const PAGE_BASE="/en", OTHER_BASE="";')
 rep('LOOKUPS.regions.forEach(r=>{ const l=r.name_he;', 'LOOKUPS.regions.forEach(r=>{ const l=r.name_en||r.name_he;')
 rep('aria-label="שיתוף קישור לתוצאות האלה"', 'aria-label="Share a link to these results"')
