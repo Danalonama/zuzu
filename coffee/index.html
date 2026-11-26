@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>קפה בתל אביב · זוזו</title>
+<meta name="description" content="בתי קפה מומלצים בתל אביב-יפו, לפי אזורים. המלצות של ענבל.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zuzu.today/coffee">
+<meta property="og:title" content="קפה בתל אביב · Coffee in Tel Aviv">
+<meta property="og:description" content="בתי קפה מומלצים בתל אביב-יפו, המלצות של ענבל. Recommended cafés in Tel Aviv-Jaffa, picked by Inbal.">
+<base href="/coffee/">
+<script defer src="/_vercel/insights/script.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&display=swap">
+<style>
+/* Layout: a maker's index — one ruled grid of bookable workshops, filtered by kind; RTL by default, LTR in English */
+:root{
+  color-scheme:light;
+  --paper:#F5F6FA; --bg:#F7F7F7 url("/workshops/bg-paisley.webp") repeat 0 0 / 400px 400px; --sheet:#FFFFFF; --ink:#121A3A; --muted:#5A6283; --faint:#767C94; --line:#DCE0EC; --accent:#2747B8;
+  --c-craft:#B86A12; --c-move:#B5365B; --c-tours:#1E7A6B; --c-food:#7A3FC2;
+  --f-display:"Noto Sans Hebrew",system-ui,sans-serif;
+  --f-body:"Noto Sans Hebrew",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"Noto Sans Hebrew",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark) and (min-width:99999px){:root:not([data-theme="light"]){
+  --paper:#0E1226; --bg:#0E1226; --sheet:#161B33; --ink:#E8EBF7; --muted:#9AA2C3; --faint:#8088A8; --line:#2A3152; --accent:#8FA6FF;
+  --c-craft:#F2B45E; --c-move:#F08AA8; --c-tours:#6FD3BE; --c-food:#C3A0FF; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1226; --bg:#0E1226; --sheet:#161B33; --ink:#E8EBF7; --muted:#9AA2C3; --faint:#8088A8; --line:#2A3152; --accent:#8FA6FF;
+  --c-craft:#F2B45E; --c-move:#F08AA8; --c-tours:#6FD3BE; --c-food:#C3A0FF; color-scheme:dark}
+*{box-sizing:border-box}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;
+  padding-left:max(clamp(20px,5vw,72px),env(safe-area-inset-left,0px));padding-right:max(clamp(20px,5vw,72px),env(safe-area-inset-right,0px));padding-block:24px 56px}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:var(--bg)}
+[hidden]{display:none!important}
+html[lang="he"] [data-l="en"], html:not([lang="he"]) [data-l="he"]{display:none!important}
+.wrap{display:flex;flex-direction:column;gap:22px}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.toprow{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--sheet)}
+.lang button{font:600 12px var(--f-body);background:transparent;color:var(--ink);border:0;padding:4px 11px;cursor:pointer;border-radius:999px}
+.lang button[aria-pressed="true"]{background:#83E9E9;color:#000}
+.addlink{font:700 14px var(--f-body);color:var(--accent);background:none;border:0;padding:6px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.home{font:600 14px var(--f-body);color:var(--muted);text-decoration:none}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(34px,6vw,58px);line-height:1.05;margin:0;text-wrap:balance}
+.lede{max-width:62ch;color:var(--muted);margin:8px 0 0;font-size:16px}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.chip{font:600 13px var(--f-body);border:1px solid var(--line);background:var(--sheet);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.chip[aria-pressed="true"]{border-color:var(--ink)}
+.search{flex:0 1 180px;max-width:180px;font:13px var(--f-body);color:var(--ink);background:var(--sheet);border:1px solid var(--line);border-radius:999px;padding:6px 14px}
+.area{font:600 13px var(--f-body);color:var(--ink);background:var(--sheet);border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 30px;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%235A6283' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 12px center}
+html:not([lang="he"]) .area{padding:6px 30px 6px 14px;background-position:right 12px center}
+.area:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.count{font-family:var(--f-mono);font-size:12px;color:var(--muted);letter-spacing:.04em}
+.grid{columns:230px;column-gap:24px}
+.card{display:flex;flex-direction:column;gap:4px;padding:0 16px 16px;margin:0 0 24px;break-inside:avoid;background:var(--sheet);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 1px 2px rgba(18,26,58,.05),0 6px 18px -6px rgba(18,26,58,.12);color:var(--ink);text-decoration:none;min-width:0}
+.card>.k{padding-top:14px}
+.card>.pic+.k{padding-top:0}
+.card .pic{display:block;margin:10px -6px 10px}
+.card .pic img{display:block;width:100%;height:auto;border-radius:8px}
+.card .k{font:500 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.card b{font-size:16px;line-height:1.25}
+.card .p{font-size:14px;color:var(--muted)}
+.card .go{margin-top:auto;padding-top:8px;font-size:13px;font-weight:700;color:var(--accent)}
+.card:hover b,.card:focus-visible b{text-decoration:underline}
+.empty{color:var(--muted);padding:20px 0}
+dialog.sdlg{border:0;padding:0;max-width:min(620px,calc(100vw - 32px));width:100%;background:var(--paper);color:var(--ink);box-shadow:0 20px 60px rgba(18,26,58,.35)}
+dialog.sdlg::backdrop{background:rgba(18,26,58,.45)}
+.suggest{padding:22px 22px 24px;display:flex;flex-direction:column;gap:12px}
+.suggest h2{font-family:var(--f-display);font-weight:700;font-size:24px;margin:0;padding-inline-end:36px}
+.suggest > p{margin:0;color:var(--muted)}
+.sclose{position:absolute;top:10px;inset-inline-end:10px;background:none;border:0;font-size:26px;line-height:1;color:var(--muted);cursor:pointer;padding:6px 10px}
+.sform{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sform label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:14px;min-width:0}
+.sform .wide{grid-column:1 / -1}
+.sform input,.sform textarea{font:15px var(--f-body);color:var(--ink);background:var(--sheet);border:1px solid var(--line);padding:10px 12px;width:100%}
+.sform textarea{min-height:80px;resize:vertical}
+.sform button{justify-self:start;font:700 15px var(--f-body);background:var(--ink);color:var(--paper);border:0;padding:12px 22px;cursor:pointer}
+.sform button[disabled]{opacity:.6}
+.smsg{font-weight:600}.smsg.ok{color:var(--c-tours)}.smsg.err{color:var(--c-move)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.credit{border-top:1px solid var(--line);padding-top:10px;font-size:13px;color:var(--muted)}
+@media (max-width:600px){.sform{grid-template-columns:1fr}.search{max-width:180px}}
+
+/* ---- design B: pink panels, red accent, heavy black type, outlined tilted cards ---- */
+:root{--pink:#FFDDE8;--pink2:#F27BA8;--red:#E8303A;--ink:#111;--muted:#333;--line:#111;--accent:#E8303A;--bg:#fff;
+  --f-display:"Rubik",system-ui,sans-serif;--f-body:"Rubik",system-ui,sans-serif;--f-mono:"Rubik",system-ui,sans-serif}
+body{background:#fff;font-weight:500}
+body::before{display:none}
+.wrap{gap:18px;max-width:1240px;margin-inline:auto}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--pink);border-radius:14px;padding:10px 12px 10px 18px}
+html[lang="he"] .topbar{padding:10px 18px 10px 12px}
+.logo{display:inline-flex;align-items:center;gap:7px;font:900 26px var(--f-display);color:var(--ink);text-decoration:none;letter-spacing:-.02em}
+.logo img{width:30px;height:30px;flex:none}
+.topbar .right{display:flex;align-items:center;gap:12px}
+.lang{border:2px solid var(--ink);background:#fff}
+.lang button{font-weight:700}
+.lang button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.cta{font:800 13px var(--f-body);background:var(--red);color:#fff;border:0;border-radius:10px;padding:11px 16px;letter-spacing:.06em;cursor:pointer;white-space:nowrap}
+.cta:hover{filter:brightness(.93)}
+.hero{position:relative;padding:26px 0 4px}
+.badge{display:inline-flex;align-items:center;gap:10px;font:800 12px var(--f-body);letter-spacing:.16em;text-transform:uppercase}
+.badge .n{width:46px;height:46px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font:900 17px var(--f-display);letter-spacing:0}
+h1{font:900 clamp(46px,8.5vw,96px)/.92 var(--f-display);letter-spacing:-.01em;text-transform:uppercase;margin:24px 0 0;position:relative;display:inline-block;padding-inline-end:.5em}
+.seal{position:absolute;top:-.5em;inset-inline-end:-.6em;font:900 .32em/1 var(--f-display);width:2.5em;height:2.5em;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;letter-spacing:0;transform:rotate(12deg);box-shadow:0 0 0 4px #fff}
+.lede{font:700 17px/1.4 var(--f-body);color:var(--ink);max-width:none;margin-top:12px}
+.hand{font:700 34px/1 "Amatic SC",cursive;display:inline-block;transform:rotate(-3deg);margin-top:16px}
+.sticker{position:absolute;top:34px;inset-inline-end:3%;width:178px;height:88px;background:var(--ink);color:var(--pink2);border-radius:50%;
+  display:grid;place-items:center;text-align:center;transform:rotate(12deg);font:900 15px/1.05 var(--f-display);letter-spacing:.05em;text-transform:uppercase;pointer-events:none}
+.panel{background:var(--pink);border-radius:26px;padding:clamp(16px,3vw,34px);display:flex;flex-direction:column;gap:20px}
+.chip{border:2px solid var(--ink);font:700 13px var(--f-body);letter-spacing:.03em;background:#fff;padding:7px 14px}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.area,.search{border:2px solid var(--ink)!important;font-weight:700!important;background-color:#fff}
+.count{font:800 13px var(--f-body);color:var(--ink);letter-spacing:.06em}
+.grid{column-gap:22px}
+.card{border:2px solid var(--ink);border-radius:16px;box-shadow:none;padding:0 16px 16px;margin-bottom:26px;transition:transform .2s ease}
+.card:nth-child(3n+1){transform:rotate(-.9deg)}
+.card:nth-child(3n+2){transform:rotate(.7deg)}
+.card:hover{transform:rotate(0) translateY(-3px)}
+@media (prefers-reduced-motion:reduce){.card,.card:hover{transition:none}}
+.card .pic{margin:12px -4px 12px}
+.card .pic img{border-radius:10px;border:2px solid var(--ink)}
+.card>.k{padding-top:16px}
+.card .k{display:flex;align-items:center;gap:8px;color:var(--red);font:800 11px var(--f-body);letter-spacing:.14em;text-transform:uppercase}
+.card .k .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font:900 11px var(--f-display);letter-spacing:0}
+.card b{font:900 21px/1.08 var(--f-display);text-transform:uppercase;margin-top:6px}
+.card .p{color:var(--muted);font-weight:500;font-size:14px}
+.card .go{align-self:flex-start;margin-top:12px;background:var(--pink2);color:var(--ink);border:2px solid var(--ink);border-radius:9px;padding:6px 12px;font:800 12px var(--f-body);letter-spacing:.08em}
+.card:hover b,.card:focus-visible b{text-decoration:none}
+.credit{border-top:2px solid var(--ink);color:var(--ink)}
+.credit a{color:var(--red)}
+.credit .addlink{color:var(--red)}
+@media (max-width:640px){
+  .sticker{width:112px;height:58px;font-size:11px;top:8px;inset-inline-end:0}
+  .cta{padding:9px 12px;font-size:12px}
+  .logo{font-size:20px}
+  .hand{font-size:28px}
+  .card:nth-child(n){transform:none}
+}
+
+/* ---- design B: suggest popup ---- */
+dialog.sdlg{background:var(--pink);color:var(--ink);border:2px solid var(--ink);border-radius:22px;box-shadow:none;overflow:visible}
+dialog.sdlg::backdrop{background:rgba(17,17,17,.5)}
+.suggest{padding:26px 24px 26px;gap:14px}
+.suggest h2{font:900 clamp(24px,4vw,30px)/1.05 var(--f-display);text-transform:uppercase;padding-inline-end:48px}
+.suggest > p{color:var(--ink);font-weight:500}
+.sclose{top:14px;inset-inline-end:14px;width:36px;height:36px;padding:0;border-radius:50%;background:var(--ink);color:#fff;font-size:22px;display:grid;place-items:center}
+.sclose:hover{background:var(--red)}
+.sform label{font-weight:700;font-size:14px}
+.sform input,.sform textarea{font:500 16px var(--f-body);background:#fff;border:2px solid var(--ink);border-radius:10px;padding:10px 12px}
+.sform input:focus-visible,.sform textarea:focus-visible{outline:3px solid var(--red);outline-offset:1px}
+.sform button{font:800 14px var(--f-body);letter-spacing:.06em;background:var(--red);color:#fff;border-radius:10px;padding:12px 24px}
+.sform button:hover{filter:brightness(.93)}
+.smsg.ok{color:#0B7A4B}.smsg.err{color:var(--red)}
+
+/* top bar: identical to the homepage bar (Heebo, 28px wordmark, ®, same capsule and button) */
+.topbar,.topbar button,.topbar .logo{font-family:"Rubik","Noto Sans Hebrew",system-ui,sans-serif}
+.topbar .logo{font-weight:800;font-size:28px;gap:6px;letter-spacing:-.01em}
+.topbar .logo img{width:28px;height:28px}
+.topbar .logo sup{font-size:.34em;vertical-align:super;font-weight:600;margin-inline-start:1px}
+.topbar .lang{border:2px solid var(--ink)}
+.topbar .lang button{font-weight:700;font-size:12px;padding:4px 11px}
+.topbar .cta{font-weight:800;font-size:13px;line-height:1;padding:11px 16px;letter-spacing:.02em}
+@media(max-width:560px){.topbar{padding:8px 12px 8px 8px}.topbar .right{gap:8px}.topbar .logo{font-size:22px;gap:5px}.topbar .logo img{width:22px;height:22px}.topbar .logo sup{display:none}
+  .topbar .lang button{padding:3px 8px;font-size:11px}.topbar .cta{padding:9px 11px;font-size:12px}}
+
+.topbar{height:56px;box-sizing:border-box}
+.topbar .cta{height:36px;display:inline-flex;align-items:center;padding-block:0}
+.topbar .lang{height:30px;box-sizing:border-box;align-items:stretch}
+.topbar .lang button{display:inline-flex;align-items:center;padding-block:0}
+.topbar .logo{line-height:1}
+@media(max-width:560px){.topbar{height:50px}.topbar .cta{height:32px}.topbar .lang{height:26px}}
+
+/* recommendation tags */
+.tag{align-self:flex-start;display:inline-flex;align-items:center;font:700 11.5px/1 var(--f-body);padding:5px 10px;border-radius:999px;border:1.5px solid var(--ink);color:var(--ink);margin:2px 0 4px}
+.card>.tag:first-child{margin-top:14px}
+.tag-me{background:#FFDDE8}.tag-want{background:#FFF0A8}.tag-friend{background:#E6F4EA}
+.tagchips{display:flex;flex-wrap:wrap;gap:8px;flex-basis:100%}
+.tchip.tag-me[aria-pressed="false"]{background:#FFDDE8}.tchip.tag-want[aria-pressed="false"]{background:#FFF0A8}.tchip.tag-friend[aria-pressed="false"]{background:#E6F4EA}
+
+/* coffee page: mocha panel, coffee-brown seal and buttons */
+:root{--mocha:#A47864;--mocha-d:#4B2E22;--mocha-l:#EAD7C8}
+.panel{background:var(--mocha)}
+.panel .count{color:#fff}
+.seal{background:var(--mocha-d)}
+.card .go{background:var(--mocha-l)}
+.card .k{color:var(--mocha-d)}
+.area{display:none!important}
+.credit-inbal{font:700 15px/1.4 var(--f-body);margin:8px 0 0}
+.credit-inbal a{color:var(--mocha-d)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="topbar">
+      <a class="logo" href="/" aria-label="zuzu — לעמוד הבית"><img src="/assets/zuzu-logo-red.svg" alt="" width="28" height="28">zuzu<sup>®</sup></a>
+      <div class="right">
+      <div class="lang" role="group" aria-label="Language / שפה">
+        <button type="button" id="l-he" data-set="he">עברית</button>
+        <button type="button" id="l-en" data-set="en">English</button>
+      </div>
+        <button type="button" class="cta" id="cta-suggest"><span data-l="en">+ Suggest a café</span><span data-l="he">+ הציעו בית קפה</span></button>
+      </div>
+    </div>
+    <div class="hero">
+      <h1><span data-l="en">Coffee in Tel Aviv</span><span data-l="he">קפה בתל אביב</span><span class="seal" id="badge-n" aria-hidden="true">43</span></h1>
+      <p class="lede"><span data-l="en">Good coffee around Tel Aviv-Jaffa, by area. Tap a café to open it in Google Maps.</span><span data-l="he">קפה טוב בתל אביב-יפו, לפי אזורים. לחיצה על בית קפה פותחת אותו בגוגל מפות.</span></p>
+      <p class="credit-inbal"><span data-l="en">Recommended by <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">Inbal</a> (when are we meeting for coffee?)</span><span data-l="he">המלצות של <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">ענבל</a> (מתי נפגשות לקפה?)</span></p>
+    </div>
+  </header>
+
+  <section class="panel">
+  <div class="tools">
+    <div id="chips" style="display:flex;flex-wrap:wrap;gap:8px" role="group" aria-label="Filter"></div>
+    <div id="tagchips" class="tagchips" role="group" aria-label="Recommended by" hidden></div>
+    <select class="area" id="area" aria-label="Area"></select>
+    <input class="search" id="q" type="search" autocomplete="off">
+    <span class="count" id="count" aria-live="polite"></span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <p class="empty" id="empty" hidden><span data-l="en">Nothing matches. Try another word or category.</span><span data-l="he">אין תוצאות. נסו מילה או קטגוריה אחרת.</span></p>
+  </section>
+
+
+  <dialog class="sdlg" id="suggest" aria-labelledby="suggest-title">
+    <button type="button" class="sclose" id="close-suggest" aria-label="Close">×</button>
+    <section class="suggest">
+      <h2 id="suggest-title"><span data-l="en">Know a good café?</span><span data-l="he">מכירים בית קפה טוב?</span></h2>
+      <p><span data-l="en">Send it over. Dana reads every suggestion and adds the ones that fit.</span><span data-l="he">שלחו. דנה קוראת כל הצעה ומוסיפה את מה שמתאים.</span></p>
+      <form class="sform" id="sform" novalidate>
+        <label class="wide" for="s-what"><span><span data-l="en">Café name</span><span data-l="he">שם בית הקפה</span> *</span><input id="s-what" name="what" required maxlength="200"></label>
+        <label for="s-who"><span data-l="en">Why it's good</span><span data-l="he">למה שווה</span><input id="s-who" name="who" maxlength="120"></label>
+        <label for="s-where"><span data-l="en">Where</span><span data-l="he">איפה</span><input id="s-where" name="where" maxlength="160"></label>
+        <label class="wide" for="s-link"><span data-l="en">Link (site, Instagram…)</span><span data-l="he">קישור (אתר, אינסטגרם…)</span><input id="s-link" name="link" type="url" dir="ltr" inputmode="url" maxlength="500" placeholder="https://"></label>
+        <label class="wide" for="s-notes"><span data-l="en">Anything else? (price, why it's good)</span><span data-l="he">עוד משהו? (מחיר, למה שווה)</span><textarea id="s-notes" name="notes" maxlength="1000"></textarea></label>
+        <label for="s-name"><span data-l="en">Your name (optional)</span><span data-l="he">השם שלכם (לא חובה)</span><input id="s-name" name="name" maxlength="80" autocomplete="name"></label>
+        <span class="hp" aria-hidden="true"><input id="s-hp" name="_gotcha" tabindex="-1" autocomplete="off"></span>
+        <div class="wide" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+          <button type="submit" id="s-send"><span data-l="en">Send</span><span data-l="he">שליחה</span></button>
+          <span class="smsg" id="smsg" role="status" aria-live="polite"></span>
+        </div>
+      </form>
+    </section>
+  </dialog>
+
+  <footer class="credit">
+    <div class="toprow" style="margin-bottom:8px">
+      <button type="button" class="addlink" id="open-suggest"><span data-l="en">+ Suggest a café</span><span data-l="he">+ הציעו בית קפה</span></button>
+      <a class="home" href="/"><span data-l="en">zuzu.today ↗</span><span data-l="he">zuzu.today ↗</span></a>
+    </div>
+    <span data-l="en">Recommendations by <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">Inbal</a>, collected by <a href="mailto:danalonama@gmail.com" title="danalonama@gmail.com">Dana</a>. More: <a href="/workshops">workshops &amp; tours</a>.</span>
+    <span data-l="he">המלצות של <a href="https://www.instagram.com/inbalbear" target="_blank" rel="noopener">ענבל</a>, אספה <a href="mailto:danalonama@gmail.com" title="danalonama@gmail.com">דנה</a>. עוד: <a href="/workshops">סדנאות וסיורים</a>.</span>
+  </footer>
+</div>
+<script>
+const CATS={"south": ["South: Lilienblum to Florentin", "דרום: מלילינבלום עד פלורנטין"], "center": ["Center: Allenby, Sheinkin & around", "מרכז: אלנבי, שינקין והסביבה"], "benyehuda": ["Ben Yehuda & Gordon", "בן יהודה וגורדון"], "north": ["Dizengoff & north", "דיזנגוף וצפונה"], "jaffa": ["Jaffa", "יפו"]};
+const AREAS={};
+const COL={south:"--c-craft",center:"--c-move",benyehuda:"--c-tours",north:"--c-food",jaffa:"--c-craft"};
+const W=[{"c": "south", "ne": "Tofin", "nh": "תופין", "pe": "Ahad Ha'Am 29", "ph": "אחד העם 29", "u": "https://maps.app.goo.gl/zbCjFkcbhEwb1TX3A", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "south", "ne": "Common People", "nh": "Common People", "pe": "Ahad Ha'Am 32", "ph": "אחד העם 32", "u": "https://maps.app.goo.gl/tHd9jRmmqzMef1vb9", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "south", "ne": "Apollo", "nh": "Apollo", "pe": "Lilienblum 3", "ph": "לילינבלום 3", "u": "https://maps.app.goo.gl/sKpyRMUsrGhrSLiu8", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "south", "ne": "Alexander Bread & Bakery", "nh": "Alexander Bread & Bakery", "pe": "Lilienblum 18", "ph": "לילינבלום 18", "u": "https://maps.app.goo.gl/CosS1JhaHh9KhYDz5", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "south", "ne": "Pensia", "nh": "פנסיה", "pe": "Levontin 2", "ph": "לבונטין 2", "u": "https://maps.app.goo.gl/DgBeh4e8UX6BVp3LA", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "south", "ne": "Ada Lewinsky Cafe", "nh": "Ada Lewinsky Cafe", "pe": "Zevulun 9", "ph": "זבולון 9", "u": "https://maps.app.goo.gl/rbrRcjHqrrEws9B66", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "south", "ne": "p.o.c café", "nh": "p.o.c café", "pe": "Kfar Giladi 48", "ph": "כפר גלעדי 48", "u": "https://maps.app.goo.gl/5MehnHeWJKA5BJEm8", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "center", "ne": "Fugazi", "nh": "Fugazi", "pe": "Nahalat Binyamin 12", "ph": "נחלת בנימין 12", "u": "https://maps.app.goo.gl/CryLEDgSHLv8Sz51A", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "center", "ne": "McLovin Cafe", "nh": "McLovin Cafe", "pe": "Sheinkin 11", "ph": "שינקין 11", "u": "https://maps.app.goo.gl/yxThwF55J2XiVwDq6", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "center", "ne": "Nomena", "nh": "Nomena", "pe": "Allenby 54", "ph": "אלנבי 54", "u": "https://maps.app.goo.gl/6G3XtaZzs8EiE5ZHA", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "center", "ne": "Chacho's Cafe Geula", "nh": "צ׳אצ׳וס גאולה", "pe": "Ge'ula 51", "ph": "גאולה 51", "u": "https://maps.app.goo.gl/DVkcdehkEmcbxyNQA", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "center", "ne": "Lev Cafe", "nh": "Lev Cafe", "pe": "Idelson 29", "ph": "אידלסון 29", "u": "https://maps.app.goo.gl/PWpDq6RoHMX1odHaA", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "center", "ne": "HOC – Trumpeldor", "nh": "HOC – טרומפלדור", "pe": "Trumpeldor 6", "ph": "טרומפלדור 6", "u": "https://maps.app.goo.gl/EydQyFXV5pz4vB167", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "center", "ne": "HOC – House of Coffee", "nh": "HOC – House of Coffee", "pe": "HaTavor 2", "ph": "התבור 2", "u": "https://maps.app.goo.gl/gk6WQDBvLJtcyM8s7", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "benyehuda", "ne": "SUMR Cafe", "nh": "SUMR Cafe", "pe": "Ben Yehuda 70", "ph": "בן יהודה 70", "u": "https://maps.app.goo.gl/vpDE6VZpUSBLro2H6", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "benyehuda", "ne": "CafeXoho", "nh": "CafeXoho", "pe": "Ben Yehuda 73", "ph": "בן יהודה 73", "u": "https://maps.app.goo.gl/PsosxsWetpivyiLc6", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "benyehuda", "ne": "Chacho's Cafe Gordon", "nh": "צ׳אצ׳וס גורדון", "pe": "Gordon 47", "ph": "גורדון 47", "u": "https://maps.app.goo.gl/NY6WDSLRDWazueyPA", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "benyehuda", "ne": "Kohi Coffee Shop", "nh": "Kohi Coffee Shop", "pe": "Ben Yehuda 155", "ph": "בן יהודה 155", "u": "https://maps.app.goo.gl/wu1Qbwi22WB2hLoU6", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "north", "ne": "Pâte & Puff", "nh": "Pâte & Puff", "pe": "Masaryk Blvd 15", "ph": "שדרות מסריק 15", "u": "https://maps.app.goo.gl/dJscYAmK7RbxB7oi6", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "north", "ne": "Cafelix Shlomo HaMelekh", "nh": "קפליקס שלמה המלך", "pe": "Shlomo HaMelekh 12", "ph": "שלמה המלך 12", "u": "https://maps.app.goo.gl/VWi47w7kpu2dtyjt8", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "north", "ne": "Nahat Coffee", "nh": "Nahat Coffee", "pe": "Dizengoff Square 10", "ph": "כיכר דיזנגוף 10", "u": "https://maps.app.goo.gl/aPDjnkcheA6UQnKi7", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "north", "ne": "Mela", "nh": "Mela", "pe": "Dizengoff 164", "ph": "דיזנגוף 164", "u": "https://maps.app.goo.gl/51Qgv3ii8U7WeqRv8", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "north", "ne": "ORIGEM Coffee", "nh": "ORIGEM Coffee", "pe": "Dizengoff 203", "ph": "דיזנגוף 203", "u": "https://maps.app.goo.gl/MDHnhoe8JMnE5prQ6", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "north", "ne": "OTTOTO", "nh": "אוטוטו", "pe": "Gronemann 8, Ramat Aviv", "ph": "גרונימן 8, רמת אביב", "u": "https://maps.app.goo.gl/djhKhPRPRw9xtGdu9", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}, {"c": "jaffa", "ne": "Amita Bakery", "nh": "Amita Bakery", "pe": "Shalma Rd 10", "ph": "דרך שלמה 10", "u": "https://maps.app.goo.gl/MKiSHLaFCwGyWqFo6", "d": true, "tag": "friend", "by": "ענבל", "byE": "Inbal"}];
+let L="he",active=null,q="",area="",tagF="";
+/* tags on a card: w.tag = "me" (Dana recommends) | "want" (Dana wants to try) | "friend" (+ w.by / w.byE = friend's name) */
+const tagLabel=w=>w.tag==="me"?t("My pick","המלצה שלי"):w.tag==="want"?t("On my list","רוצה לעשות"):w.tag==="friend"?t("Recommended by "+(w.byE||w.by||"a friend"),"המלצה של "+(w.by||"חבר/ה")):"";
+const TAGKINDS=[["me","My picks","המלצות שלי"],["want","On my list","רוצה לעשות"],["friend","Friends' picks","המלצות של חברים"]];
+const h0=(location.hash||"").replace("#","");
+if(h0==="en"||h0==="he")L=h0;else{try{const s=localStorage.getItem("ws-lang");if(s==="en"||s==="he")L=s}catch(e){}}
+if(CATS[h0])active=h0;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const t=(en,he)=>L==="he"?he:en;
+function setLang(l){L=l;document.documentElement.lang=l;document.documentElement.dir=l==="he"?"rtl":"ltr";
+  document.getElementById("l-en").setAttribute("aria-pressed",l==="en");document.getElementById("l-he").setAttribute("aria-pressed",l==="he");
+  document.getElementById("q").placeholder=t("Search…","חיפוש…");
+  try{localStorage.setItem("ws-lang",l)}catch(e){} render()}
+document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>setLang(b.dataset.set));
+document.getElementById("area").addEventListener("change",e=>{area=e.target.value;render()});
+document.getElementById("q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase();render()});
+function render(){
+  const chips=document.getElementById("chips");
+  chips.innerHTML=`<button class="chip" type="button" data-k="" aria-pressed="${!active}">${t("All","הכל")}</button>`+
+    Object.entries(CATS).map(([k,[en,he]])=>`<button class="chip" type="button" data-k="${k}" aria-pressed="${active===k}" style="--c:var(${COL[k]})">${esc(t(en,he))}</button>`).join("");
+  chips.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{active=b.dataset.k||null;render()});
+  const tc=document.getElementById("tagchips");
+  const kinds=TAGKINDS.filter(([k])=>W.some(w=>w.tag===k));
+  tc.hidden=kinds.length<2;
+  if(!tc.hidden){tc.innerHTML=`<button class="chip" type="button" data-t="" aria-pressed="${!tagF}">${t("Everyone's picks","כל ההמלצות")}</button>`+kinds.map(([k,en,he])=>`<button class="chip tchip tag-${k}" type="button" data-t="${k}" aria-pressed="${tagF===k}">${esc(t(en,he))}</button>`).join("");
+    tc.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{tagF=b.dataset.t||"";render()});}
+  const inArea=w=>!area||(w.a&&(w.a.includes(area)||w.a.includes("any")));
+  const sel=document.getElementById("area");
+  sel.innerHTML=`<option value="">${t("All areas","כל האזורים")}</option>`+Object.entries(AREAS).map(([k,[en,he]])=>{const n=W.filter(w=>(!active||w.c===active)&&w.a&&(w.a.includes(k)||w.a.includes("any"))).length;return `<option value="${k}"${area===k?" selected":""}>${esc(t(en,he))} (${n})</option>`}).join("");
+  const list=W.filter(w=>(!active||w.c===active)&&inArea(w)&&(!tagF||w.tag===tagF)&&(!q||[w.ne,w.nh,w.pe,w.ph].join(" ").toLowerCase().includes(q)));
+  document.getElementById("grid").innerHTML=list.map(w=>`<a class="card" href="${esc(w.u)}" target="_blank" rel="noopener" style="--c:var(${COL[w.c]})">
+    ${w.i?`<span class="pic"><img src="${esc(w.i)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></span>`:""}
+    ${w.tag?`<span class="tag tag-${w.tag}">${esc(tagLabel(w))}</span>`:""}
+    <span class="k">${esc(t(...CATS[w.c]))}</span>
+    <b dir="auto">${esc(t(w.ne,w.nh))}</b>
+    <span class="p" dir="auto">${esc(t(w.pe,w.ph))}</span>
+    <span class="go">${t("Map ↗","למפה ↗")}</span></a>`).join("");
+  document.getElementById("empty").hidden=list.length>0;
+  document.getElementById("count").textContent=t(list.length+" cafés",list.length+" בתי קפה");
+}
+setLang(L);
+document.getElementById("badge-n").textContent=W.length;
+document.getElementById("cta-suggest").onclick=()=>document.getElementById("open-suggest").click();
+(function(){
+  const d=document.getElementById("suggest");if(!d||!d.showModal)return;
+  const open=()=>{if(!d.open){d.showModal();setTimeout(()=>document.getElementById("s-what").focus(),30)}};
+  document.getElementById("open-suggest").onclick=open;
+  document.getElementById("close-suggest").onclick=()=>d.close();
+  d.addEventListener("click",e=>{if(e.target===d)d.close()});
+  if(location.hash==="#suggest")open();
+  const f=document.getElementById("sform"),msg=document.getElementById("smsg"),btn=document.getElementById("s-send");
+  const M={en:{need:"Please say what it is.",sending:"Sending…",ok:"Thanks! Sent to Dana.",err:"Couldn't send. Try again in a minute."},
+           he:{need:"כתבו מה זה, בבקשה.",sending:"שולח…",ok:"תודה! נשלח לדנה.",err:"השליחה לא עברה. נסו שוב בעוד דקה."}};
+  const say=(k,c)=>{msg.textContent=M[L][k];msg.className="smsg "+(c||"")};
+  f.addEventListener("submit",async ev=>{ev.preventDefault();
+    const x=Object.fromEntries(new FormData(f).entries());if(x._gotcha)return;
+    if(!(x.what||"").trim()){say("need","err");document.getElementById("s-what").focus();return}
+    btn.disabled=true;say("sending");
+    try{const r=await fetch("https://formspree.io/f/mykobzkv",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},
+      body:JSON.stringify({_subject:"Coffee – new suggestion: "+x.what.slice(0,80),source:"zuzu.today/coffee",what:x.what,who:x.who||"—",where:x.where||"—",link:x.link||"—",notes:x.notes||"—",name:x.name||"—"})});
+      if(!r.ok)throw 0;f.reset();say("ok","ok")}catch(_){say("err","err")}
+    btn.disabled=false});
+})();
+</script>
+</body>
+</html>
