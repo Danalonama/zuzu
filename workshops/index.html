@@ -12,7 +12,7 @@
 <base href="/workshops/">
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&family=Heebo:wght@700;800&display=swap">
 <style>
 /* Layout: a maker's index — one ruled grid of bookable workshops, filtered by kind; RTL by default, LTR in English */
 :root{
@@ -155,17 +155,35 @@ dialog.sdlg::backdrop{background:rgba(17,17,17,.5)}
 .sform button{font:800 14px var(--f-body);letter-spacing:.06em;background:var(--red);color:#fff;border-radius:10px;padding:12px 24px}
 .sform button:hover{filter:brightness(.93)}
 .smsg.ok{color:#0B7A4B}.smsg.err{color:var(--red)}
+
+/* top bar: identical to the homepage bar (Heebo, 28px wordmark, ®, same capsule and button) */
+.topbar,.topbar button,.topbar .logo{font-family:"Heebo","Noto Sans Hebrew",system-ui,sans-serif}
+.topbar .logo{font-weight:800;font-size:28px;gap:6px;letter-spacing:-.01em}
+.topbar .logo img{width:28px;height:28px}
+.topbar .logo sup{font-size:.34em;vertical-align:super;font-weight:600;margin-inline-start:1px}
+.topbar .lang{border:2px solid var(--ink)}
+.topbar .lang button{font-weight:700;font-size:12px;padding:4px 11px}
+.topbar .cta{font-weight:800;font-size:13px;line-height:1;padding:11px 16px;letter-spacing:.02em}
+@media(max-width:560px){.topbar{padding:8px 12px 8px 8px}.topbar .right{gap:8px}.topbar .logo{font-size:22px;gap:5px}.topbar .logo img{width:22px;height:22px}.topbar .logo sup{display:none}
+  .topbar .lang button{padding:3px 8px;font-size:11px}.topbar .cta{padding:9px 11px;font-size:12px}}
+
+.topbar{height:56px;box-sizing:border-box}
+.topbar .cta{height:36px;display:inline-flex;align-items:center;padding-block:0}
+.topbar .lang{height:30px;box-sizing:border-box;align-items:stretch}
+.topbar .lang button{display:inline-flex;align-items:center;padding-block:0}
+.topbar .logo{line-height:1}
+@media(max-width:560px){.topbar{height:50px}.topbar .cta{height:32px}.topbar .lang{height:26px}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div class="topbar">
-      <a class="logo" href="/" aria-label="zuzu — לעמוד הבית"><img src="/assets/zuzu-logo-red.svg" alt="" width="30" height="30">zuzu</a>
+      <a class="logo" href="/" aria-label="zuzu — לעמוד הבית"><img src="/assets/zuzu-logo-red.svg" alt="" width="28" height="28">zuzu<sup>®</sup></a>
       <div class="right">
       <div class="lang" role="group" aria-label="Language / שפה">
-        <button type="button" id="l-en" data-set="en">English</button>
         <button type="button" id="l-he" data-set="he">עברית</button>
+        <button type="button" id="l-en" data-set="en">English</button>
       </div>
         <button type="button" class="cta" id="cta-suggest"><span data-l="en">+ Suggest a workshop</span><span data-l="he">+ הציעו סדנה</span></button>
       </div>

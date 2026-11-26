@@ -348,6 +348,14 @@
   .tcta:focus-visible,.langcap a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   .topbar .tright{gap:12px}
   main .tlHero{padding-top:0}
+
+  /* exact same bar on every page: fixed control heights */
+  .topbar{height:56px;box-sizing:border-box}
+  .tcta{height:36px;display:inline-flex;align-items:center;padding-block:0}
+  .langcap{height:30px;box-sizing:border-box}
+  .langcap>*{display:inline-flex;align-items:center;height:100%;padding-block:0}
+  .topbar .tmark{line-height:1}
+  @media(max-width:560px){.topbar{height:50px}.tcta{height:32px}.langcap{height:26px}}
   main .card{border-color:#F6CDB8}
   main{background:#FFEDE3;border-radius:26px;padding:clamp(16px,3vw,34px);margin:18px 0 70px}
   @media(max-width:560px){.tcta{padding:9px 11px;font-size:12px}
