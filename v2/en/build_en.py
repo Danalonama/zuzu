@@ -117,6 +117,7 @@ s = s[:a] + ('<footer><div class="wrap">\n'
              '  <span class="fmark flist"><span>zuzu © 2026</span><span>·</span>'
              '<a href="/" class="footlink" style="text-decoration:none" lang="he" hreflang="he">zuzu בעברית</a><span>·</span>'
              '<a href="/" class="footlink" style="text-decoration:none">Add an event (Hebrew form)</a><span>·</span>'
+             '<a href="/workshops#en" class="footlink" style="text-decoration:none">Workshops &amp; tours</a><span>·</span>'
              '<a href="/accessibility" class="footlink" style="text-decoration:none">Accessibility (Hebrew)</a></span>\n'
              '  <span class="fmark">Created with ❤️ by Dana Shimoni</span>\n'
              '</div></footer>') + s[b + len("</footer>"):]
