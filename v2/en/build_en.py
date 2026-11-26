@@ -113,10 +113,10 @@ rep('aria-label="החודש הבא"', 'aria-label="Next month"')
 a = s.find("<footer>"); b = s.find("</footer>", a)
 if a < 0 or b < 0: sys.exit("build_en: footer not found")
 s = s[:a] + ('<footer><div class="wrap">\n'
-             '  <span class="fmark flist"><span>zuzu © 2026</span><span>·</span>'
-             '<a href="/" class="footlink" style="text-decoration:none" lang="he" hreflang="he">zuzu בעברית</a><span>·</span>'
-             '<a href="/" class="footlink" style="text-decoration:none">Add an event (Hebrew form)</a><span>·</span>'
-             '<a href="/workshops#en" class="footlink" style="text-decoration:none">Workshops &amp; tours</a><span>·</span>'
+             '  <span class="fmark flist"><span>zuzu © 2026</span><span class="sep" aria-hidden="true">·</span>'
+             '<a href="/" class="footlink" style="text-decoration:none" lang="he" hreflang="he">zuzu בעברית</a><span class="sep" aria-hidden="true">·</span>'
+             '<a href="/" class="footlink" style="text-decoration:none">Add an event (Hebrew form)</a><span class="sep" aria-hidden="true">·</span>'
+             '<a href="/workshops#en" class="footlink" style="text-decoration:none">Workshops &amp; tours</a><span class="sep" aria-hidden="true">·</span>'
              '<a href="/accessibility" class="footlink" style="text-decoration:none">Accessibility (Hebrew)</a></span>\n'
              '  <span class="fmark">Created with ❤️ by Dana Shimoni</span>\n'
              '</div></footer>') + s[b + len("</footer>"):]
