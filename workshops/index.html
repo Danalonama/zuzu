@@ -139,6 +139,21 @@ h1{font:900 clamp(46px,8.5vw,96px)/.92 var(--f-display);letter-spacing:-.01em;te
   .hand{font-size:28px}
   .card:nth-child(n){transform:none}
 }
+
+/* ---- design B: suggest popup ---- */
+dialog.sdlg{background:var(--pink);color:var(--ink);border:2px solid var(--ink);border-radius:22px;box-shadow:6px 6px 0 var(--ink);overflow:visible}
+dialog.sdlg::backdrop{background:rgba(17,17,17,.5)}
+.suggest{padding:26px 24px 26px;gap:14px}
+.suggest h2{font:900 clamp(24px,4vw,30px)/1.05 var(--f-display);text-transform:uppercase;padding-inline-end:48px}
+.suggest > p{color:var(--ink);font-weight:500}
+.sclose{top:14px;inset-inline-end:14px;width:36px;height:36px;padding:0;border-radius:50%;background:var(--ink);color:#fff;font-size:22px;display:grid;place-items:center}
+.sclose:hover{background:var(--red)}
+.sform label{font-weight:700;font-size:14px}
+.sform input,.sform textarea{font:500 16px var(--f-body);background:#fff;border:2px solid var(--ink);border-radius:10px;padding:10px 12px}
+.sform input:focus-visible,.sform textarea:focus-visible{outline:3px solid var(--red);outline-offset:1px}
+.sform button{font:800 14px var(--f-body);letter-spacing:.06em;background:var(--red);color:#fff;border-radius:10px;padding:12px 24px}
+.sform button:hover{filter:brightness(.93)}
+.smsg.ok{color:#0B7A4B}.smsg.err{color:var(--red)}
 </style>
 </head>
 <body>
@@ -182,7 +197,7 @@ h1{font:900 clamp(46px,8.5vw,96px)/.92 var(--f-display);letter-spacing:-.01em;te
         <label class="wide" for="s-what"><span><span data-l="en">What is it?</span><span data-l="he">מה זה?</span> *</span><input id="s-what" name="what" required maxlength="200"></label>
         <label for="s-who"><span data-l="en">Who runs it</span><span data-l="he">מי מעביר/ה</span><input id="s-who" name="who" maxlength="120"></label>
         <label for="s-where"><span data-l="en">Where</span><span data-l="he">איפה</span><input id="s-where" name="where" maxlength="160"></label>
-        <label class="wide" for="s-link"><span data-l="en">Link (site, Instagram…)</span><span data-l="he">קישור (אתר, אינסטגרם…)</span><input id="s-link" name="link" type="url" inputmode="url" maxlength="500" placeholder="https://"></label>
+        <label class="wide" for="s-link"><span data-l="en">Link (site, Instagram…)</span><span data-l="he">קישור (אתר, אינסטגרם…)</span><input id="s-link" name="link" type="url" dir="ltr" inputmode="url" maxlength="500" placeholder="https://"></label>
         <label class="wide" for="s-notes"><span data-l="en">Anything else? (price, why it's good)</span><span data-l="he">עוד משהו? (מחיר, למה שווה)</span><textarea id="s-notes" name="notes" maxlength="1000"></textarea></label>
         <label for="s-name"><span data-l="en">Your name (optional)</span><span data-l="he">השם שלכם (לא חובה)</span><input id="s-name" name="name" maxlength="80" autocomplete="name"></label>
         <span class="hp" aria-hidden="true"><input id="s-hp" name="_gotcha" tabindex="-1" autocomplete="off"></span>
