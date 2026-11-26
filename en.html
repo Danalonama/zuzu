@@ -67,7 +67,7 @@
   body{margin:0;font-family:"Heebo","Noto Sans Hebrew","Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink);
        -webkit-font-smoothing:antialiased;line-height:1.35}
   a{color:inherit}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  .wrap{--side:clamp(20px,5vw,72px);max-width:calc(1240px + 2 * var(--side));margin:0 auto;padding:0 var(--side)}
 
   /* top bar */
   .topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;
@@ -224,7 +224,7 @@
   .searchClear:hover{color:var(--accent)}
   @media(max-width:560px){
     .searchWrap{max-width:none}
-    .wrap{padding:0 16px}
+    .wrap{padding:0 20px}
     .barRow{gap:8px}
     .filterBtn{padding:0 13px;gap:7px}
     .filterBtn span:not(.fbCount){font-size:.9rem}
@@ -494,7 +494,7 @@
   .calgrid{display:flex;flex-direction:column;gap:30px;
            margin-inline:min(0px,calc((100% - min(100vw - 48px,1600px)) / 2))}
   /* month view: the header, the peach panel and the week sheets share one wider width */
-  body.calView header.wrap,body.calView .bar>.wrap,body.calView .mainWrap{max-width:min(100vw - 48px,1600px)}
+  body.calView header.wrap,body.calView .bar>.wrap,body.calView .mainWrap{max-width:calc(1600px + 2 * var(--side))}
   body.calView .calgrid{margin-inline:0}
   .calLegend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
   .calLegend button{font:inherit;font-size:.8rem;font-weight:600;display:inline-flex;align-items:center;gap:7px;
@@ -527,7 +527,7 @@
   .moreE:hover,.moreE[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 
   footer{border-top:1px solid var(--ink);margin-top:60px}
-  footer .wrap{padding:40px 22px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+  footer .wrap{padding:40px var(--side);display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
   footer .sl{display:block;color:var(--ink);font-weight:900;font-size:clamp(1.6rem,4vw,3rem);letter-spacing:-.03em;line-height:.95;max-width:18ch}
   footer .fmark{font-size:.7rem;color:var(--muted);letter-spacing:.08em}
   footer .fmark.flist{display:inline-flex;flex-wrap:wrap;align-items:center;gap:10px}
