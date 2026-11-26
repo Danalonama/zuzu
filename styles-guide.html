@@ -103,15 +103,22 @@
   .topbar .back::before{display:none}
   .topbar .back:hover{filter:brightness(.93)}
   @media(max-width:560px){.topbar .tmark{font-size:22px!important}.topbar .tmark img{width:22px!important;height:22px!important}.topbar .tmark sup{display:none}}
+  .topbar{height:56px;box-sizing:border-box}
+  .topbar .back{height:36px;display:inline-flex;align-items:center;padding-block:0;line-height:1}
+  .topbar .tmark{line-height:1}
+  @media(max-width:560px){.topbar{height:50px;padding:8px 12px 8px 8px}.topbar .back{height:32px;padding-inline:11px;font-size:12px}}
+  .sitewrap{--side:clamp(20px,5vw,72px);max-width:calc(1240px + 2 * var(--side));margin:0 auto;padding:0 var(--side)}
 </style>
 </head>
 <body>
 <a class="skipLink" href="#main">דלגו לתוכן הראשי</a>
-<div class="wrap">
+<div class="sitewrap">
   <nav class="topbar" aria-label="ניווט ראשי">
     <a href="index.html" aria-label="zuzu — ללוח האירועים"><span class="tmark" style="font-size:28px;display:inline-flex;align-items:center;gap:6px"><img src="assets/zuzu-logo-red.svg" alt="" style="width:28px;height:28px;flex:none">zuzu<sup style="font-size:.34em;vertical-align:super;font-weight:600;margin-inline-start:1px">®</sup></span></a>
     <a href="index.html" class="back">חזרה ללוח</a>
   </nav>
+</div>
+<div class="wrap">
 
   <main id="main" tabindex="-1">
   <header class="head">
