@@ -10,6 +10,9 @@
 <meta property="og:title" content="סדנאות וסיורים · Workshops &amp; tours">
 <meta property="og:description" content="סדנאות, סיורים וחוויות שאפשר להזמין מתי שרוצים. Workshops, tours and experiences you can book any time.">
 <base href="/workshops/">
+<link rel="icon" type="image/png" sizes="32x32" href="/workshops/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/workshops/favicon-192.png">
+<link rel="apple-touch-icon" href="/workshops/favicon-180.png">
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&display=swap">
@@ -175,8 +178,7 @@ dialog.sdlg::backdrop{background:rgba(17,17,17,.5)}
 @media(max-width:560px){.topbar{height:50px}.topbar .cta{height:32px}.topbar .lang{height:26px}}
 
 /* recommendation tags */
-.tag{align-self:flex-start;display:inline-flex;align-items:center;font:700 11.5px/1 var(--f-body);padding:5px 10px;border-radius:999px;border:1.5px solid var(--ink);color:var(--ink);margin:2px 0 4px}
-.card>.tag:first-child{margin-top:14px}
+.tag{align-self:flex-start;display:inline-flex;align-items:center;font:600 10.5px/1 var(--f-body);padding:4px 8px;border-radius:999px;border:1px solid var(--ink);color:var(--ink);margin:10px 0 0}
 .tag-me{background:#FFDDE8}.tag-want{background:#FFF0A8}.tag-friend{background:#E6F4EA}
 .tagchips{display:flex;flex-wrap:wrap;gap:8px;flex-basis:100%}
 .tchip.tag-me[aria-pressed="false"]{background:#FFDDE8}.tchip.tag-want[aria-pressed="false"]{background:#FFF0A8}.tchip.tag-friend[aria-pressed="false"]{background:#E6F4EA}
@@ -282,11 +284,10 @@ function render(){
   const list=W.filter(w=>(!active||w.c===active)&&inArea(w)&&(!tagF||w.tag===tagF)&&(!q||[w.ne,w.nh,w.pe,w.ph].join(" ").toLowerCase().includes(q)));
   document.getElementById("grid").innerHTML=list.map(w=>`<a class="card" href="${esc(w.u)}" target="_blank" rel="noopener" style="--c:var(${COL[w.c]})">
     ${w.i?`<span class="pic"><img src="${esc(w.i)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></span>`:""}
-    ${w.tag?`<span class="tag tag-${w.tag}">${esc(tagLabel(w))}</span>`:""}
     <span class="k">${esc(t(...CATS[w.c]))}</span>
     <b dir="auto">${esc(t(w.ne,w.nh))}</b>
     <span class="p" dir="auto">${esc(t(w.pe,w.ph))}</span>
-    <span class="go">${w.d?t("Website ↗","לאתר ↗"):t("Search the web","חיפוש ברשת")}</span></a>`).join("");
+    <span class="go">${w.d?t("Website ↗","לאתר ↗"):t("Search the web","חיפוש ברשת")}</span>${w.tag?`<span class="tag tag-${w.tag}">${esc(tagLabel(w))}</span>`:""}</a>`).join("");
   document.getElementById("empty").hidden=list.length>0;
   document.getElementById("count").textContent=t(list.length+" places",list.length+" מקומות");
 }
