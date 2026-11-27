@@ -78,7 +78,8 @@
   .topbar .tmark{font-weight:800;letter-spacing:-.01em;font-size:.95rem;cursor:pointer}
   .topbar .tbrand{display:flex;align-items:center;gap:12px;min-width:0}
   .topbar .ttag{font-size:.92rem;font-weight:600;color:var(--muted);white-space:nowrap;letter-spacing:-.01em}
-  @media(max-width:600px){.topbar .ttag{display:none}}
+  /* phones: the tagline sits on its own line just under the bar */
+  @media(max-width:600px){.topbar{position:relative;margin-bottom:28px}.topbar .ttag{position:absolute;top:100%;margin-top:7px;inset-inline-start:12px;font-size:.85rem}}
   .topbar .tcontact{display:inline-flex;align-items:center;gap:9px;font-weight:600;cursor:pointer}
   .topbar .tcontact::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
   .topbar .tright{display:flex;align-items:center;gap:20px}
