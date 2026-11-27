@@ -85,6 +85,7 @@ rep(".card .thumb .bk{opacity:0}", ".card .thumb .bk{opacity:0}\n  .card .ti,.ca
 # ---------- page text ----------
 rep('href="#main">דלגו לתוכן הראשי</a>', 'href="#main">Skip to main content</a>')
 rep('aria-label="zuzu — חזרה לעמוד הבית"', 'aria-label="zuzu — back to the home page"')
+rep('<span class="ttag">איפה רוקדים היום?</span>', '<span class="ttag">Where are we dancing today?</span>')
 # top bar: language capsule with English selected; the add-event form is Hebrew-only, so the button links to the Hebrew site
 rep('<div class="langcap" role="group" aria-label="Language / שפה"><span class="on" aria-current="true">עברית</span><a class="langlink" href="/en" lang="en" hreflang="en">English</a></div>',
     '<div class="langcap" role="group" aria-label="Language / שפה"><a class="langlink" href="/" lang="he" hreflang="he">עברית</a><span class="on" aria-current="true">English</span></div>')
